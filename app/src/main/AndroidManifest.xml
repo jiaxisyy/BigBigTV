@@ -57,17 +57,23 @@
             android:name="UMENG_APPKEY"
             android:value="5bc6e46af1f55656b70002e1" />
 
-        <!--<activity-->
-        <!--android:name=".ui.activity.LoginActivity"-->
-        <!--android:launchMode="singleTop"-->
-        <!--android:screenOrientation="portrait">-->
-        <!--<intent-filter>-->
-        <!--<action android:name="android.intent.action.VIEW" />-->
-        <!--<action android:name="action_sharewill_login" />-->
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-        <!--<category android:name="android.intent.category.DEFAULT" />-->
-        <!--</intent-filter>-->
-        <!--</activity>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.activity.RegisterActivity"
             android:screenOrientation="portrait" />
@@ -155,15 +161,14 @@
         </provider>
 
         <activity
-            android:name=".ui.activity.LoginActivity"
+            android:name=".ui.activity.HomeActivity"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/splash">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -194,9 +199,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.HomeServiceActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activity.HomeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.NaviActivity"

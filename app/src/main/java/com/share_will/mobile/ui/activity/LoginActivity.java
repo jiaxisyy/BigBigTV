@@ -36,6 +36,7 @@ public class LoginActivity extends BaseFragmentActivity<LoginPresenter> implemen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isLogin();
         LoginActivityPermissionsDispatcher.allowPermissionWithPermissionCheck(this);
     }
 
@@ -80,7 +81,7 @@ public class LoginActivity extends BaseFragmentActivity<LoginPresenter> implemen
         if (success) {
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             intent.setData(getIntent().getData());
-            LoginActivity.this.startActivity(intent);
+            startActivity(intent);
             startService(new Intent(LoginActivity.this, BatteryService.class));
             finish();
         }
@@ -95,8 +96,11 @@ public class LoginActivity extends BaseFragmentActivity<LoginPresenter> implemen
     /**
      * 是否登录
      */
-    private boolean isLogin() {
-        return App.getInstance().isLogin();
+    private void isLogin() {
+        if (App.getInstance().isLogin()){
+            startActivity(new Intent(this, HomeActivity.class));
+            finish();
+        }
     }
 
     /**

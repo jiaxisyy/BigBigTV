@@ -39,7 +39,9 @@ public class PackageAdapter extends LoadMoreAdapter<PackageEntity, PackageAdapte
         public Holder(View view) {
             super(view);
             oldPrice = view.findViewById(R.id.tv_old_price);
-            oldPrice.setPaintFlags(oldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            if (oldPrice != null) {
+                oldPrice.setPaintFlags(oldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            }
 
         }
 

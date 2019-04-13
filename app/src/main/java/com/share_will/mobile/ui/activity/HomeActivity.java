@@ -42,7 +42,7 @@ import javax.annotation.Nullable;
 public class HomeActivity extends BaseTabContainerActivity<HomePresenter> implements HomeView {
     private BaseFragment[] mFragments = {new HomeFragment(),
             new AlarmFragment(),
-            new AlarmFragment(),
+            new MyFragment(),
             new MallFragment(),
             new MyFragment()};
     private String[] mTitles = {"首页", "智慧消防", "换电", "网上商城", "个人中心"};
@@ -70,9 +70,7 @@ public class HomeActivity extends BaseTabContainerActivity<HomePresenter> implem
         TextView title;
         ImageView icon;
         int screenWidth = AppUtils.getScreenWidth(this);
-        int itemWidth;
-        int per = screenWidth / 10;//把屏幕分成10份，1、4各占两份， 2、3各占3份，然后2、3各减1份给中间扫码按钮
-        int padding = (per * 2 - AutoUtils.getPercentWidthSize(70)) / 2;//70是icon是大小
+//        int per = screenWidth / 10;//把屏幕分成10份，1、4各占两份， 2、3各占3份，然后2、3各减1份给中间扫码按钮
         LogUtils.d("screenWidth:" + screenWidth);
         for (int i = 0; i < size; i++) {
             view = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.main_menu_item, null);
@@ -119,18 +117,34 @@ public class HomeActivity extends BaseTabContainerActivity<HomePresenter> implem
     }
 
     private boolean isLogin() {
-        return App.getInstance().isLogin();
+        boolean ret = App.getInstance().isLogin();
+        if (!ret){
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setData(getIntent().getData());
+            startActivity(intent);
+            return ret;
+        }
+        return ret;
     }
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+        if (!isLogin()){
+            return;
+        }
+//        getWindow().setBackgroundDrawable(null);
+//        getWindow().getDecorView().setBackgroundColor(0xffffffff);
         getPresenter().parseUri(getIntent());
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        if (!isLogin()){
+            return;
+        }
+        openUserProtocol();
         getPresenter().parseUri(intent);
     }
 
@@ -138,9 +152,10 @@ public class HomeActivity extends BaseTabContainerActivity<HomePresenter> implem
      * 打开扫码界面
      */
     public void scan(View view) {
-        startActivity(new Intent(this, MapActivity.class));
+//        startActivity(new Intent(this, MapActivity.class));
 //        Intent intent = new Intent(this, CaptureActivity.class);
 //        startActivityForResult(intent, REQUEST_CODE_SCAN_CODE);
+        setSelect(2);
     }
 
     @Override

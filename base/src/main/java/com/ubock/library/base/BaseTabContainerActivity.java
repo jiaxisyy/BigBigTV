@@ -145,6 +145,10 @@ public abstract class BaseTabContainerActivity<P extends BasePresenter> extends 
 
     }
 
+    public void setSelect(int position){
+        mViewPager.setCurrentItem(position);
+    }
+
     /**
      * 该方法在初始化title数据后必须调用
      */

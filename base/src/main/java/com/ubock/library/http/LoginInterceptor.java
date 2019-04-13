@@ -45,7 +45,7 @@ public class LoginInterceptor implements Interceptor {
                                        intent.setComponent(new ComponentName(UiUtils.getApplicationContext(), "com.share_will.mobile.ui.activity.LoginActivity"));
                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                                       intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                                       intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                        UiUtils.getApplicationContext().startActivity(intent);
                                    }
                                },

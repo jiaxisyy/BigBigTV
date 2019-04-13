@@ -53,7 +53,7 @@ public class ShopPresenter extends BasePresenter<ShopModel, ShopView> {
     public void createPackageOrder(String userId, long packageId, long activityId, int money, int type, final String packageName) {
         getModel().createPackageOrder(userId, packageId, activityId, money, type)
                 .compose(this.bindToLifecycle(getView()))
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io()) 
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseNetSubscriber<BaseEntity<PackageOrderEntity>>(ShopPresenter.this) {
 

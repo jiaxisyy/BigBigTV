@@ -42,11 +42,13 @@ import javax.annotation.Nullable;
 public class HomeActivity extends BaseTabContainerActivity<HomePresenter> implements HomeView {
     private BaseFragment[] mFragments = {new HomeFragment(),
             new AlarmFragment(),
+            new AlarmFragment(),
             new MallFragment(),
             new MyFragment()};
-    private String[] mTitles = {"首页", "智慧消防", "网上商城", "个人中心"};
+    private String[] mTitles = {"首页", "智慧消防", "换电", "网上商城", "个人中心"};
     private Integer[] mIcons = {R.drawable.main_menu_home_selector,
             R.drawable.main_menu_warning_selector,
+            R.drawable.tab_exchange,
             R.drawable.main_menu_mall_selector,
             R.drawable.main_menu_my_selector};
 
@@ -74,22 +76,6 @@ public class HomeActivity extends BaseTabContainerActivity<HomePresenter> implem
         LogUtils.d("screenWidth:" + screenWidth);
         for (int i = 0; i < size; i++) {
             view = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.main_menu_item, null);
-            if (i == 1) {
-                view.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
-//                view.setBackgroundColor(0xffff0000);
-                itemWidth = screenWidth * 3 / 10;
-                view.setPadding(padding, 0, 0, 0);
-            } else if (i == 2) {
-                view.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
-//                view.setBackgroundColor(0xffffff00);
-                itemWidth = screenWidth * 3 / 10;
-                view.setPadding(0, 0, padding, 0);
-            } else {
-                itemWidth = screenWidth * 2 / 10;
-            }
-            LogUtils.d("itemWidth:" + itemWidth);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(itemWidth, LinearLayout.LayoutParams.WRAP_CONTENT);
-            view.setLayoutParams(lp);
             title = view.findViewById(R.id.tv_menu_text);
             icon = view.findViewById(R.id.iv_icon);
             title.setText(mTitles[i]);

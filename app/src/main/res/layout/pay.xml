@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/widget_topbar" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="94px"
+        android:text="钱包余额" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="72px"
+        android:text="¥0.00"
+        android:textColor="#333333"
+        android:textSize="70px" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20px"
+        android:layout_marginTop="45px"
+        android:background="@color/text_color_line" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="45px"
+        android:layout_marginTop="57px"
+        android:text="充值金额" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56px"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="45px"
+            android:layout_marginRight="45px"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_money_100"
+                style="@style/style_bg_pay_money"
+                android:text="¥100" />
+
+            <TextView
+                android:layout_width="120px"
+                android:layout_height="wrap_content"
+                android:visibility="invisible" />
+
+            <RadioButton
+                android:id="@+id/rb_money_200"
+                style="@style/style_bg_pay_money"
+                android:text="¥200" />
+
+            <TextView
+                android:layout_width="120px"
+                android:layout_height="wrap_content"
+                android:visibility="invisible" />
+
+            <RadioButton
+                android:id="@+id/rb_money_300"
+                style="@style/style_bg_pay_money"
+                android:text="¥300" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="45px"
+            android:layout_marginTop="45px"
+            android:layout_marginRight="45px"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_money_500"
+                style="@style/style_bg_pay_money"
+                android:text="¥500" />
+
+            <TextView
+                android:layout_width="120px"
+                android:layout_height="wrap_content"
+                android:visibility="invisible" />
+
+            <RadioButton
+                android:id="@+id/rb_money_1000"
+                style="@style/style_bg_pay_money"
+                android:text="¥1000" />
+
+            <TextView
+                android:layout_width="120px"
+                android:layout_height="wrap_content"
+                android:visibility="invisible" />
+
+            <EditText
+                android:id="@+id/edit_payNum"
+                style="@style/style_bg_pay_money"
+                android:hint="自定义金额"
+                android:inputType="number"
+                android:textSize="42px" />
+        </LinearLayout>
+
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="45px"
+        android:layout_marginTop="94px"
+        android:text="支付方式" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50px"
+        android:orientation="vertical"
+        android:paddingLeft="45px"
+        android:paddingRight="45px">
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:drawableLeft="@drawable/icon_form_zhifubao"
+                    android:drawablePadding="45px"
+                    android:text="支付宝" />
+
+                <RadioButton
+                    android:id="@+id/rb_zfb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:drawablePadding="45px" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="102px">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:drawableLeft="@drawable/icon_form_weixin"
+                    android:drawablePadding="45px"
+                    android:text="微信" />
+
+                <RadioButton
+                    android:id="@+id/rb_wx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:drawablePadding="45px" />
+            </RelativeLayout>
+
+
+        </RadioGroup>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/btn_paysure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="30px"
+        android:layout_marginTop="90px"
+        android:layout_marginRight="30px"
+        android:background="@drawable/shape_bg_login"
+        android:gravity="center"
+        android:text="立即充值"
+        android:textColor="#FFFFFF" />
+
+</LinearLayout>

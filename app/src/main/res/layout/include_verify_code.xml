@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="132px"
+    android:layout_marginLeft="160px"
+    android:layout_marginTop="54px"
+    android:layout_marginRight="160px">
+
+    <ImageView
+        android:layout_width="42px"
+        android:layout_height="54px"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="60px"
+        android:scaleType="centerCrop"
+        android:src="@drawable/selector_iv_pwd_hint" />
+
+    <EditText
+        android:id="@+id/edit_verifyCode"
+        android:layout_width="match_parent"
+        android:layout_height="132px"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/selector_main_btn_border"
+        android:hint="请输入验证码"
+        android:paddingLeft="120px"
+        android:textColor="@color/text_color"
+        android:textColorHint="#FFD7D7D7"
+        android:textSize="42px" />
+
+</FrameLayout>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="132px"
+    android:layout_marginLeft="160px"
+    android:layout_marginRight="160px"
+    android:layout_marginTop="54px">
+
+    <ImageView
+        android:layout_width="42px"
+        android:layout_height="72px"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="60px"
+        android:background="@drawable/icon_register_station"/>
+
+    <TextView
+        android:id="@+id/tv_register_station"
+        android:layout_width="match_parent"
+        android:layout_height="132px"
+        android:background="@drawable/selector_main_btn_border"
+        android:gravity="center_vertical"
+        android:maxLength="11"
+        android:paddingLeft="120px"
+        android:textColor="#FFde7045"
+        android:text="请选择站点"
+        android:textSize="42px"/>
+</FrameLayout>
+

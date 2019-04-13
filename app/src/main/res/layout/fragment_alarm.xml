@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!-- 标题栏 -->
+    <include
+        android:id="@+id/topbar"
+        layout="@layout/widget_topbar" />
+
+    <com.amap.api.maps.MapView
+        android:id="@+id/map_alarm"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/topbar" />
+
+    <TextView
+        android:id="@+id/tv_alarm_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/map_alarm"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/shape_bg_alarm"
+        android:gravity="center_vertical"
+        android:paddingLeft="30px"
+        android:paddingTop="10px"
+        android:paddingRight="30px"
+        android:paddingBottom="10px"
+        android:text="12:00,智慧花园烟感告警,详情点击...... "
+        android:textColor="#FFFFFF"
+        android:visibility="invisible" />
+
+    <ImageButton
+        android:id="@+id/btn_alarm_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="45px"
+        android:layout_marginBottom="120px"
+        android:background="@null"
+        android:src="@drawable/btn_alarm_refresh"
+        app:layout_auto_basewidth="height" />
+
+    <ImageButton
+        android:id="@+id/btn_alarm_position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="45px"
+        android:layout_marginBottom="120px"
+        android:background="@null"
+        android:src="@drawable/btn_alarm_location"
+        app:layout_auto_basewidth="height" />
+
+    <Button
+        android:id="@+id/btn_alarm_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="120px"
+        android:text="关闭告警"
+        android:visibility="gone" />
+
+
+</RelativeLayout>

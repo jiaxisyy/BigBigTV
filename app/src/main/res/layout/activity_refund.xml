@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF2F4F6"
+    android:orientation="vertical"
+    tools:context=".ui.activity.NewRescueActivity">
+
+    <include layout="@layout/widget_topbar" />
+
+    <EditText
+        android:id="@+id/et_user_name"
+        android:layout_width="match_parent"
+        android:layout_height="120px"
+        android:layout_marginLeft="20px"
+        android:layout_marginTop="20px"
+        android:layout_marginRight="20px"
+        android:background="@drawable/shape_grey_border"
+        android:hint="请输入用户名"
+        android:maxLength="32"
+        android:paddingLeft="25px"
+        android:textSize="50px" />
+
+    <EditText
+        android:id="@+id/et_bank_name"
+        android:layout_width="match_parent"
+        android:layout_height="120px"
+        android:layout_marginLeft="20px"
+        android:layout_marginTop="20px"
+        android:layout_marginRight="20px"
+        android:background="@drawable/shape_grey_border"
+        android:hint="请输入银行名称"
+        android:maxLength="32"
+        android:paddingLeft="25px"
+        android:textSize="50px" />
+
+    <EditText
+        android:id="@+id/et_bank_card"
+        android:layout_width="match_parent"
+        android:layout_height="120px"
+        android:layout_marginLeft="20px"
+        android:layout_marginTop="20px"
+        android:layout_marginRight="20px"
+        android:background="@drawable/shape_grey_border"
+        android:hint="请输入银行卡号"
+        android:inputType="number"
+        android:maxLength="32"
+        android:paddingLeft="25px"
+        android:textSize="50px" />
+
+    <EditText
+        android:id="@+id/et_reason"
+        android:layout_width="match_parent"
+        android:layout_height="400px"
+        android:layout_margin="20px"
+        android:background="@drawable/shape_grey_border"
+        android:gravity="left"
+        android:hint="请输入备注(选填)"
+        android:maxLength="100"
+        android:padding="25px"
+        android:textSize="45px" />
+
+    <Button
+        android:id="@+id/btn_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30px"
+        android:layout_marginTop="90px"
+        android:layout_marginRight="30px"
+        android:background="@drawable/shape_bg_login"
+        android:onClick="onSubmit"
+        android:text="提交申请"
+        android:textColor="#FFFFFFFF"
+        android:textSize="54px" />
+
+
+</LinearLayout>

@@ -1,0 +1,129 @@
+apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
+android {
+    useLibrary 'org.apache.http.legacy'
+    compileSdkVersion 27
+    buildToolsVersion '28.0.3'
+
+    defaultConfig {
+        applicationId "com.share_will.mobile"
+        versionCode 48
+        versionName "3.4.0"
+        minSdkVersion 14
+        targetSdkVersion 27
+        multiDexEnabled true
+        // Specifies a flavor dimension.
+        flavorDimensions "phone"
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+    }
+
+    greendao {
+        /**
+         * 数据库版本号
+         */
+        schemaVersion 5
+    }
+
+    signingConfigs {
+        release {
+            keyAlias 'ant'
+            keyPassword 'ant2018'
+            storeFile file('ant.jks')
+            storePassword 'ant2018'
+        }
+
+        youxing {
+            keyAlias 'phone'
+            keyPassword 'youxingapp123654'
+            storeFile file('youxing.jks')
+            storePassword 'youxingapp123654'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+        warningsAsErrors false
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources false
+            signingConfig null
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            signingConfig null
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+
+    }
+
+    productFlavors {
+        antEnergy {
+            manifestPlaceholders = [CHANNEL_VALUE: "zhili", applicationPackage: "com.share_will.mobile"]
+            signingConfig signingConfigs.release
+        }
+        boLiWei {
+            manifestPlaceholders = [CHANNEL_VALUE: "blw", applicationPackage: "com.share_will.mobile"]
+            signingConfig signingConfigs.release
+        }
+        smartBMS {
+            manifestPlaceholders = [CHANNEL_VALUE: "smartbms", applicationPackage: "com.share_will.mobile"]
+            signingConfig signingConfigs.release
+        }
+        youXing {
+            versionName = "1.1.1"
+            manifestPlaceholders = [CHANNEL_VALUE: "youXing", applicationPackage: "com.share_will.mobile.youxing"]
+            applicationId = 'com.share_will.mobile.youxing'
+            signingConfig = signingConfigs.youxing
+        }
+        yunDongWeiLai {
+            manifestPlaceholders = [CHANNEL_VALUE: "yunDongWeiLai", applicationPackage: "com.share_will.mobile"]
+            signingConfig signingConfigs.release
+        }
+    }
+
+    android.applicationVariants.all {
+        variant ->
+            variant.outputs.all { output ->
+                outputFileName = "AntEnergy-${defaultConfig.versionName}-${variant.productFlavors[0].name}.apk"
+                //①output.outputFile.parent表示生成apk的路径，这个是默认路径在项目/app/build/outpus/apk，当然我们可以自己写路径。
+                //②defaultConfig.applicationId表示defaultConfig标签下的名称。
+                //③buildType.name指编译类型，就是debug或者release
+                //④defaultConfig.versionName表示在defaultConfig标签下写的版本号
+            }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'com.android.support:recyclerview-v7:27.1.0'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
+    implementation 'org.apache.httpcomponents:httpcore:4.4.1'
+    implementation 'org.greenrobot:greendao:3.2.2'
+    implementation 'com.android.support:support-v4:27.1.0'
+    implementation('com.github.hotchemi:permissionsdispatcher:3.1.0') {
+        // if you don't use android.app.Fragment you can exclude support for them
+        exclude module: "support-v13"
+    }
+    annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:3.1.0"
+    implementation 'com.facebook.stetho:stetho:1.4.2'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.4.2'
+    implementation 'com.android.support:design:27.1.0'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
+    implementation 'com.google.code.gson:gson:2.8.3'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation project(':base')
+    implementation 'com.contrarywind:Android-PickerView:4.1.4'
+    implementation project(':autolayout')
+}

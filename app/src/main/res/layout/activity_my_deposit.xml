@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/widget_topbar" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="211px"
+        android:src="@drawable/icon_my_deposit" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="82px"
+        android:text="您已缴纳押金1000元" />
+
+    <TextView
+        android:id="@+id/tv_my_deposit_retreat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="30px"
+        android:layout_marginTop="90px"
+        android:layout_marginRight="30px"
+        android:background="@drawable/shape_bg_login"
+        android:gravity="center"
+        android:text="申请退押金"
+        android:textColor="#FFFFFF" />
+
+
+</LinearLayout>

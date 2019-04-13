@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.activity.ProtocolActivity">
+    <include android:id="@+id/view_topbar"
+        android:visibility="gone"
+        layout="@layout/widget_topbar" />
+    <WebView android:id="@+id/wv_protocol"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </WebView>
+    <Button android:id="@+id/btn_accept"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/text_color"
+        android:textColor="#FFFFFFFF"
+        android:onClick="startAnt"
+        android:textSize="56px"
+        android:text="@string/user_protocol"/>
+</LinearLayout>

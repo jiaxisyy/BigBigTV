@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.share_will.mobile.ui.activity.HomeActivity">
+
+    <com.ubock.library.widgets.ScrollViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/divider">
+
+    </com.ubock.library.widgets.ScrollViewPager>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_above="@+id/tabLayout"
+        android:background="#FFd8d8d8" />
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#FFFFFFFF"
+        app:tabBackground="@null"
+        app:tabIndicatorColor="@color/text_color"
+        app:tabIndicatorHeight="0dp"
+        app:tabMode="scrollable"
+        app:tabPaddingEnd="0dp"
+        app:tabPaddingStart="0dp"
+        app:tabSelectedTextColor="@color/text_color">
+    </android.support.design.widget.TabLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="72px"
+        android:background="@null"
+        android:onClick="scan"
+        android:scaleType="fitXY"
+        android:src="@drawable/icon_main_scan"
+        app:layout_auto_baseheight="width" />
+</RelativeLayout>

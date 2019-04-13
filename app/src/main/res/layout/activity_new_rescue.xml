@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.activity.NewRescueActivity"
+    android:background="#FFF2F4F6">
+    <include layout="@layout/widget_topbar" />
+
+    <TextView android:id="@+id/tv_station"
+        android:layout_width="match_parent"
+        android:layout_height="120px"
+        android:layout_marginTop="20px"
+        android:layout_marginLeft="20px"
+        android:layout_marginRight="20px"
+        android:text="请选择站点"
+        android:textSize="50px"
+        android:gravity="center"
+        android:onClick="showStationDialog"
+        android:background="@drawable/shape_grey_border"/>
+
+    <EditText android:id="@+id/et_reason"
+        android:layout_width="match_parent"
+        android:layout_height="400px"
+        android:layout_margin="20px"
+        android:padding="10px"
+        android:hint="请输入救援原因"
+        android:gravity="left"
+        android:textSize="45px"
+        android:maxLength="100"
+        android:background="@drawable/shape_grey_border"/>
+
+    <Button android:id="@+id/btn_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20px"
+        android:text="提交申请"
+        android:textColor="#FFFFFFFF"
+        android:textSize="54px"
+        android:onClick="onSubmit"
+        android:background="@drawable/shape_main_btn_circular"/>
+
+
+</LinearLayout>

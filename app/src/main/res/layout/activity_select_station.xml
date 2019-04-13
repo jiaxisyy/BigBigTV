@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/topbar"
+        layout="@layout/widget_topbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20px"
+        android:orientation="horizontal"
+        android:paddingLeft="50px">
+
+        <EditText
+
+            android:id="@+id/et_select_station_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="120px"
+            android:layout_marginRight="20px"
+            android:background="@drawable/shape_grey_border"
+            android:gravity="center_vertical"
+            android:hint="请输入站长手机号"
+            android:inputType="phone"
+            android:maxLength="11"
+            android:paddingLeft="50px"
+            android:paddingRight="50px"
+            android:textColor="#828282"
+            android:textColorHint="#FFd8d8d8"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_select_station_search"
+            android:layout_width="200px"
+            android:layout_height="match_parent"
+            android:layout_marginRight="30px"
+            android:background="@drawable/selector_btn"
+            android:gravity="center"
+            android:text="搜索" />
+
+        <TextView
+            android:id="@+id/tv_select_station_scan"
+            android:layout_width="200px"
+            android:layout_height="match_parent"
+            android:layout_marginRight="50px"
+            android:background="@drawable/selector_btn"
+            android:gravity="center"
+            android:text="扫码" />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tv_select_station_selected"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15px"
+        android:layout_marginLeft="50px"
+        android:text="当前:"
+        android:textSize="18sp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_select_station"
+        android:layout_width="match_parent"
+        android:layout_height="600px"
+        android:layout_marginTop="100px" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="50px"
+        android:layout_marginRight="50px"
+        android:background="#D7D7D7" />
+
+    <LinearLayout
+        android:id="@+id/ll_select_station_picker"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" />
+
+
+</LinearLayout>

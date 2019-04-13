@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.DebugActivity"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginTop="10px">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="服务器地址:"/>
+        <EditText android:id="@+id/et_server_addr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="默认：http://www.ep-ai.com/"
+            android:textSize="45px"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginTop="50px">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Log级别:"/>
+        <RadioGroup android:id="@+id/rg_debug_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RadioButton android:id="@+id/rb_level_v"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="VERBOSE"/>
+            <RadioButton android:id="@+id/rb_level_d"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DEBUG"/>
+            <RadioButton android:id="@+id/rb_level_i"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="INFO"/>
+            <RadioButton android:id="@+id/rb_level_w"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="WARN"/>
+            <RadioButton android:id="@+id/rb_level_e"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ERROR"/>
+            <RadioButton android:id="@+id/rb_level_a"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ASSERT"/>
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="10px">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20px"
+            android:onClick="exit"
+            android:text="退 出" />
+    </LinearLayout>
+
+</LinearLayout>

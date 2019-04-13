@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/widget_topbar" />
+
+    <include layout="@layout/include_user_phone" />
+
+    <include layout="@layout/include_user_phone_with_get_code" />
+
+    <!--<include layout="@layout/include_verify_code" />-->
+
+    <include layout="@layout/include_user_password" />
+
+    <include layout="@layout/include_user_password2" />
+
+    <include
+        layout="@layout/include_user_name"
+        android:visibility="gone" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="160px"
+        android:layout_marginTop="27px"
+        android:layout_marginRight="160px"
+        android:text="*请输入真实姓名,否则影响后续退款操作"
+        android:textColor="#FFf16262"
+        android:textSize="36px"
+        android:visibility="gone" />
+
+    <!--<TextView-->
+    <!--android:id="@+id/tv_station"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="132px"-->
+    <!--android:layout_marginLeft="160px"-->
+    <!--android:layout_marginRight="160px"-->
+    <!--android:layout_marginTop="24px"-->
+    <!--android:gravity="center"-->
+    <!--android:text="选择站点"-->
+    <!--android:textColor="#FFde7045"-->
+    <!--android:textSize="42px"-->
+    <!--android:clickable="true"-->
+    <!--android:onClick="showStationDialog"-->
+    <!--android:background="@drawable/shape_grey_btn_empty"/>-->
+    <include
+        layout="@layout/include_register_station"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_Resign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="30px"
+        android:layout_marginTop="120px"
+        android:layout_marginRight="30px"
+        android:background="@drawable/shape_bg_login"
+        android:text="注册"
+        android:textColor="#fff"
+        android:textSize="54px" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30px"
+        android:layout_marginTop="30px"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/register_protocol"
+            android:textColor="#999999"
+            android:textSize="36px" />
+
+        <TextView
+            android:id="@+id/tv_register_protocol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="《用户协议》"
+            android:textColor="@color/text_color"
+            android:textSize="36px" />
+    </LinearLayout>
+
+</LinearLayout>

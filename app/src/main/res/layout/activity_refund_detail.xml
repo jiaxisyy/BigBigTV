@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFFFF"
+    android:orientation="vertical"
+    tools:context=".ui.activity.RescueDetailActivity">
+
+    <include layout="@layout/widget_topbar" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="40px"
+            android:paddingRight="40px">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10px"
+                android:layout_marginTop="10px">
+
+                <TextView
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="状态:"
+                    android:textSize="54px" />
+
+                <TextView
+                    android:id="@+id/tv_status"
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:textSize="54px"
+                    tools:text="审批中" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@drawable/list_divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10px"
+                android:layout_marginTop="10px">
+
+                <TextView
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="用户名:"
+                    android:textSize="54px" />
+
+                <TextView
+                    android:id="@+id/tv_userName"
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:textSize="54px"
+                    tools:text="张三" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@drawable/list_divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10px"
+                android:layout_marginTop="10px">
+
+                <TextView
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="银行名称:"
+                    android:textSize="54px" />
+
+                <TextView
+                    android:id="@+id/tv_bankName"
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:textSize="54px"
+                    tools:text="中国银行" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@drawable/list_divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10px"
+                android:layout_marginTop="10px">
+
+                <TextView
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="银行卡号:"
+                    android:textSize="54px" />
+
+                <TextView
+                    android:id="@+id/tv_bankCard"
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:textSize="54px"
+                    tools:text="13888888888" />
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@drawable/list_divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10px"
+                android:layout_marginTop="10px">
+
+                <TextView
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="退款备注:"
+                    android:textSize="54px" />
+
+                <TextView
+                    android:id="@+id/tv_reason"
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:textSize="54px"
+                    tools:text="离职" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@drawable/list_divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10px"
+                android:layout_marginTop="10px">
+
+                <TextView
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="审批意见:"
+                    android:textSize="54px" />
+
+                <TextView
+                    android:id="@+id/tv_comment"
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:textSize="54px"
+                    tools:text="同意" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@drawable/list_divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10px"
+                android:layout_marginTop="10px">
+
+                <TextView
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="申请时间:"
+                    android:textSize="54px" />
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:textSize="54px"
+                    tools:text="2018/07/02" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@drawable/list_divider" />
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="50px"
+                android:background="@drawable/shape_main_btn_circular"
+                android:onClick="onCancel"
+                android:text="取消申请"
+                android:textColor="#FFFFFFFF"
+                android:textSize="54px"
+                android:visibility="gone"
+                tools:visibility="visible" />
+            <Button
+                android:id="@+id/btn_applyRefund"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="50px"
+                android:background="@drawable/shape_main_btn_circular"
+                android:onClick="applyRefund"
+                android:text="重新申请"
+                android:textColor="#FFFFFFFF"
+                android:textSize="54px"
+                android:visibility="gone"
+                tools:visibility="visible" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="132px"
+    android:layout_marginLeft="50px"
+    android:layout_marginRight="50px">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="35px"
+        android:background="@drawable/icon_verify_code" />
+
+    <EditText
+        android:id="@+id/edit_verifyCode"
+        android:layout_width="match_parent"
+        android:layout_height="132px"
+        android:background="@null"
+        android:gravity="center_vertical"
+        android:hint="请输入验证码"
+        android:textCursorDrawable="@null"
+        android:inputType="phone"
+        android:maxLength="11"
+        android:paddingLeft="120px"
+        android:textColor="@color/text_color"
+        android:textColorHint="#999999"
+        android:textSize="40px" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="30px"
+        android:clickable="true"
+        android:onClick="getVerifyCode"
+        android:text="获取验证码"
+        android:textColor="@color/text_color"
+        android:textSize="40px" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignBottom="@id/edit_verifyCode"
+        android:background="#999999" />
+</RelativeLayout>

@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="EffectsMaterialLayout">
+        <attr name="alphas" format="integer"/>
+        <attr name="alpha_step" format="integer"/>
+        <attr name="framerate" format="integer"/>
+        <attr name="duration" format="integer"/>
+        <attr name="mycolor" format="color"/>
+        <attr name="scale" format="float"/>
+    </declare-styleable>
+    <declare-styleable name="StateFrameLayout">
+        <attr name="sflAlwaysDrawChild" format="boolean"/>
+        <attr name="sflState" format="enum">
+            <enum name="normal" value="0"/>
+            <enum name="loading" value="1"/>
+            <enum name="error" value="2"/>
+            <enum name="empty" value="3"/>
+        </attr>
+        <attr name="sflLoadingDrawable" format="reference"/>
+        <attr name="sflErrorDrawable" format="reference"/>
+        <attr name="sflEmptyDrawable" format="reference"/>
+        <attr name="sflLoadingLayout" format="reference"/>
+        <attr name="sflErrorLayout" format="reference"/>
+        <attr name="sflEmptyLayout" format="reference"/>
+    </declare-styleable>
+    <declare-styleable name="StateFrameLayout_Layout">
+        <attr name="sflLayout_state" format="enum">
+            <enum name="normal" value="0"/>
+            <enum name="loading" value="1"/>
+            <enum name="error" value="2"/>
+            <enum name="empty" value="3"/>
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="StateLinearLayout">
+        <attr name="sllAlwaysDrawChild" format="boolean"/>
+        <attr name="sllState" format="enum">
+            <enum name="normal" value="0"/>
+            <enum name="loading" value="1"/>
+            <enum name="error" value="2"/>
+            <enum name="empty" value="3"/>
+        </attr>
+        <attr name="sllLoadingDrawable" format="reference"/>
+        <attr name="sllErrorDrawable" format="reference"/>
+        <attr name="sllEmptyDrawable" format="reference"/>
+        <attr name="sllLoadingLayout" format="reference"/>
+        <attr name="sllErrorLayout" format="reference"/>
+        <attr name="sllEmptyLayout" format="reference"/>
+    </declare-styleable>
+    <declare-styleable name="StateLinearLayout_Layout">
+        <attr name="sllLayout_state" format="enum">
+            <enum name="normal" value="0"/>
+            <enum name="loading" value="1"/>
+            <enum name="error" value="2"/>
+            <enum name="empty" value="3"/>
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="StateRelativeLayout">
+        <attr name="srlAlwaysDrawChild" format="boolean"/>
+        <attr name="srlState" format="enum">
+            <enum name="normal" value="0"/>
+            <enum name="loading" value="1"/>
+            <enum name="error" value="2"/>
+            <enum name="empty" value="3"/>
+        </attr>
+        <attr name="srlLoadingDrawable" format="reference"/>
+        <attr name="srlErrorDrawable" format="reference"/>
+        <attr name="srlEmptyDrawable" format="reference"/>
+        <attr name="srlLoadingLayout" format="reference"/>
+        <attr name="srlErrorLayout" format="reference"/>
+        <attr name="srlEmptyLayout" format="reference"/>
+    </declare-styleable>
+    <declare-styleable name="StateRelativeLayout_Layout">
+        <attr name="srlLayout_state" format="enum">
+            <enum name="normal" value="0"/>
+            <enum name="loading" value="1"/>
+            <enum name="error" value="2"/>
+            <enum name="empty" value="3"/>
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="BGABadgeView">
+        <attr name="badge_bgColor" format="reference|color"/>
+        <attr name="badge_textColor" format="reference|color"/>
+        <attr name="badge_textSize" format="reference|dimension"/>
+        <attr name="badge_verticalMargin" format="reference|dimension"/>
+        <attr name="badge_horizontalMargin" format="reference|dimension"/>
+        <attr name="badge_padding" format="reference|dimension"/>
+        <attr name="badge_gravity" format="enum">
+            <enum name="rightTop" value="0"/>
+            <enum name="rightCenter" value="1"/>
+            <enum name="rightBottom" value="2"/>
+        </attr>
+        <attr name="badge_dragable" format="boolean"/>
+        <attr name="badge_isResumeTravel" format="boolean"/>
+        <attr name="badge_borderWidth" format="reference|dimension"/>
+        <attr name="badge_borderColor" format="reference|color"/>
+        <attr name="badge_dragExtra" format="reference|dimension"/>
+    </declare-styleable>
+    <declare-styleable name="TextAndEditView">
+        <attr name="text_content" format="string|reference"/>
+        <attr name="edit_hint" format="string|reference"/>
+        <attr name="edit_right_drawable" format="reference"/>
+        <attr name="edit_left_drawable" format="reference"/>
+        <attr name="text_color" format="reference|color"/>
+        <attr name="text_size" format="reference|dimension"/>
+        <attr name="edit_hint_color" format="reference|color"/>
+        <attr name="edit_text_color" format="reference|color"/>
+        <attr name="edit_text_size" format="reference|dimension"/>
+        <attr name="edit_text" format="string|reference"/>
+        <attr name="isEnable" format="boolean"/>
+    </declare-styleable>
+    <declare-styleable name="OneRowView">
+        <attr name="text" format="string"/>
+        <attr name="iconDrawable" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="BecomeBusinessPhotoConbineView">
+        <attr name="title" format="string"/>
+        <attr name="desc" format="string"/>
+        <attr name="btn_first_hint" format="string"/>
+        <attr name="btn_cecond_hint" format="string"/>
+        <attr name="show_double" format="boolean"/>
+        <attr name="show_see_one" format="integer"/>
+        <attr name="show_see_two" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="MeLineView">
+        <attr name="line_name" format="string"/>
+        <attr name="line_textCount" format="string"/>
+        <attr name="line_icon" format="reference"/>
+    </declare-styleable>
+    <declare-styleable name="MaterialCalendarView">
+        <attr name="mcv_dateTextAppearance" format="reference"/>
+        <attr name="mcv_weekDayTextAppearance" format="reference"/>
+        <attr name="mcv_headerTextAppearance" format="reference"/>
+
+        <attr name="mcv_arrowColor" format="color"/>
+        <attr name="mcv_leftArrowMask" format="reference"/>
+        <attr name="mcv_rightArrowMask" format="reference"/>
+        <attr name="mcv_selectionColor" format="color"/>
+
+        <attr name="mcv_showOtherDates" format="integer">
+            <flag name="none" value="0"/>
+            <flag name="other_months" value="1"/>
+            <flag name="out_of_range" value="2"/>
+            <flag name="decorated_disabled" value="4"/>
+            <flag name="defaults" value="4"/>
+            <flag name="all" value="7"/>
+        </attr>
+
+        <attr name="mcv_allowClickDaysOutsideCurrentMonth" format="boolean"/>
+
+        <attr name="mcv_weekDayLabels" format="reference"/>
+        <attr name="mcv_monthLabels" format="reference"/>
+
+        <!-- We want to accept match_parent but not wrap_content. It'd be better if we could
+        point to the real match_parent constant, but since it hasn't change since API 1,
+        I think it's safe to hardcode it-->
+        <attr name="mcv_tileSize" format="dimension">
+            <enum name="match_parent" value="-1"/>
+        </attr>
+        <attr name="mcv_tileHeight" format="dimension">
+            <enum name="match_parent" value="-1"/>
+        </attr>
+        <attr name="mcv_tileWidth" format="dimension">
+            <enum name="match_parent" value="-1"/>
+        </attr>
+
+        <attr name="mcv_firstDayOfWeek" format="enum">
+            <enum name="sunday" value="1"/>
+            <enum name="monday" value="2"/>
+            <enum name="tuesday" value="3"/>
+            <enum name="wednesday" value="4"/>
+            <enum name="thursday" value="5"/>
+            <enum name="friday" value="6"/>
+            <enum name="saturday" value="7"/>
+        </attr>
+
+        <attr name="mcv_calendarMode" format="enum">
+            <enum name="month" value="0"/>
+            <enum name="week" value="1"/>
+        </attr>
+
+        <attr name="mcv_titleAnimationOrientation" format="enum">
+            <enum name="vertical" value="0"/>
+            <enum name="horizontal" value="1"/>
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="PasswordEditText">
+        <!-- 密码的个数 -->
+        <attr name="passwordNumber" format="integer"/>
+        <!-- 密码圆点的半径 -->
+        <attr name="passwordRadius" format="dimension"/>
+        <!-- 密码圆点的颜色 -->
+        <attr name="passwordColor" format="color"/>
+        <!-- 分割线的颜色 -->
+        <attr name="divisionLineColor" format="color"/>
+        <!-- 分割线的大小 -->
+        <attr name="divisionLineSize" format="color"/>
+        <!-- 背景边框的颜色 -->
+        <attr name="bgColor" format="color"/>
+        <!-- 背景边框的大小 -->
+        <attr name="bgSize" format="dimension"/>
+        <!-- 背景边框的圆角大小 -->
+        <attr name="bgCorner" format="dimension"/>
+    </declare-styleable>
+    <declare-styleable name="XNumberKeyboardView">
+        <!-- 删除按键的图标 -->
+        <attr name="xnkv_deleteDrawable" format="reference"/>
+        <!-- 删除按键图标的宽度 -->
+        <attr name="xnkv_deleteWidth" format="dimension|reference"/>
+        <!-- 删除按键图标的高度 -->
+        <attr name="xnkv_deleteHeight" format="dimension|reference"/>
+
+        <!-- 删除按键图标的颜色 -->
+        <attr name="xnkv_deleteBackgroundColor" format="color|reference"/>
+
+    </declare-styleable>
+
+
+    <declare-styleable name="WheelPicker">
+        <attr name="scroll_data" format="reference"/>
+        <attr name="scroll_background_color" format="color"/>
+        <attr name="scroll_selected_item_background" format="color"/>
+        <attr name="scroll_selected_item_position" format="integer"/>
+        <attr name="scroll_item_text_size" format="dimension"/>
+        <attr name="scroll_item_text_color" format="color"/>
+        <attr name="scroll_selected_item_text_color" format="color"/>
+        <attr name="scroll_maximum_width_text" format="string"/>
+        <attr name="scroll_maximum_width_text_position" format="integer"/>
+        <attr name="scroll_visible_item_count" format="integer"/>
+        <attr name="scroll_item_space" format="dimension"/>
+        <attr name="scroll_indicator" format="boolean"/>
+        <attr name="scroll_indicator_color" format="color"/>
+        <attr name="scroll_indicator_size" format="dimension"/>
+        <attr name="scroll_atmospheric" format="boolean"/>
+        <attr name="scroll_item_align" format="enum">
+            <enum name="center" value="0"/>
+            <enum name="left" value="1"/>
+            <enum name="right" value="2"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="RatingBar">
+        <!--星星间距-->
+        <attr name="starDistance" format="dimension"/>
+        <!--星星大小-->
+        <attr name="starSize" format="dimension"/>
+        <!--星星个数-->
+        <attr name="starCount" format="integer"/>
+        <!--星星空图-->
+        <attr name="starEmpty" format="reference"/>
+        <!--星星满图-->
+        <attr name="starFill" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="SwipeMenuLayout">
+        <attr name="swipeEnable" format="boolean"/>
+        <attr name="ios" format="boolean"/>
+        <attr name="leftSwipe" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="HeaderViewPager">
+        <attr name="hvp_topOffset" format="dimension"/>
+    </declare-styleable>
+    <declare-styleable name="AlphaMaskLayout">
+        <!--透明度0~255-->
+        <attr name="aml_alpha_from" format="integer"/>
+        <!--透明度0~255-->
+        <attr name="aml_alpha_to" format="integer"/>
+        <!--透明度动画时间长度-->
+        <attr name="aml_duration" format="integer"/>
+    </declare-styleable>
+</resources>
+

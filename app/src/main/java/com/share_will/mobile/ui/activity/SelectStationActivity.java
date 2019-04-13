@@ -1,0 +1,246 @@
+package com.share_will.mobile.ui.activity;
+
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.share_will.mobile.Constant;
+import com.share_will.mobile.R;
+import com.share_will.mobile.model.entity.CityEntity;
+import com.share_will.mobile.model.entity.StationEntity;
+import com.share_will.mobile.presenter.RegisterPresenter;
+import com.share_will.mobile.ui.adapter.StationForPhoneAdapter;
+import com.share_will.mobile.ui.views.RegisterView;
+import com.share_will.mobile.ui.widget.RecyclerViewItemDecoration;
+import com.ubock.library.base.BaseEntity;
+import com.ubock.library.base.BaseFragmentActivity;
+import com.ubock.library.utils.AppUtils;
+import com.ubock.library.utils.LogUtils;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class SelectStationActivity extends BaseFragmentActivity<RegisterPresenter> implements View.OnClickListener, RegisterView {
+
+    /**
+     * 扫码->电话
+     */
+    private static final int REQUEST_CODE_SCAN_PHONE = 10010;
+    private EditText mEtPhone;
+
+    private TextView mTvSearch;
+    private TextView mTvScan;
+    private TextView mTvSelected;
+
+    private RecyclerView mRvStation;
+
+    private OptionsPickerView mStationPickerView;
+    private CityEntity mCityEntity;
+    private StationEntity mStationEntity;
+    private LinearLayout mLlPicker;
+    private Intent mStationIntent;
+    private StationForPhoneAdapter stationForPhoneAdapter;
+    private List<StationEntity> list;
+
+    private int mCityIndex;
+    private int tempPos = 0;
+
+    private boolean isclicked = false;
+
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_select_station;
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        setTitle("选择站点");
+        mEtPhone = findViewById(R.id.et_select_station_phone);
+        mTvSearch = findViewById(R.id.tv_select_station_search);
+        mTvScan = findViewById(R.id.tv_select_station_scan);
+        mLlPicker = findViewById(R.id.ll_select_station_picker);
+        mTvSelected = findViewById(R.id.tv_select_station_selected);
+        mRvStation = findViewById(R.id.rv_select_station);
+        initStationList();
+        mTvSearch.setOnClickListener(this);
+        mTvScan.setOnClickListener(this);
+        mTvSelected.setOnClickListener(this);
+
+        //下划线
+        mTvSelected.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        mStationIntent = new Intent();
+        LogUtils.d("TEST===========");
+        //站点选择器
+        mStationPickerView = new OptionsPickerBuilder(this, (options1, option2, options3, v) -> {
+
+            StationEntity station = getPresenter().getModel().getStation(option2);
+            if(station!=null){
+                LogUtils.d("===getStationName==" + mStationEntity.getStationName());
+                mTvSelected.setText("当前:" + mStationEntity.getStationName());
+                if (list != null) {
+                    list.clear();
+                    mRvStation.removeAllViews();
+                }
+            }
+        })
+                .isDialog(false)
+                .setDecorView(mLlPicker)
+                .setBackgroundId(Color.parseColor("#00FFFFFF"))
+                .setOutSideCancelable(false)
+                .setBgColor(Color.parseColor("#00FFFFFF"))
+                .setOptionsSelectChangeListener((options1, options2, options3) -> {
+
+                    if (mCityIndex != options1) {
+                        mCityIndex = options1;
+                        mCityEntity = getPresenter().getModel().getCity(options1);
+                        String cityCode = mCityEntity.getAreaCode();
+                        LogUtils.d("==cityCode===" + cityCode);
+                        getPresenter().getStationList(cityCode);
+                    }
+                }).build();
+        getPresenter().getCityList();
+
+    }
+
+
+    @Override
+    public void onClick(View view) {
+
+        switch (view.getId()) {
+            case R.id.tv_select_station_search:
+                search();
+                break;
+            case R.id.tv_select_station_scan:
+                scan();
+                break;
+            case R.id.tv_select_station_selected:
+                if (AppUtils.getAppMetaData(this, Constant.CHANNEL) != null) {
+                    if (!AppUtils.getAppMetaData(this, Constant.CHANNEL).equals(Constant.KEY_CHANNEL_YOUXING)) {
+                        showStationDialog();
+                    }
+                }
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_SCAN_PHONE && resultCode == RESULT_OK) {
+            String result = data.getStringExtra("scan_result");
+            LogUtils.d(result + "=====");
+            if (result.length() == 11) {
+                mEtPhone.setText(result);
+            }
+        }
+    }
+
+    @Override
+    public void showMessage(String message) {
+        super.showMessage(message);
+    }
+
+    @Override
+    public void onRegister(boolean success, String message) {
+
+    }
+
+    @Override
+    public void onSendVerifyCode(boolean success, String message) {
+
+    }
+
+    @Override
+    public void onLoadStationList(BaseEntity<List<StationEntity>> ret) {
+        if (ret != null && ret.getCode() == 0) {
+            mStationPickerView.setNPicker(getPresenter().getModel().getCity(), ret.getData(), null);
+            mStationPickerView.setSelectOptions(mCityIndex);
+            mTvSelected.setText("当前:" + ret.getData().get(0).getStationName());
+            mStationEntity = ret.getData().get(0);
+        } else {
+            //站点404处理
+            List<StationEntity> nullList = new ArrayList<>();
+            mStationPickerView.setNPicker(getPresenter().getModel().getCity(), nullList, null);
+            mStationPickerView.setSelectOptions(mCityIndex);
+        }
+    }
+
+    @Override
+    public void onLoadCityList(BaseEntity<List<CityEntity>> ret) {
+        if (ret != null && ret.getCode() == 0 && ret.getData().size() > 0) {
+            String cityCode = ret.getData().get(0).getAreaCode();
+            getPresenter().getStationList(cityCode);
+        }
+    }
+
+
+    @Override
+    public void onLoadStationForPhone(BaseEntity<List<StationEntity>> ret) {
+        list = ret.getData();
+        stationForPhoneAdapter.setNewData(list);
+    }
+
+    @Override
+    public void finish() {
+        mStationIntent.putExtra("station_name", mTvSelected.getText().toString().substring(3));
+        mStationIntent.putExtra("station_entity", mStationEntity);
+        LogUtils.d(mStationEntity.toString());
+        setResult(RESULT_OK, mStationIntent);
+        super.finish();
+    }
+
+    private void search() {
+        String phone = mEtPhone.getText().toString();
+        list = new ArrayList<>();
+        if (phone.trim().length() == 11 && phone.trim().startsWith("1")) {
+            getPresenter().getStationForPhone(phone);
+        } else {
+            showMessage("号码有误");
+
+        }
+    }
+
+    private void scan() {
+        Intent intent = new Intent(this, CaptureActivity.class);
+        startActivityForResult(intent, REQUEST_CODE_SCAN_PHONE);
+    }
+
+    public void showStationDialog() {
+        if (getPresenter().getModel().getCity() == null ||
+                getPresenter().getModel().getCity().isEmpty()) {
+            getPresenter().getCityList();
+        }
+        mStationPickerView.show();
+
+    }
+
+    private void initStationList() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        mRvStation.setLayoutManager(layoutManager);
+        mRvStation.addItemDecoration(new RecyclerViewItemDecoration(2, 0xFFd8d8d8));
+        stationForPhoneAdapter = new StationForPhoneAdapter(R.layout.item_select_station, null);
+        mRvStation.setAdapter(stationForPhoneAdapter);
+        stationForPhoneAdapter.setOnItemClickListener((adapter, view, position) -> {
+            stationForPhoneAdapter.setData(tempPos, new StationEntity(list.get(tempPos).getStationName(), isclicked));
+            LogUtils.d("SYY", "tempPos=" + tempPos + ",position=" + position);
+            stationForPhoneAdapter.setData(position, new StationEntity(list.get(position).getStationName(), !isclicked));
+            mStationIntent.putExtra("station_entity", list.get(position));
+            mTvSelected.setText("当前:" + list.get(position).getStationName());
+            tempPos = position;
+        });
+    }
+
+}

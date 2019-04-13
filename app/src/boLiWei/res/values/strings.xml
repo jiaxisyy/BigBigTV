@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">骑士换电</string>
+    <string name="alert_quit_confirm">确认退出骑士换电吗？</string>
+    <string name="register">注册账号</string>
+</resources>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/topbar"
+            layout="@layout/widget_topbar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="502px"
+            android:background="@color/text_color"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_my_head"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/icon_my_head" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="35px"
+                android:text="18328317002"
+                android:textColor="#FFFFFF"
+                android:textSize="54px" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="58px"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/style_text_my_top"
+                    android:text="余额"
+                    android:textSize="36px" />
+
+                <TextView
+                    style="@style/style_text_my_top"
+                    android:text="绑定电池"
+                    android:textSize="36px" />
+
+                <TextView
+                    style="@style/style_text_my_top"
+                    android:text="剩余电量"
+                    android:textSize="36px" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30px"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/style_text_my_top"
+                    android:text="0.00"
+                    android:textSize="60px" />
+
+                <TextView
+                    style="@style/style_text_my_top"
+                    android:text="0"
+                    android:textSize="60px" />
+
+                <TextView
+                    style="@style/style_text_my_top"
+                    android:text="0"
+                    android:textSize="60px" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <com.share_will.mobile.ui.widget.RowItemView
+            android:id="@+id/row_my_deposit"
+            style="@style/user_center_row_style"
+            app:iconDrawable="@drawable/icon_list_deposit"
+            app:text="我的押金" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3px" />
+
+        <com.share_will.mobile.ui.widget.RowItemView
+            android:id="@+id/row_my_money"
+            style="@style/user_center_row_style"
+            app:iconDrawable="@drawable/icon_list_wallet"
+            app:text="我的钱包" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20px" />
+
+        <com.share_will.mobile.ui.widget.RowItemView
+            android:id="@+id/row_my_order"
+            style="@style/user_center_row_style"
+            app:iconDrawable="@drawable/icon_list_order"
+            app:text="我的订单" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3px" />
+
+        <com.share_will.mobile.ui.widget.RowItemView
+            android:id="@+id/row_my_consume"
+            style="@style/user_center_row_style"
+            app:iconDrawable="@drawable/icon_list_consume"
+            app:text="消费记录" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3px" />
+
+        <com.share_will.mobile.ui.widget.RowItemView
+            android:id="@+id/row_my_rescue"
+            style="@style/user_center_row_style"
+            app:iconDrawable="@drawable/icon_list_rescue"
+            app:text="救援记录" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20px" />
+
+        <com.share_will.mobile.ui.widget.RowItemView
+            android:id="@+id/row_my_vehicle"
+            style="@style/user_center_row_style"
+            app:iconDrawable="@drawable/icon_list_vehicle"
+            app:text="我的车辆" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3px" />
+
+        <com.share_will.mobile.ui.widget.RowItemView
+            android:id="@+id/row_my_battery"
+            style="@style/user_center_row_style"
+            app:iconDrawable="@drawable/icon_list_battery"
+            app:text="我的电池" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3px" />
+
+    </LinearLayout>
+    <!-- 标题栏 -->
+
+
+</android.support.v4.widget.NestedScrollView>

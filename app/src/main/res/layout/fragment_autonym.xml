@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <!-- 标题栏 -->
+    <include
+        android:id="@+id/topbar"
+        layout="@layout/widget_topbar" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="108px"
+        android:background="#F5F5F5"
+        android:gravity="center_vertical"
+        android:paddingLeft="45px"
+        android:text="证件照片"
+        android:textColor="#666666"
+        android:textSize="36px" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="50px">
+
+        <ImageView
+            android:id="@+id/iv_papers_front"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_btn_picture" />
+
+        <TextView
+            android:id="@+id/tv_papers_front_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="27px"
+            android:layout_marginTop="10px"
+            android:layout_toRightOf="@+id/iv_papers_front"
+            android:text="@string/text_papers_front_title"
+            android:textColor="#333333"
+            android:textSize="40px" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_papers_front_title"
+            android:layout_alignLeft="@+id/tv_papers_front_title"
+            android:layout_marginTop="10px"
+            android:text="@string/text_papers_front_info"
+            android:textColor="#666666"
+            android:textSize="36px" />
+
+        <ImageView
+            android:id="@+id/iv_papers_contrary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_papers_front"
+            android:layout_marginTop="100px"
+            android:src="@drawable/icon_btn_picture" />
+
+        <TextView
+            android:id="@+id/tv_papers_contrary_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/iv_papers_contrary"
+            android:layout_marginLeft="27px"
+            android:layout_marginTop="10px"
+            android:layout_toRightOf="@+id/iv_papers_contrary"
+            android:text="@string/text_papers_contrary_title"
+            android:textColor="#333333"
+            android:textSize="40px" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_papers_contrary_title"
+            android:layout_alignLeft="@+id/tv_papers_contrary_title"
+            android:layout_marginTop="10px"
+            android:text="@string/text_papers_front_info"
+            android:textColor="#666666"
+            android:textSize="36px" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="108px"
+        android:background="#F5F5F5"
+        android:gravity="center_vertical"
+        android:paddingLeft="45px"
+        android:text="身份信息"
+        android:textColor="#666666"
+        android:textSize="36px" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150px"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="45px"
+            android:text="真实姓名"
+            android:textColor="#333333"
+            android:textSize="40px" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:hint="请输入姓名(必填)"
+            android:paddingLeft="50px"
+            android:textColor="#999999"
+            android:textSize="40px" />
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3px" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150px"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="45px"
+            android:text="身份证号"
+            android:textColor="#333333"
+            android:textSize="40px" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:hint="请输入身份证号(必填)"
+            android:inputType="number"
+            android:paddingLeft="50px"
+            android:textColor="#999999"
+            android:textSize="40px" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="120px"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="30px"
+        android:layout_marginTop="90px"
+        android:layout_marginRight="30px"
+        android:background="@drawable/shape_bg_login"
+        android:gravity="center"
+        android:text="立即认证"
+        android:textColor="#FFFFFF"
+        android:textSize="40px" />
+
+</LinearLayout>

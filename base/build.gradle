@@ -1,0 +1,51 @@
+apply plugin: 'com.android.library'
+//apply plugin: 'com.jakewharton.butterknife'
+
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    buildToolsVersion rootProject.ext.android["buildToolsVersion"]
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+        multiDexEnabled true
+    }
+
+    dataBinding {
+        enabled = true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    api rootProject.ext.dependencies["appcompat-v7"]
+    api rootProject.ext.dependencies["design"]
+    api rootProject.ext.dependencies["support-v4"]
+    api rootProject.ext.dependencies["constraint-layout"]
+    api rootProject.ext.dependencies["rxjava"]
+    api rootProject.ext.dependencies["rxlifecycle"]
+    api rootProject.ext.dependencies["rxlifecycle-components"]
+    api rootProject.ext.dependencies["rxbinding"]
+    api rootProject.ext.dependencies["retrofit"]
+    api rootProject.ext.dependencies["retrofit-converter-scalars"]
+    api rootProject.ext.dependencies["retrofit-converter-gson"]
+    api rootProject.ext.dependencies["retrofit-adapter-rxjava"]
+    api rootProject.ext.dependencies["glide"]
+    api rootProject.ext.dependencies["glide-okhttp"]
+    annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
+    //    api rootProject.ext.dependencies["butterknife"]
+    //    api rootProject.ext.dependencies["autolayout"]
+    debugApi rootProject.ext.dependencies["Leakcanary-debug"]
+    releaseApi rootProject.ext.dependencies["Leakcanary-release"]
+    api rootProject.ext.dependencies["RVAH"]
+    api rootProject.ext.dependencies["okhttp-logging"]
+    api rootProject.ext.dependencies["eventbus"]
+    api rootProject.ext.dependencies["bugly"]
+    api project(':autolayout')
+}

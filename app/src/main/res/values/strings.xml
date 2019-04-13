@@ -1,0 +1,56 @@
+<resources>
+
+    <string name="app_name">蚁电</string>
+    <string name="scan_tips">将二维码图片对准扫描框即可自动扫描</string>
+    <!-- 高德地图appKey -->
+    <string name="amap_key">71c37653ed80cd8dde1626ff543a0fd1</string>
+
+    <string name="alerm_title"></string>
+    <string name="alert_quit_confirm">确认退出蚁电吗？</string>
+    <string name="alert_yes_button">确认</string>
+    <string name="alert_no_button">取消</string>
+    <string name="loading">正在加载...</string>
+    <string name="user_protocol">接受协议开始使用蚁电</string>
+    <string name="app_tip">提示</string>
+
+    <!-- applet -->
+
+    <!-- verify -->
+
+    <!-- format -->
+
+
+    <!-- WXMediaMessage -->
+
+    <!-- GetFromWXActivity -->
+
+    <!-- RechargeActivity -->
+
+    <string name="getting_prepayid">正在获取预支付订单...</string>
+
+    <!-- WXPayEntryActivity -->
+    <string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
+
+    <!-- BC-test -->
+
+    <string name="dialog_title_hint">温馨提示</string>
+
+    <string name="register">注册</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="text_bespeak_status">预约状态:</string>
+    <string name="text_bespeak_siteName">站点名字</string>
+    <string name="submitBespeak">提交预约</string>
+    <string name="register_protocol">点击注册,即表示阅读并同意</string>
+    <string name="test_pwd">qwerty</string>
+    <string name="test_phone">13510946094</string>
+    <string name="text_service_charge">您还没有进充电,请先扫一扫进行充电~</string>
+    <string name="text_service_rent">您还不能租借电池,请先缴纳押金~</string>
+    <string name="text_service_custody">您还不能保管电池,请先绑定电池~</string>
+    <string name="text_service_share">您还不能共享电池,请先进行实名认证~</string>
+    <string name="text_papers_front_title">拍摄身份证正面照片</string>
+    <string name="text_papers_contrary_title">拍摄身份证反面照片</string>
+    <string name="text_papers_front_info">请保持照片中身份证显示完整,主体清晰可辩</string>
+    <string name="text_money_charge">电池充满1小时之内,不收取仓位占用费;超出一小时会收取仓位占用费,时间从电池充满后开始计算</string>
+
+</resources>

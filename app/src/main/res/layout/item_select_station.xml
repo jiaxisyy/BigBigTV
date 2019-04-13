@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100px"
+    android:background="#F5F4F4"
+    android:paddingRight="50px"
+    android:gravity="center_vertical"
+    android:paddingLeft="50px">
+
+    <TextView
+        android:id="@+id/tv_item_select_station_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="深圳市南京大学" />
+
+    <ImageView
+        android:id="@+id/iv_item_select_station_selected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:visibility="invisible"
+        android:src="@drawable/icon_select_station_selected" />
+
+</RelativeLayout>

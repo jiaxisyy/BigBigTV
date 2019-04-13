@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="300px"
+        android:layout_height="300px"
+        android:layout_centerInParent="true"
+        android:background="@drawable/alpha_corners_bg">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ProgressBar
+                style="@android:style/Widget.ProgressBar"
+                android:layout_marginTop="20px"
+                android:layout_width="98px"
+                android:layout_height="98px" />
+
+
+            <TextView
+                android:id="@+id/tv_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20px"
+                android:layout_marginTop="40px"
+                android:text="@string/loading"
+                android:textSize="30px"
+                android:textColor="#ffffffff" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

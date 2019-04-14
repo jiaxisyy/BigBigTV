@@ -2,7 +2,6 @@ package com.share_will.mobile.ui.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -19,7 +18,6 @@ import com.share_will.mobile.listener.DetachDialogClickListener;
 import com.share_will.mobile.presenter.PayPresenter;
 import com.share_will.mobile.ui.views.PayView;
 import com.share_will.mobile.wxapi.WXUtils;
-import com.ubock.library.annotation.PresenterInjector;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseFragmentActivity;
 import com.ubock.library.utils.AppUtils;
@@ -83,13 +81,13 @@ public class OrderFormActivity extends BaseFragmentActivity<PayPresenter> implem
         mRgType.setOnCheckedChangeListener((radioGroup, i) -> {
             switch (i) {
                 case R.id.rb_order_type_balance:
-                    submitType = 0;
+                    submitType = MessageEvent.PayEvent.PAY_TYPE_BALANCE;
                     break;
                 case R.id.rb_order_type_zfb:
-                    submitType = 2;
+                    submitType = MessageEvent.PayEvent.PAY_TYPE_ALIPAY;
                     break;
                 case R.id.rb_order_type_wx:
-                    submitType = 1;
+                    submitType = MessageEvent.PayEvent.PAY_TYPE_WEIXIN;
                     break;
 
             }
@@ -144,15 +142,15 @@ public class OrderFormActivity extends BaseFragmentActivity<PayPresenter> implem
         if (view.getId() == R.id.tv_order_form_submit) {
             if (submitType == -1) {
                 showMessage("请选择支付类型");
-            } else if (submitType == 0) {
+            } else if (submitType == MessageEvent.PayEvent.PAY_TYPE_BALANCE) {
                 if (!TextUtils.isEmpty(mOrderId)) {
                     getPresenter().payMoneyOrder(App.getInstance().getUserId(), mOrderId);
                 }
-            } else if (submitType == 1) {
+            } else if (submitType == MessageEvent.PayEvent.PAY_TYPE_WEIXIN) {
                 if (!TextUtils.isEmpty(mOrderId)) {
                     getPresenter().getWeiXinOrder(getWeiXinAppId(), mOrderType, mOrderId, mBody);
                 }
-            } else if (submitType == 2) {
+            } else if (submitType == MessageEvent.PayEvent.PAY_TYPE_ALIPAY) {
                 if (!TextUtils.isEmpty(mOrderId)) {
                     getPresenter().getAliPayOrder(0, AlipayUtils.APP_ID, mOrderType, mOrderId, mBody);
                 }
@@ -201,6 +199,8 @@ public class OrderFormActivity extends BaseFragmentActivity<PayPresenter> implem
             //支付成功刷新界面
             mAlertDialog.setMessage("支付成功");
             mAlertDialog.show();
+        } else {
+            showError(event.message);
         }
     }
 }

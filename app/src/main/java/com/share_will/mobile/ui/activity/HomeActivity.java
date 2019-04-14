@@ -1,16 +1,19 @@
 package com.share_will.mobile.ui.activity;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.text.TextUtils;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.share_will.mobile.App;
 import com.share_will.mobile.Constant;
@@ -19,10 +22,12 @@ import com.share_will.mobile.model.entity.CabinetEntity;
 import com.share_will.mobile.model.entity.CityEntity;
 import com.share_will.mobile.model.entity.NotifyMessageEntity;
 import com.share_will.mobile.presenter.HomePresenter;
-import com.share_will.mobile.ui.fragment.HomeFragment;
-import com.share_will.mobile.ui.fragment.MyFragment;
-import com.share_will.mobile.ui.fragment.MallFragment;
+import com.share_will.mobile.services.LocationService;
 import com.share_will.mobile.ui.fragment.AlarmFragment;
+import com.share_will.mobile.ui.fragment.ExchangeFragment;
+import com.share_will.mobile.ui.fragment.HomeFragment;
+import com.share_will.mobile.ui.fragment.MallFragment;
+import com.share_will.mobile.ui.fragment.MyFragment;
 import com.share_will.mobile.ui.views.HomeView;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseFragment;
@@ -31,18 +36,24 @@ import com.ubock.library.ui.dialog.ToastExt;
 import com.ubock.library.utils.AppUtils;
 import com.ubock.library.utils.LogUtils;
 import com.ubock.library.utils.SharedPreferencesUtils;
-import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nullable;
 
-public class HomeActivity extends BaseTabContainerActivity<HomePresenter> implements HomeView{
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.RuntimePermissions;
+
+@RuntimePermissions
+public class HomeActivity extends BaseTabContainerActivity<HomePresenter> implements HomeView {
     private BaseFragment[] mFragments = {new HomeFragment(),
             new AlarmFragment(),
-            new MyFragment(),
+            new ExchangeFragment(),
             new MallFragment(),
             new MyFragment()};
     private String[] mTitles = {"首页", "智慧消防", "换电", "网上商城", "个人中心"};
@@ -51,7 +62,6 @@ public class HomeActivity extends BaseTabContainerActivity<HomePresenter> implem
             R.drawable.tab_exchange,
             R.drawable.main_menu_mall_selector,
             R.drawable.main_menu_my_selector};
-
 
     /**
      * 扫码请求码
@@ -88,6 +98,7 @@ public class HomeActivity extends BaseTabContainerActivity<HomePresenter> implem
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         openUserProtocol();
+        showNotifyMessage();
     }
 
     @Override
@@ -104,7 +115,6 @@ public class HomeActivity extends BaseTabContainerActivity<HomePresenter> implem
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
         setOffscreenPageLimit(3);
-
     }
 
     /**
@@ -120,7 +130,7 @@ public class HomeActivity extends BaseTabContainerActivity<HomePresenter> implem
 
     private boolean isLogin() {
         boolean ret = App.getInstance().isLogin();
-        if (!ret) {
+        if (!ret){
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setData(getIntent().getData());
             startActivity(intent);
@@ -132,18 +142,16 @@ public class HomeActivity extends BaseTabContainerActivity<HomePresenter> implem
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        if (!isLogin()) {
+        if (!isLogin()){
             return;
         }
-//        getWindow().setBackgroundDrawable(null);
-//        getWindow().getDecorView().setBackgroundColor(0xffffffff);
         getPresenter().parseUri(getIntent());
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if (!isLogin()) {
+        if (!isLogin()){
             return;
         }
         openUserProtocol();
@@ -154,9 +162,6 @@ public class HomeActivity extends BaseTabContainerActivity<HomePresenter> implem
      * 打开扫码界面
      */
     public void scan(View view) {
-//        startActivity(new Intent(this, MapActivity.class));
-//        Intent intent = new Intent(this, CaptureActivity.class);
-//        startActivityForResult(intent, REQUEST_CODE_SCAN_CODE);
         setSelect(2);
     }
 
@@ -221,10 +226,82 @@ public class HomeActivity extends BaseTabContainerActivity<HomePresenter> implem
 
     }
 
+    /**
+     * 每日提示信息
+     */
+    private void showNotifyMessage() {
+
+        getPresenter().getNotifyMessage(App.getInstance().getUserId());
+    }
+
     @Override
     public void showNotifyMessage(boolean isShow, NotifyMessageEntity data) {
+        if (isShow) {
+            //判断是否在显示时间段内
+            long now = System.currentTimeMillis();
+            if(now>=data.getStartTime()&&now<=data.getEndTime()){
+                int num = SharedPreferencesUtils.getIntergerSF(this, String.valueOf(data.getMessageId()));
+                if(num<data.getShowNumber()){
+                    notifyMessageDialog(data.getMessageTitle(),data.getMessageContent());
+                    SharedPreferencesUtils.setIntergerSF(this,String.valueOf(data.getMessageId()),num+1);
+                    SharedPreferencesUtils.setStringSF(this,"TONIGHT",String.valueOf(getTimesnight()));
+                }
+            }
+            String tonight = SharedPreferencesUtils.getStringSF(this, "TONIGHT");
+            if(now>Long.valueOf(tonight)){
+                SharedPreferencesUtils.setIntergerSF(this,String.valueOf(data.getMessageId()),0);
+
+            }
+        }
+    }
+
+    /**
+     * 每日提示
+     */
+    private void notifyMessageDialog(String title,String message) {
+        new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setIcon(null)
+                .setCancelable(true)
+                .setMessage(message)
+                .setPositiveButton(R.string.alert_yes_button, (dialog, which) ->dialog.dismiss()).create().show();
+    }
+
+    /**
+     *  获得当天24点时间
+     */
+    public static long getTimesnight(){
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 24);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return  cal.getTimeInMillis();
+    }
+
+    @NeedsPermission({Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION})
+    void onAllowPermission() {
+        Log.d("cgd", "onAllowPermission");
+        startService(new Intent(this, LocationService.class));
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        HomeActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
 
     }
+
+    @OnPermissionDenied({Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION})
+    void onPermissionDenied() {
+        Toast.makeText(this, "已拒绝定位权限", Toast.LENGTH_LONG).show();
+    }
+
+    @OnNeverAskAgain({Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION})
+    void onNeverAskAgain() {
+        Toast.makeText(this, "已拒绝定位权限", Toast.LENGTH_LONG).show();
+    }
+
 
     /**
      * 退出对话框

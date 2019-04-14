@@ -1,10 +1,8 @@
 package com.share_will.mobile.ui.fragment;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -13,13 +11,10 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.share_will.mobile.App;
 import com.share_will.mobile.MessageEvent;
 import com.share_will.mobile.R;
-import com.share_will.mobile.listener.DetachDialogClickListener;
 import com.share_will.mobile.model.entity.PackageEntity;
 import com.share_will.mobile.presenter.ShopPresenter;
 import com.share_will.mobile.ui.activity.OrderFormActivity;
-import com.share_will.mobile.ui.activity.ShopActivity;
 import com.share_will.mobile.ui.adapter.PackageAdapter;
-import com.share_will.mobile.ui.dialog.PayTypeFragmentDialog;
 import com.share_will.mobile.ui.views.ShopView;
 import com.share_will.mobile.ui.widget.RecyclerViewItemDecoration;
 import com.ubock.library.base.BaseEntity;
@@ -29,7 +24,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,10 +33,7 @@ public class MallFragment extends BaseFragment<ShopPresenter> implements BaseQui
     private RecyclerView mRecyclerView;
     private PackageAdapter mPackageAdapter;
     private List<PackageEntity> mDataList = new ArrayList<>();
-    private AlertDialog mAlertDialog;
     private PackageEntity mSelectedPackageEntity;
-//    private DetachDialogClickListener mDetachClickListener = DetachDialogClickListener.wrap(this);
-//    private PayTypeFragmentDialog mPayTypeFragmentDialog;
     private int mPreice;
 
     @Override
@@ -64,13 +55,6 @@ public class MallFragment extends BaseFragment<ShopPresenter> implements BaseQui
         mRecyclerView.setAdapter(mPackageAdapter);
         mPackageAdapter.setEmptyView(R.layout.empty_view);
         mPackageAdapter.setOnItemClickListener(this);
-//        mAlertDialog = new AlertDialog.Builder(getActivity())
-//                .setTitle("确认购买此套餐吗?")
-//                .setIcon(null)
-//                .setCancelable(true)
-//                .setPositiveButton(R.string.alert_yes_button, mDetachClickListener)
-//                .setNegativeButton(R.string.alert_no_button, mDetachClickListener).create();
-//        mAlertDialog.setCanceledOnTouchOutside(false);
     }
 
     @Override
@@ -88,8 +72,6 @@ public class MallFragment extends BaseFragment<ShopPresenter> implements BaseQui
 
     @Override
     public void onDestroyView() {
-//        mDetachClickListener.release();
-//        mDetachClickListener = null;
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
     }
@@ -106,30 +88,7 @@ public class MallFragment extends BaseFragment<ShopPresenter> implements BaseQui
                 mPreice,
                 mSelectedPackageEntity.getPackageType(),
                 mSelectedPackageEntity.getPackageName());
-//        String price = NumberFormat.getInstance().format(mPreice / 100f);
-//        mAlertDialog.setMessage(String.format("%s 需要支付:%s元", mSelectedPackageEntity.getPackageName(), price));
-//        mAlertDialog.show();
     }
-
-//    @Override
-//    public void onClick(DialogInterface dialog, int which) {
-//        if (which == DialogInterface.BUTTON_POSITIVE && mSelectedPackageEntity != null) {
-//            if (mSelectedPackageEntity.getActivityId() != 0) {
-//                createPackage(mSelectedPackageEntity.getPackageId(),
-//                        mSelectedPackageEntity.getActivityId(),
-//                        mSelectedPackageEntity.getActivityPrice(),
-//                        mSelectedPackageEntity.getPackageType(),
-//                        mSelectedPackageEntity.getPackageName());
-//            } else {
-//                createPackage(mSelectedPackageEntity.getPackageId(),
-//                        mSelectedPackageEntity.getActivityId(),
-//                        mSelectedPackageEntity.getPackagePrice(),
-//                        mSelectedPackageEntity.getPackageType(),
-//                        mSelectedPackageEntity.getPackageName());
-//            }
-//        }
-//        mAlertDialog.dismiss();
-//    }
 
     @Override
     public void onLoadPackageList(BaseEntity<List<PackageEntity>> data) {
@@ -170,8 +129,6 @@ public class MallFragment extends BaseFragment<ShopPresenter> implements BaseQui
             intent.putExtra("orderType", 1);
             intent.putExtra("body", mSelectedPackageEntity.getPackageName());
             startActivity(intent);
-//            mPayTypeFragmentDialog = PayTypeFragmentDialog.newInstance(true, 1, orderId, "购买套餐");
-//            mPayTypeFragmentDialog.show(this);
         } else {
             showMessage(message);
         }

@@ -27,6 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Map;
 
 
@@ -50,6 +51,7 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
     private TextView mMoneyManage;
     private TextView mMoneyAll;
     private RelativeLayout mCardMoney;
+    private int mPrice;
 
     @Override
     protected int getLayoutId() {
@@ -168,8 +170,8 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
 
             mMoneyCharge.setText(intChange(entity.getMoney()) + "元");
             mMoneyManage.setText(intChange(entity.getManageMoney()) + "元");
-            int all = entity.getMoney() + entity.getManageMoney();
-            mMoneyAll.setText("合计:" + intChange(all) + "元");
+            mPrice = entity.getMoney() + entity.getManageMoney();
+            mMoneyAll.setText(String.format("合计:%s元", intChange(mPrice)));
         } else {
             mChargeScan.setText("扫一扫");
             mLlInCludeHomeBottom.setVisibility(View.INVISIBLE);
@@ -180,8 +182,9 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
     }
 
     public String intChange(int num) {
-        DecimalFormat df = new DecimalFormat("#.00");
-        return df.format(num);
+//        DecimalFormat df = new DecimalFormat("#.00");
+//        return df.format(num);
+        return NumberFormat.getInstance().format(num/100f);
     }
 
     @Override
@@ -205,6 +208,8 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
                 Intent intent = new Intent(this, OrderFormActivity.class);
                 intent.putExtra("orderId", id);
                 intent.putExtra("orderType", 0);
+                intent.putExtra("price", mPrice);
+                intent.putExtra("body", "充电费用");
 
                 startActivityForResult(intent, REQUEST_CODE_ORDERFORM);
             } catch (JSONException e) {

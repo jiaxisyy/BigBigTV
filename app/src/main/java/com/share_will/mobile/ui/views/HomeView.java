@@ -35,7 +35,7 @@ public interface HomeView extends BaseView {
     /**
      * 充电
      */
-    void chargingBattery(String sn, int channel);
+    default void chargingBattery(String sn, int channel){}
 
     /**
      * 获取开通城市列表回调
@@ -50,6 +50,6 @@ public interface HomeView extends BaseView {
      * @param isShow
      * @param data
      */
-    void showNotifyMessage(boolean isShow, NotifyMessageEntity data);
+    default void showNotifyMessage(boolean isShow, NotifyMessageEntity data){}
 
 }

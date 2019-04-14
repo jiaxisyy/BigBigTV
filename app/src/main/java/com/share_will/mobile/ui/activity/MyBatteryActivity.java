@@ -1,5 +1,6 @@
 package com.share_will.mobile.ui.activity;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,10 +17,13 @@ import com.share_will.mobile.model.entity.BatteryEntity;
 import com.share_will.mobile.presenter.HomeFragmentPresenter;
 import com.share_will.mobile.ui.views.IHomeFragmentView;
 import com.ubock.library.annotation.PresenterInjector;
+import com.ubock.library.base.BaseConfig;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseFragmentActivity;
+import com.ubock.library.utils.LogUtils;
 
 public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFragmentView, View.OnClickListener, View.OnTouchListener {
+    private static final int REQUEST_CODE_SCAN_SN = 10010;
     @PresenterInjector
     HomeFragmentPresenter homeFragmentPresenter;
 
@@ -51,16 +55,19 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
         mBindSnAgain = findViewById(R.id.et_my_battery_bind_sn_again);
         mBindSubmit = findViewById(R.id.tv_my_battery_bind_submit);
         mBindSubmit.setOnClickListener(this);
+        mBindSn.setOnTouchListener(this);
         homeFragmentPresenter.getBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
     }
 
     @Override
     public void onLoadBatteryInfoResult(BaseEntity<BatteryEntity> data) {
         BatteryEntity entity = data.getData();
-        if (data == null) {
+        if (data != null) {
             mNowSop.setText("当前电量:   " + entity.getSop() + "%");
             mStartTime.setText("电池SN:   " + entity.getSn());
+            mLlCardBatteryInfo.setVisibility(View.VISIBLE);
             mCardMoney.setVisibility(View.GONE);
+            mLlCardBatteryBind.setVisibility(View.GONE);
         } else {
             mLlCardBatteryInfo.setVisibility(View.GONE);
             mCardMoney.setVisibility(View.GONE);
@@ -99,8 +106,28 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
         if (motionEvent.getX() > mBindSn.getWidth()
                 - mBindSn.getPaddingRight()
                 - drawable.getIntrinsicWidth()) {
-            mBindSn.setText("123");
+            scanSn();
         }
         return false;
+    }
+
+    private void scanSn() {
+        Intent intent = new Intent(this, CaptureActivity.class);
+        startActivityForResult(intent, REQUEST_CODE_SCAN_SN);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_SCAN_SN) {
+            //处理扫码换电
+            if (resultCode == RESULT_OK) {
+                String result = data.getStringExtra("scan_result");
+                LogUtils.d(result + "=============");
+                mBindSn.setText(result);
+                mBindSnAgain.setText(result);
+            }
+        }
+
     }
 }

@@ -205,6 +205,7 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
                 Intent intent = new Intent(this, OrderFormActivity.class);
                 intent.putExtra("orderId", id);
                 intent.putExtra("orderType", 0);
+
                 startActivityForResult(intent, REQUEST_CODE_ORDERFORM);
             } catch (JSONException e) {
                 e.printStackTrace();

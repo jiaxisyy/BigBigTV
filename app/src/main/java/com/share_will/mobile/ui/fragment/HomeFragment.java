@@ -89,8 +89,16 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
 
     @Override
     public void onLoadAlarmResult(BaseEntity<AlarmEntity> data) {
+        int validPos = 0;
         if (data != null) {
-            AlarmEntity.SmokeBean alarmEntity = data.getData().getSmoke().get(0);
+            List<AlarmEntity.SmokeBean> smokeBeanList = data.getData().getSmoke();
+            int size = smokeBeanList.size();
+            for (int i = 0; i < size; i++) {
+                if (smokeBeanList.get(i).getAlarmcode() != 0) {
+                    validPos = i;
+                }
+            }
+            AlarmEntity.SmokeBean alarmEntity = data.getData().getSmoke().get(validPos);
             mAlarmTitle.setText("标题: " + alarmEntity.getTitle());
             mAlarmPositionName.setText(alarmEntity.getPositionName());
             mAlarmRemark.setText(alarmEntity.getRemark());

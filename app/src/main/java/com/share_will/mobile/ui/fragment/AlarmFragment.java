@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.AMapOptions;
 import com.amap.api.maps.CameraUpdateFactory;
-import com.amap.api.maps.MapView;
+import com.amap.api.maps.TextureMapView;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
@@ -33,7 +33,6 @@ import com.ubock.library.annotation.PresenterInjector;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseFragment;
 import com.ubock.library.utils.DateUtils;
-import com.ubock.library.utils.LogUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -45,7 +44,7 @@ import java.util.List;
 import permissions.dispatcher.NeedsPermission;
 
 public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implements IHomeFragmentView, View.OnClickListener, IAlarmFragmentView {
-    private MapView mMapView = null;
+    private TextureMapView mMapView = null;
     private AMap mAMap = null;
     private InfoWindows mInfoWindows;
     private Marker mLocationMarker = null;

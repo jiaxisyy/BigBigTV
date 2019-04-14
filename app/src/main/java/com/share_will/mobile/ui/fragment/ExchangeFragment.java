@@ -20,7 +20,7 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.AMapOptions;
 import com.amap.api.maps.CameraUpdateFactory;
-import com.amap.api.maps.MapView;
+import com.amap.api.maps.TextureMapView;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
@@ -64,7 +64,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class ExchangeFragment extends BaseFragment<HomePresenter> implements HomeView, View.OnClickListener{
 
-    MapView mMapView = null;
+    TextureMapView mMapView = null;
     AMap mAMap = null;
     Location mCurrentLocation = null;
     Marker mLocationMarker = null;

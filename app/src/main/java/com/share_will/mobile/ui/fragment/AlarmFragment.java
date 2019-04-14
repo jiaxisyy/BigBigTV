@@ -248,12 +248,22 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
 
     @Override
     public void onLoadAlarmResult(BaseEntity<AlarmEntity> data) {
+        int validPos = -1;
         if (data != null) {
+            List<AlarmEntity.SmokeBean> smokeBeanList = data.getData().getSmoke();
+            int size = smokeBeanList.size();
+            for (int i = 0; i < size; i++) {
+                if (smokeBeanList.get(i).getAlarmcode() != 0) {
+                    validPos = i;
+                }
+            }
             mSmokeList.clear();
             mSmokeList.addAll(data.getData().getSmoke());
-            mAlarmTitle.setVisibility(View.VISIBLE);
-            AlarmEntity.SmokeBean smokeBean = data.getData().getSmoke().get(0);
-            mAlarmTitle.setText(DateUtils.timeStampToString(smokeBean.getAlarmtime(), DateUtils.HHMMSS) + smokeBean.getPositionName() + "告警,点击查看详情......");
+            if (validPos != -1) {
+                mAlarmTitle.setVisibility(View.VISIBLE);
+                AlarmEntity.SmokeBean smokeBean = data.getData().getSmoke().get(validPos);
+                mAlarmTitle.setText(DateUtils.timeStampToString(smokeBean.getAlarmtime(), DateUtils.HHMMSS) + smokeBean.getPositionName() + "告警,点击查看详情......");
+            }
             useMarker(data.getData());
         }
     }

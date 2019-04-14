@@ -27,6 +27,7 @@
                 android:src="@drawable/icon_my_head" />
 
             <TextView
+                android:id="@+id/tv_my_top_phone_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -65,16 +66,19 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_my_top_balance"
                     style="@style/style_text_my_top"
                     android:text="0.00"
                     android:textSize="60px" />
 
                 <TextView
+                    android:id="@+id/tv_my_top_bind"
                     style="@style/style_text_my_top"
                     android:text="0"
                     android:textSize="60px" />
 
                 <TextView
+                    android:id="@+id/tv_my_top_batteryPP"
                     style="@style/style_text_my_top"
                     android:text="0"
                     android:textSize="60px" />
@@ -84,6 +88,17 @@
 
         </LinearLayout>
 
+        <com.share_will.mobile.ui.widget.RowItemView
+            android:id="@+id/row_my_scan"
+            style="@style/user_center_row_style"
+            android:onClick="scan"
+            android:visibility="gone"
+            app:iconDrawable="@drawable/icon_scan"
+            app:text="扫码登录机柜后台" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3px" />
 
         <com.share_will.mobile.ui.widget.RowItemView
             android:id="@+id/row_my_deposit"

@@ -39,7 +39,7 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-public class HomeActivity extends BaseTabContainerActivity<HomePresenter> implements HomeView {
+public class HomeActivity extends BaseTabContainerActivity<HomePresenter> implements HomeView{
     private BaseFragment[] mFragments = {new HomeFragment(),
             new AlarmFragment(),
             new MyFragment(),
@@ -51,6 +51,7 @@ public class HomeActivity extends BaseTabContainerActivity<HomePresenter> implem
             R.drawable.tab_exchange,
             R.drawable.main_menu_mall_selector,
             R.drawable.main_menu_my_selector};
+
 
     /**
      * 扫码请求码
@@ -103,6 +104,7 @@ public class HomeActivity extends BaseTabContainerActivity<HomePresenter> implem
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
         setOffscreenPageLimit(3);
+
     }
 
     /**
@@ -118,7 +120,7 @@ public class HomeActivity extends BaseTabContainerActivity<HomePresenter> implem
 
     private boolean isLogin() {
         boolean ret = App.getInstance().isLogin();
-        if (!ret){
+        if (!ret) {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setData(getIntent().getData());
             startActivity(intent);
@@ -130,7 +132,7 @@ public class HomeActivity extends BaseTabContainerActivity<HomePresenter> implem
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        if (!isLogin()){
+        if (!isLogin()) {
             return;
         }
 //        getWindow().setBackgroundDrawable(null);
@@ -141,7 +143,7 @@ public class HomeActivity extends BaseTabContainerActivity<HomePresenter> implem
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if (!isLogin()){
+        if (!isLogin()) {
             return;
         }
         openUserProtocol();

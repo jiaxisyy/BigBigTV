@@ -14,11 +14,11 @@
         android:src="@drawable/icon_my_deposit" />
 
     <TextView
+        android:id="@+id/tv_my_deposit_money"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="82px"
-        android:text="您已缴纳押金1000元" />
+        android:layout_marginTop="82px" />
 
     <TextView
         android:id="@+id/tv_my_deposit_retreat"

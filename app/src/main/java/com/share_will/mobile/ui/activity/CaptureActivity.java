@@ -190,8 +190,6 @@ public class CaptureActivity extends BaseFragmentActivity implements Callback {
         intent.putExtra("scan_result", result);
         setResult(RESULT_OK, intent);
         finish();
-
-
     }
 
     private void initCamera(SurfaceHolder surfaceHolder) {

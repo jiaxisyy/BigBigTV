@@ -41,7 +41,8 @@
         android:layout_marginTop="56px"
         android:orientation="vertical">
 
-        <LinearLayout
+        <RadioGroup
+            android:id="@+id/rg_my_money1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="45px"
@@ -75,9 +76,10 @@
                 android:text="¥300" />
 
 
-        </LinearLayout>
+        </RadioGroup>
 
-        <LinearLayout
+        <RadioGroup
+            android:id="@+id/rg_my_money2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="45px"
@@ -112,7 +114,7 @@
                 android:hint="自定义金额"
                 android:inputType="number"
                 android:textSize="42px" />
-        </LinearLayout>
+        </RadioGroup>
 
     </RadioGroup>
 
@@ -131,57 +133,52 @@
         android:paddingLeft="45px"
         android:paddingRight="45px">
 
-        <RadioGroup
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="200px">
 
-            <RelativeLayout
 
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <TextView
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:drawableLeft="@drawable/icon_form_zhifubao"
-                    android:drawablePadding="45px"
-                    android:text="支付宝" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/icon_form_zhifubao"
+                android:drawablePadding="45px"
+                android:text="支付宝" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerVertical="true"
+                android:drawableLeft="@drawable/icon_form_weixin"
+                android:drawablePadding="45px"
+                android:text="微信" />
+
+            <RadioGroup
+                android:id="@+id/rg_my_money_pay_type"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:orientation="vertical">
 
                 <RadioButton
                     android:id="@+id/rb_zfb"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:drawablePadding="45px" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="102px">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:drawableLeft="@drawable/icon_form_weixin"
-                    android:drawablePadding="45px"
-                    android:text="微信" />
+                    android:layout_height="0px"
+                    android:layout_weight="1" />
 
                 <RadioButton
                     android:id="@+id/rb_wx"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:drawablePadding="45px" />
-            </RelativeLayout>
+                    android:layout_height="0px"
+                    android:layout_weight="1" />
+
+            </RadioGroup>
 
 
-        </RadioGroup>
+        </RelativeLayout>
 
 
     </LinearLayout>

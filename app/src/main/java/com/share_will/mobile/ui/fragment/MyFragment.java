@@ -151,7 +151,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
                 if (entity.getData().isAdminStatus()) {
                     mRowScanLogin.setVisibility(View.VISIBLE);
                 }
-                String balance = String.format("%s", NumberFormat.getInstance().format(entity.getData().getAccount() / 100f));
+                String balance = String.format("￥%s", NumberFormat.getInstance().format(entity.getData().getAccount() / 100f));
                 mTvBalance.setText(balance);
                 if (entity.getData().getDeposit() > 0) {
                     mDeposit = entity.getData().getDeposit();

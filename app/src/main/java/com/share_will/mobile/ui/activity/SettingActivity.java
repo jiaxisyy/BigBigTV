@@ -3,17 +3,29 @@ package com.share_will.mobile.ui.activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.share_will.mobile.App;
 import com.share_will.mobile.Constant;
 import com.share_will.mobile.R;
+import com.share_will.mobile.presenter.UpgradeServicePresenter;
+import com.share_will.mobile.ui.dialog.DialogActivity;
+import com.share_will.mobile.ui.views.UpgradeServiceView;
+import com.share_will.mobile.utils.Utils;
+import com.ubock.library.annotation.PresenterInjector;
 import com.ubock.library.base.BaseApp;
 import com.ubock.library.base.BaseFragmentActivity;
 import com.ubock.library.utils.SharedPreferencesUtils;
 
-public class SettingActivity extends BaseFragmentActivity implements View.OnClickListener {
+import java.util.Map;
+
+public class SettingActivity extends BaseFragmentActivity implements View.OnClickListener, UpgradeServiceView {
+
+    @PresenterInjector
+    UpgradeServicePresenter upgradeServicePresenter;
 
     private TextView mChangePwd;
     private TextView mUpdate;
@@ -65,7 +77,11 @@ public class SettingActivity extends BaseFragmentActivity implements View.OnClic
     }
 
     private void checkVersion() {
-
+        String versionName = Utils.getVersionName(this);
+        int versionCode = Utils.getVersionCode(this);
+        String channel = App.getChannel();
+        String userId = App.getInstance().getUserId();
+        upgradeServicePresenter.checkVersion(versionName, versionCode, 1, channel, userId);
     }
 
     /**
@@ -89,5 +105,34 @@ public class SettingActivity extends BaseFragmentActivity implements View.OnClic
                         })
                 .setNegativeButton(R.string.alert_no_button,
                         (dialog, which) -> dialog.dismiss()).create().show();
+    }
+
+    @Override
+    public void onLoadVersion(Map<String, String> data) {
+        if (data != null) {
+            String url = data.get("downloadUrl");
+            String description = data.get("description");
+            if (!TextUtils.isEmpty(url)) {
+                Log.d("cgd", url);
+                showDialog(description == null ? "" : description);
+                return;
+            } else {
+                showDialog("已是最新版本");
+            }
+
+        } else {
+            showDialog("已是最新版本");
+        }
+    }
+
+    private void showDialog(String desc) {
+        Intent intent = new Intent(this, DialogActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(DialogActivity.PARAM_TITLE, "检测更新");
+        intent.putExtra(DialogActivity.PARAM_MESSAGE, desc);
+        intent.putExtra(DialogActivity.PARAM_NEED_PERMISSION, true);
+//        intent.putExtra(DialogActivity.PARAM_OK, "升级");
+        intent.putExtra(DialogActivity.PARAM_CANCEL, "确定");
+        startActivity(intent);
     }
 }

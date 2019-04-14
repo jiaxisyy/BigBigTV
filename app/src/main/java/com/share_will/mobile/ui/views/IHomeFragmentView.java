@@ -20,5 +20,7 @@ public interface IHomeFragmentView extends BaseView {
     default void onLoadBatteryInfoResult(BaseEntity<BatteryEntity> data) {
     }
 
+    default void onBindBatteryResult(BaseEntity<Object> data) {
+    }
 
 }

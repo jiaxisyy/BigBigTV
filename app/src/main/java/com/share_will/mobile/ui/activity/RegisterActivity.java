@@ -181,6 +181,10 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
         showError(message);
     }
 
+    public void openUserProtocol(View view) {
+        startActivity(new Intent(this, ProtocolActivity.class));
+    }
+
     /**
      * 获取验证码
      *

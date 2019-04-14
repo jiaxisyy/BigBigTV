@@ -77,8 +77,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mCardMoney = view.findViewById(R.id.rl_card_money);
         mTopCharge.setOnClickListener(this);
         mRlAlarm.setOnClickListener(this);
-
-
         initData();
     }
 

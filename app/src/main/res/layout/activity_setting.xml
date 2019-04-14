@@ -8,30 +8,55 @@
     <include layout="@layout/widget_topbar" />
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20px"
+        android:background="@color/text_color_line" />
+
+    <TextView
         style="@style/setting_row_style"
         android:text="实名认证" />
 
+
     <TextView
+        android:id="@+id/tv_setting_changePwd"
         style="@style/setting_row_style"
         android:text="修改登录密码" />
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20px"
+        android:background="@color/text_color_line" />
+
+    <TextView
+        android:id="@+id/tv_setting_update"
         style="@style/setting_row_style"
         android:text="检查更新" />
 
+
     <TextView
+
         style="@style/setting_row_style"
         android:text="清除缓存" />
 
+
     <TextView
+        android:id="@+id/tv_setting_about"
         style="@style/setting_row_style"
         android:text="关于我们" />
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20px"
+        android:background="@color/text_color_line" />
+
+    <TextView
+        android:id="@+id/tv_setting_protocol"
         style="@style/setting_row_style"
         android:text="用户协议" />
 
+
     <TextView
+        android:id="@+id/tv_setting_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"

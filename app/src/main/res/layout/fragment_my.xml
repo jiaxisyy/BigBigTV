@@ -15,7 +15,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="502px"
+            android:layout_height="532px"
             android:background="@color/text_color"
             android:orientation="vertical">
 
@@ -69,19 +69,20 @@
                     android:id="@+id/tv_my_top_balance"
                     style="@style/style_text_my_top"
                     android:text="0.00"
-                    android:textSize="60px" />
+                    android:textSize="50px" />
 
                 <TextView
                     android:id="@+id/tv_my_top_bind"
                     style="@style/style_text_my_top"
+                    android:maxLines="1"
                     android:text="0"
-                    android:textSize="60px" />
+                    android:textSize="50px" />
 
                 <TextView
                     android:id="@+id/tv_my_top_batteryPP"
                     style="@style/style_text_my_top"
                     android:text="0"
-                    android:textSize="60px" />
+                    android:textSize="50px" />
 
             </LinearLayout>
 

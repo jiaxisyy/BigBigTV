@@ -222,6 +222,16 @@ public interface ApiService {
     @POST("user/getBatteryCurrent")
     Observable<BaseEntity<BatteryEntity>> getBatteryInfo(@Field("userId") String userId, @Field("token") String token);
 
+    /**
+     * 绑定电池
+     *
+     * @param userId 账号
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("user/binding/battery")
+    Observable<BaseEntity<Object>> bindBattery(@Field("userId") String userId, @Field("batteryId") String batteryId);
+
 
     /**
      * 关闭告警

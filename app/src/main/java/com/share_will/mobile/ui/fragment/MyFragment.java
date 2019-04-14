@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.share_will.mobile.App;
@@ -14,9 +15,11 @@ import com.share_will.mobile.presenter.UserCenterPresenter;
 import com.share_will.mobile.services.BatteryService;
 import com.share_will.mobile.ui.activity.CaptureActivity;
 import com.share_will.mobile.ui.activity.ConsumeActivity;
+import com.share_will.mobile.ui.activity.MyBatteryActivity;
 import com.share_will.mobile.ui.activity.MyDepositActivity;
 import com.share_will.mobile.ui.activity.RechargeActivity;
 import com.share_will.mobile.ui.activity.RescueActivity;
+import com.share_will.mobile.ui.activity.SettingActivity;
 import com.share_will.mobile.ui.activity.ShopActivity;
 import com.share_will.mobile.ui.views.UserCenterView;
 import com.share_will.mobile.ui.widget.RowItemView;
@@ -52,6 +55,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
     private TextView mTvBind;
     private int mDeposit;
     private int mCauseStatus;
+    private ImageButton mBtnTopRightMenu;
 
     @Override
     protected int getLayoutId() {
@@ -77,8 +81,11 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
         mTvBalance = view.findViewById(R.id.tv_my_top_balance);
         mTvBatteryPP = view.findViewById(R.id.tv_my_top_batteryPP);
         mTvBind = view.findViewById(R.id.tv_my_top_bind);
+        mBtnTopRightMenu = view.findViewById(R.id.btn_top_right_menu);
+        mBtnTopRightMenu.setOnClickListener(this);
         mTvPhoneNum.setText(App.getInstance().getUserId());
         getBalance(true);
+        showTopRightMenu(true);
     }
 
     @Override
@@ -111,6 +118,11 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
                 startActivity(new Intent(getActivity(), ShopActivity.class));
                 break;
             case R.id.row_my_battery:
+                startActivity(new Intent(getActivity(), MyBatteryActivity.class));
+                break;
+
+            case R.id.btn_top_right_menu:
+                startActivity(new Intent(getActivity(), SettingActivity.class));
                 break;
         }
 
@@ -142,7 +154,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
                 String balance = String.format("%s", NumberFormat.getInstance().format(entity.getData().getAccount() / 100f));
                 mTvBalance.setText(balance);
                 if (entity.getData().getDeposit() > 0) {
-                    mDeposit =entity.getData().getDeposit();
+                    mDeposit = entity.getData().getDeposit();
                     mCauseStatus = entity.getData().getCauseStatus();
                 }
             }
@@ -186,6 +198,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
         if (info.sop > 0) {
             mTvBatteryPP.setText(String.format("%d%%", info.sop));
         }
+        mTvBind.setText(info.sn);
     }
 
     @Override

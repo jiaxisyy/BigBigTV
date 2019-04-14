@@ -8,6 +8,79 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/rl_card_bind"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/et_my_battery_bind_sn"
+            android:layout_width="match_parent"
+            android:layout_height="132px"
+            android:layout_marginLeft="50px"
+            android:layout_marginTop="45px"
+            android:layout_marginRight="50px"
+            android:background="@null"
+            android:drawableRight="@drawable/icon_scan"
+            android:gravity="center_vertical"
+            android:hint="请输入电池SN"
+            android:maxLines="1"
+            android:paddingLeft="20px"
+            android:textColor="@color/text_color"
+            android:textColorHint="#999999"
+            android:textCursorDrawable="@null"
+            android:textSize="40px" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#999999" />
+
+        <EditText
+            android:id="@+id/et_my_battery_bind_sn_again"
+            android:layout_width="match_parent"
+            android:layout_height="132px"
+            android:layout_marginLeft="50px"
+            android:layout_marginTop="45px"
+            android:layout_marginRight="50px"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:hint="请再次输入电池SN"
+            android:maxLines="1"
+            android:paddingLeft="20px"
+            android:textColor="@color/text_color"
+            android:textColorHint="#999999"
+            android:textCursorDrawable="@null"
+            android:textSize="40px" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#999999" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30px"
+            android:text="注意:绑定后不可修改,请确保输入正确"
+            android:textColor="@color/text_color" />
+
+        <TextView
+            android:id="@+id/tv_my_battery_bind_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30px"
+            android:layout_marginTop="30px"
+            android:layout_marginRight="30px"
+            android:background="@drawable/shape_bg_login"
+            android:gravity="center"
+            android:text="绑定"
+            android:textColor="#FFFFFF"
+            android:textSize="36px" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_card_battery_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_bg_rect_card"

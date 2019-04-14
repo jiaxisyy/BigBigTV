@@ -10,6 +10,7 @@ import com.ubock.library.http.ApiClient;
 
 import java.util.List;
 
+import rx.Completable;
 import rx.Observable;
 
 public class HomeFragmentModel extends BaseModel {
@@ -25,4 +26,9 @@ public class HomeFragmentModel extends BaseModel {
     public Observable<BaseEntity<BatteryEntity>> getBatteryInfo(String userId, String token) {
         return ApiClient.getInstance().getApiService(ApiService.class).getBatteryInfo(userId, token);
     }
+
+    public Observable<BaseEntity<Object>> bindBattery(String userId, String token) {
+        return ApiClient.getInstance().getApiService(ApiService.class).bindBattery(userId, token);
+    }
+
 }

@@ -65,6 +65,7 @@ public class HomeFragmentPresenter extends BasePresenter<HomeFragmentModel, IHom
                                        getView().onLoadChargeBatteryInfoResult(null);
                                    }
                                }
+
                                @Override
                                public boolean onErr(Throwable e) {
                                    getView().onLoadChargeBatteryInfoResult(null);
@@ -99,6 +100,39 @@ public class HomeFragmentPresenter extends BasePresenter<HomeFragmentModel, IHom
                                @Override
                                public boolean onErr(Throwable e) {
                                    getView().onLoadBatteryInfoResult(null);
+                                   LogUtils.e(e);
+                                   return true;
+                               }
+                           }
+                );
+    }
+
+    /**
+     * 绑定电池
+     *
+     * @param
+     * @param
+     */
+    public void bindBattery(String userId, String batteryId) {
+        getModel().bindBattery(userId, batteryId)
+                .compose(this.bindToLifecycle(getView()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseNetSubscriber<BaseEntity<Object>>(HomeFragmentPresenter.this) {
+                               @Override
+                               public void onNext(BaseEntity<Object> s) {
+                                   if (s.getCode() == 0) {
+                                       getView().onBindBatteryResult(s);
+                                   } else if (s.getCode() == 10010) {
+                                       getView().showMessage(s.getMessage());
+                                   } else {
+                                       getView().onBindBatteryResult(null);
+                                   }
+                               }
+
+                               @Override
+                               public boolean onErr(Throwable e) {
+                                   getView().onBindBatteryResult(null);
                                    LogUtils.e(e);
                                    return true;
                                }

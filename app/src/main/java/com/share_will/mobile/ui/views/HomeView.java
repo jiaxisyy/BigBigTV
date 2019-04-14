@@ -52,4 +52,8 @@ public interface HomeView extends BaseView {
      */
     default void showNotifyMessage(boolean isShow, NotifyMessageEntity data){}
 
+    default int getTabSize(){return 0;}
+
+    default void goTo(int tabIndex){}
+
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -112,7 +113,7 @@
                 style="@style/style_bg_pay_money"
                 android:hint="自定义金额"
                 android:layout_height="147px"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:onClick="onClick"
                 android:textSize="42px" />
 

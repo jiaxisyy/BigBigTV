@@ -144,7 +144,7 @@ public class OrderFormActivity extends BaseFragmentActivity<PayPresenter> implem
                 showMessage("请选择支付类型");
             } else if (submitType == MessageEvent.PayEvent.PAY_TYPE_BALANCE) {
                 if (!TextUtils.isEmpty(mOrderId)) {
-                    getPresenter().payMoneyOrder(App.getInstance().getUserId(), mOrderId);
+                    getPresenter().payPackageOrder(App.getInstance().getUserId(), mOrderId);
                 }
             } else if (submitType == MessageEvent.PayEvent.PAY_TYPE_WEIXIN) {
                 if (!TextUtils.isEmpty(mOrderId)) {

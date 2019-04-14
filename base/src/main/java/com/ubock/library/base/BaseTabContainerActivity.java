@@ -91,6 +91,10 @@ public abstract class BaseTabContainerActivity<P extends BasePresenter> extends 
         }
     }
 
+    public int getPageSize(){
+        return mViewPager.getChildCount();
+    }
+
     private void setTitles(TabLayout tabLayout) {
         if (null != tabLayout) {
             if (mTitles.size() > 0) {

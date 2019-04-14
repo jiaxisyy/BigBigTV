@@ -5,8 +5,6 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.share_will.mobile.App;
 import com.share_will.mobile.model.HomeModel;
 import com.share_will.mobile.model.entity.CabinetEntity;
@@ -122,11 +120,6 @@ public class HomePresenter extends BasePresenter<HomeModel, HomeView> {
                 );
     }
 
-    private void test(){
-        Gson gson = new Gson();
-        gson.fromJson("{'aa':'cc'}", new TypeToken<Map<String, String>>(){}.getType());
-    }
-
     /**
      * 处理从浏览器跳转过来的情况
      * @param intent
@@ -140,6 +133,11 @@ public class HomePresenter extends BasePresenter<HomeModel, HomeView> {
             String rawPath = uri.getPath();
             Log.d("cgd","raw path = "+rawPath);
             parsePath(rawPath);
+        } else {
+            int page = intent.getIntExtra("page", -1);
+            if (page > -1 && page < getView().getTabSize()){
+                getView().goTo(page);
+            }
         }
     }
 

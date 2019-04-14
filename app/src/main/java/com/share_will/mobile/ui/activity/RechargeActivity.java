@@ -49,7 +49,7 @@ public class RechargeActivity extends BaseFragmentActivity<RechargePresenter> im
 
     private PayTypeFragmentDialog mPayTypeFragmentDialog;
 
-    private int mPrice;
+    private float mPrice;
     private int mPayType = -1;
 
     private DetachViewClickListener mDetachViewClickListener = DetachViewClickListener.wrap(this);
@@ -143,7 +143,7 @@ public class RechargeActivity extends BaseFragmentActivity<RechargePresenter> im
                 String money = mCustomMoney.getText().toString().trim();
                 if (!TextUtils.isEmpty(money)){
                     try {
-                        mPrice = Integer.parseInt(money);
+                        mPrice = Float.parseFloat(money);
                     } catch (Exception e) {
                         LogUtils.e(e);
                         showError("请输入正确的金额");
@@ -159,7 +159,7 @@ public class RechargeActivity extends BaseFragmentActivity<RechargePresenter> im
                     showError("请选择支付方式");
                     return;
                 }
-                crateRechargeOrder(mPrice);
+                crateRechargeOrder((int) (mPrice * 100));
                 break;
             case R.id.edit_payNum:
                 mPrice = 0;
@@ -212,7 +212,7 @@ public class RechargeActivity extends BaseFragmentActivity<RechargePresenter> im
      * 生成充值订单
      */
     private void crateRechargeOrder(int money) {
-        getPresenter().crateRechargeOrder(App.getInstance().getUserId(), money * 100);
+        getPresenter().crateRechargeOrder(App.getInstance().getUserId(), money);
     }
 
     /**

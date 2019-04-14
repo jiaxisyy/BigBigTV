@@ -102,6 +102,16 @@ public class HomeActivity extends BaseTabContainerActivity<HomePresenter> implem
     }
 
     @Override
+    public void goTo(int tabIndex) {
+        setSelect(tabIndex);
+    }
+
+    @Override
+    public int getTabSize() {
+        return getPageSize();
+    }
+
+    @Override
     protected List<String> getTitleList() {
         return Arrays.asList(mTitles);
     }

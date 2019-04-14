@@ -17,6 +17,6 @@ public interface UserCenterView extends BaseView {
      * @param success 登录成功
      * @param message 消息
      */
-    void onLoginCMS(boolean success, String message);
+     default void onLoginCMS(boolean success, String message){}
 
 }

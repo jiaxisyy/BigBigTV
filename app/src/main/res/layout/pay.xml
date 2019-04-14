@@ -13,7 +13,7 @@
         android:layout_marginTop="94px"
         android:text="钱包余额" />
 
-    <TextView
+    <TextView android:id="@+id/tv_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -48,49 +48,47 @@
             android:layout_marginLeft="45px"
             android:layout_marginRight="45px"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RadioButton
+                    android:id="@+id/rb_money_100"
+                    style="@style/style_bg_pay_money"
+                    android:onClick="onClick"
+                    android:text="¥100" />
 
-            <RadioButton
-                android:id="@+id/rb_money_100"
-                style="@style/style_bg_pay_money"
-                android:text="¥100" />
+                <TextView
+                    android:layout_width="120px"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible" />
 
-            <TextView
-                android:layout_width="120px"
+                <RadioButton
+                    android:id="@+id/rb_money_200"
+                    style="@style/style_bg_pay_money"
+                    android:onClick="onClick"
+                    android:text="¥200" />
+
+                <TextView
+                    android:layout_width="120px"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible" />
+
+                <RadioButton
+                    android:id="@+id/rb_money_300"
+                    style="@style/style_bg_pay_money"
+                    android:onClick="onClick"
+                    android:text="¥300" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="invisible" />
-
-            <RadioButton
-                android:id="@+id/rb_money_200"
-                style="@style/style_bg_pay_money"
-                android:text="¥200" />
-
-            <TextView
-                android:layout_width="120px"
-                android:layout_height="wrap_content"
-                android:visibility="invisible" />
-
-            <RadioButton
-                android:id="@+id/rb_money_300"
-                style="@style/style_bg_pay_money"
-                android:text="¥300" />
-
-
-        </RadioGroup>
-
-        <RadioGroup
-            android:id="@+id/rg_my_money2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="45px"
-            android:layout_marginTop="45px"
-            android:layout_marginRight="45px"
-            android:gravity="center"
-            android:orientation="horizontal">
-
+                android:layout_marginTop="30px">
             <RadioButton
                 android:id="@+id/rb_money_500"
                 style="@style/style_bg_pay_money"
+                android:onClick="onClick"
                 android:text="¥500" />
 
             <TextView
@@ -101,6 +99,7 @@
             <RadioButton
                 android:id="@+id/rb_money_1000"
                 style="@style/style_bg_pay_money"
+                android:onClick="onClick"
                 android:text="¥1000" />
 
             <TextView
@@ -112,10 +111,13 @@
                 android:id="@+id/edit_payNum"
                 style="@style/style_bg_pay_money"
                 android:hint="自定义金额"
+                android:layout_height="147px"
                 android:inputType="number"
+                android:onClick="onClick"
                 android:textSize="42px" />
-        </RadioGroup>
 
+            </LinearLayout>
+        </RadioGroup>
     </RadioGroup>
 
     <TextView
@@ -158,22 +160,26 @@
 
             <RadioGroup
                 android:id="@+id/rg_my_money_pay_type"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:orientation="vertical">
 
                 <RadioButton
                     android:id="@+id/rb_zfb"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="0px"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawableRight="@drawable/choice_selector" />
 
                 <RadioButton
                     android:id="@+id/rb_wx"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="0px"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawableRight="@drawable/choice_selector"/>
 
             </RadioGroup>
 

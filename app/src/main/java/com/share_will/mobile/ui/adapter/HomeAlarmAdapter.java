@@ -1,6 +1,7 @@
 package com.share_will.mobile.ui.adapter;
 
 import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -21,8 +22,15 @@ public class HomeAlarmAdapter extends BaseQuickAdapter<AlarmEntity.SmokeBean, Ba
     protected void convert(BaseViewHolder helper, AlarmEntity.SmokeBean item) {
         helper.setText(R.id.item_tv_home_alarm_title, "标题: " + item.getTitle());
         helper.setText(R.id.item_tv_home_alarm_positionName, item.getPositionName());
-        helper.setText(R.id.item_tv_home_alarm_remark, item.getRemark());
-        helper.setText(R.id.item_tv_home_alarm_time, "告警时间   " + DateUtils.timeStampToString(item.getAlarmtime(), DateUtils.YYYYMMDD_HHMMSS));
-        helper.setText(R.id.item_tv_home_alarm_level, "告警级别   " + item.getAlarmlevel() + "级");
+        if (item.getAlarmcode() != 0) {
+            helper.setText(R.id.item_tv_home_alarm_remark, item.getRemark());
+            helper.setText(R.id.item_tv_home_alarm_time, "告警时间   " + DateUtils.timeStampToString(item.getAlarmtime(), DateUtils.YYYYMMDD_HHMMSS));
+            helper.setText(R.id.item_tv_home_alarm_level, "告警级别   " + item.getAlarmlevel() + "级");
+        } else {
+            helper.getView(R.id.item_tv_home_alarm_remark).setVisibility(View.GONE);
+            helper.getView(R.id.item_tv_home_alarm_time).setVisibility(View.GONE);
+            helper.getView(R.id.item_tv_home_alarm_level).setVisibility(View.GONE);
+        }
+
     }
 }

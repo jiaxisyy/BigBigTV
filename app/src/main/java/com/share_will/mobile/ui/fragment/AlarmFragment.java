@@ -33,6 +33,7 @@ import com.ubock.library.annotation.PresenterInjector;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseFragment;
 import com.ubock.library.utils.DateUtils;
+import com.ubock.library.utils.LogUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -164,11 +165,14 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(latLng);
             markerOptions.title(entity.getTitle());
-            //用snippet模拟pos
-            markerOptions.snippet(String.valueOf(pos++));
+
             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_alarm_map_marker));
             markerOptions.setFlat(true);//设置marker平贴地图效果
-            markerOptionsList.add(markerOptions);
+            if (data.getSmoke().get(pos).getAlarmcode() != 0) {
+                markerOptionsList.add(markerOptions);
+            }
+            //用snippet模拟pos
+            markerOptions.snippet(String.valueOf(pos++));
         }
         //是否改变地图状态以至于所有的marker对象都在当前地图可视区域范围内显示。
         mAMap.addMarkers(markerOptionsList, false);

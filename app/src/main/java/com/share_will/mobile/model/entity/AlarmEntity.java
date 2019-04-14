@@ -62,7 +62,7 @@ public class AlarmEntity {
         private String creator;
         private Object modifyTime;
         private Object modifier;
-        private String alarmcode;
+        private int alarmcode;
         private int typeflag;
         private String title;
         private int alarmlevel;
@@ -182,11 +182,11 @@ public class AlarmEntity {
             this.modifier = modifier;
         }
 
-        public String getAlarmcode() {
+        public int getAlarmcode() {
             return alarmcode;
         }
 
-        public void setAlarmcode(String alarmcode) {
+        public void setAlarmcode(int alarmcode) {
             this.alarmcode = alarmcode;
         }
 

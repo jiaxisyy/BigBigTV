@@ -18,17 +18,21 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="45px"
+        android:paddingRight="45px"
         android:layout_marginTop="50px">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="46px"
             android:text="商品名称" />
 
         <TextView
             android:id="@+id/tv_order_form_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="46px"
             android:layout_alignParentRight="true"
             android:text="电动车" />
 
@@ -37,6 +41,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_order_form_name"
+            android:layout_marginTop="30px"
+            android:textSize="46px"
             android:text="商品价格" />
 
         <TextView
@@ -45,6 +51,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_order_form_name"
             android:layout_alignParentRight="true"
+            android:layout_marginTop="30px"
+            android:textSize="46px"
             android:text="100.00元"
             android:textColor="@color/text_color" />
 
@@ -55,6 +63,7 @@
         android:layout_height="106px"
         android:background="#F5F5F5"
         android:gravity="center_vertical"
+        android:layout_marginTop="50px"
         android:paddingLeft="45px"
         android:text="请选择支付方式" />
 
@@ -94,27 +103,33 @@
 
         <RadioGroup
             android:id="@+id/rg_order_type"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:orientation="vertical">
 
             <RadioButton
                 android:id="@+id/rb_order_type_balance"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="0px"
+                android:button="@null"
+                android:drawableRight="@drawable/choice_selector"
                 android:layout_weight="1" />
 
             <RadioButton
                 android:id="@+id/rb_order_type_zfb"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="0px"
+                android:button="@null"
+                android:drawableRight="@drawable/choice_selector"
                 android:layout_weight="1" />
 
             <RadioButton
                 android:id="@+id/rb_order_type_wx"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="0px"
+                android:button="@null"
+                android:drawableRight="@drawable/choice_selector"
                 android:layout_weight="1" />
 
 

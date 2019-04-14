@@ -49,7 +49,7 @@
 
     </RelativeLayout>
 
-    <com.amap.api.maps.MapView
+    <com.amap.api.maps.TextureMapView
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -66,59 +66,39 @@
 
     <ImageButton
         android:id="@+id/btn_refresh"
-        android:layout_width="109px"
-        android:layout_height="109px"
-        android:layout_above="@+id/btn_user"
-        android:layout_marginLeft="51px"
-        android:layout_marginBottom="79px"
+        android:layout_width="116px"
+        android:layout_height="116px"
+        android:layout_marginLeft="45px"
+        android:layout_marginBottom="120px"
+        android:layout_alignParentBottom="true"
         android:background="@null"
-        android:src="@drawable/refresh"
+        android:src="@drawable/btn_alarm_refresh"
         app:layout_auto_basewidth="height" />
 
-    <ImageButton
-        android:id="@id/btn_user"
-        android:layout_width="109px"
-        android:layout_height="109px"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="51px"
-        android:layout_marginBottom="63px"
-        android:background="@null"
-        android:src="@drawable/user"
-        app:layout_auto_basewidth="height" />
+
 
     <ImageButton
         android:id="@+id/btn_scan"
-        android:layout_width="374px"
-        android:layout_height="123px"
+        android:layout_width="329px"
+        android:layout_height="329px"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="159px"
+        android:layout_marginBottom="139px"
         android:background="@null"
-        android:src="@drawable/scan"
+        android:src="@drawable/icon_scan_ct"
         app:layout_auto_basewidth="height" />
 
     <ImageButton
         android:id="@+id/btn_position"
-        android:layout_width="109px"
-        android:layout_height="109px"
-        android:layout_above="@+id/btn_shoping_car"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="51px"
-        android:layout_marginBottom="79px"
-        android:background="@null"
-        android:src="@drawable/position"
-        app:layout_auto_basewidth="height" />
-
-    <ImageButton
-        android:id="@id/btn_shoping_car"
-        android:layout_width="109px"
-        android:layout_height="109px"
+        android:layout_width="116px"
+        android:layout_height="116px"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginRight="51px"
-        android:layout_marginBottom="63px"
+        android:layout_marginRight="45px"
+        android:layout_marginBottom="120px"
         android:background="@null"
-        android:src="@drawable/shoping_car"
+        android:src="@drawable/btn_alarm_location"
         app:layout_auto_basewidth="height" />
+
 
 </RelativeLayout>

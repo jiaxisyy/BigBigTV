@@ -34,15 +34,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MallFragment extends BaseFragment<ShopPresenter> implements BaseQuickAdapter.OnItemClickListener
-        , DialogInterface.OnClickListener, ShopView {
+       , ShopView {
 
     private RecyclerView mRecyclerView;
     private PackageAdapter mPackageAdapter;
     private List<PackageEntity> mDataList = new ArrayList<>();
     private AlertDialog mAlertDialog;
     private PackageEntity mSelectedPackageEntity;
-    private DetachDialogClickListener mDetachClickListener = DetachDialogClickListener.wrap(this);
-    private PayTypeFragmentDialog mPayTypeFragmentDialog;
+//    private DetachDialogClickListener mDetachClickListener = DetachDialogClickListener.wrap(this);
+//    private PayTypeFragmentDialog mPayTypeFragmentDialog;
+    private int mPreice;
 
     @Override
     protected int getLayoutId() {
@@ -63,13 +64,13 @@ public class MallFragment extends BaseFragment<ShopPresenter> implements BaseQui
         mRecyclerView.setAdapter(mPackageAdapter);
         mPackageAdapter.setEmptyView(R.layout.empty_view);
         mPackageAdapter.setOnItemClickListener(this);
-        mAlertDialog = new AlertDialog.Builder(getActivity())
-                .setTitle("确认购买此套餐吗?")
-                .setIcon(null)
-                .setCancelable(true)
-                .setPositiveButton(R.string.alert_yes_button, mDetachClickListener)
-                .setNegativeButton(R.string.alert_no_button, mDetachClickListener).create();
-        mAlertDialog.setCanceledOnTouchOutside(false);
+//        mAlertDialog = new AlertDialog.Builder(getActivity())
+//                .setTitle("确认购买此套餐吗?")
+//                .setIcon(null)
+//                .setCancelable(true)
+//                .setPositiveButton(R.string.alert_yes_button, mDetachClickListener)
+//                .setNegativeButton(R.string.alert_no_button, mDetachClickListener).create();
+//        mAlertDialog.setCanceledOnTouchOutside(false);
     }
 
     @Override
@@ -87,8 +88,8 @@ public class MallFragment extends BaseFragment<ShopPresenter> implements BaseQui
 
     @Override
     public void onDestroyView() {
-        mDetachClickListener.release();
-        mDetachClickListener = null;
+//        mDetachClickListener.release();
+//        mDetachClickListener = null;
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
     }
@@ -96,36 +97,39 @@ public class MallFragment extends BaseFragment<ShopPresenter> implements BaseQui
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         mSelectedPackageEntity = (PackageEntity) adapter.getItem(position);
-        int p = mSelectedPackageEntity.getPackagePrice();
+        mPreice = mSelectedPackageEntity.getPackagePrice();
         if (mSelectedPackageEntity.getActivityId() != 0) {
-            p = mSelectedPackageEntity.getActivityPrice();
+            mPreice = mSelectedPackageEntity.getActivityPrice();
         }
-        String price = NumberFormat.getInstance().format(p / 100f);
-        //TODO 传递价格等信息
-        startActivity(new Intent(getActivity(), OrderFormActivity.class));
-        mAlertDialog.setMessage(String.format("%s 需要支付:%s元", mSelectedPackageEntity.getPackageName(), price));
-        mAlertDialog.show();
+        createPackage(mSelectedPackageEntity.getPackageId(),
+                mSelectedPackageEntity.getActivityId(),
+                mPreice,
+                mSelectedPackageEntity.getPackageType(),
+                mSelectedPackageEntity.getPackageName());
+//        String price = NumberFormat.getInstance().format(mPreice / 100f);
+//        mAlertDialog.setMessage(String.format("%s 需要支付:%s元", mSelectedPackageEntity.getPackageName(), price));
+//        mAlertDialog.show();
     }
 
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-        if (which == DialogInterface.BUTTON_POSITIVE && mSelectedPackageEntity != null) {
-            if (mSelectedPackageEntity.getActivityId() != 0) {
-                createPackage(mSelectedPackageEntity.getPackageId(),
-                        mSelectedPackageEntity.getActivityId(),
-                        mSelectedPackageEntity.getActivityPrice(),
-                        mSelectedPackageEntity.getPackageType(),
-                        mSelectedPackageEntity.getPackageName());
-            } else {
-                createPackage(mSelectedPackageEntity.getPackageId(),
-                        mSelectedPackageEntity.getActivityId(),
-                        mSelectedPackageEntity.getPackagePrice(),
-                        mSelectedPackageEntity.getPackageType(),
-                        mSelectedPackageEntity.getPackageName());
-            }
-        }
-        mAlertDialog.dismiss();
-    }
+//    @Override
+//    public void onClick(DialogInterface dialog, int which) {
+//        if (which == DialogInterface.BUTTON_POSITIVE && mSelectedPackageEntity != null) {
+//            if (mSelectedPackageEntity.getActivityId() != 0) {
+//                createPackage(mSelectedPackageEntity.getPackageId(),
+//                        mSelectedPackageEntity.getActivityId(),
+//                        mSelectedPackageEntity.getActivityPrice(),
+//                        mSelectedPackageEntity.getPackageType(),
+//                        mSelectedPackageEntity.getPackageName());
+//            } else {
+//                createPackage(mSelectedPackageEntity.getPackageId(),
+//                        mSelectedPackageEntity.getActivityId(),
+//                        mSelectedPackageEntity.getPackagePrice(),
+//                        mSelectedPackageEntity.getPackageType(),
+//                        mSelectedPackageEntity.getPackageName());
+//            }
+//        }
+//        mAlertDialog.dismiss();
+//    }
 
     @Override
     public void onLoadPackageList(BaseEntity<List<PackageEntity>> data) {
@@ -160,8 +164,14 @@ public class MallFragment extends BaseFragment<ShopPresenter> implements BaseQui
     @Override
     public void onCreateOrder(boolean success, String orderId, String message) {
         if (success) {
-            mPayTypeFragmentDialog = PayTypeFragmentDialog.newInstance(true, 1, orderId, "购买套餐");
-            mPayTypeFragmentDialog.show(this);
+            Intent intent = new Intent(getActivity(), OrderFormActivity.class);
+            intent.putExtra("price", mPreice);
+            intent.putExtra("orderId", orderId);
+            intent.putExtra("orderType", 1);
+            intent.putExtra("body", mSelectedPackageEntity.getPackageName());
+            startActivity(intent);
+//            mPayTypeFragmentDialog = PayTypeFragmentDialog.newInstance(true, 1, orderId, "购买套餐");
+//            mPayTypeFragmentDialog.show(this);
         } else {
             showMessage(message);
         }

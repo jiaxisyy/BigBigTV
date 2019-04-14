@@ -66,13 +66,13 @@
 
     <ImageButton
         android:id="@+id/btn_refresh"
-        android:layout_width="109px"
-        android:layout_height="109px"
-        android:layout_marginLeft="51px"
-        android:layout_marginBottom="79px"
+        android:layout_width="116px"
+        android:layout_height="116px"
+        android:layout_marginLeft="45px"
+        android:layout_marginBottom="120px"
         android:layout_alignParentBottom="true"
         android:background="@null"
-        android:src="@drawable/refresh"
+        android:src="@drawable/btn_alarm_refresh"
         app:layout_auto_basewidth="height" />
 
 
@@ -90,14 +90,14 @@
 
     <ImageButton
         android:id="@+id/btn_position"
-        android:layout_width="109px"
-        android:layout_height="109px"
+        android:layout_width="116px"
+        android:layout_height="116px"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginRight="51px"
-        android:layout_marginBottom="79px"
+        android:layout_marginRight="45px"
+        android:layout_marginBottom="120px"
         android:background="@null"
-        android:src="@drawable/position"
+        android:src="@drawable/btn_alarm_location"
         app:layout_auto_basewidth="height" />
 
 

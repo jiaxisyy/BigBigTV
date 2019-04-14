@@ -24,12 +24,14 @@ public class RecordAdapter extends LoadMoreAdapter<RecordEntity, BaseViewHolder>
     @Override
     protected void convert(BaseViewHolder helper, RecordEntity entity) {
         helper.setText(R.id.tv_item_consumption_time, entity.getDatetime());
-        if (entity.getDeposit() < 0) {
-            helper.setImageResource(R.id.iv_item_consumption,R.drawable.icon_item_consumption);
+        if (entity.getDeposit() > 0) {
+            helper.setText(R.id.tv_item_consumption_type,"充值");
+            helper.setImageResource(R.id.iv_item_consumption, R.drawable.icon_item_recharge);
+            helper.setText(R.id.tv_item_consumption_money, String.format("+%s元", NumberFormat.getInstance().format(entity.getDeposit() / 100f)));
         } else {
-            helper.setImageResource(R.id.iv_item_consumption,R.drawable.icon_item_recharge);
+            helper.setText(R.id.tv_item_consumption_type,"消费");
+            helper.setImageResource(R.id.iv_item_consumption, R.drawable.icon_item_consumption);
+            helper.setText(R.id.tv_item_consumption_money, String.format("-%s元", NumberFormat.getInstance().format(entity.getBorrow() / 100f)));
         }
-        helper.setText(R.id.recharge, String.format("%s元", NumberFormat.getInstance().format(entity.getDeposit() / 100f)));
-        helper.setText(R.id.consume, String.format("%s元", NumberFormat.getInstance().format(entity.getBorrow() / 100f)));
     }
 }

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="132px"
+    android:layout_height="210px"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -10,8 +11,9 @@
         android:gravity="center_vertical"
         android:minHeight="132px"
         android:orientation="horizontal"
+        android:paddingTop="6px"
         android:paddingBottom="6px"
-        android:paddingTop="6px">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/recharge"
@@ -19,6 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:text="21dafgdf"
             android:textColor="@color/black"
             android:textSize="51px" />
 
@@ -28,6 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:text="21dafgdf"
             android:textColor="@color/black"
             android:textSize="51px" />
 
@@ -37,11 +41,66 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:gravity="center"
+            android:text="21dafgdf"
             android:textColor="@color/black"
             android:textSize="51px" />
     </LinearLayout>
-    <View android:id="@+id/v_divider"
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_item_consumption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_item_consumption" />
+
+
+        <TextView
+            android:id="@+id/tv_item_consumption_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40px"
+            android:layout_toRightOf="@+id/iv_item_consumption"
+            android:paddingBottom="80px"
+            android:text="消费"
+            android:textColor="#333333"
+            android:textSize="40px" />
+
+        <TextView
+            android:id="@+id/tv_item_consumption_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_item_consumption_type"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40px"
+            android:layout_marginBottom="0dp"
+            android:layout_toRightOf="@+id/iv_item_consumption"
+            android:paddingTop="80px"
+            android:text="2019 "
+            android:textColor="#999999"
+            android:textSize="36px" />
+
+        <TextView
+            android:id="@+id/tv_item_consumption_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="45px"
+            android:text="-100.00"
+            android:textColor="#333333"
+            android:textSize="60px" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/v_divider"
         android:layout_width="match_parent"
         android:layout_height="2px"
-        android:background="@drawable/list_divider"/>
+        android:background="@drawable/list_divider" />
 </LinearLayout>

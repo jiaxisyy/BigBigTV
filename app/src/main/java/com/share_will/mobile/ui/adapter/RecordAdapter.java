@@ -17,14 +17,19 @@ import java.text.NumberFormat;
 
 public class RecordAdapter extends LoadMoreAdapter<RecordEntity, BaseViewHolder> {
 
-    public RecordAdapter(Context context){
+    public RecordAdapter(Context context) {
         super(context, R.layout.record_item);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, RecordEntity entity) {
-        helper.setText(R.id.time, entity.getDatetime());
-        helper.setText(R.id.recharge, String.format("%s元", NumberFormat.getInstance().format(entity.getDeposit()/100f)));
-        helper.setText(R.id.consume, String.format("%s元", NumberFormat.getInstance().format(entity.getBorrow()/100f)));
+        helper.setText(R.id.tv_item_consumption_time, entity.getDatetime());
+        if (entity.getDeposit() < 0) {
+            helper.setImageResource(R.id.iv_item_consumption,R.drawable.icon_item_consumption);
+        } else {
+            helper.setImageResource(R.id.iv_item_consumption,R.drawable.icon_item_recharge);
+        }
+        helper.setText(R.id.recharge, String.format("%s元", NumberFormat.getInstance().format(entity.getDeposit() / 100f)));
+        helper.setText(R.id.consume, String.format("%s元", NumberFormat.getInstance().format(entity.getBorrow() / 100f)));
     }
 }

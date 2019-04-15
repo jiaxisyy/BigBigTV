@@ -33,6 +33,7 @@ import com.ubock.library.annotation.PresenterInjector;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseFragment;
 import com.ubock.library.utils.DateUtils;
+import com.ubock.library.utils.LogUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -154,6 +155,17 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
      * @param data
      */
     private void useMarker(AlarmEntity data) {
+        mAMap.clear();
+        //添加Marker显示定位位置
+        //如果是空的添加一个新的,icon方法就是设置定位图标，可以自定义
+        mLocationMarker = mAMap.addMarker(new MarkerOptions()
+                .visible(true)
+                .anchor(0.5f, 0.5f) //设置锚点
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.gps_point)));
+        if (mCurrentLocation != null) {
+            LatLng latLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+            showCurrentPosition(latLng);
+        }
         int pos = 0;
         ArrayList<MarkerOptions> markerOptionsList = new ArrayList<>();
         for (AlarmEntity.SmokeBean entity : data.getSmoke()) {
@@ -164,7 +176,6 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(latLng);
             markerOptions.title(entity.getTitle());
-
             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_alarm_map_marker));
             markerOptions.setFlat(true);//设置marker平贴地图效果
             if (data.getSmoke().get(pos).getAlarmcode() != 0) {

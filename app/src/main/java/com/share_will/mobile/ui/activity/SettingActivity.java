@@ -27,6 +27,7 @@ public class SettingActivity extends BaseFragmentActivity implements View.OnClic
     @PresenterInjector
     UpgradeServicePresenter upgradeServicePresenter;
 
+    private TextView mAutonym;
     private TextView mChangePwd;
     private TextView mUpdate;
     private TextView mAbout;
@@ -41,11 +42,13 @@ public class SettingActivity extends BaseFragmentActivity implements View.OnClic
     @Override
     protected void initView(Bundle savedInstanceState) {
         setTitle("设置");
+        mAutonym = findViewById(R.id.tv_setting_autonym);
         mChangePwd = findViewById(R.id.tv_setting_changePwd);
         mUpdate = findViewById(R.id.tv_setting_update);
         mAbout = findViewById(R.id.tv_setting_about);
         mProtocol = findViewById(R.id.tv_setting_protocol);
         mLogout = findViewById(R.id.tv_setting_logout);
+        mAutonym.setOnClickListener(this);
         mChangePwd.setOnClickListener(this);
         mUpdate.setOnClickListener(this);
         mAbout.setOnClickListener(this);
@@ -57,6 +60,9 @@ public class SettingActivity extends BaseFragmentActivity implements View.OnClic
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_setting_autonym:
+                startActivity(new Intent(this, AutonymActivity.class));
+                break;
             case R.id.tv_setting_changePwd:
                 startActivity(new Intent(this, ForgetPasswordActivityOne.class));
                 break;

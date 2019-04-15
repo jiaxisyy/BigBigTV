@@ -42,8 +42,8 @@
     <string name="text_bespeak_siteName">站点名字</string>
     <string name="submitBespeak">提交预约</string>
     <string name="register_protocol">点击注册,即表示阅读并同意</string>
-    <string name="test_pwd">qwerty</string>
-    <string name="test_phone">13510946094</string>
+    <string name="test_pwd"></string>
+    <string name="test_phone"></string>
     <string name="text_service_charge">您还没有进充电,请先扫一扫进行充电~</string>
     <string name="text_service_rent">您还不能租借电池,请先缴纳押金~</string>
     <string name="text_service_custody">您还不能保管电池,请先绑定电池~</string>

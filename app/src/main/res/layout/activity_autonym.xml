@@ -107,6 +107,8 @@
             android:textSize="40px" />
 
         <EditText
+            android:maxLines="1"
+            android:id="@+id/et_papers_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@null"
@@ -137,6 +139,8 @@
             android:textSize="40px" />
 
         <EditText
+            android:maxLines="1"
+            android:id="@+id/et_papers_code"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@null"
@@ -148,6 +152,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_papers_submit"
         android:layout_width="wrap_content"
         android:layout_height="120px"
         android:layout_gravity="center_horizontal"

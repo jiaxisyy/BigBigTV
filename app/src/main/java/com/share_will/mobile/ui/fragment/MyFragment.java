@@ -18,6 +18,7 @@ import com.share_will.mobile.ui.activity.CaptureActivity;
 import com.share_will.mobile.ui.activity.ConsumeActivity;
 import com.share_will.mobile.ui.activity.MyBatteryActivity;
 import com.share_will.mobile.ui.activity.MyDepositActivity;
+import com.share_will.mobile.ui.activity.OrderActivity;
 import com.share_will.mobile.ui.activity.RechargeActivity;
 import com.share_will.mobile.ui.activity.RescueActivity;
 import com.share_will.mobile.ui.activity.SettingActivity;
@@ -25,7 +26,6 @@ import com.share_will.mobile.ui.activity.ShopActivity;
 import com.share_will.mobile.ui.views.UserCenterView;
 import com.share_will.mobile.ui.widget.RowItemView;
 import com.ubock.library.annotation.PresenterInjector;
-import com.ubock.library.base.BaseConfig;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseFragment;
 import com.ubock.library.ui.dialog.ToastExt;
@@ -36,8 +36,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -108,7 +106,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
                 startActivity(new Intent(getActivity(), RechargeActivity.class));
                 break;
             case R.id.row_my_order:
-
+                startActivity(new Intent(getActivity(), OrderActivity.class));
                 break;
             case R.id.row_my_consume:
                 startActivity(new Intent(getActivity(), ConsumeActivity.class));
@@ -122,7 +120,6 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
             case R.id.row_my_battery:
                 startActivity(new Intent(getActivity(), MyBatteryActivity.class));
                 break;
-
             case R.id.btn_top_right_menu:
                 startActivity(new Intent(getActivity(), SettingActivity.class));
                 break;

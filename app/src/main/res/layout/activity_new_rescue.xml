@@ -4,43 +4,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFF2F4F6"
     android:orientation="vertical"
-    tools:context=".ui.activity.NewRescueActivity"
-    android:background="#FFF2F4F6">
+    tools:context=".ui.activity.NewRescueActivity">
+
     <include layout="@layout/widget_topbar" />
 
-    <TextView android:id="@+id/tv_station"
+    <TextView
+        android:id="@+id/tv_station"
         android:layout_width="match_parent"
         android:layout_height="120px"
-        android:layout_marginTop="20px"
         android:layout_marginLeft="20px"
+        android:layout_marginTop="20px"
         android:layout_marginRight="20px"
-        android:text="请选择站点"
-        android:textSize="50px"
+        android:background="@drawable/shape_grey_border"
         android:gravity="center"
         android:onClick="showStationDialog"
-        android:background="@drawable/shape_grey_border"/>
+        android:text="请选择站点"
+        android:textSize="50px" />
 
-    <EditText android:id="@+id/et_reason"
+    <EditText
+        android:id="@+id/et_reason"
         android:layout_width="match_parent"
         android:layout_height="400px"
         android:layout_margin="20px"
-        android:padding="10px"
-        android:hint="请输入救援原因"
+        android:background="@drawable/shape_grey_border"
         android:gravity="left"
-        android:textSize="45px"
+        android:hint="请输入救援原因"
         android:maxLength="100"
-        android:background="@drawable/shape_grey_border"/>
+        android:padding="10px"
+        android:textSize="45px" />
 
-    <Button android:id="@+id/btn_ok"
+    <Button
+        android:id="@+id/btn_ok"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20px"
+        android:layout_marginLeft="30px"
+        android:layout_marginRight="30px"
+        android:background="@drawable/shape_bg_login"
+        android:onClick="onSubmit"
         android:text="提交申请"
         android:textColor="#FFFFFFFF"
-        android:textSize="54px"
-        android:onClick="onSubmit"
-        android:background="@drawable/shape_main_btn_circular"/>
+        android:textSize="54px" />
 
 
 </LinearLayout>

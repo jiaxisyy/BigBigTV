@@ -124,7 +124,6 @@
         <com.share_will.mobile.ui.widget.RowItemView
             android:id="@+id/row_my_order"
             style="@style/user_center_row_style"
-            android:visibility="gone"
             app:iconDrawable="@drawable/icon_list_order"
             app:text="我的订单" />
 

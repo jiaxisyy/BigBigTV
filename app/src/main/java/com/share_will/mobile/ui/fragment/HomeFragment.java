@@ -15,6 +15,7 @@ import com.share_will.mobile.model.entity.ChargeBatteryEntity;
 import com.share_will.mobile.presenter.HomeFragmentPresenter;
 import com.share_will.mobile.ui.activity.AlarmListActivity;
 import com.share_will.mobile.ui.activity.HomeServiceActivity;
+import com.share_will.mobile.ui.activity.MyBatteryActivity;
 import com.share_will.mobile.ui.views.IHomeFragmentView;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseFragment;
@@ -31,6 +32,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     private TextView mAlarmLevel;
     private TextView mTopCharge;
     private RelativeLayout mRlAlarm;
+    private RelativeLayout mRlBattery;
     private TextView mStartTime;
     private TextView mEnoughTime;
     private TextView mDurationTime;
@@ -63,6 +65,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mAlarmLevel = view.findViewById(R.id.tv_home_alarm_level);
         mTopCharge = view.findViewById(R.id.tv_home_top_charge);
         mRlAlarm = view.findViewById(R.id.rl_home_alarmInfo);
+        mRlBattery = view.findViewById(R.id.rl_home_batteryInfo);
 
         mStartTime = view.findViewById(R.id.tv_home_charge_start_time);
         mEnoughTime = view.findViewById(R.id.tv_home_charge_enough_time);
@@ -77,6 +80,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mCardMoney = view.findViewById(R.id.rl_card_money);
         mTopCharge.setOnClickListener(this);
         mRlAlarm.setOnClickListener(this);
+        mRlBattery.setOnClickListener(this);
         initData();
     }
 
@@ -87,7 +91,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
 
     @Override
     public void onLoadAlarmResult(BaseEntity<AlarmEntity> data) {
-        int validPos = 0;
+        int validPos = -1;
         if (data != null) {
             List<AlarmEntity.SmokeBean> smokeBeanList = data.getData().getSmoke();
             int size = smokeBeanList.size();
@@ -96,14 +100,23 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                     validPos = i;
                 }
             }
-            AlarmEntity.SmokeBean alarmEntity = data.getData().getSmoke().get(validPos);
-            mAlarmTitle.setText("标题: " + alarmEntity.getTitle());
-            mAlarmPositionName.setText(alarmEntity.getPositionName());
-            mAlarmRemark.setText(alarmEntity.getRemark());
-            mAlarmTime.setText("告警时间   " + DateUtils.timeStampToString(alarmEntity.getAlarmtime(), DateUtils.YYYYMMDD_HHMMSS));
-            mAlarmLevel.setText("告警级别   " + alarmEntity.getAlarmlevel() + "级");
+            if (validPos != -1) {
+                AlarmEntity.SmokeBean alarmEntity = data.getData().getSmoke().get(validPos);
+                mAlarmTitle.setText("标题: " + alarmEntity.getTitle());
+                mAlarmPositionName.setText(alarmEntity.getPositionName());
+                mAlarmRemark.setText(alarmEntity.getRemark());
+                mAlarmTime.setText("告警时间   " + DateUtils.timeStampToString(alarmEntity.getAlarmtime(), DateUtils.YYYYMMDD_HHMMSS));
+                mAlarmLevel.setText("告警级别   " + alarmEntity.getAlarmlevel() + "级");
+            } else {
+                mAlarmTitle.setText("无消防告警");
+                mAlarmPositionName.setVisibility(View.GONE);
+                mAlarmRemark.setVisibility(View.GONE);
+                mAlarmTime.setVisibility(View.GONE);
+                mAlarmLevel.setVisibility(View.GONE);
+            }
         }
     }
+
 
     @Override
     public void onLoadChargeBatteryInfoResult(BaseEntity<ChargeBatteryEntity> data) {
@@ -144,8 +157,13 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     public void onLoadBatteryInfoResult(BaseEntity<BatteryEntity> data) {
         BatteryEntity entity = data.getData();
         if (data != null) {
-            mNowSop.setText("当前电量:   " + entity.getSop() + "%");
             mStartTime.setText("电池SN:   " + entity.getSn());
+            mEnoughTime.setText("当前电量:   " + entity.getSop() + "%");
+            mDurationTime.setVisibility(View.GONE);
+            mNowSop.setVisibility(View.GONE);
+            mEnergy.setVisibility(View.GONE);
+            mAddress.setVisibility(View.GONE);
+            mDoor.setVisibility(View.GONE);
             mCardMoney.setVisibility(View.GONE);
         }
     }
@@ -157,8 +175,9 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 startActivity(new Intent(getActivity(), HomeServiceActivity.class));
                 break;
             case R.id.rl_home_alarmInfo:
-                startActivity(new Intent(getContext(), AlarmListActivity.class));
+                startActivity(new Intent(getActivity(), MyBatteryActivity.class));
                 break;
+
         }
     }
 }

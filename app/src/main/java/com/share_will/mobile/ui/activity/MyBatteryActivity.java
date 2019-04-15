@@ -28,7 +28,13 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
     HomeFragmentPresenter homeFragmentPresenter;
 
     private TextView mStartTime;
+    private TextView mEnoughTime;
+    private TextView mDurationTime;
     private TextView mNowSop;
+    private TextView mEnergy;
+    private TextView mAddress;
+    private TextView mDoor;
+
     private RelativeLayout mCardMoney;
     private LinearLayout mLlCardBatteryInfo;
     private LinearLayout mLlCardBatteryBind;
@@ -46,7 +52,14 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
         setTitle("我的电池");
 
         mStartTime = findViewById(R.id.tv_home_charge_start_time);
+        mEnoughTime = findViewById(R.id.tv_home_charge_enough_time);
+        mDurationTime = findViewById(R.id.tv_home_charge_duration_time);
         mNowSop = findViewById(R.id.tv_home_charge_now_sop);
+        mEnergy = findViewById(R.id.tv_home_charge_energy);
+        mAddress = findViewById(R.id.tv_home_charge_address);
+        mDoor = findViewById(R.id.tv_home_charge_door);
+
+
         mCardMoney = findViewById(R.id.rl_card_money);
         mLlCardBatteryInfo = findViewById(R.id.ll_card_battery_info);
         mLlCardBatteryBind = findViewById(R.id.rl_card_bind);
@@ -63,8 +76,13 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
     public void onLoadBatteryInfoResult(BaseEntity<BatteryEntity> data) {
         BatteryEntity entity = data.getData();
         if (data != null) {
-            mNowSop.setText("当前电量:   " + entity.getSop() + "%");
             mStartTime.setText("电池SN:   " + entity.getSn());
+            mEnoughTime.setText("当前电量:   " + entity.getSop() + "%");
+            mDurationTime.setVisibility(View.GONE);
+            mNowSop.setVisibility(View.GONE);
+            mEnergy.setVisibility(View.GONE);
+            mAddress.setVisibility(View.GONE);
+            mDoor.setVisibility(View.GONE);
             mLlCardBatteryInfo.setVisibility(View.VISIBLE);
             mCardMoney.setVisibility(View.GONE);
             mLlCardBatteryBind.setVisibility(View.GONE);

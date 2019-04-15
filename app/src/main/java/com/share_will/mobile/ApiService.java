@@ -299,7 +299,7 @@ public interface ApiService {
                                                    @Field("orderId") String orderId);
 
     /**
-     * 支付套餐
+     * 支付
      *
      * @param userId
      * @param orderId

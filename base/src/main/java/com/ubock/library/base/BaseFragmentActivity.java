@@ -276,6 +276,12 @@ public abstract class BaseFragmentActivity<P extends BasePresenter> extends RxAp
         }
     }
 
+    public void setTitleTextColor(int color) {
+        if (mTitle != null) {
+            mTitle.setTextColor(color);
+        }
+    }
+
     /**
      * 显示并设置文字
      *

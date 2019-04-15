@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20px"
+    android:background="@drawable/shape_bg_rect_card"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="218px"
+        android:background="#128ED6"
+        android:paddingLeft="45px"
+        android:paddingRight="45px">
+
+        <TextView
+            android:id="@+id/tv_item_my_order_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingBottom="90px"
+            android:text="@string/text_bespeak_status"
+            android:textColor="#FFFFFF"
+            android:textSize="36px" />
+
+        <TextView
+            android:id="@+id/tv_item_my_order_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="90px"
+            android:text="@string/text_bespeak_status"
+            android:textColor="#FFFFFF"
+            android:textSize="36px" />
+
+        <TextView
+            android:id="@+id/tv_item_my_order_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingTop="90px"
+            android:text="@string/text_bespeak_status"
+            android:textColor="#FFFFFF"
+            android:textSize="36px" />
+
+        <TextView
+            android:id="@+id/tv_item_my_order_pay_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingTop="90px"
+            android:text="@string/text_bespeak_status"
+            android:textColor="#FFFFFF"
+            android:textSize="36px" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="218px"
+        android:paddingLeft="45px"
+        android:paddingRight="45px">
+
+        <TextView
+            android:id="@+id/tv_item_my_order_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingBottom="90px"
+            android:text="@string/text_bespeak_status"
+            android:textColor="#1C1D1C"
+            android:textSize="36px" />
+
+        <TextView
+            android:id="@+id/tv_item_my_order_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:paddingBottom="90px"
+            android:text="@string/text_bespeak_status"
+            android:textColor="#1C1D1C"
+            android:textSize="36px" />
+
+        <TextView
+            android:id="@+id/tv_item_my_order_money_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="90px"
+            android:text="@string/text_bespeak_status"
+            android:textColor="#1C1D1C"
+            android:textSize="36px" />
+
+        <TextView
+            android:id="@+id/tv_item_my_order_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingTop="90px"
+            android:text="待支付"
+            android:textColor="#FF3F3F"
+            android:textSize="36px" />
+
+
+    </RelativeLayout>
+
+</LinearLayout>

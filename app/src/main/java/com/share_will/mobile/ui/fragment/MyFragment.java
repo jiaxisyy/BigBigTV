@@ -2,6 +2,7 @@ package com.share_will.mobile.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -27,6 +28,7 @@ import com.ubock.library.annotation.PresenterInjector;
 import com.ubock.library.base.BaseConfig;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseFragment;
+import com.ubock.library.ui.dialog.ToastExt;
 import com.ubock.library.utils.LogUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -171,7 +173,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
             String result = data.getStringExtra("scan_result");
             LogUtils.d(result + "=====");
             //result  =   http://www.ep-ai.com/4GAgreement/qr/scanQR.html?customerCode=null&sn=E201805301000001&time=1547014958567
-            if (result.contains(BaseConfig.PROJECT_NAME)) {
+            if (!TextUtils.isEmpty(result)) {
                 if (result.contains("sn=") && result.contains("&time")) {
                     String sn = result.substring(result.indexOf("sn=") + 3, result.indexOf("&time"));
                     userCenterPresenter.loginCMS(App.getInstance().getUserId(), sn, 3);
@@ -182,7 +184,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
 
     @Override
     public void onLoginCMS(boolean success, String message) {
-
+        ToastExt.showExt(message);
     }
 
     @Override

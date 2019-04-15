@@ -2,6 +2,7 @@ package com.share_will.mobile.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -119,7 +120,7 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
             if (resultCode == RESULT_OK) {
                 String result = data.getStringExtra("scan_result");
                 LogUtils.d(result + "=============");
-                if (result.contains(BaseConfig.PROJECT_NAME)) {
+                if (!TextUtils.isEmpty(result)) {
                     if (result.contains("sn=") && result.contains("&time")) {
                         String sn = result.substring(result.indexOf("sn=") + 3, result.indexOf("&time"));
                         getPresenter().chargeScan(App.getInstance().getUserId(), App.getInstance().getToken(), sn, "1", 1, 1);
@@ -131,7 +132,7 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
             if (resultCode == RESULT_OK) {
                 String result = data.getStringExtra("scan_result");
                 LogUtils.d(result + "=============");
-                if (result.contains(BaseConfig.PROJECT_NAME)) {
+                if (!TextUtils.isEmpty(result)) {
                     if (result.contains("sn=") && result.contains("&time")) {
                         String sn = result.substring(result.indexOf("sn=") + 3, result.indexOf("&time"));
                         getPresenter().stopChargeScan(App.getInstance().getUserId(), App.getInstance().getToken(), sn);

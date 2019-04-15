@@ -15,17 +15,15 @@ import com.share_will.mobile.listener.DetachDialogClickListener;
 import com.share_will.mobile.model.entity.BespeakEntity;
 import com.share_will.mobile.presenter.BespeakPresenter;
 import com.share_will.mobile.ui.adapter.BespeakAdapter;
+import com.share_will.mobile.ui.fragment.ExchangeFragment;
 import com.share_will.mobile.ui.views.BespeakView;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseFragmentActivity;
 import com.ubock.library.ui.dialog.ToastExt;
 import com.ubock.library.utils.DateUtils;
-import com.ubock.library.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.share_will.mobile.ui.activity.PersonInfoActivity.ACTIVITY;
 
 public class BespeakActivity extends BaseFragmentActivity<BespeakPresenter> implements BespeakView, View.OnClickListener, DialogInterface.OnClickListener {
     private RecyclerView mRv;
@@ -60,10 +58,10 @@ public class BespeakActivity extends BaseFragmentActivity<BespeakPresenter> impl
     }
 
     private void getParameterForMap() {
-        String cabinetTitle = getIntent().getStringExtra(MapActivity.CABINETTITLE);
-        cabinetSn = getIntent().getStringExtra(MapActivity.CABINETSN);
-        String cabinetAddress = getIntent().getStringExtra(MapActivity.CABINETADDRESS);
-        int fullNum = getIntent().getIntExtra(MapActivity.FULLNUM, 0);
+        String cabinetTitle = getIntent().getStringExtra(ExchangeFragment.CABINETTITLE);
+        cabinetSn = getIntent().getStringExtra(ExchangeFragment.CABINETSN);
+        String cabinetAddress = getIntent().getStringExtra(ExchangeFragment.CABINETADDRESS);
+        int fullNum = getIntent().getIntExtra(ExchangeFragment.FULLNUM, 0);
         entities.add(new BespeakEntity("站点名称:", cabinetTitle));
         entities.add(new BespeakEntity("机柜SN:", cabinetSn));
         entities.add(new BespeakEntity("可预约数量:", String.valueOf(fullNum)));

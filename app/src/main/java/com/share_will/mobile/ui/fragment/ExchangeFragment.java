@@ -43,7 +43,6 @@ import com.share_will.mobile.services.LocationService;
 import com.share_will.mobile.ui.activity.BespeakActivity;
 import com.share_will.mobile.ui.activity.CaptureActivity;
 import com.share_will.mobile.ui.activity.NaviActivity;
-import com.share_will.mobile.ui.activity.PersonInfoActivity;
 import com.share_will.mobile.ui.dialog.InfoWindows;
 import com.share_will.mobile.ui.views.HomeView;
 import com.share_will.mobile.utils.Utils;
@@ -89,10 +88,10 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
     private TextView mFullNum;
     private TextView mCabinetAddress;
     private CabinetEntity mCurrentCabinet;
-    public final static String CABINETTITLE = "com.share_will.mobile.ui.activity.MapActivity.cabinettitle";
-    public final static String CABINETSN = "com.share_will.mobile.ui.activity.MapActivity.CabinetSN";
-    public final static String CABINETADDRESS = "com.share_will.mobile.ui.activity.MapActivity.CabinetAddress";
-    public final static String FULLNUM = "com.share_will.mobile.ui.activity.MapActivity.FullNum";
+    public final static String CABINETTITLE = "cabinettitle";
+    public final static String CABINETSN = "CabinetSN";
+    public final static String CABINETADDRESS = "CabinetAddress";
+    public final static String FULLNUM = "FullNum";
 
     /**
      * 显示电柜列表消息
@@ -465,14 +464,6 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
     public void scan() {
         Intent intent = new Intent(this.getActivity(), CaptureActivity.class);
         startActivityForResult(intent, REQUEST_CODE_SCAN_CODE);
-    }
-
-    /**
-     * 打开用户中心
-     */
-    public void userCenter() {
-        Intent intent = new Intent(this.getActivity(), PersonInfoActivity.class);
-        startActivity(intent);
     }
 
     /**

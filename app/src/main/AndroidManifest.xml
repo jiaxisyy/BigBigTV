@@ -78,9 +78,6 @@
             android:name=".ui.activity.RegisterActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.MapActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.activity.AboutActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -91,9 +88,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.ConsumeActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activity.PersonInfoActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.CaptureActivity"

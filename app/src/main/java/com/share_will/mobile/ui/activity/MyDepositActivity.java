@@ -8,6 +8,8 @@ import android.widget.TextView;
 import com.share_will.mobile.R;
 import com.ubock.library.base.BaseFragmentActivity;
 
+import java.text.NumberFormat;
+
 public class MyDepositActivity extends BaseFragmentActivity implements View.OnClickListener {
 
 
@@ -31,7 +33,7 @@ public class MyDepositActivity extends BaseFragmentActivity implements View.OnCl
         mDeposit = getIntent().getIntExtra("deposit", 0);
         int cause_status = getIntent().getIntExtra("cause_status", 0);
         if (mDeposit > 0) {
-            mTvMoney.setText("您已缴纳押金" + mDeposit + "元");
+            mTvMoney.setText(String.format("您已缴纳押金%s元", NumberFormat.getInstance().format(mDeposit/100f)));
         } else {
             mTvMoney.setText("未缴押金");
             mBtnRetreat.setText("缴纳押金");

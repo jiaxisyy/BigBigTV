@@ -127,6 +127,7 @@ public class MallFragment extends BaseFragment<ShopPresenter> implements BaseQui
             intent.putExtra("price", mPreice);
             intent.putExtra("orderId", orderId);
             intent.putExtra("orderType", 1);
+            intent.putExtra("isPackage", true);
             intent.putExtra("body", mSelectedPackageEntity.getPackageName());
             startActivity(intent);
         } else {

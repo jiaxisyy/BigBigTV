@@ -38,6 +38,7 @@ public class OrderFormActivity extends BaseFragmentActivity<PayPresenter> implem
     private RadioGroup mRgType;
     private TextView mSubmit;
     private int submitType = -1;
+    private boolean mIsPackage;
     private String mOrderId;
     private int mPrice;
     private int mOrderType;
@@ -71,6 +72,7 @@ public class OrderFormActivity extends BaseFragmentActivity<PayPresenter> implem
         mSubmit = findViewById(R.id.tv_order_form_submit);
         mSubmit.setOnClickListener(this);
 
+        mIsPackage = getIntent().getBooleanExtra("isPackage", false);
         mOrderId = getIntent().getStringExtra("orderId");
         mOrderType = getIntent().getIntExtra("orderType", -1);
         mPrice = getIntent().getIntExtra("price", 0);
@@ -144,7 +146,11 @@ public class OrderFormActivity extends BaseFragmentActivity<PayPresenter> implem
                 showMessage("请选择支付类型");
             } else if (submitType == MessageEvent.PayEvent.PAY_TYPE_BALANCE) {
                 if (!TextUtils.isEmpty(mOrderId)) {
-                    getPresenter().payPackageOrder(App.getInstance().getUserId(), mOrderId);
+                    if (mIsPackage) {
+                        getPresenter().payPackageOrder(App.getInstance().getUserId(), mOrderId);
+                    } else {
+                        getPresenter().payMoneyOrder(App.getInstance().getUserId(), mOrderId);
+                    }
                 }
             } else if (submitType == MessageEvent.PayEvent.PAY_TYPE_WEIXIN) {
                 if (!TextUtils.isEmpty(mOrderId)) {

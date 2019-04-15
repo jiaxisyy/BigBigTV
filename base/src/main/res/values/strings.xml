@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MOSS</string>
+    <string name="app_name">春藤</string>
     <string name="exit_app">再按一次退出应用</string>
 
     <string name="bsh_mobile_erro">手机号码不合法</string>

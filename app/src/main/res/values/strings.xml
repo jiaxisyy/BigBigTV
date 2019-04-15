@@ -1,16 +1,16 @@
 <resources>
 
-    <string name="app_name">MOSS</string>
+    <string name="app_name">春藤</string>
     <string name="scan_tips">将二维码图片对准扫描框即可自动扫描</string>
     <!-- 高德地图appKey -->
     <string name="amap_key">71c37653ed80cd8dde1626ff543a0fd1</string>
 
     <string name="alerm_title"></string>
-    <string name="alert_quit_confirm">确认退出MOSS吗？</string>
+    <string name="alert_quit_confirm">确认退出春藤吗？</string>
     <string name="alert_yes_button">确认</string>
     <string name="alert_no_button">取消</string>
     <string name="loading">正在加载...</string>
-    <string name="user_protocol">接受协议开始使用MOSS</string>
+    <string name="user_protocol">接受协议开始使用春藤</string>
     <string name="app_tip">提示</string>
 
     <!-- applet -->

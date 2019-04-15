@@ -36,7 +36,7 @@
         android:layout_weight="1"
         android:gravity="bottom"
         android:paddingBottom="99px"
-        android:text="深圳市顺为新能源技术有限公司" />
+        android:text="春藤物联网技术(深圳)有限公司" />
 
 
 </LinearLayout>

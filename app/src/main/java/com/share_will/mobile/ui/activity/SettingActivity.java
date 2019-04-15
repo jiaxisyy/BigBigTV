@@ -81,7 +81,7 @@ public class SettingActivity extends BaseFragmentActivity implements View.OnClic
         int versionCode = Utils.getVersionCode(this);
         String channel = App.getChannel();
         String userId = App.getInstance().getUserId();
-        upgradeServicePresenter.checkVersion(versionName, versionCode, 1, channel, userId);
+        upgradeServicePresenter.checkVersion(versionName, versionCode, 1, channel, userId, true);
     }
 
     /**
@@ -114,25 +114,30 @@ public class SettingActivity extends BaseFragmentActivity implements View.OnClic
             String description = data.get("description");
             if (!TextUtils.isEmpty(url)) {
                 Log.d("cgd", url);
-                showDialog(description == null ? "" : description);
+                showDialog(description == null ? "" : description, true);
                 return;
             } else {
-                showDialog("已是最新版本");
+                showDialog("已是最新版本", false);
             }
 
         } else {
-            showDialog("已是最新版本");
+            showDialog("已是最新版本", false);
         }
     }
 
-    private void showDialog(String desc) {
+    private void showDialog(String desc, boolean newVersion) {
         Intent intent = new Intent(this, DialogActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(DialogActivity.PARAM_TITLE, "检测更新");
         intent.putExtra(DialogActivity.PARAM_MESSAGE, desc);
         intent.putExtra(DialogActivity.PARAM_NEED_PERMISSION, true);
-//        intent.putExtra(DialogActivity.PARAM_OK, "升级");
-        intent.putExtra(DialogActivity.PARAM_CANCEL, "确定");
+        if (newVersion) {
+            intent.putExtra(DialogActivity.PARAM_OK, "升级");
+            intent.putExtra(DialogActivity.PARAM_CANCEL, "取消");
+        } else {
+            intent.putExtra(DialogActivity.PARAM_SHOW_OK, false);
+            intent.putExtra(DialogActivity.PARAM_CANCEL, "确定");
+        }
         startActivity(intent);
     }
 }

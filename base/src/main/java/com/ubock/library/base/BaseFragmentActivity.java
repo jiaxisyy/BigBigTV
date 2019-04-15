@@ -57,7 +57,7 @@ public abstract class BaseFragmentActivity<P extends BasePresenter> extends RxAp
     private TextView mStatusbarBg;
     private TextView mTitle;
     private TextView mTopRightMenuText;
-    private ImageView mBack;
+    private View mBack;
     protected ImageButton mTopRightMenu;
 
     protected final String TAG = this.getClass().getSimpleName();

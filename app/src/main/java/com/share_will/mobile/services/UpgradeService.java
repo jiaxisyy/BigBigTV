@@ -97,7 +97,7 @@ public class UpgradeService extends BaseService<UpgradeServicePresenter> impleme
         int versionCode = Utils.getVersionCode(this);
         String channel = App.getChannel();
         String userId = App.getInstance().getUserId();
-        getPresenter().checkVersion(versionName, versionCode, 1, channel, userId);
+        getPresenter().checkVersion(versionName, versionCode, 1, channel, userId, false);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

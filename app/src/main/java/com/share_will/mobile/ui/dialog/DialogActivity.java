@@ -27,12 +27,15 @@ public class DialogActivity extends BaseFragmentActivity {
     TextView mMessage;
     Button mCancelBtn;
     Button mOkBtn;
+    View mLine;
+    private boolean mShowOK;
     private boolean mNeedCheckPermission;
     public final static String PARAM_TITLE = "title";
     public final static String PARAM_MESSAGE = "message";
     public final static String PARAM_NEED_PERMISSION = "permission";
     public final static String PARAM_OK = "ok";
     public final static String PARAM_CANCEL = "cancel";
+    public final static String PARAM_SHOW_OK = "show_ok";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,7 @@ public class DialogActivity extends BaseFragmentActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        mLine = findViewById(R.id.view_line);
         mTitle = findViewById(R.id.auth_tip_tilte);
         mMessage = findViewById(R.id.auth_tip_txt);
         mCancelBtn = findViewById(R.id.cancel_btn);
@@ -70,6 +74,7 @@ public class DialogActivity extends BaseFragmentActivity {
         });
 
         Intent intent = getIntent();
+        mShowOK = intent.getBooleanExtra(PARAM_SHOW_OK, true);
         String title = intent.getStringExtra(PARAM_TITLE);
         String message = intent.getStringExtra(PARAM_MESSAGE);
         mNeedCheckPermission = intent.getBooleanExtra(PARAM_NEED_PERMISSION, false);
@@ -86,6 +91,11 @@ public class DialogActivity extends BaseFragmentActivity {
         }
         if (cancel != null){
             mCancelBtn.setText(cancel);
+        }
+
+        if (!mShowOK){
+            mOkBtn.setVisibility(View.GONE);
+            mLine.setVisibility(View.GONE);
         }
     }
 

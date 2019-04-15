@@ -22,14 +22,14 @@ public class UpgradeServicePresenter extends BasePresenter<UpgradeServiceModel, 
      * 检测新版本
      * @param userId
      */
-    public void checkVersion(String versionName, int versionCode, int type, String customer, String userId) {
+    public void checkVersion(String versionName, int versionCode, int type, String customer, String userId, final boolean showLoading) {
         getModel().checkVersion(versionName, versionCode,  type, customer, userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseNetSubscriber<BaseEntity<Map<String, String>>>(UpgradeServicePresenter.this) {
                     @Override
                     protected boolean showLoading() {
-                        return false;
+                        return showLoading;
                     }
 
                     @Override

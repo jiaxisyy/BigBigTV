@@ -1,5 +1,6 @@
 package com.share_will.mobile.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -41,6 +42,9 @@ public class ForgetPasswordActivityTwo extends BaseFragmentActivity<ForgetPasswo
     public void onUpdatePassword(boolean success, String message) {
         showError(message);
         if (success) {
+            Intent intent = new Intent();
+            intent.putExtra("result", "change_pwd_ok");
+            setResult(RESULT_OK, intent);
             finish();
         }
     }

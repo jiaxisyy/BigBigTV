@@ -18,7 +18,7 @@
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
-        android:layout_height="2px"
+        android:layout_height="1px"
         android:layout_above="@+id/tabLayout"
         android:background="#FFd8d8d8" />
     <android.support.design.widget.TabLayout
@@ -41,7 +41,7 @@
         android:layout_height="120px"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="62px"
+        android:layout_marginBottom="49px"
         android:background="@null"
         android:onClick="scan"
         android:scaleType="fitXY"

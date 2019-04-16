@@ -41,7 +41,7 @@
         android:layout_height="120px"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="49px"
+        android:layout_marginBottom="48px"
         android:background="@null"
         android:onClick="scan"
         android:scaleType="fitXY"

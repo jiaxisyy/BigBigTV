@@ -112,7 +112,6 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
                     }
                 }).build();
         getPresenter().getCityList();
-
     }
 
 

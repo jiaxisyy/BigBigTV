@@ -63,86 +63,103 @@
             android:layout_marginTop="20px"
             android:background="@color/text_color_line" />
 
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/rl_home_alarmInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40px"
-            android:orientation="vertical">
+            android:layout_marginTop="45px"
+            android:paddingLeft="40px">
 
-            <RelativeLayout
-                android:id="@+id/rl_home_alarmInfo"
-                android:layout_width="match_parent"
+
+            <TextView
+                android:id="@+id/tv_home_no_alarm"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="45px">
+                android:layout_centerInParent="true"
+                android:drawableTop="@drawable/icon_home_no_alarm"
+                android:drawablePadding="30px"
+                android:gravity="center_horizontal"
+                android:paddingTop="45px"
+                android:text="暂无告警消息" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/icon_label_orange"
-                    android:drawablePadding="21px"
-                    android:text="消防告警"
-                    android:textColor="#FF6C00" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="40px"
-                    android:src="@drawable/btn_main_arrow_right" />
-            </RelativeLayout>
+            <TextView
+                android:id="@+id/tv_home_alarm_big_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/icon_label_orange"
+                android:drawablePadding="21px"
+                android:text="消防告警"
+                android:textColor="#FF6C00" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="40px"
+                android:src="@drawable/btn_main_arrow_right" />
 
             <TextView
                 android:id="@+id/tv_home_alarm_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_home_alarm_big_title"
                 android:layout_marginTop="45px"
                 android:text="标题:  烟雾探测器告警"
                 android:textColor="#333333"
-                android:textSize="36px" />
+                android:textSize="36px"
+                android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/tv_home_alarm_positionName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_home_alarm_title"
                 android:layout_marginTop="45px"
                 android:text="智慧花园小区  一个告警点位"
                 android:textColor="#333333"
-                android:textSize="36px" />
+                android:textSize="36px"
+                android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/tv_home_alarm_remark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_home_alarm_positionName"
                 android:layout_marginTop="38px"
                 android:drawableLeft="@drawable/icon_alarm_location"
                 android:drawablePadding="36px"
                 android:text="一区厨房   1-1-5"
                 android:textColor="@color/text_color_gray"
-                android:textSize="36px" />
+                android:textSize="36px"
+                android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/tv_home_alarm_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_home_alarm_remark"
                 android:layout_marginTop="38px"
                 android:drawableLeft="@drawable/icon_alarm_time"
                 android:drawablePadding="36px"
                 android:text="告警时间   2019-2-3 18:54"
                 android:textColor="@color/text_color_gray"
-                android:textSize="36px" />
+                android:textSize="36px"
+                android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/tv_home_alarm_level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_home_alarm_time"
                 android:layout_marginTop="38px"
                 android:drawableLeft="@drawable/icon_alarm_level"
                 android:drawablePadding="36px"
                 android:text="告警级别   1级"
                 android:textColor="@color/text_color_gray"
-                android:textSize="36px" />
-        </LinearLayout>
+                android:textSize="36px"
+                android:visibility="invisible" />
+        </RelativeLayout>
 
         <TextView
             android:layout_width="match_parent"
@@ -158,6 +175,7 @@
             android:layout_marginTop="45px">
 
             <TextView
+                android:id="@+id/tv_home_battery_big_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/icon_label_red"
@@ -169,12 +187,36 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
                 android:layout_marginRight="40px"
                 android:src="@drawable/btn_main_arrow_right" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_home_battery_big_title"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/include_layout_home_bottom"
+                    layout="@layout/include_layout_home_bottom"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_home_no_battery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_home_battery_big_title"
+                android:layout_centerInParent="true"
+                android:drawableTop="@drawable/icon_home_no_alarm"
+                android:drawablePadding="30px"
+                android:gravity="center_horizontal"
+                android:paddingTop="45px"
+                android:text="暂无电池信息"
+                android:visibility="gone" />
         </RelativeLayout>
 
-        <include layout="@layout/include_layout_home_bottom" />
+
     </LinearLayout>
 
 

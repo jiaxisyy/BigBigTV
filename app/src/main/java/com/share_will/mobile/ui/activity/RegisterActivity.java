@@ -101,37 +101,13 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
                 return;
             }
 
-            if (TextUtils.isEmpty(username)) {
-                showError("请输入真实姓名");
-                return;
-            }
-
-            if (mStationEntity == null) {
-                showError("请选择站点");
-                return;
-            }
-
             btnResign.setEnabled(false);
-            getPresenter().register(userid, username, password, verifyCode,
+            getPresenter().register(userid, "测试", password, verifyCode,
                     mStationEntity.getCustomerCode(),
                     mStationEntity.getStationId() + "");
         });
 
-     /*   //站点选择器
-        mStationPickerView = new OptionsPickerBuilder(this, (options1, option2, options3, v) -> {
-            mStationEntity = getPresenter().getModel().getStation(option2);
-            mStation.setText(mStationEntity.getStationName());
-        }).setOptionsSelectChangeListener((options1, options2, options3) -> {
-            if (mCityIndex != options1) {
-                mCityIndex = options1;
-                mCityEntity = getPresenter().getModel().getCity(options1);
-                String cityCode = mCityEntity.getAreaCode();
-                getPresenter().getStationList(cityCode);
-                getPresenter().getCityList();
-            }
-        }).build();
-
-        getPresenter().getCityList();*/
+        getPresenter().getCityList();
     }
 
     public void showStationDialog(View view) {
@@ -171,8 +147,9 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
     @Override
     public void onLoadStationList(BaseEntity<List<StationEntity>> ret) {
         if (ret != null && ret.getCode() == 0) {
-            mStationPickerView.setNPicker(getPresenter().getModel().getCity(), ret.getData(), null);
-            mStationPickerView.setSelectOptions(mCityIndex);
+            mStationEntity=ret.getData().get(0);
+//            mStationPickerView.setNPicker(getPresenter().getModel().getCity(), ret.getData(), null);
+//            mStationPickerView.setSelectOptions(mCityIndex);
         }
     }
 

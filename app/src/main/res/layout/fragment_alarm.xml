@@ -15,15 +15,17 @@
         android:layout_below="@id/topbar" />
 
     <ViewFlipper
+        android:id="@+id/vf_map_alarm_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/map_alarm"
         android:autoStart="true"
         android:inAnimation="@anim/slide_in_bottom"
-        android:outAnimation="@anim/slide_out_top">
+        android:outAnimation="@anim/slide_out_top"
+        android:visibility="invisible">
 
         <TextView
-            android:id="@+id/tv_alarm_title"
+            android:id="@+id/tv_map_alarm_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -34,8 +36,7 @@
             android:paddingRight="30px"
             android:paddingBottom="10px"
             android:text="12:00,智慧花园烟感告警,详情点击...... "
-            android:textColor="#FFFFFF"
-            android:visibility="invisible" />
+            android:textColor="#FFFFFF" />
     </ViewFlipper>
 
 

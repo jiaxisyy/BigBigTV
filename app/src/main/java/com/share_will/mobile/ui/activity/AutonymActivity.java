@@ -37,10 +37,12 @@ public class AutonymActivity extends BaseFragmentActivity implements View.OnClic
         mTvSubmit.setOnClickListener(this);
     }
 
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_papers_front:
+
 
                 break;
             case R.id.iv_papers_contrary:
@@ -51,4 +53,5 @@ public class AutonymActivity extends BaseFragmentActivity implements View.OnClic
                 break;
         }
     }
+
 }

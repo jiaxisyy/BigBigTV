@@ -1,5 +1,6 @@
 package com.share_will.mobile.ui.adapter;
 
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.view.View;
 
@@ -22,11 +23,16 @@ public class HomeAlarmRfidAdapter extends BaseQuickAdapter<AlarmEntity.RfidBean,
     @Override
     protected void convert(BaseViewHolder helper, AlarmEntity.RfidBean item) {
 
+        helper.setVisible(R.id.item_iv_home_alarm_disposed, false);
+        helper.setVisible(R.id.item_tv_home_alarm_close, false);
+
         helper.getView(R.id.item_tv_home_alarm_level).setVisibility(View.GONE);
         helper.getView(R.id.item_tv_home_alarm_time).setVisibility(View.GONE);
         helper.getView(R.id.item_tv_home_alarm_remark).setVisibility(View.GONE);
 
         helper.setText(R.id.item_tv_home_alarm_title, "标题: 违规、违禁品告警");
+        helper.setTextColor(R.id.item_tv_home_alarm_title, Color.parseColor("#EEDE81"));
+
         helper.setText(R.id.item_tv_home_alarm_positionName, item.getCommunityName());
         helper.setText(R.id.item_tv_home_alarm_rfid, App.getInstance().getUserId() + ",您于"
                 + DateUtils.timeStampToString(item.getCollecttime(), DateUtils.YYYYMMDD_HHMMSS) + "在"

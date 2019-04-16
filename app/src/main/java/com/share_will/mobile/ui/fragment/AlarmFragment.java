@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.AMapOptions;
@@ -44,7 +46,7 @@ import java.util.List;
 
 import permissions.dispatcher.NeedsPermission;
 
-public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implements IHomeFragmentView, View.OnClickListener, IAlarmFragmentView {
+public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implements IHomeFragmentView, View.OnClickListener, IAlarmFragmentView, AMap.InfoWindowAdapter {
     private TextureMapView mMapView = null;
     private AMap mAMap = null;
     private InfoWindows mInfoWindows;
@@ -59,6 +61,7 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
 
     @PresenterInjector
     HomeFragmentPresenter presenter;
+    private ViewFlipper mVfTitle;
 
     @Override
     protected int getLayoutId() {
@@ -67,13 +70,14 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
-        setTitle("烟感告警");
+        setTitle("告警通知");
         showBackMenu(false);
         EventBus.getDefault().register(this);
         btnAlarmRefresh = view.findViewById(R.id.btn_alarm_refresh);
         btnAlarmPosition = view.findViewById(R.id.btn_alarm_position);
         btnAlarmClose = view.findViewById(R.id.btn_alarm_close);
-        mAlarmTitle = view.findViewById(R.id.tv_alarm_title);
+        mAlarmTitle = view.findViewById(R.id.tv_map_alarm_title);
+        mVfTitle = view.findViewById(R.id.vf_map_alarm_title);
         btnAlarmRefresh.setOnClickListener(this);
         btnAlarmPosition.setOnClickListener(this);
         btnAlarmClose.setOnClickListener(this);
@@ -107,6 +111,7 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
                         .anchor(0.5f, 0.5f) //设置锚点
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.gps_point)));
             }
+            mAMap.setInfoWindowAdapter(this);
         }
 
     }
@@ -130,22 +135,26 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
         // 返回 true 则表示接口已响应事件，否则返回false
         @Override
         public boolean onMarkerClick(Marker marker) {
+
             showCloseButton(mSmokeList.get(Integer.parseInt(marker.getSnippet())));
-            return true;
+
+            return false;
         }
     };
 
     private void showCloseButton(AlarmEntity.SmokeBean data) {
-        if (mClickSmoke == data) {
-            //点击的正在显示则隐藏，否则显示
-            if (btnAlarmClose.getVisibility() == View.VISIBLE) {
-                btnAlarmClose.setVisibility(View.GONE);
+        if (data.getAlarmcode() != 0) {
+            if (mClickSmoke == data) {
+                //点击的正在显示则隐藏，否则显示
+                if (btnAlarmClose.getVisibility() == View.VISIBLE) {
+                    btnAlarmClose.setVisibility(View.GONE);
+                } else {
+                    btnAlarmClose.setVisibility(View.VISIBLE);
+                }
             } else {
                 btnAlarmClose.setVisibility(View.VISIBLE);
+                mClickSmoke = data;
             }
-        } else {
-            btnAlarmClose.setVisibility(View.VISIBLE);
-            mClickSmoke = data;
         }
     }
 
@@ -176,11 +185,14 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(latLng);
             markerOptions.title(entity.getTitle());
-            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_alarm_map_marker));
             markerOptions.setFlat(true);//设置marker平贴地图效果
+
             if (data.getSmoke().get(pos).getAlarmcode() != 0) {
-                markerOptionsList.add(markerOptions);
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_alarm_map_marker));
+            } else {
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_alarm_map_device_marker));
             }
+            markerOptionsList.add(markerOptions);
             //用snippet模拟pos
             markerOptions.snippet(String.valueOf(pos++));
         }
@@ -249,7 +261,7 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
             case R.id.btn_alarm_close:
                 closeAlarm();
                 break;
-            case R.id.tv_alarm_title:
+            case R.id.tv_map_alarm_title:
                 startActivity(new Intent(getContext(), AlarmListActivity.class));
                 break;
         }
@@ -270,9 +282,13 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
             mSmokeList.clear();
             mSmokeList.addAll(data.getData().getSmoke());
             if (validPos != -1) {
-                mAlarmTitle.setVisibility(View.VISIBLE);
+                mVfTitle.setVisibility(View.VISIBLE);
+                mVfTitle.startFlipping();
                 AlarmEntity.SmokeBean smokeBean = data.getData().getSmoke().get(validPos);
                 mAlarmTitle.setText(DateUtils.timeStampToString(smokeBean.getAlarmtime(), DateUtils.HHMMSS) + smokeBean.getPositionName() + "告警,点击查看详情......");
+            } else {
+                mVfTitle.setVisibility(View.INVISIBLE);
+                mVfTitle.stopFlipping();
             }
             useMarker(data.getData());
         }
@@ -309,4 +325,21 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
         }
     }
 
+    @Override
+    public View getInfoWindow(Marker marker) {
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.window_map_alarm_detail, null);
+        TextView tvTitle = view.findViewById(R.id.tv_window_map_alarm_detail_title);
+        TextView tvAddress = view.findViewById(R.id.tv_window_map_alarm_detail_address);
+        TextView tvMessage = view.findViewById(R.id.tv_window_map_alarm_detail_message);
+        AlarmEntity.SmokeBean smokeBean = mSmokeList.get(Integer.parseInt(marker.getSnippet()));
+        tvTitle.setText("名称: " + smokeBean.getPositionName());
+        tvAddress.setText("地址: " + smokeBean.getDeviceAddress());
+        tvMessage.setText("备注: " + smokeBean.getRemark());
+        return view;
+    }
+
+    @Override
+    public View getInfoContents(Marker marker) {
+        return null;
+    }
 }

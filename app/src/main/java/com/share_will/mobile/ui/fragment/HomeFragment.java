@@ -44,6 +44,9 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     private TextView mMoneManage;
     private TextView mMoneyAll;
     private RelativeLayout mCardMoney;
+    private TextView mNoAlarm;
+    private TextView mNoBattery;
+    private View mLayoutBottom;
 
 
     @Override
@@ -66,6 +69,10 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mTopCharge = view.findViewById(R.id.tv_home_top_charge);
         mRlAlarm = view.findViewById(R.id.rl_home_alarmInfo);
         mRlBattery = view.findViewById(R.id.rl_home_batteryInfo);
+        mNoAlarm = view.findViewById(R.id.tv_home_no_alarm);
+        mNoBattery = view.findViewById(R.id.tv_home_no_battery);
+        mLayoutBottom = view.findViewById(R.id.include_layout_home_bottom);
+
 
         mStartTime = view.findViewById(R.id.tv_home_charge_start_time);
         mEnoughTime = view.findViewById(R.id.tv_home_charge_enough_time);
@@ -78,6 +85,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mMoneManage = view.findViewById(R.id.tv_home_money_manage);
         mMoneyAll = view.findViewById(R.id.tv_home_money_all);
         mCardMoney = view.findViewById(R.id.rl_card_money);
+
         mTopCharge.setOnClickListener(this);
         mRlAlarm.setOnClickListener(this);
         mRlBattery.setOnClickListener(this);
@@ -102,17 +110,24 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             }
             if (validPos != -1) {
                 AlarmEntity.SmokeBean alarmEntity = data.getData().getSmoke().get(validPos);
+                mAlarmTitle.setVisibility(View.VISIBLE);
+                mAlarmPositionName.setVisibility(View.VISIBLE);
+                mAlarmRemark.setVisibility(View.VISIBLE);
+                mAlarmTime.setVisibility(View.VISIBLE);
+                mAlarmLevel.setVisibility(View.VISIBLE);
+                mNoAlarm.setVisibility(View.INVISIBLE);
                 mAlarmTitle.setText("标题: " + alarmEntity.getTitle());
                 mAlarmPositionName.setText(alarmEntity.getPositionName());
                 mAlarmRemark.setText(alarmEntity.getRemark());
                 mAlarmTime.setText("告警时间   " + DateUtils.timeStampToString(alarmEntity.getAlarmtime(), DateUtils.YYYYMMDD_HHMMSS));
                 mAlarmLevel.setText("告警级别   " + alarmEntity.getAlarmlevel() + "级");
             } else {
-                mAlarmTitle.setText("无消防告警");
-                mAlarmPositionName.setVisibility(View.GONE);
-                mAlarmRemark.setVisibility(View.GONE);
-                mAlarmTime.setVisibility(View.GONE);
-                mAlarmLevel.setVisibility(View.GONE);
+                mNoAlarm.setVisibility(View.VISIBLE);
+                mAlarmTitle.setVisibility(View.INVISIBLE);
+                mAlarmPositionName.setVisibility(View.INVISIBLE);
+                mAlarmRemark.setVisibility(View.INVISIBLE);
+                mAlarmTime.setVisibility(View.INVISIBLE);
+                mAlarmLevel.setVisibility(View.INVISIBLE);
             }
         }
     }
@@ -159,12 +174,19 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         if (data != null) {
             mStartTime.setText("电池SN:   " + entity.getSn());
             mEnoughTime.setText("当前电量:   " + entity.getSop() + "%");
+            mStartTime.setVisibility(View.VISIBLE);
+            mEnoughTime.setVisibility(View.VISIBLE);
             mDurationTime.setVisibility(View.GONE);
             mNowSop.setVisibility(View.GONE);
             mEnergy.setVisibility(View.GONE);
             mAddress.setVisibility(View.GONE);
             mDoor.setVisibility(View.GONE);
             mCardMoney.setVisibility(View.GONE);
+            mNoBattery.setVisibility(View.GONE);
+            mLayoutBottom.setVisibility(View.VISIBLE);
+        } else {
+            mLayoutBottom.setVisibility(View.GONE);
+            mNoBattery.setVisibility(View.VISIBLE);
         }
     }
 
@@ -175,6 +197,9 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 startActivity(new Intent(getActivity(), HomeServiceActivity.class));
                 break;
             case R.id.rl_home_alarmInfo:
+                startActivity(new Intent(getActivity(), AlarmListActivity.class));
+                break;
+            case R.id.rl_home_batteryInfo:
                 startActivity(new Intent(getActivity(), MyBatteryActivity.class));
                 break;
 

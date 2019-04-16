@@ -107,12 +107,12 @@
             android:textSize="40px" />
 
         <EditText
-            android:maxLines="1"
             android:id="@+id/et_papers_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@null"
             android:hint="请输入姓名(必填)"
+            android:lines="1"
             android:paddingLeft="50px"
             android:textColor="#999999"
             android:textSize="40px" />
@@ -139,13 +139,13 @@
             android:textSize="40px" />
 
         <EditText
-            android:maxLines="1"
             android:id="@+id/et_papers_code"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@null"
             android:hint="请输入身份证号(必填)"
             android:inputType="number"
+            android:lines="1"
             android:paddingLeft="50px"
             android:textColor="#999999"
             android:textSize="40px" />

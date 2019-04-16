@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.share_will.mobile.R;
 import com.share_will.mobile.presenter.ForgetPasswordPresenter;
@@ -14,13 +15,12 @@ import com.ubock.library.ui.dialog.ToastExt;
 public class ForgetPasswordActivityTwo extends BaseFragmentActivity<ForgetPasswordPresenter> implements ForgetPasswordView {
     private EditText mPassword;
     private EditText mPassword2;
+    private TextView mTvForgetPwd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("找回密码");
-        mPassword = findViewById(R.id.edit_pwd);
-        mPassword2 = findViewById(R.id.edit_pwd2);
+
     }
 
     @Override
@@ -30,7 +30,11 @@ public class ForgetPasswordActivityTwo extends BaseFragmentActivity<ForgetPasswo
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-
+        setTitle("找回密码");
+        mPassword = findViewById(R.id.edit_pwd);
+        mPassword2 = findViewById(R.id.edit_pwd2);
+        mTvForgetPwd = findViewById(R.id.tv_forgetPassword);
+        mTvForgetPwd.setVisibility(View.GONE);
     }
 
     @Override

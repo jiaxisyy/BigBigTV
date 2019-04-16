@@ -20,17 +20,16 @@ public class HomeAlarmAdapter extends BaseQuickAdapter<AlarmEntity.SmokeBean, Ba
 
     @Override
     protected void convert(BaseViewHolder helper, AlarmEntity.SmokeBean item) {
+        if (item.getAlarmcode() != 0) {
+            helper.setVisible(R.id.item_iv_home_alarm_disposed, false);
+            helper.setVisible(R.id.item_tv_home_alarm_close, true);
+        }
         helper.setText(R.id.item_tv_home_alarm_title, "标题: " + item.getTitle());
         helper.setText(R.id.item_tv_home_alarm_positionName, item.getPositionName());
-        if (item.getAlarmcode() != 0) {
-            helper.setText(R.id.item_tv_home_alarm_remark, item.getRemark());
-            helper.setText(R.id.item_tv_home_alarm_time, "告警时间   " + DateUtils.timeStampToString(item.getAlarmtime(), DateUtils.YYYYMMDD_HHMMSS));
-            helper.setText(R.id.item_tv_home_alarm_level, "告警级别   " + item.getAlarmlevel() + "级");
-        } else {
-            helper.getView(R.id.item_tv_home_alarm_remark).setVisibility(View.GONE);
-            helper.getView(R.id.item_tv_home_alarm_time).setVisibility(View.GONE);
-            helper.getView(R.id.item_tv_home_alarm_level).setVisibility(View.GONE);
-        }
+        helper.setText(R.id.item_tv_home_alarm_remark, item.getRemark());
+        helper.setText(R.id.item_tv_home_alarm_time, "告警时间   " + DateUtils.timeStampToString(item.getAlarmtime(), DateUtils.YYYYMMDD_HHMMSS));
+        helper.setText(R.id.item_tv_home_alarm_level, "告警级别   " + item.getAlarmlevel() + "级");
+
 
     }
 }

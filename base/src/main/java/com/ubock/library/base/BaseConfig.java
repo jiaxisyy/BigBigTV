@@ -21,8 +21,8 @@ public class BaseConfig {
     /**
      *  默认服务器地址
      */
-//    public static String DEFAULT_SERVER_HOST = "http://www.ep-ai.com/";
-    public static String DEFAULT_SERVER_HOST = "http://bigdata.share-will.com/";
+    public static String DEFAULT_SERVER_HOST = "http://www.ep-ai.com/";
+//    public static String DEFAULT_SERVER_HOST = "http://bigdata.share-will.com/";
     public static String SERVER_HOST = DEFAULT_SERVER_HOST;
 
     /**

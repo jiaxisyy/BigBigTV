@@ -22,6 +22,7 @@ import com.ubock.library.base.BaseFragment;
 import com.ubock.library.utils.DateUtils;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements IHomeFragmentView, View.OnClickListener {
@@ -164,8 +165,8 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     }
 
     public String intChange(int num) {
-        DecimalFormat df = new DecimalFormat("#.00");
-        return df.format(num);
+        String balance = NumberFormat.getInstance().format(num / 100f);
+        return balance;
     }
 
     @Override

@@ -322,6 +322,7 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
     public void onCloseAlarmResult(BaseEntity<Object> s) {
         if (s != null) {
             btnAlarmClose.setVisibility(View.INVISIBLE);
+            refresh();
         }
     }
 

@@ -25,8 +25,8 @@
 
         <ImageView
             android:id="@+id/iv_papers_front"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="501px"
+            android:layout_height="318px"
             android:src="@drawable/icon_btn_picture" />
 
         <TextView
@@ -52,8 +52,8 @@
 
         <ImageView
             android:id="@+id/iv_papers_contrary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="501px"
+            android:layout_height="318px"
             android:layout_below="@+id/iv_papers_front"
             android:layout_marginTop="100px"
             android:src="@drawable/icon_btn_picture" />

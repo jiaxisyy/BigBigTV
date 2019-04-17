@@ -22,7 +22,7 @@
         android:hint="请输入手机号码"
         android:inputType="phone"
         android:maxLength="11"
-        android:text="@string/test_phone"
+        android:singleLine="true"
         android:paddingLeft="120px"
         android:textColor="@color/text_color"
         android:textColorHint="#999999"

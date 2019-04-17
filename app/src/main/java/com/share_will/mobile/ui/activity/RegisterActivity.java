@@ -100,7 +100,10 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
                 showError("两次输入密码不一致");
                 return;
             }
-
+            if (TextUtils.isEmpty(username)) {
+                showError("请输入您的姓名");
+                return;
+            }
             btnResign.setEnabled(false);
             getPresenter().register(userid, "测试", password, verifyCode,
                     mStationEntity.getCustomerCode(),
@@ -147,7 +150,7 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
     @Override
     public void onLoadStationList(BaseEntity<List<StationEntity>> ret) {
         if (ret != null && ret.getCode() == 0) {
-            mStationEntity=ret.getData().get(0);
+            mStationEntity = ret.getData().get(0);
 //            mStationPickerView.setNPicker(getPresenter().getModel().getCity(), ret.getData(), null);
 //            mStationPickerView.setSelectOptions(mCityIndex);
         }

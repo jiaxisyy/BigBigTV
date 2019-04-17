@@ -3,6 +3,7 @@ package com.share_will.mobile.ui.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,7 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class RescueDetailActivity extends BaseFragmentActivity<RescueListPresenter> implements RescueListView
-        ,DialogInterface.OnClickListener{
+        , DialogInterface.OnClickListener {
 
     private RescueEntity mRescueEntity;
     private TextView mStatus;
@@ -66,19 +67,36 @@ public class RescueDetailActivity extends BaseFragmentActivity<RescueListPresent
         mDate = findViewById(R.id.tv_date);
         mCancelBtn = findViewById(R.id.btn_cancel);
         if (mRescueEntity != null) {
+
             mStatus.setText(Constant.RescueStatus.get(mRescueEntity.getStatus()));
-            mStation.setText(mRescueEntity.getStationName());
-            mStationMaster.setText(mRescueEntity.getStationMaster());
-            mStationMasterPhone.setText(mRescueEntity.getStationMasterPhone());
-            mVerifyCode.setText(mRescueEntity.getVerCode());
-            mCabinet.setText(mRescueEntity.getCabinetId());
-            mBattery.setText(mRescueEntity.getBatteryId());
-            mDoor.setText(mRescueEntity.getDoor()+"");
-            mRescueReason.setText(mRescueEntity.getRescueCause());
-            mRescueComment.setText(mRescueEntity.getResolve());
+            if (!TextUtils.isEmpty(mRescueEntity.getStationName())) {
+                mStation.setText(mRescueEntity.getStationName());
+            }
+            if (!TextUtils.isEmpty(mRescueEntity.getStationMaster())) {
+                mStationMaster.setText(mRescueEntity.getStationMaster());
+            }
+            if (!TextUtils.isEmpty(mRescueEntity.getStationMasterPhone())) {
+                mStationMasterPhone.setText(mRescueEntity.getStationMasterPhone());
+            }
+            if (!TextUtils.isEmpty(mRescueEntity.getVerCode())) {
+                mVerifyCode.setText(mRescueEntity.getVerCode());
+            }
+            if (!TextUtils.isEmpty(mRescueEntity.getCabinetId())) {
+                mCabinet.setText(mRescueEntity.getCabinetId());
+            }
+            if (!TextUtils.isEmpty(mRescueEntity.getBatteryId())) {
+                mBattery.setText(mRescueEntity.getBatteryId());
+            }
+            mDoor.setText(mRescueEntity.getDoor() + "");
+            if (!TextUtils.isEmpty(mRescueEntity.getRescueCause())) {
+                mRescueReason.setText(mRescueEntity.getRescueCause());
+            }
+            if (!TextUtils.isEmpty(mRescueEntity.getResolve())) {
+                mRescueComment.setText(mRescueEntity.getResolve());
+            }
             SimpleDateFormat format = new SimpleDateFormat("YYYY.MM.dd");
             mDate.setText(format.format(mRescueEntity.getCreateTime()));
-            if (mRescueEntity.getStatus() == 0){
+            if (mRescueEntity.getStatus() == 0) {
                 mCancelBtn.setVisibility(View.VISIBLE);
             }
         }
@@ -91,7 +109,7 @@ public class RescueDetailActivity extends BaseFragmentActivity<RescueListPresent
 
     @Override
     public void onCancelRescue(BaseEntity<Object> ret) {
-        if (ret.getCode() == 0){
+        if (ret.getCode() == 0) {
             ToastExt.showExt("已取消申请");
             finish();
         } else {
@@ -101,14 +119,14 @@ public class RescueDetailActivity extends BaseFragmentActivity<RescueListPresent
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
-        if (which == DialogInterface.BUTTON_POSITIVE){
+        if (which == DialogInterface.BUTTON_POSITIVE) {
             getPresenter().cancelRescue(mRescueEntity.getId());
         } else {
 
         }
     }
 
-    public void onCancel(View view){
+    public void onCancel(View view) {
         if (mAlertDialog == null) {
             mAlertDialog = new AlertDialog.Builder(this)
                     .setTitle(R.string.alerm_title)

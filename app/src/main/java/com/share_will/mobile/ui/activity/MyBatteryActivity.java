@@ -75,9 +75,13 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
     @Override
     public void onLoadBatteryInfoResult(BaseEntity<BatteryEntity> data) {
         BatteryEntity entity = data.getData();
-        if (data != null) {
-            mStartTime.setText("电池SN:   " + entity.getSn());
-            mEnoughTime.setText("当前电量:   " + entity.getSop() + "%");
+        if (data != null && !TextUtils.isEmpty(entity.getSn())) {
+            if (!TextUtils.isEmpty(entity.getSn())) {
+                mStartTime.setText("电池SN:   " + entity.getSn());
+            }
+            if (!TextUtils.isEmpty(entity.getSop())) {
+                mEnoughTime.setText("当前电量:   " + entity.getSop() + "%");
+            }
             mDurationTime.setVisibility(View.GONE);
             mNowSop.setVisibility(View.GONE);
             mEnergy.setVisibility(View.GONE);
@@ -112,6 +116,11 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
         } else {
             homeFragmentPresenter.bindBattery(App.getInstance().getUserId(), sn);
         }
+    }
+
+    @Override
+    public void onBindBatteryResult(BaseEntity<Object> data) {
+        homeFragmentPresenter.getBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
     }
 
     @Override

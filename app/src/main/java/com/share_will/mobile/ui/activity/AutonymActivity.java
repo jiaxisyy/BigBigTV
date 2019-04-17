@@ -20,6 +20,16 @@ import java.util.List;
 
 public class AutonymActivity extends BaseFragmentActivity implements View.OnClickListener {
 
+    /**
+     * 正面
+     */
+    private static final int TYPE_FRONT = 1;
+    /**
+     * 反面
+     */
+    private static final int TYPE_CONTRARY = 0;
+    private int tempType = -1;
+
     private ImageView mIvFront;
     private ImageView mIvContrary;
     private EditText mEtCode;
@@ -50,9 +60,12 @@ public class AutonymActivity extends BaseFragmentActivity implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_papers_front:
+                tempType = TYPE_FRONT;
                 selectPic();
+
                 break;
             case R.id.iv_papers_contrary:
+                tempType = TYPE_CONTRARY;
                 selectPic();
                 break;
             case R.id.tv_papers_submit:
@@ -65,7 +78,9 @@ public class AutonymActivity extends BaseFragmentActivity implements View.OnClic
         PictureSelector.create(AutonymActivity.this)
                 .openGallery(PictureMimeType.ofImage())
                 .maxSelectNum(1)
+                .isCamera(false)
                 .forResult(PictureConfig.CHOOSE_REQUEST);
+        // Caused by: java.lang.IllegalArgumentException: Failed to find configured root that contains /storage/emulated/0/PictureSelector/CameraImage/PictureSelector_20190417_152946.JPEG
     }
 
     @Override
@@ -83,7 +98,12 @@ public class AutonymActivity extends BaseFragmentActivity implements View.OnClic
                     // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true  注意：音视频除外
                     // 如果裁剪并压缩了，以取压缩路径为准，因为是先裁剪后压缩的
                     String path = selectList.get(0).getPath();
-                    mIvFront.setImageURI(Uri.parse(path));
+
+                    if (tempType == TYPE_FRONT) {
+                        mIvFront.setImageURI(Uri.parse(path));
+                    } else if (tempType == TYPE_CONTRARY) {
+                        mIvContrary.setImageURI(Uri.parse(path));
+                    }
                     break;
             }
         }

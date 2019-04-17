@@ -77,6 +77,7 @@ public class OrderFormActivity extends BaseFragmentActivity<PayPresenter> implem
         mOrderType = getIntent().getIntExtra("orderType", -1);
         mPrice = getIntent().getIntExtra("price", 0);
         mBody = getIntent().getStringExtra("body");
+
         mOrderName.setText(mBody);
         mOrderPrice.setText(String.format("%s元", NumberFormat.getInstance().format(mPrice/100f)));
 

@@ -9,6 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="45px"
+        android:text="标题:"
         android:textColor="@color/text_color"
         android:textSize="36px" />
 
@@ -71,9 +72,9 @@
         android:layout_marginTop="45px"
         android:layout_marginRight="45px"
         android:text="关闭"
-        android:visibility="invisible"
         android:textColor="@color/text_color"
-        android:textSize="36px" />
+        android:textSize="36px"
+        android:visibility="invisible" />
 
     <ImageView
         android:id="@+id/item_iv_home_alarm_disposed"

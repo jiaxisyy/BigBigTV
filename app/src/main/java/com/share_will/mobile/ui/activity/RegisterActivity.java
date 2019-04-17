@@ -105,7 +105,7 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
                 return;
             }
             btnResign.setEnabled(false);
-            getPresenter().register(userid, "测试", password, verifyCode,
+            getPresenter().register(userid, username, password, verifyCode,
                     mStationEntity.getCustomerCode(),
                     mStationEntity.getStationId() + "");
         });

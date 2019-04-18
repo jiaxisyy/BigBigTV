@@ -1,6 +1,7 @@
 package com.share_will.mobile.ui.activity;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -25,6 +26,7 @@ public class ConsumeActivity extends BaseFragmentActivity<ConsumePresenter> impl
     private RecordAdapter mRecordAdapter;
 
     private RecyclerView mRecordList;
+    private SwipeRefreshLayout mRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +35,7 @@ public class ConsumeActivity extends BaseFragmentActivity<ConsumePresenter> impl
         loadByPage(1);
     }
 
-    private void loadByPage(int currentPage){
+    private void loadByPage(int currentPage) {
         getPresenter().getConsumeList(App.getInstance().getUserId(), currentPage, 20);
     }
 
@@ -53,6 +55,9 @@ public class ConsumeActivity extends BaseFragmentActivity<ConsumePresenter> impl
         mRecordList.setAdapter(mRecordAdapter);
         mRecordAdapter.setEmptyView(R.layout.empty_view);
         mRecordAdapter.setOnLoadMoreListener(this);
+        mRefreshLayout = findViewById(R.id.refresh_consume);
+        mRefreshLayout.setOnRefreshListener(() -> loadByPage(1));
+
     }
 
     @Override
@@ -62,9 +67,10 @@ public class ConsumeActivity extends BaseFragmentActivity<ConsumePresenter> impl
 
     @Override
     public void onLoadConsumeList(BaseEntity<List<RecordEntity>> data) {
-        if (data != null && data.getCode() == 0){
+        if (data != null && data.getCode() == 0) {
             mRecordAdapter.setLoadMoreData(data.getData());
         }
+        mRefreshLayout.setRefreshing(false);
     }
 
     @Override

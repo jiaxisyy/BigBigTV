@@ -2,6 +2,7 @@ package com.share_will.mobile.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -56,6 +57,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
     private int mDeposit;
     private int mCauseStatus;
     private ImageButton mBtnTopRightMenu;
+    private SwipeRefreshLayout mRefreshLayout;
 
     @Override
     protected int getLayoutId() {
@@ -75,6 +77,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
         view.findViewById(R.id.row_my_vehicle).setOnClickListener(this);
         view.findViewById(R.id.row_my_battery).setOnClickListener(this);
         view.findViewById(R.id.row_my_scan).setOnClickListener(this);
+        mRefreshLayout = view.findViewById(R.id.refresh_my_center);
+        mRefreshLayout.setOnRefreshListener(() -> getBalance(true));
         mRowScanLogin = view.findViewById(R.id.row_my_scan);
         mRowScanLogin.setOnClickListener(this);
         mTvPhoneNum = view.findViewById(R.id.tv_my_top_phone_num);
@@ -158,8 +162,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
                 }
             }
         }
-
-
+        mRefreshLayout.setRefreshing(false);
     }
 
     @Override

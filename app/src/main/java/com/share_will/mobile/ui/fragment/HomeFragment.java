@@ -3,6 +3,7 @@ package com.share_will.mobile.ui.fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.TextureView;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.share_will.mobile.ui.views.IHomeFragmentView;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseFragment;
 import com.ubock.library.utils.DateUtils;
+import com.ubock.library.utils.LogUtils;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -50,6 +52,11 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     private TextView mNoAlarm;
     private TextView mNoBattery;
     private View mLayoutBottom;
+    private SwipeRefreshLayout mRefreshLayout;
+    /**
+     * 网络请求
+     */
+    private int flag_http_success = -1;
 
 
     @Override
@@ -60,10 +67,12 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
         showBackMenu(false);
-        setTitleTextColor(Color.parseColor("#000000"));
-        setTitle("智慧社区");
-        View vie = view.findViewById(R.id.topbar);
-        vie.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        setTitle("MOSS");
+//        View vie = view.findViewById(R.id.topbar);
+//        vie.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        mRefreshLayout = view.findViewById(R.id.refresh_home);
+        //执行刷新
+        mRefreshLayout.setOnRefreshListener(this::initData);
         mAlarmTitle = view.findViewById(R.id.tv_home_alarm_title);
         mAlarmPositionName = view.findViewById(R.id.tv_home_alarm_positionName);
         mAlarmRemark = view.findViewById(R.id.tv_home_alarm_remark);
@@ -119,16 +128,18 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 mAlarmTime.setVisibility(View.VISIBLE);
                 mAlarmLevel.setVisibility(View.VISIBLE);
                 mNoAlarm.setVisibility(View.INVISIBLE);
-                if(!TextUtils.isEmpty(alarmEntity.getTitle())){
+                if (!TextUtils.isEmpty(alarmEntity.getTitle())) {
                     mAlarmTitle.setText("标题: " + alarmEntity.getTitle());
                 }
-                if(!TextUtils.isEmpty(alarmEntity.getPositionName())){
+                if (!TextUtils.isEmpty(alarmEntity.getPositionName())) {
                     mAlarmPositionName.setText(alarmEntity.getPositionName());
                 }
-                if(!TextUtils.isEmpty(alarmEntity.getRemark())){
+                if (!TextUtils.isEmpty(alarmEntity.getRemark())) {
                     mAlarmRemark.setText(alarmEntity.getRemark());
                 }
-                mAlarmTime.setText("告警时间   " + DateUtils.timeStampToString(alarmEntity.getAlarmtime(), DateUtils.YYYYMMDD_HHMMSS));
+                if (alarmEntity.getAlarmtime()!=0) {
+                    mAlarmTime.setText("告警时间   " + DateUtils.timeStampToString(alarmEntity.getAlarmtime(), DateUtils.YYYYMMDD_HHMMSS));
+                }
                 mAlarmLevel.setText("告警级别   " + alarmEntity.getAlarmlevel() + "级");
             } else {
                 mNoAlarm.setVisibility(View.VISIBLE);
@@ -139,6 +150,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 mAlarmLevel.setVisibility(View.INVISIBLE);
             }
         }
+        flag_http_success = 0;
     }
 
 
@@ -162,15 +174,13 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             mAddress.setText("电池位置:   " + entity.getCabinetAddress());
             mDoor.setText("仓门号:   " + entity.getDoor());
 
-            if (entity.getManageMoney() == 0) {
-
-            }
-
-
             mMoneyCharge.setText(intChange(entity.getMoney() / 100f) + "元");
             mMoneManage.setText(intChange(entity.getManageMoney() / 100f) + "元");
             int all = entity.getMoney() + entity.getManageMoney();
             mMoneyAll.setText("合计:" + intChange(all / 100f) + "元");
+            if (flag_http_success == 0) {
+                mRefreshLayout.setRefreshing(false);
+            }
         } else {
             //没有充电电池,展示已有电池信息
             getPresenter().getBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
@@ -186,9 +196,11 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     @Override
     public void onLoadBatteryInfoResult(BaseEntity<BatteryEntity> data) {
         BatteryEntity entity = data.getData();
-        if (data != null&& !TextUtils.isEmpty(entity.getSn())) {
+        if (data != null && !TextUtils.isEmpty(entity.getSn())) {
             mStartTime.setText("电池SN:   " + entity.getSn());
-            mEnoughTime.setText("当前电量:   " + entity.getSop() + "%");
+            if (!TextUtils.isEmpty(entity.getSop())) {
+                mEnoughTime.setText("当前电量:   " + entity.getSop() + "%");
+            }
             mStartTime.setVisibility(View.VISIBLE);
             mEnoughTime.setVisibility(View.VISIBLE);
             mDurationTime.setVisibility(View.GONE);
@@ -202,6 +214,9 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         } else {
             mLayoutBottom.setVisibility(View.GONE);
             mNoBattery.setVisibility(View.VISIBLE);
+        }
+        if (flag_http_success == 0) {
+            mRefreshLayout.setRefreshing(false);
         }
     }
 

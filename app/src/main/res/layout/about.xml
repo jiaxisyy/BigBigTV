@@ -22,6 +22,14 @@
         android:textSize="48px" />
 
     <TextView
+        android:id="@+id/tv_about_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="v 1.0.0"
+        android:textColor="#333333"
+        android:textSize="48px" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="90px"
@@ -37,6 +45,5 @@
         android:gravity="bottom"
         android:paddingBottom="99px"
         android:text="春藤物联网技术(深圳)有限公司" />
-
 
 </LinearLayout>

@@ -206,6 +206,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.AutonymActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.NaviActivity"

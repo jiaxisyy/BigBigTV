@@ -260,6 +260,7 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
                 break;
             case R.id.btn_alarm_close:
                 closeAlarm();
+                refresh();
                 break;
             case R.id.tv_map_alarm_title:
                 startActivity(new Intent(getContext(), AlarmListActivity.class));

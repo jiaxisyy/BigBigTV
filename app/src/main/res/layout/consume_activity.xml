@@ -8,35 +8,42 @@
     <!-- 标题栏 -->
     <include layout="@layout/widget_topbar" />
 
-    <FrameLayout
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_consume"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#FFFFFFFF">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:background="#FFFFFFFF">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="106px"
-                android:background="#F5F5F5"
-                android:gravity="center_vertical"
-                android:paddingLeft="45px"
-                android:text="本月" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2px"
-                android:background="#FFd8d8d8" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/mention_lv_atme"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1.0" />
-        </LinearLayout>
-    </FrameLayout>
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="106px"
+                    android:background="#F5F5F5"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="45px"
+                    android:text="本月" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:background="#FFd8d8d8" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/mention_lv_atme"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0" />
+            </LinearLayout>
+        </FrameLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 
 </LinearLayout>

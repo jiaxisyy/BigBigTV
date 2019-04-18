@@ -1,211 +1,225 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
     <!-- 标题栏 -->
     <include
         android:id="@+id/topbar"
         layout="@layout/widget_topbar" />
 
-    <!--   <RadioGroup
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:layout_marginLeft="126px"
-           android:layout_marginTop="100px"
-           android:layout_marginRight="126px"
-           android:gravity="center"
-           android:orientation="horizontal"
-           android:visibility="gone">
-
-           <LinearLayout style="@style/style_bg_service_top">
-
-               <RadioButton
-                   android:id="@+id/rb_service_charge"
-                   style="@style/style_text_service_top"
-                   android:checked="true"
-                   android:text="充电服务" />
-           </LinearLayout>
-
-           <LinearLayout style="@style/style_bg_service_top">
-
-               <RadioButton
-                   android:id="@+id/rb_service_rent"
-                   style="@style/style_text_service_top"
-                   android:text="租电服务" />
-           </LinearLayout>
-
-           <LinearLayout style="@style/style_bg_service_top">
-
-               <RadioButton
-                   android:id="@+id/rb_service_custody"
-                   style="@style/style_text_service_top"
-                   android:text="保管服务" />
-           </LinearLayout>
-
-           <LinearLayout style="@style/style_bg_service_top">
-
-               <RadioButton
-                   android:id="@+id/rb_service_share"
-                   style="@style/style_text_service_top"
-                   android:text="共享服务" />
-           </LinearLayout>
-       </RadioGroup>-->
-
-    <!--<LinearLayout-->
-
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_below="@+id/topbar"-->
-    <!--android:layout_marginLeft="60px"-->
-
-    <!--android:layout_marginRight="60px"-->
-    <!--android:orientation="vertical"-->
-    <!--android:visibility="invisible">-->
-
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:background="@drawable/shape_bg_rect_card"-->
-    <!--android:orientation="vertical"-->
-    <!--android:padding="50px">-->
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="你有一块电池处于充电服务,电池状态:" />-->
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="开始时间:   2019-04-11 9:59:01" />-->
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="充满时间:   2019-04-11 9:59:01" />-->
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="充电时长:   1小时10分钟" />-->
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="当前电量:   100%" />-->
-
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="已充能量点:   5个" />-->
-
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="电池位置:    智慧花园A" />-->
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="仓门号:   5号" />-->
-
-    <!--</LinearLayout>-->
-
-    <!--<RelativeLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_marginTop="100px"-->
-    <!--android:background="@drawable/shape_bg_rect_card"-->
-    <!--android:padding="50px">-->
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="充电费用:" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/tv_money_charge"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_centerHorizontal="true"-->
-    <!--android:text="10元" />-->
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentRight="true"-->
-    <!--android:text="合计:20元"-->
-    <!--android:textColor="@color/text_color" />-->
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_below="@+id/tv_money_charge"-->
-    <!--android:text="保管费用:" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/tv_money_custody"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_below="@+id/tv_money_charge"-->
-    <!--android:layout_centerHorizontal="true"-->
-    <!--android:text="10元" />-->
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_below="@+id/tv_money_custody"-->
-    <!--android:text="@string/text_money_charge" />-->
-
-
-    <!--</RelativeLayout>-->
-
-    <!--</LinearLayout>-->
-
-    <LinearLayout
-        android:id="@+id/include_layout_home_bottom"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_service"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/topbar"
-        android:layout_marginTop="142px"
-        android:orientation="vertical">
-        <include layout="@layout/include_layout_home_bottom" />
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topbar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
 
-    <ImageView
-        android:id="@+id/iv_icon_home_service_battery"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/icon_binding_battery" />
+            <!--   <RadioGroup
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="126px"
+                   android:layout_marginTop="100px"
+                   android:layout_marginRight="126px"
+                   android:gravity="center"
+                   android:orientation="horizontal"
+                   android:visibility="gone">
 
-    <TextView
-        android:id="@+id/tv_text_home_service_charge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/iv_icon_home_service_battery"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="116px"
-        android:text="@string/text_service_charge"
-        android:textColor="#333333"
-        android:textSize="38px" />
+                   <LinearLayout style="@style/style_bg_service_top">
 
-    <TextView
-        android:id="@+id/tv_home_service_charge_scan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_text_home_service_charge"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="150px"
-        android:background="@drawable/shape_bg_scan"
-        android:gravity="center"
-        android:text="扫一扫"
-        android:textColor="#FFFFFF"
-        android:textSize="40px" />
-</RelativeLayout>
+                       <RadioButton
+                           android:id="@+id/rb_service_charge"
+                           style="@style/style_text_service_top"
+                           android:checked="true"
+                           android:text="充电服务" />
+                   </LinearLayout>
+
+                   <LinearLayout style="@style/style_bg_service_top">
+
+                       <RadioButton
+                           android:id="@+id/rb_service_rent"
+                           style="@style/style_text_service_top"
+                           android:text="租电服务" />
+                   </LinearLayout>
+
+                   <LinearLayout style="@style/style_bg_service_top">
+
+                       <RadioButton
+                           android:id="@+id/rb_service_custody"
+                           style="@style/style_text_service_top"
+                           android:text="保管服务" />
+                   </LinearLayout>
+
+                   <LinearLayout style="@style/style_bg_service_top">
+
+                       <RadioButton
+                           android:id="@+id/rb_service_share"
+                           style="@style/style_text_service_top"
+                           android:text="共享服务" />
+                   </LinearLayout>
+               </RadioGroup>-->
+
+            <!--<LinearLayout-->
+
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/topbar"-->
+            <!--android:layout_marginLeft="60px"-->
+
+            <!--android:layout_marginRight="60px"-->
+            <!--android:orientation="vertical"-->
+            <!--android:visibility="invisible">-->
+
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@drawable/shape_bg_rect_card"-->
+            <!--android:orientation="vertical"-->
+            <!--android:padding="50px">-->
+
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="你有一块电池处于充电服务,电池状态:" />-->
+
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="开始时间:   2019-04-11 9:59:01" />-->
+
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="充满时间:   2019-04-11 9:59:01" />-->
+
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="充电时长:   1小时10分钟" />-->
+
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="当前电量:   100%" />-->
+
+
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="已充能量点:   5个" />-->
+
+
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="电池位置:    智慧花园A" />-->
+
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="仓门号:   5号" />-->
+
+            <!--</LinearLayout>-->
+
+            <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="100px"-->
+            <!--android:background="@drawable/shape_bg_rect_card"-->
+            <!--android:padding="50px">-->
+
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="充电费用:" />-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/tv_money_charge"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:text="10元" />-->
+
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:text="合计:20元"-->
+            <!--android:textColor="@color/text_color" />-->
+
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/tv_money_charge"-->
+            <!--android:text="保管费用:" />-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/tv_money_custody"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/tv_money_charge"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:text="10元" />-->
+
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/tv_money_custody"-->
+            <!--android:text="@string/text_money_charge" />-->
+
+
+            <!--</RelativeLayout>-->
+
+            <!--</LinearLayout>-->
+
+            <LinearLayout
+                android:id="@+id/include_layout_home_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="142px"
+                android:orientation="vertical">
+
+                <include layout="@layout/include_layout_home_bottom" />
+            </LinearLayout>
+
+
+            <ImageView
+                android:id="@+id/iv_icon_home_service_battery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/icon_binding_battery" />
+
+            <TextView
+                android:id="@+id/tv_text_home_service_charge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_icon_home_service_battery"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="116px"
+                android:text="@string/text_service_charge"
+                android:textColor="#333333"
+                android:textSize="38px" />
+
+            <TextView
+                android:id="@+id/tv_home_service_charge_scan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_text_home_service_charge"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="150px"
+                android:background="@drawable/shape_bg_scan"
+                android:gravity="center"
+                android:text="扫一扫"
+                android:textColor="#FFFFFF"
+                android:textSize="40px" />
+        </RelativeLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

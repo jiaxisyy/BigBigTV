@@ -11,6 +11,7 @@ import com.ubock.library.common.gson.DoubleTypeAdapter;
 import com.ubock.library.common.gson.FloatTypeAdapter;
 import com.ubock.library.common.gson.IntegerTypeAdapter;
 import com.ubock.library.common.gson.LongTypeAdapter;
+import com.ubock.library.common.gson.StringTypeAdapter;
 import com.ubock.library.event.Events;
 import com.ubock.library.utils.LogUtils;
 
@@ -86,6 +87,8 @@ public class ApiClient {
                 .registerTypeAdapter(long.class, new LongTypeAdapter())
                 .registerTypeAdapter(Float.class, new FloatTypeAdapter())
                 .registerTypeAdapter(float.class, new FloatTypeAdapter())
+                .registerTypeAdapter(String.class, new StringTypeAdapter())
+                .serializeNulls()
                 .create();
         return gson;
     }

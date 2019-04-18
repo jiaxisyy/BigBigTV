@@ -11,40 +11,27 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="35px"
         android:scaleType="centerCrop"
-        android:src="@drawable/icon_user_password" />
+        android:src="@drawable/icon_user_phone" />
 
     <EditText
-        android:id="@+id/edit_pwd"
+        android:id="@+id/edit_username"
         android:layout_width="match_parent"
         android:layout_height="132px"
         android:layout_gravity="center_vertical"
         android:background="@null"
-        android:hint="请输入密码"
-        android:inputType="textPassword"
-        android:maxLength="15"
+        android:hint="请输入您的姓名"
         android:singleLine="true"
+        android:inputType="textPassword"
+        android:maxLength="10"
         android:paddingLeft="120px"
         android:textColor="@color/text_color"
         android:textColorHint="#999999"
         android:textCursorDrawable="@null"
         android:textSize="40px" />
-
-    <TextView
-        android:id="@+id/tv_forgetPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="30px"
-        android:onClick="forgetPassword"
-        android:text="忘记密码"
-        android:textColor="#F43838"
-        android:textSize="40px" />
-
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_alignBottom="@id/edit_pwd"
+        android:layout_alignBottom="@id/edit_username"
         android:background="#999999" />
 
 </RelativeLayout>

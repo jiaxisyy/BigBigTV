@@ -19,6 +19,8 @@
 
     <include layout="@layout/include_user_password2" />
 
+    <include layout="@layout/include_user_username" />
+
     <include
         layout="@layout/include_user_name"
         android:visibility="gone" />
@@ -83,8 +85,8 @@
             android:id="@+id/tv_register_protocol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="《用户协议》"
             android:onClick="openUserProtocol"
+            android:text="《用户协议》"
             android:textColor="@color/text_color"
             android:textSize="36px" />
     </LinearLayout>

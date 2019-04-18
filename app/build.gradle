@@ -100,7 +100,9 @@ android {
                 //④defaultConfig.versionName表示在defaultConfig标签下写的版本号
             }
     }
-
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
 }
 
 dependencies {

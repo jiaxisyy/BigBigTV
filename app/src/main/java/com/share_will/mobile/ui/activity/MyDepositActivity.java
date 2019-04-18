@@ -43,7 +43,7 @@ public class MyDepositActivity extends BaseFragmentActivity implements View.OnCl
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.tv_my_deposit_retreat) {
-            if (mDeposit == 0) {
+            if (mDeposit > 0) {
                 startActivity(new Intent(this, RefundActivity.class));
             } else {
                 Intent intent = new Intent(this, HomeActivity.class);

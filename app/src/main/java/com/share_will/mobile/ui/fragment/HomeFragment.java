@@ -137,6 +137,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     @Override
     public void onLoadChargeBatteryInfoResult(BaseEntity<ChargeBatteryEntity> data) {
         if (data != null) {
+            mLayoutBottom.setVisibility(View.VISIBLE);
             ChargeBatteryEntity entity = data.getData();
             mStartTime.setText("开始时间:   " + DateUtils.unixToLocalTime(String.valueOf(entity.getStartTime())));
             if (entity.getFullTime() != 0) {
@@ -153,10 +154,15 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             mAddress.setText("电池位置:   " + entity.getCabinetAddress());
             mDoor.setText("仓门号:   " + entity.getDoor());
 
-            mMoneyCharge.setText(intChange(entity.getMoney()) + "元");
-            mMoneManage.setText(intChange(entity.getManageMoney()) + "元");
+            if (entity.getManageMoney() == 0) {
+
+            }
+
+
+            mMoneyCharge.setText(intChange(entity.getMoney() / 100f) + "元");
+            mMoneManage.setText(intChange(entity.getManageMoney() / 100f) + "元");
             int all = entity.getMoney() + entity.getManageMoney();
-            mMoneyAll.setText("合计:" + intChange(all) + "元");
+            mMoneyAll.setText("合计:" + intChange(all / 100f) + "元");
         } else {
             //没有充电电池,展示已有电池信息
             getPresenter().getBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
@@ -164,9 +170,9 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
 
     }
 
-    public String intChange(int num) {
-        String balance = NumberFormat.getInstance().format(num / 100f);
-        return balance;
+    public String intChange(float num) {
+        DecimalFormat df = new DecimalFormat("0.00");
+        return df.format(num);
     }
 
     @Override
@@ -185,6 +191,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             mCardMoney.setVisibility(View.GONE);
             mNoBattery.setVisibility(View.GONE);
             mLayoutBottom.setVisibility(View.VISIBLE);
+
         } else {
             mLayoutBottom.setVisibility(View.GONE);
             mNoBattery.setVisibility(View.VISIBLE);

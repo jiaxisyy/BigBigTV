@@ -1,5 +1,6 @@
 package com.share_will.mobile.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.location.Location;
@@ -86,6 +87,7 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
     private TextView mCabinetTitle;
     private TextView mCabinetSN;
     private TextView mFullNum;
+    private TextView mEmptyHouse;
     private TextView mCabinetAddress;
     private CabinetEntity mCurrentCabinet;
     public final static String CABINETTITLE = "cabinettitle";
@@ -113,6 +115,10 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
     private List<CityEntity> mCityList = null;
     private Intent mBespeakIntent;
     private Marker clickMarker;
+    /**
+     * 点击地图标注状态 0:未点击 1:点击后
+     */
+    private int clickType = 0;
 
     @Override
     protected int getLayoutId() {
@@ -135,7 +141,8 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
         mCabinetTitle = view.findViewById(R.id.cabinet_title);
         mCabinetSN = view.findViewById(R.id.cabinet_sn);
         mFullNum = view.findViewById(R.id.full_num);
-        mCabinetAddress = view.findViewById(R.id.cabinet_address);
+        mEmptyHouse = view.findViewById(R.id.cabinet_empty_house);
+//        mCabinetAddress = view.findViewById(R.id.cabinet_address);
         battery_num = view.findViewById(R.id.battery_num);
         battery_numPP = view.findViewById(R.id.battery_numPP);
         EventBus.getDefault().register(this);
@@ -375,9 +382,14 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
             //点击的机柜正在显示则隐藏，否则显示
             if (mCabinetInfoView.getVisibility() == View.VISIBLE) {
                 hideCabinetInfo();
+                clickType = 0;
+                useMarker(clickType);
+
             } else {
                 mCabinetInfoView.setVisibility(View.VISIBLE);
                 getFullBattery(cabinetEntity.getCabinetSn());
+                clickType = 1;
+                useMarker(clickType);
             }
         } else {
             if (!TextUtils.isEmpty(cabinetEntity.getStation())) {
@@ -386,9 +398,11 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
             if (!TextUtils.isEmpty(cabinetEntity.getCabinetSn())) {
                 mCabinetSN.setText(String.format("SN码:%s", cabinetEntity.getCabinetSn()));
             }
-            if (!TextUtils.isEmpty(cabinetEntity.getAddress())) {
-                mCabinetAddress.setText(String.format("地址:%s", cabinetEntity.getAddress()));
-            }
+//            if (!TextUtils.isEmpty(cabinetEntity.getAddress())) {
+//                mCabinetAddress.setText(String.format("地址:%s", cabinetEntity.getAddress()));
+//            }
+            mEmptyHouse.setText(String.format("空仓数量:%s/%s", cabinetEntity.getEmptyHouse(), cabinetEntity.getWareHouseTotal()));
+
             mBespeakIntent = new Intent(this.getActivity(), BespeakActivity.class);
             mBespeakIntent.putExtra(CABINETTITLE, cabinetEntity.getStation());
             mBespeakIntent.putExtra(CABINETSN, cabinetEntity.getCabinetSn());
@@ -402,8 +416,9 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
             mCabinetInfoView.setVisibility(View.VISIBLE);
             mCurrentCabinet = cabinetEntity;
             getFullBattery(cabinetEntity.getCabinetSn());
+            clickType = 1;
+            useMarker(clickType);
         }
-
     }
 
     /**
@@ -481,6 +496,7 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
      * 刷新电量信息
      */
     public void refresh() {
+        clickType = 0;
         showLoading("获取数据...");
         getContext().startService(new Intent(this.getActivity(), BatteryService.class));
         if (mCityEntity != null) {
@@ -494,6 +510,7 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
      * 显示当前位置
      */
     public void getLocation() {
+        clickType = 0;
         if (mCurrentLocation != null) {
             LatLng latLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
             showCurrentPosition(latLng);
@@ -537,23 +554,12 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
      */
     private void initMultiPoint() {
         MultiPointOverlayOptions overlayOptions = new MultiPointOverlayOptions();
-
-        overlayOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.cabinet));//设置图标
+        overlayOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_map_cabinet));//设置图标
         overlayOptions.anchor(0.5f, 0.5f); //设置锚点
         mMultiPointOverlay = mAMap.addMultiPointOverlay(overlayOptions);
     }
 
-    // 定义海量点点击事件
-/*    AMap.OnMultiPointClickListener mMultiPointClickListener = new AMap.OnMultiPointClickListener() {
-        // 海量点中某一点被点击时回调的接口
-        // 返回 true 则表示接口已响应事件，否则返回false
-        @Override
-        public boolean onPointClick(MultiPointItem pointItem) {
-            Log.d("cgd", "MultiPointItem:" + pointItem.getTitle());
-            showCabinetInfo((CabinetEntity) pointItem.getObject());
-            return true;
-        }
-    };*/
+
     // 定义 Marker 点击事件监听
     AMap.OnMarkerClickListener markerClickListener = new AMap.OnMarkerClickListener() {
         // marker 对象被点击时回调的接口
@@ -562,10 +568,16 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
         public boolean onMarkerClick(Marker marker) {
 
             clickMarker = marker;
-            showCabinetInfo(mCabinetList.get(Integer.parseInt(marker.getSnippet())));
+            CabinetEntity cabinetEntity = mCabinetList.get(Integer.parseInt(marker.getSnippet()));
+            if (cabinetEntity.getUsableCount() != 0) {
+                showCabinetInfo(cabinetEntity);
+            }else {
+                showMessage("没有可换电池");
+            }
             return true;
         }
     };
+
 
     private Handler mHandler = new Handler() {
 
@@ -573,13 +585,13 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_SHOW_CABINET_LIST:
-                    useMarker();
+                    useMarker(clickType);
                     break;
                 case MSG_SHOW_FULL_BATTERY_COUNT:
 
-                    mFullNum.setText(String.format("可换电池数量:%d", msg.arg1));
+                    mFullNum.setText(String.format("可换电池数量:%d/%d", msg.arg1, mCabinetList.get(Integer.parseInt(clickMarker.getSnippet())).getBatteryCount()));
                     mBespeakIntent.putExtra(FULLNUM, msg.arg1);
-                    clickMarker.setIcon(BitmapDescriptorFactory.fromResource(getResources().getIdentifier("cabinet" + msg.arg1, "drawable", getContext().getPackageName())));
+                    clickMarker.setIcon(BitmapDescriptorFactory.fromResource(getResources().getIdentifier("icon_battery" + msg.arg1, "drawable", getContext().getPackageName())));
                     break;
                 default:
                     break;
@@ -591,8 +603,18 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
     /**
      * 使用标注点
      */
-    private void useMarker() {
-
+    private void useMarker(int type) {
+        mAMap.clear();
+        //添加Marker显示定位位置
+        //如果是空的添加一个新的,icon方法就是设置定位图标，可以自定义
+        mLocationMarker = mAMap.addMarker(new MarkerOptions()
+                .visible(true)
+                .anchor(0.5f, 0.5f) //设置锚点
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.gps_point)));
+        if (mCurrentLocation != null) {
+            LatLng latLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+            showCurrentPosition(latLng);
+        }
         int pos = 0;
         ArrayList<MarkerOptions> markerOptionsList = new ArrayList<>();
         for (CabinetEntity entity : mCabinetList) {
@@ -604,16 +626,28 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
             markerOptions.position(latLng);
             markerOptions.title(entity.getStation());
             //用snippet模拟pos
-            markerOptions.snippet(String.valueOf(pos++));
+
+            markerOptions.snippet(String.valueOf(pos));
+
             int usableCount = entity.getUsableCount();
             //根据图片名获取对应id
-            if (usableCount >= 0 && usableCount <= 18) {
-                markerOptions.icon(BitmapDescriptorFactory.fromResource(getResources().getIdentifier("cabinet" + usableCount, "drawable", getContext().getPackageName())));
-            } else {
-                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.cabinet0));
+
+            if (type == 0) {
+                if (usableCount > 0) {
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_map_cabinet));
+                } else {
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_map_cabinet_null));
+                }
+            } else if (type == 1) {
+                if (usableCount >= 0 && usableCount <= 18) {
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(getResources().getIdentifier("icon_battery" + usableCount, "drawable", getContext().getPackageName())));
+                } else {
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_map_cabinet));
+                }
             }
             markerOptions.setFlat(true);//设置marker平贴地图效果
             markerOptionsList.add(markerOptions);
+            pos++;
         }
         //是否改变地图状态以至于所有的marker对象都在当前地图可视区域范围内显示。
         mAMap.addMarkers(markerOptionsList, false);
@@ -640,7 +674,7 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
         //不知道为什么无法更新海量点，所以这里只能销毁，再重新初始化了
         mMultiPointOverlay.remove();
         mMultiPointOverlay.destroy();
-        initMultiPoint();
+//        initMultiPoint();
         mMultiPointOverlay.setItems(mMultiPointItemList);
     }
 
@@ -675,6 +709,7 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
         msg.what = MSG_SHOW_FULL_BATTERY_COUNT;
         if (ret != null && ret.getCode() == 0) {
             msg.arg1 = ret.getData().get("count");
+
         }
         mHandler.sendMessage(msg);
     }

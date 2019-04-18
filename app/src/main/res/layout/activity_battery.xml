@@ -21,7 +21,9 @@
                 android:id="@+id/include_layout_my_battery_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="invisible"
+                >
 
                 <include layout="@layout/include_layout_home_bottom" />
             </LinearLayout>

@@ -75,7 +75,7 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
         mCardMoney = findViewById(R.id.rl_card_money);
         mLlCardBatteryInfo = findViewById(R.id.ll_card_battery_info);
         mLlCardBatteryBind = findViewById(R.id.rl_card_bind);
-        mLayoutBottom = findViewById(R.id.include_layout_home_bottom);
+        mLayoutBottom = findViewById(R.id.include_layout_my_battery_bottom);
         mBindSn = findViewById(R.id.et_my_battery_bind_sn);
         mBindSnAgain = findViewById(R.id.et_my_battery_bind_sn_again);
         mBindSubmit = findViewById(R.id.tv_my_battery_bind_submit);
@@ -88,7 +88,6 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
 
     private void initData() {
         homeFragmentPresenter.getChargeBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
-
     }
 
     @Override
@@ -109,10 +108,12 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
             mLlCardBatteryInfo.setVisibility(View.VISIBLE);
             mCardMoney.setVisibility(View.GONE);
             mLlCardBatteryBind.setVisibility(View.GONE);
+            mLayoutBottom.setVisibility(View.VISIBLE);
         } else {
             mLlCardBatteryInfo.setVisibility(View.GONE);
             mCardMoney.setVisibility(View.GONE);
             mLlCardBatteryBind.setVisibility(View.VISIBLE);
+            mLayoutBottom.setVisibility(View.INVISIBLE);
         }
         mRefreshLayout.setRefreshing(false);
     }

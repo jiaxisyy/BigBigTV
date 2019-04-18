@@ -164,9 +164,15 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
                 long l = entity.getNowTime() - entity.getStartTime();
                 mDurationTime.setText("充电时长:   " + DateUtils.unixToUTcTimeTest(l));
             }
-            mNowSop.setText("当前电量:   " + entity.getSop() + "%");
+            if (!TextUtils.isEmpty(entity.getSop())) {
+                mNowSop.setText("当前电量:   " + entity.getSop() + "%");
+            }
+
             mEnergy.setText("已充能量点:   " + entity.getEnergy());
-            mAddress.setText("电池位置:   " + entity.getCabinetAddress());
+            if (!TextUtils.isEmpty(entity.getCabinetAddress())) {
+                mAddress.setText("电池位置:   " + entity.getCabinetAddress());
+            }
+
             mDoor.setText("仓门号:   " + entity.getDoor());
 
             mMoneyCharge.setText(intChange(entity.getMoney()) + "元");
@@ -185,7 +191,7 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
     public String intChange(int num) {
 //        DecimalFormat df = new DecimalFormat("#.00");
 //        return df.format(num);
-        return NumberFormat.getInstance().format(num/100f);
+        return NumberFormat.getInstance().format(num / 100f);
     }
 
     @Override

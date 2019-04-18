@@ -1,6 +1,7 @@
 package com.share_will.mobile.ui.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -25,7 +26,7 @@ import com.ubock.library.ui.dialog.ToastExt;
 import java.util.List;
 
 public class NewRescueActivity extends BaseFragmentActivity<NewRescuePresenter> implements NewRescueView,
-    OnOptionsSelectListener, OnOptionsSelectChangeListener{
+        OnOptionsSelectListener, OnOptionsSelectChangeListener {
 
     private OptionsPickerView mStationPickerView;
     private TextView mStation;
@@ -69,7 +70,9 @@ public class NewRescueActivity extends BaseFragmentActivity<NewRescuePresenter> 
     @Override
     public void onOptionsSelect(int options1, int options2, int options3, View v) {
         mStationEntity = getPresenter().getModel().getStation(options2);
-        mStation.setText(mStationEntity.getStationName());
+        if (!TextUtils.isEmpty(mStationEntity.getStationName())) {
+            mStation.setText(mStationEntity.getStationName());
+        }
     }
 
     @Override
@@ -82,9 +85,9 @@ public class NewRescueActivity extends BaseFragmentActivity<NewRescuePresenter> 
         }
     }
 
-    public void showStationDialog(View view){
+    public void showStationDialog(View view) {
         if (getPresenter().getModel().getCity() == null ||
-                getPresenter().getModel().getCity().isEmpty()){
+                getPresenter().getModel().getCity().isEmpty()) {
             getPresenter().getCityList();
         }
         mStationPickerView.show();
@@ -92,7 +95,7 @@ public class NewRescueActivity extends BaseFragmentActivity<NewRescuePresenter> 
 
     @Override
     public void onLoadStationList(BaseEntity<List<StationEntity>> ret) {
-        if (ret != null && ret.getCode() == 0){
+        if (ret != null && ret.getCode() == 0) {
             mStationPickerView.setNPicker(getPresenter().getModel().getCity(), ret.getData(), null);
             mStationPickerView.setSelectOptions(mCityIndex);
         }
@@ -100,14 +103,14 @@ public class NewRescueActivity extends BaseFragmentActivity<NewRescuePresenter> 
 
     @Override
     public void onLoadCityList(BaseEntity<List<CityEntity>> ret) {
-        if (ret != null && ret.getCode() ==0 && ret.getData().size() > 0){
+        if (ret != null && ret.getCode() == 0 && ret.getData().size() > 0) {
             String cityCode = ret.getData().get(0).getAreaCode();
             getPresenter().getStationList(cityCode);
         }
     }
 
-    public void onSubmit(View view){
-        if (mStationEntity == null){
+    public void onSubmit(View view) {
+        if (mStationEntity == null) {
             ToastExt.showExt("请选择站点");
             return;
         }
@@ -116,8 +119,8 @@ public class NewRescueActivity extends BaseFragmentActivity<NewRescuePresenter> 
 
     @Override
     public void onApplyRescue(BaseEntity<Object> ret) {
-        if (ret != null){
-            if (ret.getCode() == 0){
+        if (ret != null) {
+            if (ret.getCode() == 0) {
                 ToastExt.showExt("已成功提交申请");
                 finish();
             } else {

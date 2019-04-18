@@ -174,6 +174,7 @@ public class ChargingActivity extends BaseFragmentActivity<ChargingPresenter> im
 
         @Override
         protected void convert(BaseViewHolder helper, ChargingEntity item) {
+
             helper.setText(R.id.minute, changeTime(item.getMinute()));
             helper.setText(R.id.price, changeMony(item.getMoney()));
             if (helper.getAdapterPosition() == mIndex){

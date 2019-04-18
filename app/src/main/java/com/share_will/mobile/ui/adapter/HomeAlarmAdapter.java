@@ -1,6 +1,7 @@
 package com.share_will.mobile.ui.adapter;
 
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -24,9 +25,15 @@ public class HomeAlarmAdapter extends BaseQuickAdapter<AlarmEntity.SmokeBean, Ba
             helper.setVisible(R.id.item_iv_home_alarm_disposed, false);
             helper.setVisible(R.id.item_tv_home_alarm_close, true);
         }
-        helper.setText(R.id.item_tv_home_alarm_title, "标题: " + item.getTitle());
-        helper.setText(R.id.item_tv_home_alarm_positionName, item.getPositionName());
-        helper.setText(R.id.item_tv_home_alarm_remark, item.getRemark());
+        if (!TextUtils.isEmpty(item.getTitle())) {
+            helper.setText(R.id.item_tv_home_alarm_title, "标题: " + item.getTitle());
+        }
+        if (!TextUtils.isEmpty(item.getPositionName())) {
+            helper.setText(R.id.item_tv_home_alarm_positionName, item.getPositionName());
+        }
+        if (!TextUtils.isEmpty(item.getRemark())) {
+            helper.setText(R.id.item_tv_home_alarm_remark, item.getRemark());
+        }
         helper.setText(R.id.item_tv_home_alarm_time, "告警时间   " + DateUtils.timeStampToString(item.getAlarmtime(), DateUtils.YYYYMMDD_HHMMSS));
         helper.setText(R.id.item_tv_home_alarm_level, "告警级别   " + item.getAlarmlevel() + "级");
 

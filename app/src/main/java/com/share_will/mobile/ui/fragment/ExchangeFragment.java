@@ -61,7 +61,7 @@ import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
 
-public class ExchangeFragment extends BaseFragment<HomePresenter> implements HomeView, View.OnClickListener{
+public class ExchangeFragment extends BaseFragment<HomePresenter> implements HomeView, View.OnClickListener {
 
     TextureMapView mMapView = null;
     AMap mAMap = null;
@@ -138,6 +138,7 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
         mCabinetAddress = view.findViewById(R.id.cabinet_address);
         battery_num = view.findViewById(R.id.battery_num);
         battery_numPP = view.findViewById(R.id.battery_numPP);
+        EventBus.getDefault().register(this);
         mBtnBespeak = view.findViewById(R.id.btn_bespeak);
         mBtnBespeak.setOnClickListener(this);
         mCity = view.findViewById(R.id.tv_city);
@@ -180,7 +181,9 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
                 if (city != null) {
                     mCityEntity = city;
                     App.getInstance().getGlobalModel().setCityEntity(city);
-                    mCity.setText(city.getStationCity());
+                    if (!TextUtils.isEmpty(city.getStationCity())) {
+                        mCity.setText(city.getStationCity());
+                    }
                     getCabinetList(city.getAreaCode());
                     LatLng latLng = new LatLng(city.getLatitude(), city.getLongitude());
                     mAMap.animateCamera(CameraUpdateFactory.changeLatLng(latLng));
@@ -189,12 +192,13 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
         }).setCyclic(false, false, false).build();
 
         getContext().startService(new Intent(this.getActivity(), BatteryService.class));
+
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
+
         getPresenter().getCityList();
     }
 
@@ -292,8 +296,9 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
             if (cityCode.equals(city.getAreaCode())) {
                 App.getInstance().getGlobalModel().setCityEntity(city);
                 mCityPickerView.setSelectOptions(i);
-                mCity.setText(city.getStationCity());
-
+                if (!TextUtils.isEmpty(city.getStationCity())) {
+                    mCity.setText(city.getStationCity());
+                }
                 break;
 
 
@@ -375,9 +380,15 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
                 getFullBattery(cabinetEntity.getCabinetSn());
             }
         } else {
-            mCabinetTitle.setText(String.format("名称:%s", cabinetEntity.getStation()));
-            mCabinetSN.setText(String.format("SN码:%s", cabinetEntity.getCabinetSn()));
-            mCabinetAddress.setText(String.format("地址:%s", cabinetEntity.getAddress()));
+            if (!TextUtils.isEmpty(cabinetEntity.getStation())) {
+                mCabinetTitle.setText(String.format("名称:%s", cabinetEntity.getStation()));
+            }
+            if (!TextUtils.isEmpty(cabinetEntity.getCabinetSn())) {
+                mCabinetSN.setText(String.format("SN码:%s", cabinetEntity.getCabinetSn()));
+            }
+            if (!TextUtils.isEmpty(cabinetEntity.getAddress())) {
+                mCabinetAddress.setText(String.format("地址:%s", cabinetEntity.getAddress()));
+            }
             mBespeakIntent = new Intent(this.getActivity(), BespeakActivity.class);
             mBespeakIntent.putExtra(CABINETTITLE, cabinetEntity.getStation());
             mBespeakIntent.putExtra(CABINETSN, cabinetEntity.getCabinetSn());
@@ -650,7 +661,7 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
     private void getCabinetList(String cityCode) {
         double longitude = 0;
         double latitude = 0;
-        if (mCurrentLocation != null){
+        if (mCurrentLocation != null) {
             longitude = mCurrentLocation.getLongitude();
             latitude = mCurrentLocation.getLatitude();
         }
@@ -696,6 +707,7 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
         } else {
             int i = (int) Math.ceil(info.sop / 20.0f);//20%一格电
             battery_num.setVisibility(View.VISIBLE);
+
             battery_numPP.setText(String.format("%d%%", info.sop));
             if (i > 5) {
                 i = 5;

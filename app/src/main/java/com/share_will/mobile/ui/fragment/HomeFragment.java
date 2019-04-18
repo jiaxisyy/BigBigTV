@@ -3,6 +3,8 @@ package com.share_will.mobile.ui.fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -117,9 +119,15 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 mAlarmTime.setVisibility(View.VISIBLE);
                 mAlarmLevel.setVisibility(View.VISIBLE);
                 mNoAlarm.setVisibility(View.INVISIBLE);
-                mAlarmTitle.setText("标题: " + alarmEntity.getTitle());
-                mAlarmPositionName.setText(alarmEntity.getPositionName());
-                mAlarmRemark.setText(alarmEntity.getRemark());
+                if(!TextUtils.isEmpty(alarmEntity.getTitle())){
+                    mAlarmTitle.setText("标题: " + alarmEntity.getTitle());
+                }
+                if(!TextUtils.isEmpty(alarmEntity.getPositionName())){
+                    mAlarmPositionName.setText(alarmEntity.getPositionName());
+                }
+                if(!TextUtils.isEmpty(alarmEntity.getRemark())){
+                    mAlarmRemark.setText(alarmEntity.getRemark());
+                }
                 mAlarmTime.setText("告警时间   " + DateUtils.timeStampToString(alarmEntity.getAlarmtime(), DateUtils.YYYYMMDD_HHMMSS));
                 mAlarmLevel.setText("告警级别   " + alarmEntity.getAlarmlevel() + "级");
             } else {
@@ -178,7 +186,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     @Override
     public void onLoadBatteryInfoResult(BaseEntity<BatteryEntity> data) {
         BatteryEntity entity = data.getData();
-        if (data != null) {
+        if (data != null&& !TextUtils.isEmpty(entity.getSn())) {
             mStartTime.setText("电池SN:   " + entity.getSn());
             mEnoughTime.setText("当前电量:   " + entity.getSop() + "%");
             mStartTime.setVisibility(View.VISIBLE);
@@ -191,7 +199,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             mCardMoney.setVisibility(View.GONE);
             mNoBattery.setVisibility(View.GONE);
             mLayoutBottom.setVisibility(View.VISIBLE);
-
         } else {
             mLayoutBottom.setVisibility(View.GONE);
             mNoBattery.setVisibility(View.VISIBLE);

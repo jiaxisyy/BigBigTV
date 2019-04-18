@@ -31,12 +31,14 @@ public class ForgetPasswordActivityOne extends BaseFragmentActivity<ForgetPasswo
         mPhoneEt = findViewById(R.id.et_phone);
         mVerifyCodeEt = findViewById(R.id.edit_verifyCode);
         btnForgetPasswordNext = findViewById(R.id.btn_forgetPassword_next);
-//        mPassword = findViewById(R.id.edit_pwd);
-//        mPassword2 = findViewById(R.id.edit_pwd2);
 
         String phone = getIntent().getStringExtra("phone");
         if (!TextUtils.isEmpty(phone)) {
             mPhoneEt.setText(phone);
+        }
+        String userId = App.getInstance().getUserId();
+        if (!TextUtils.isEmpty(userId)) {
+            mPhoneEt.setText(userId);
         }
         btnForgetPasswordNext.setOnClickListener(v -> {
             String verifyCode = mVerifyCodeEt.getText().toString().trim();

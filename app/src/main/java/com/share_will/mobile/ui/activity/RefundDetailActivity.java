@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -75,13 +76,22 @@ public class RefundDetailActivity extends BaseFragmentActivity<RefundPresenter> 
         if (mRefundEntity == null){
             return;
         }
-
         mStatus.setText(Constant.RefundStatus.get(mRefundEntity.getCauseStatus()));
-        mUserName.setText(mRefundEntity.getBankUserName());
-        mBankName.setText(mRefundEntity.getBankName());
-        mBankCard.setText(mRefundEntity.getBankCard());
-        mReason.setText(mRefundEntity.getDescription());
-        mComment.setText(mRefundEntity.getResolve());
+        if(!TextUtils.isEmpty(mRefundEntity.getBankUserName())){
+            mUserName.setText(mRefundEntity.getBankUserName());
+        }
+        if(!TextUtils.isEmpty(mRefundEntity.getBankName())){
+            mBankName.setText(mRefundEntity.getBankName());
+        }
+        if(!TextUtils.isEmpty(mRefundEntity.getBankCard())){
+            mBankCard.setText(mRefundEntity.getBankCard());
+        }
+        if(!TextUtils.isEmpty(mRefundEntity.getDescription())){
+            mReason.setText(mRefundEntity.getDescription());
+        }
+        if(!TextUtils.isEmpty(mRefundEntity.getResolve())){
+            mComment.setText(mRefundEntity.getResolve());
+        }
         SimpleDateFormat format = new SimpleDateFormat("YYYY.MM.dd");
         mDate.setText(format.format(mRefundEntity.getCreateTime()));
         if (mRefundEntity.getCauseStatus() == 0){

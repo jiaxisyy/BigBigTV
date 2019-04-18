@@ -2,6 +2,7 @@ package com.share_will.mobile.ui.adapter;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,7 +32,9 @@ public class PackageAdapter extends LoadMoreAdapter<PackageEntity, PackageAdapte
 
         Glide.with(mContext).load(item.getPoster()).apply(options).into(poster);
 
-        helper.setText(R.id.tv_name, item.getPackageName());
+        if(!TextUtils.isEmpty(item.getPackageName())){
+            helper.setText(R.id.tv_name, item.getPackageName());
+        }
         int price = item.getActivityId() != 0 ? item.getActivityPrice() : item.getPackagePrice();
         helper.setText(R.id.tv_price, String.format("￥%s元", NumberFormat.getInstance().format(price / 100f)));
         helper.setText(R.id.tv_desc, item.getDescription());

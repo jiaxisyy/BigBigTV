@@ -87,8 +87,6 @@ public class ApiClient {
                 .registerTypeAdapter(long.class, new LongTypeAdapter())
                 .registerTypeAdapter(Float.class, new FloatTypeAdapter())
                 .registerTypeAdapter(float.class, new FloatTypeAdapter())
-                .registerTypeAdapter(String.class, new StringTypeAdapter())
-                .serializeNulls()
                 .create();
         return gson;
     }

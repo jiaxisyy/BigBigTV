@@ -1,6 +1,7 @@
 package com.share_will.mobile.ui.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.share_will.mobile.Constant;
@@ -24,8 +25,11 @@ public class RescueListAdapter extends LoadMoreAdapter<RescueEntity, BaseViewHol
 
     @Override
     protected void convert(BaseViewHolder helper, RescueEntity entity) {
+
         helper.setText(R.id.tv_status, Constant.RescueStatus.get(entity.getStatus()));
-        helper.setText(R.id.tv_reason, entity.getRescueCause());
+        if(!TextUtils.isEmpty(entity.getRescueCause())){
+            helper.setText(R.id.tv_reason, entity.getRescueCause());
+        }
         SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
         helper.setText(R.id.tv_time, format.format(entity.getCreateTime()));
     }

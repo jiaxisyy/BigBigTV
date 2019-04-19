@@ -38,6 +38,15 @@ public class CabinetEntity {
     private int batteryCount;
     private int emptyHouse;
     private int wareHouseTotal;
+    private boolean online;
+
+    public boolean isOnline() {
+        return online;
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
+    }
 
     public int getWareHouseTotal() {
         return wareHouseTotal;
@@ -171,6 +180,7 @@ public class CabinetEntity {
                 ", emptyHouse=" + emptyHouse +
                 ", wareHouseTotal=" + wareHouseTotal +
                 ", subscribe=" + subscribe +
+                ", online=" + online +
                 '}';
     }
 }

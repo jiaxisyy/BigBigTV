@@ -394,13 +394,11 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
             if (mCabinetInfoView.getVisibility() == View.VISIBLE) {
                 hideCabinetInfo();
                 clickType = 0;
-                useMarker(clickType);
-
             } else {
                 mCabinetInfoView.setVisibility(View.VISIBLE);
                 getFullBattery(cabinetEntity.getCabinetSn());
                 clickType = 1;
-                useMarker(clickType);
+
             }
         } else {
             if (!TextUtils.isEmpty(cabinetEntity.getStation())) {
@@ -428,7 +426,6 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
             mCurrentCabinet = cabinetEntity;
             getFullBattery(cabinetEntity.getCabinetSn());
             clickType = 1;
-            useMarker(clickType);
         }
     }
 
@@ -580,11 +577,11 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
 
             clickMarker = marker;
             CabinetEntity cabinetEntity = mCabinetList.get(Integer.parseInt(marker.getSnippet()));
-            if (cabinetEntity.getUsableCount() != 0) {
-                showCabinetInfo(cabinetEntity);
+            showCabinetInfo(cabinetEntity);
+            if (cabinetEntity.isOnline()) {
                 showRideRoute(cabinetEntity);
             } else {
-                showMessage("没有可换电池");
+                showMessage("设备离线中");
             }
             return true;
         }
@@ -605,7 +602,6 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
                     new LatLonPoint(cabinetEntity.getLatitude(), cabinetEntity.getLongitude()));
             RouteSearch.RideRouteQuery query = new RouteSearch.RideRouteQuery(fromAndTo, RIDING_RECOMMEND);
             routeSearch.calculateRideRouteAsyn(query);
-
             routeSearch.setRouteSearchListener(new RouteSearch.OnRouteSearchListener() {
                 @Override
                 public void onBusRouteSearched(BusRouteResult busRouteResult, int i) {
@@ -639,8 +635,6 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
                                 rideRouteOverlay.zoomToSpan();
                                 long duration = ridePath.getDuration();
                                 float distance = ridePath.getDistance();
-
-
                             }
                         }
                     }
@@ -656,13 +650,12 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_SHOW_CABINET_LIST:
-                    useMarker(clickType);
+                    useMarker();
                     break;
                 case MSG_SHOW_FULL_BATTERY_COUNT:
-
                     mFullNum.setText(String.format("可换电池数量:%d/%d", msg.arg1, mCabinetList.get(Integer.parseInt(clickMarker.getSnippet())).getBatteryCount()));
                     mBespeakIntent.putExtra(FULLNUM, msg.arg1);
-                    clickMarker.setIcon(BitmapDescriptorFactory.fromResource(getResources().getIdentifier("icon_battery" + msg.arg1, "drawable", getContext().getPackageName())));
+//                    clickMarker.setIcon(BitmapDescriptorFactory.fromResource(getResources().getIdentifier("icon_battery" + msg.arg1, "drawable", getContext().getPackageName())));
                     break;
                 default:
                     break;
@@ -674,7 +667,7 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
     /**
      * 使用标注点
      */
-    private void useMarker(int type) {
+    private void useMarker() {
         mAMap.clear();
         //添加Marker显示定位位置
         //如果是空的添加一个新的,icon方法就是设置定位图标，可以自定义
@@ -702,18 +695,13 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
 
             int usableCount = entity.getUsableCount();
             //根据图片名获取对应id
-
-            if (type == 0) {
-                if (usableCount > 0) {
-                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_map_cabinet));
-                } else {
-                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_map_cabinet_null));
-                }
-            } else if (type == 1) {
+            if (!entity.isOnline()) {
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_battery_offline));
+            } else {
                 if (usableCount >= 0 && usableCount <= 18) {
                     markerOptions.icon(BitmapDescriptorFactory.fromResource(getResources().getIdentifier("icon_battery" + usableCount, "drawable", getContext().getPackageName())));
                 } else {
-                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_map_cabinet));
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_battery0));
                 }
             }
             markerOptions.setFlat(true);//设置marker平贴地图效果

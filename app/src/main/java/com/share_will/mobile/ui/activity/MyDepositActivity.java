@@ -30,6 +30,7 @@ public class MyDepositActivity extends BaseFragmentActivity implements View.OnCl
         mTvMoney = findViewById(R.id.tv_my_deposit_money);
         mBtnRetreat.setOnClickListener(this);
 
+
         mDeposit = getIntent().getIntExtra("deposit", 0);
         int cause_status = getIntent().getIntExtra("cause_status", 0);
         if (mDeposit > 0) {

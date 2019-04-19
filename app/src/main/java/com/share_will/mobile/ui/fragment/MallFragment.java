@@ -3,6 +3,7 @@ package com.share_will.mobile.ui.fragment;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -28,13 +29,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MallFragment extends BaseFragment<ShopPresenter> implements BaseQuickAdapter.OnItemClickListener
-       , ShopView {
+        , ShopView {
 
     private RecyclerView mRecyclerView;
     private PackageAdapter mPackageAdapter;
     private List<PackageEntity> mDataList = new ArrayList<>();
     private PackageEntity mSelectedPackageEntity;
     private int mPreice;
+    private SwipeRefreshLayout mRefreshLayout;
 
     @Override
     protected int getLayoutId() {
@@ -55,6 +57,9 @@ public class MallFragment extends BaseFragment<ShopPresenter> implements BaseQui
         mRecyclerView.setAdapter(mPackageAdapter);
         mPackageAdapter.setEmptyView(R.layout.empty_view);
         mPackageAdapter.setOnItemClickListener(this);
+        mRefreshLayout = view.findViewById(R.id.refresh_mall);
+        mRefreshLayout.setOnRefreshListener(this::getPackageList);
+
     }
 
     @Override
@@ -97,6 +102,7 @@ public class MallFragment extends BaseFragment<ShopPresenter> implements BaseQui
             mDataList.addAll(data.getData());
         }
         mPackageAdapter.setLoadMoreData(mDataList);
+        mRefreshLayout.setRefreshing(false);
     }
 
     /**

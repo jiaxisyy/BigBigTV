@@ -3,6 +3,7 @@ package com.share_will.mobile.ui.activity;
 import android.app.AlertDialog;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -30,6 +31,9 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
 
     private RecyclerView mRv;
     private RecyclerView mRvRfid;
+    private SwipeRefreshLayout mRefreshLayout;
+    private HomeAlarmAdapter mAdapter;
+    private HomeAlarmRfidAdapter mAdapterRfid;
 
     @Override
     protected int getLayoutId() {
@@ -41,6 +45,23 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
         setTitle("消防告警");
         mRv = findViewById(R.id.rv_home_alarm_list);
         mRvRfid = findViewById(R.id.rv_home_alarm_list_ufid);
+        mRefreshLayout = findViewById(R.id.refresh_alarm_list);
+        mRefreshLayout.setOnRefreshListener(this::initData);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        mRv.addItemDecoration(new RecyclerViewItemDecoration(20, Color.parseColor("#F5F5F5")));
+        mRv.setLayoutManager(manager);
+        mAdapter = new HomeAlarmAdapter(R.layout.item_home_alarm, null);
+        mRv.setAdapter(mAdapter);
+
+        LinearLayoutManager managerRfid = new LinearLayoutManager(this);
+        mRvRfid.addItemDecoration(new RecyclerViewItemDecoration(20, Color.parseColor("#F5F5F5")));
+        mRvRfid.setLayoutManager(managerRfid);
+        mAdapterRfid = new HomeAlarmRfidAdapter(R.layout.item_home_alarm, null);
+        mRvRfid.setAdapter(mAdapterRfid);
+        initData();
+    }
+
+    private void initData() {
         getPresenter().getAlarmList(App.getInstance().getUserId(), App.getInstance().getToken());
     }
 
@@ -61,25 +82,15 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
 
     @Override
     public void onLoadAlarmResult(BaseEntity<AlarmEntity> data) {
-
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        mRv.addItemDecoration(new RecyclerViewItemDecoration(20, Color.parseColor("#F5F5F5")));
-        mRv.setLayoutManager(manager);
-        HomeAlarmAdapter mAdapter = new HomeAlarmAdapter(R.layout.item_home_alarm, data.getData().getSmoke());
-        mRv.setAdapter(mAdapter);
+        mAdapter.setNewData(data.getData().getSmoke());
         mAdapter.setOnItemChildClickListener((baseQuickAdapter, view, i) -> {
-
-
+            //TODO
         });
 
         if (data.getData().getRfid() != null && data.getData().getRfid().size() > 0) {
-            LinearLayoutManager managerRfid = new LinearLayoutManager(this);
-            mRvRfid.addItemDecoration(new RecyclerViewItemDecoration(20, Color.parseColor("#F5F5F5")));
-            mRvRfid.setLayoutManager(managerRfid);
-            HomeAlarmRfidAdapter mAdapterRfid = new HomeAlarmRfidAdapter(R.layout.item_home_alarm, data.getData().getRfid());
-            mRvRfid.setAdapter(mAdapterRfid);
+            mAdapterRfid.setNewData(data.getData().getRfid());
         }
-
+        mRefreshLayout.setRefreshing(false);
     }
 
     @Override

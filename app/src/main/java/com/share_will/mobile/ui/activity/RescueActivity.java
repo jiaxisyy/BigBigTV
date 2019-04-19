@@ -2,6 +2,7 @@ package com.share_will.mobile.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -23,11 +24,17 @@ public class RescueActivity extends BaseFragmentActivity<RescueListPresenter> im
 
     private RecyclerView mRescueListView;
     private RescueListAdapter mRescueListAdapter;
+    private SwipeRefreshLayout mRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("救援记录");
+        initData();
+
+    }
+
+    private void initData() {
         getPresenter().getRescueList(App.getInstance().getUserId());
     }
 
@@ -45,7 +52,10 @@ public class RescueActivity extends BaseFragmentActivity<RescueListPresenter> im
         mRescueListAdapter = new RescueListAdapter(this);
         mRescueListView.setAdapter(mRescueListAdapter);
         mRescueListAdapter.setOnItemClickListener(this);
+        mRefreshLayout = findViewById(R.id.refresh_rescue);
+        mRefreshLayout.setOnRefreshListener(this::initData);
     }
+
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -64,6 +74,7 @@ public class RescueActivity extends BaseFragmentActivity<RescueListPresenter> im
         if (ret.getCode() == 0) {
             mRescueListAdapter.setLoadMoreData(getPresenter().getModel().getRescue(), true);
         }
+        mRefreshLayout.setRefreshing(false);
     }
 
     @Override

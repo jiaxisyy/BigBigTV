@@ -34,9 +34,10 @@ public class HomeAlarmAdapter extends BaseQuickAdapter<AlarmEntity.SmokeBean, Ba
         if (!TextUtils.isEmpty(item.getRemark())) {
             helper.setText(R.id.item_tv_home_alarm_remark, item.getRemark());
         }
-        helper.setText(R.id.item_tv_home_alarm_time, "告警时间   " + DateUtils.timeStampToString(item.getAlarmtime(), DateUtils.YYYYMMDD_HHMMSS));
+        if(item.getAlarmtime()!=0){
+            helper.setText(R.id.item_tv_home_alarm_time, "告警时间   " + DateUtils.timeStampToString(item.getAlarmtime(), DateUtils.YYYYMMDD_HHMMSS));
+        }
         helper.setText(R.id.item_tv_home_alarm_level, "告警级别   " + item.getAlarmlevel() + "级");
-
 
     }
 }

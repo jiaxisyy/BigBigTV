@@ -2,6 +2,7 @@ package com.share_will.mobile.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -53,6 +54,7 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
     private TextView mMoneyAll;
     private RelativeLayout mCardMoney;
     private int mPrice;
+    private SwipeRefreshLayout mRefreshLayout;
 
     @Override
     protected int getLayoutId() {
@@ -67,7 +69,8 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
         mIvServiceBattery = findViewById(R.id.iv_icon_home_service_battery);
         mTextServiceCharge = findViewById(R.id.tv_text_home_service_charge);
         mChargeScan.setOnClickListener(this);
-
+        mRefreshLayout = findViewById(R.id.refresh_service);
+        mRefreshLayout.setOnRefreshListener(this::initData);
         mStartTime = findViewById(R.id.tv_home_charge_start_time);
         mEnoughTime = findViewById(R.id.tv_home_charge_enough_time);
         mDurationTime = findViewById(R.id.tv_home_charge_duration_time);
@@ -79,6 +82,10 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
         mMoneyManage = findViewById(R.id.tv_home_money_manage);
         mMoneyAll = findViewById(R.id.tv_home_money_all);
         mCardMoney = findViewById(R.id.rl_card_money);
+        initData();
+    }
+
+    private void initData() {
         getPresenter().getChargeBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
     }
 
@@ -185,7 +192,7 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
             mIvServiceBattery.setVisibility(View.VISIBLE);
             mTextServiceCharge.setVisibility(View.VISIBLE);
         }
-
+        mRefreshLayout.setRefreshing(false);
     }
 
     public String intChange(int num) {

@@ -194,7 +194,8 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
             }
             markerOptionsList.add(markerOptions);
             //用snippet模拟pos
-            markerOptions.snippet(String.valueOf(pos++));
+            markerOptions.snippet(String.valueOf(pos));
+            pos++;
         }
         //是否改变地图状态以至于所有的marker对象都在当前地图可视区域范围内显示。
         mAMap.addMarkers(markerOptionsList, false);
@@ -260,6 +261,7 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
                 break;
             case R.id.btn_alarm_close:
                 closeAlarm();
+                refresh();
                 break;
             case R.id.tv_map_alarm_title:
                 startActivity(new Intent(getContext(), AlarmListActivity.class));

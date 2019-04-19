@@ -20,6 +20,9 @@ public class CabinetEntity {
      * createTime : 2018-03-21 16:16:37.0
      * usableCount:0 可预约电池数量
      * subscribe : 是否可以预约
+     * batteryCount: 电池数量
+     * emptyHouse: 空舱数量
+     * wareHouseTotal: 舱门数量
      */
 
     private String id;
@@ -32,6 +35,34 @@ public class CabinetEntity {
     private String creator;
     private String createTime;
     private int usableCount;
+    private int batteryCount;
+    private int emptyHouse;
+    private int wareHouseTotal;
+
+    public int getWareHouseTotal() {
+        return wareHouseTotal;
+    }
+
+    public void setWareHouseTotal(int wareHouseTotal) {
+        this.wareHouseTotal = wareHouseTotal;
+    }
+
+    public int getBatteryCount() {
+        return batteryCount;
+    }
+
+    public void setBatteryCount(int batteryCount) {
+        this.batteryCount = batteryCount;
+    }
+
+    public int getEmptyHouse() {
+        return emptyHouse;
+    }
+
+    public void setEmptyHouse(int emptyHouse) {
+        this.emptyHouse = emptyHouse;
+    }
+
     private boolean subscribe;
 
     public boolean isSubscribe() {
@@ -136,6 +167,9 @@ public class CabinetEntity {
                 ", creator='" + creator + '\'' +
                 ", createTime='" + createTime + '\'' +
                 ", usableCount=" + usableCount +
+                ", batteryCount=" + batteryCount +
+                ", emptyHouse=" + emptyHouse +
+                ", wareHouseTotal=" + wareHouseTotal +
                 ", subscribe=" + subscribe +
                 '}';
     }

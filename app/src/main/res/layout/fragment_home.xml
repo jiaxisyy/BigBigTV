@@ -203,7 +203,7 @@
                     <include
                         android:id="@+id/include_layout_home_bottom"
                         layout="@layout/include_layout_home_bottom"
-                        android:visibility="gone" />
+                        android:visibility="invisible" />
                 </LinearLayout>
 
                 <TextView

@@ -212,11 +212,12 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             mNoBattery.setVisibility(View.GONE);
             mLayoutBottom.setVisibility(View.VISIBLE);
         } else {
-            mLayoutBottom.setVisibility(View.GONE);
+            mLayoutBottom.setVisibility(View.INVISIBLE);
             mNoBattery.setVisibility(View.VISIBLE);
         }
         if (flag_http_success == 0) {
             mRefreshLayout.setRefreshing(false);
+            flag_http_success = -1;
         }
     }
 

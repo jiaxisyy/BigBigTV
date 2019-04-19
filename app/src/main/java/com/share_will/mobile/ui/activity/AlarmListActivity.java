@@ -14,12 +14,14 @@ import com.share_will.mobile.R;
 import com.share_will.mobile.model.entity.AlarmEntity;
 import com.share_will.mobile.model.entity.BatteryEntity;
 import com.share_will.mobile.model.entity.ChargeBatteryEntity;
+import com.share_will.mobile.presenter.AlarmFragmentPresenter;
 import com.share_will.mobile.presenter.HomeFragmentPresenter;
 import com.share_will.mobile.ui.adapter.HomeAlarmAdapter;
 import com.share_will.mobile.ui.adapter.HomeAlarmRfidAdapter;
 import com.share_will.mobile.ui.fragment.HomeFragment;
 import com.share_will.mobile.ui.views.IHomeFragmentView;
 import com.share_will.mobile.ui.widget.RecyclerViewItemDecoration;
+import com.ubock.library.annotation.PresenterInjector;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseFragmentActivity;
 import com.ubock.library.utils.LogUtils;
@@ -34,6 +36,8 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
     private SwipeRefreshLayout mRefreshLayout;
     private HomeAlarmAdapter mAdapter;
     private HomeAlarmRfidAdapter mAdapterRfid;
+    @PresenterInjector
+    AlarmFragmentPresenter fragmentPresenter;
 
     @Override
     protected int getLayoutId() {
@@ -65,26 +69,36 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
         getPresenter().getAlarmList(App.getInstance().getUserId(), App.getInstance().getToken());
     }
 
+
     /**
-     * 退出对话框
+     * 关闭告警对话框
      */
-    private void quitDialog() {
+    private void closeDialog(AlarmEntity.SmokeBean data) {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.alerm_title)
                 .setIcon(null)
                 .setCancelable(true)
                 .setMessage(R.string.alert_quit_confirm)
                 .setPositiveButton(R.string.alert_yes_button, (dialog, which) -> {
-                    //TODO
+                    closeAlarm(data);
                 })
                 .setNegativeButton(R.string.alert_no_button, (dialog, which) -> dialog.dismiss()).create().show();
+    }
+
+
+    private void closeAlarm(AlarmEntity.SmokeBean data) {
+        fragmentPresenter.closeAlarm(App.getInstance().getUserId(), data.getDevtype(), data.getDeveui());
     }
 
     @Override
     public void onLoadAlarmResult(BaseEntity<AlarmEntity> data) {
         mAdapter.setNewData(data.getData().getSmoke());
         mAdapter.setOnItemChildClickListener((baseQuickAdapter, view, i) -> {
-            //TODO
+
+            if (view.getId() == R.id.item_tv_home_alarm_close) {
+                closeDialog(data.getData().getSmoke().get(i));
+            }
+
         });
 
         if (data.getData().getRfid() != null && data.getData().getRfid().size() > 0) {

@@ -1,6 +1,5 @@
 package com.share_will.mobile.ui.fragment;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.location.Location;
@@ -30,6 +29,15 @@ import com.amap.api.maps.model.MultiPointItem;
 import com.amap.api.maps.model.MultiPointOverlay;
 import com.amap.api.maps.model.MultiPointOverlayOptions;
 import com.amap.api.navi.model.NaviLatLng;
+import com.amap.api.services.core.AMapException;
+import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.route.BusRouteResult;
+import com.amap.api.services.route.DriveRouteResult;
+import com.amap.api.services.route.RidePath;
+import com.amap.api.services.route.RideRouteResult;
+import com.amap.api.services.route.RouteSearch;
+import com.amap.api.services.route.WalkRouteResult;
+import com.amap.overlay.RideRouteOverlay;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
@@ -61,6 +69,8 @@ import java.util.List;
 import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
+import static com.amap.api.services.route.RouteSearch.RIDING_RECOMMEND;
+
 
 public class ExchangeFragment extends BaseFragment<HomePresenter> implements HomeView, View.OnClickListener {
 
@@ -119,6 +129,7 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
      * 点击地图标注状态 0:未点击 1:点击后
      */
     private int clickType = 0;
+    private RideRouteOverlay rideRouteOverlay;
 
     @Override
     protected int getLayoutId() {
@@ -571,12 +582,72 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
             CabinetEntity cabinetEntity = mCabinetList.get(Integer.parseInt(marker.getSnippet()));
             if (cabinetEntity.getUsableCount() != 0) {
                 showCabinetInfo(cabinetEntity);
-            }else {
+                showRideRoute(cabinetEntity);
+            } else {
                 showMessage("没有可换电池");
             }
             return true;
         }
     };
+
+    /**
+     * 骑行路线图
+     */
+    private void showRideRoute(CabinetEntity cabinetEntity) {
+        LogUtils.d(clickType + "===== 0:未点击 1:点击后=====");
+        if (clickType == 0) {
+            if (rideRouteOverlay != null) {
+                rideRouteOverlay.removeFromMap();
+            }
+        } else {
+            RouteSearch routeSearch = new RouteSearch(getActivity());
+            RouteSearch.FromAndTo fromAndTo = new RouteSearch.FromAndTo(new LatLonPoint(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()),
+                    new LatLonPoint(cabinetEntity.getLatitude(), cabinetEntity.getLongitude()));
+            RouteSearch.RideRouteQuery query = new RouteSearch.RideRouteQuery(fromAndTo, RIDING_RECOMMEND);
+            routeSearch.calculateRideRouteAsyn(query);
+
+            routeSearch.setRouteSearchListener(new RouteSearch.OnRouteSearchListener() {
+                @Override
+                public void onBusRouteSearched(BusRouteResult busRouteResult, int i) {
+
+                }
+
+                @Override
+                public void onDriveRouteSearched(DriveRouteResult driveRouteResult, int i) {
+
+
+                }
+
+                @Override
+                public void onWalkRouteSearched(WalkRouteResult walkRouteResult, int i) {
+
+                }
+
+                @Override
+                public void onRideRouteSearched(RideRouteResult rideRouteResult, int errorCode) {
+                    if (errorCode == AMapException.CODE_AMAP_SUCCESS) {
+                        if (rideRouteResult != null && rideRouteResult.getPaths() != null) {
+                            if (rideRouteResult.getPaths().size() > 0) {
+                                RidePath ridePath = rideRouteResult.getPaths().get(0);
+                                if (ridePath == null) {
+                                    return;
+                                }
+                                rideRouteOverlay = new RideRouteOverlay(getActivity(), mAMap, ridePath, rideRouteResult.getStartPos(), rideRouteResult.getTargetPos());
+                                rideRouteOverlay.setNodeIconVisibility(false);//设置节点marker是否显示
+                                rideRouteOverlay.removeFromMap();
+                                rideRouteOverlay.addToMap();
+                                rideRouteOverlay.zoomToSpan();
+                                long duration = ridePath.getDuration();
+                                float distance = ridePath.getDistance();
+
+
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
 
 
     private Handler mHandler = new Handler() {

@@ -20,7 +20,8 @@ public class AboutActivity extends BaseFragmentActivity {
     protected void initView(Bundle savedInstanceState) {
         setTitle("关于我们");
         TextView mTvVersion = findViewById(R.id.tv_about_version);
-        mTvVersion.setText("v " + AppUtils.getVersionName(this));
+
+        mTvVersion.setText(String.format("智慧社区 V%s", AppUtils.getVersionName(this)));
 
     }
 }

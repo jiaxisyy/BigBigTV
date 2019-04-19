@@ -7,8 +7,8 @@ android {
 
     defaultConfig {
         applicationId "com.share_will.mobile"
-        versionCode 401
-        versionName "4.0.1"
+        versionCode 402
+        versionName "4.0.2"
         minSdkVersion 14
         targetSdkVersion 27
         multiDexEnabled true
@@ -66,26 +66,16 @@ android {
     }
 
     productFlavors {
+        moss {
+            manifestPlaceholders = [CHANNEL_VALUE: "shenzhen-chunteng", applicationPackage: "com.share_will.mobile"]
+            signingConfig signingConfigs.release
+        }
         antEnergy {
             manifestPlaceholders = [CHANNEL_VALUE: "zhili", applicationPackage: "com.share_will.mobile"]
             signingConfig signingConfigs.release
         }
-        boLiWei {
-            manifestPlaceholders = [CHANNEL_VALUE: "blw", applicationPackage: "com.share_will.mobile"]
-            signingConfig signingConfigs.release
-        }
         smartBMS {
             manifestPlaceholders = [CHANNEL_VALUE: "smartbms", applicationPackage: "com.share_will.mobile"]
-            signingConfig signingConfigs.release
-        }
-        youXing {
-            versionName = "1.1.1"
-            manifestPlaceholders = [CHANNEL_VALUE: "youXing", applicationPackage: "com.share_will.mobile.youxing"]
-            applicationId = 'com.share_will.mobile.youxing'
-            signingConfig = signingConfigs.youxing
-        }
-        yunDongWeiLai {
-            manifestPlaceholders = [CHANNEL_VALUE: "yunDongWeiLai", applicationPackage: "com.share_will.mobile"]
             signingConfig signingConfigs.release
         }
     }

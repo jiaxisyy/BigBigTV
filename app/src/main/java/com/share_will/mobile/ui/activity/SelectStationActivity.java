@@ -127,9 +127,7 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
                 break;
             case R.id.tv_select_station_selected:
                 if (AppUtils.getAppMetaData(this, Constant.CHANNEL) != null) {
-                    if (!AppUtils.getAppMetaData(this, Constant.CHANNEL).equals(Constant.KEY_CHANNEL_YOUXING)) {
-                        showStationDialog();
-                    }
+                    showStationDialog();
                 }
                 break;
         }

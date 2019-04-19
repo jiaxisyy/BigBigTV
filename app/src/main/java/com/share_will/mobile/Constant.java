@@ -26,17 +26,11 @@ public class Constant {
     //蚁电渠道
     public final static String KEY_CHANNEL_ANT = "zhili";
 
-    //博力威渠道
-    public final static String KEY_CHANNEL_BOLIWEI = "blw";
+    //春藤
+    public final static String KEY_CHANNEL_MOSS = "shenzhen-chunteng";
 
     //智锂渠道
     public final static String KEY_CHANNEL_SMARTBMS = "smartbms";
-
-    //优兴渠道
-    public final static String KEY_CHANNEL_YOUXING = "youXing";
-
-    //优兴渠道
-    public final static String KEY_CHANNEL_YUNDONGWEILAI = "yunDongWeiLai";
 
     //微信支付信息
     public static Map<String, String> WEIXIN_APP_INFO = new HashMap<>();
@@ -45,17 +39,8 @@ public class Constant {
         //appid
         WEIXIN_APP_INFO.put("zhili_APP_ID", "wx6065fed506b579c6");
 
-        //优兴
-        WEIXIN_APP_INFO.put("youXing_APP_ID", "wx17004e2cd8d5caca");
-
-        //博力威
-        WEIXIN_APP_INFO.put("blw_APP_ID", "wx6065fed506b579c6");
-
         //智锂
         WEIXIN_APP_INFO.put("smartbms_APP_ID", "wx6065fed506b579c6");
-
-        //云动未来
-        WEIXIN_APP_INFO.put("yunDongWeiLai_APP_ID", "wx6065fed506b579c6");
     }
 
     //log级别

@@ -140,5 +140,31 @@ public class HomeFragmentPresenter extends BasePresenter<HomeFragmentModel, IHom
                 );
     }
 
+    /**
+     * 扫码领取电池
+     * @param cabinetId
+     * @param userId
+     * @param
+     */
+    public void scanCodeGetBattery(String cabinetId, String userId) {
+        getModel().scanCodeGetBattery(cabinetId, userId)
+                .compose(this.bindToLifecycle(getView()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseNetSubscriber<BaseEntity<Object>>(HomeFragmentPresenter.this) {
+                               @Override
+                               public void onNext(BaseEntity<Object> s) {
+                                   getView().onScanCodeGetBatteryResult(s);
+                               }
+
+                               @Override
+                               public boolean onErr(Throwable e) {
+                                   getView().onScanCodeGetBatteryResult(null);
+                                   LogUtils.e(e);
+                                   return true;
+                               }
+                           }
+                );
+    }
 
 }

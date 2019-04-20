@@ -2,6 +2,7 @@ package com.share_will.mobile.ui.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
@@ -29,7 +30,9 @@ import com.share_will.mobile.ui.views.UserCenterView;
 import com.ubock.library.annotation.PresenterInjector;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseFragment;
+import com.ubock.library.ui.dialog.ToastExt;
 import com.ubock.library.utils.DateUtils;
+import com.ubock.library.utils.LogUtils;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -284,6 +287,8 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 startActivity(new Intent(getActivity(), MyBatteryActivity.class));
                 break;
             case R.id.get_battery:
+                Intent inte = new Intent(this.getContext(), CaptureActivity.class);
+                startActivityForResult(inte, REQUEST_CODE_GET_BATTERY);
                 break;
             case R.id.rental_battery:
                 Intent intent = new Intent(this.getContext(), HomeActivity.class);
@@ -304,14 +309,71 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     }
 
     @Override
+    public void onScanCodeGetBatteryResult(BaseEntity<Object> data) {
+        if (data != null){
+            if (data.getCode() == 0) {
+                ToastExt.showExt("扫码验证成功,请及时领取电池");
+            } else {
+                ToastExt.showExt(data.getMessage());
+            }
+        } else {
+            ToastExt.showExt("领取电池失败,请稍候再试");
+        }
+    }
+
+    @Override
+    public void onBindBatteryResult(BaseEntity<Object> data) {
+        if (data != null){
+            if (data.getCode() == 0){
+                ToastExt.showExt("绑定电池成功");
+            } else {
+                ToastExt.showExt(data.getMessage());
+            }
+        } else {
+            ToastExt.showExt("绑定电池失败");
+        }
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_BIND_BATTERY && resultCode == Activity.RESULT_OK){
-            boolean manualInput = data.getBooleanExtra(CaptureActivity.KEY_SHOW_MANUAL_INPUT, false);
-            if (manualInput){
-
+        if (resultCode == Activity.RESULT_OK) {
+            String resultData = data.getStringExtra(CaptureActivity.KEY_SCAN_RESULT);
+            if (requestCode == REQUEST_CODE_BIND_BATTERY) {
+                boolean manualInput = data.getBooleanExtra(CaptureActivity.KEY_SHOW_MANUAL_INPUT, false);
+                if (manualInput) {
+                    Intent intent = new Intent(getActivity(), MyBatteryActivity.class);
+                    startActivity(intent);
+                } else {
+                    if (TextUtils.isEmpty(resultData) || resultData.length() != 16){
+                        ToastExt.showExt("无效二维码/二维码");
+                    } else {
+                        getPresenter().bindBattery(App.getInstance().getUserId(), resultData);
+                    }
+                }
+            } else if (requestCode == REQUEST_CODE_GET_BATTERY) {
+                if (TextUtils.isEmpty(resultData)){
+                    ToastExt.showExt("无效二维码");
+                } else {
+                    try {
+                        Uri uri = Uri.parse(resultData);
+                        if (uri != null) {
+                            String sn = uri.getQueryParameter("sn");
+                            String time = uri.getQueryParameter("time");
+                            if (!TextUtils.isEmpty(sn) && !TextUtils.isEmpty(time)) {
+                                getPresenter().scanCodeGetBattery(sn, App.getInstance().getUserId());
+                            } else {
+                                ToastExt.showExt("无效二维码");
+                            }
+                        } else {
+                            ToastExt.showExt("无效二维码");
+                        }
+                    } catch (Exception e) {
+                        ToastExt.showExt("无效二维码");
+                        LogUtils.e(e);
+                    }
+                }
             } else {
-                String resultData = data.getStringExtra(CaptureActivity.KEY_SCAN_RESULT);
             }
         }
     }

@@ -93,7 +93,7 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
     @Override
     public void onLoadBatteryInfoResult(BaseEntity<BatteryEntity> data) {
         BatteryEntity entity = data.getData();
-        if (data != null && !TextUtils.isEmpty(entity.getSn())) {
+        if (data != null && entity != null && !TextUtils.isEmpty(entity.getSn())) {
             if (!TextUtils.isEmpty(entity.getSn())) {
                 mStartTime.setText("电池SN:   " + entity.getSn());
             }
@@ -113,7 +113,7 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
             mLlCardBatteryInfo.setVisibility(View.GONE);
             mCardMoney.setVisibility(View.GONE);
             mLlCardBatteryBind.setVisibility(View.VISIBLE);
-            mLayoutBottom.setVisibility(View.INVISIBLE);
+            mLayoutBottom.setVisibility(View.VISIBLE);
         }
         mRefreshLayout.setRefreshing(false);
     }

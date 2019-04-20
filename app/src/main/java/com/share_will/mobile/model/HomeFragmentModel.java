@@ -31,4 +31,8 @@ public class HomeFragmentModel extends BaseModel {
         return ApiClient.getInstance().getApiService(ApiService.class).bindBattery(userId, token);
     }
 
+    public Observable<BaseEntity<Object>> scanCodeGetBattery(String cabinetId, String userId) {
+        return ApiClient.getInstance().getApiService(ApiService.class).scanCodeGetBattery(cabinetId, userId);
+    }
+
 }

@@ -566,4 +566,27 @@ public interface ApiService {
     @POST("user/station/master")
     Observable<BaseEntity<List<StationEntity>>> getStationForPhone(@Field("userId") String phone);
 
+
+    /**
+     * 扫码领取电池
+     * @param cabinetId 机柜SN
+     * @param userId 用户手机
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("user/battery/get")
+    Observable<BaseEntity<Object>> scanCodeGetBattery(@Field("cabinetId") String cabinetId,
+                                                      @Field("userId") String userId);
+
+    /**
+     * 异常扫码领取电池
+     * @param cabinetId 机柜SN
+     * @param userId 用户手机
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("user/battery/fail")
+    Observable<BaseEntity<Object>> ExceptionScanCodeGetBattery(@Field("cabinetId") String cabinetId,
+                                                               @Field("userId") String userId);
+
 }

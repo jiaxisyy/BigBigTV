@@ -63,6 +63,12 @@ public class HomeActivity extends BaseTabContainerActivity<HomePresenter> implem
             R.drawable.main_menu_mall_selector,
             R.drawable.main_menu_my_selector};
 
+    public final static int PAGE_HOME = 0;
+    public final static int PAGE_ALARM = 1;
+    public final static int PAGE_EXCHANGE = 2;
+    public final static int PAGE_SHOP = 3;
+    public final static int PAGE_MY = 4;
+
     /**
      * 扫码请求码
      */

@@ -1,12 +1,13 @@
 package com.share_will.mobile.ui.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
-import android.view.TextureView;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -15,21 +16,26 @@ import com.share_will.mobile.R;
 import com.share_will.mobile.model.entity.AlarmEntity;
 import com.share_will.mobile.model.entity.BatteryEntity;
 import com.share_will.mobile.model.entity.ChargeBatteryEntity;
+import com.share_will.mobile.model.entity.UserInfo;
 import com.share_will.mobile.presenter.HomeFragmentPresenter;
+import com.share_will.mobile.presenter.UserCenterPresenter;
 import com.share_will.mobile.ui.activity.AlarmListActivity;
+import com.share_will.mobile.ui.activity.CaptureActivity;
+import com.share_will.mobile.ui.activity.HomeActivity;
 import com.share_will.mobile.ui.activity.HomeServiceActivity;
 import com.share_will.mobile.ui.activity.MyBatteryActivity;
 import com.share_will.mobile.ui.views.IHomeFragmentView;
+import com.share_will.mobile.ui.views.UserCenterView;
+import com.ubock.library.annotation.PresenterInjector;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseFragment;
 import com.ubock.library.utils.DateUtils;
-import com.ubock.library.utils.LogUtils;
 
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.List;
 
-public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements IHomeFragmentView, View.OnClickListener {
+public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements IHomeFragmentView, View.OnClickListener
+    , UserCenterView {
     private TextView mAlarmTitle;
     private TextView mAlarmPositionName;
     private TextView mAlarmRemark;
@@ -50,7 +56,10 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     private TextView mMoneyAll;
     private RelativeLayout mCardMoney;
     private TextView mNoAlarm;
-    private TextView mNoBattery;
+    private LinearLayout mNoBatteryCon;
+    private Button mRentalBattery;
+    private Button mGetBattery;
+    private Button mBindBattery;
     private View mLayoutBottom;
     private SwipeRefreshLayout mRefreshLayout;
     /**
@@ -58,6 +67,13 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
      */
     private int flag_http_success = -1;
 
+    @PresenterInjector
+    private UserCenterPresenter mUserCenterPresenter;
+    private UserInfo mUserInfo;
+    //扫码绑定电池
+    public final static int REQUEST_CODE_BIND_BATTERY = 100;
+    //扫码领取电池
+    public final static int REQUEST_CODE_GET_BATTERY = 101;
 
     @Override
     protected int getLayoutId() {
@@ -82,7 +98,10 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mRlAlarm = view.findViewById(R.id.rl_home_alarmInfo);
         mRlBattery = view.findViewById(R.id.rl_home_batteryInfo);
         mNoAlarm = view.findViewById(R.id.tv_home_no_alarm);
-        mNoBattery = view.findViewById(R.id.tv_home_no_battery);
+        mNoBatteryCon = view.findViewById(R.id.ll_no_battery_con);
+        mRentalBattery = view.findViewById(R.id.rental_battery);
+        mGetBattery = view.findViewById(R.id.get_battery);
+        mBindBattery = view.findViewById(R.id.bind_battery);
         mLayoutBottom = view.findViewById(R.id.include_layout_home_bottom);
 
 
@@ -101,11 +120,22 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mTopCharge.setOnClickListener(this);
         mRlAlarm.setOnClickListener(this);
         mRlBattery.setOnClickListener(this);
+        mRentalBattery.setOnClickListener(this);
+        mGetBattery.setOnClickListener(this);
+        mBindBattery.setOnClickListener(this);
         initData();
     }
 
     private void initData() {
+        mUserCenterPresenter.getBalance(App.getInstance().getUserId(), false);
         getPresenter().getAlarmList(App.getInstance().getUserId(), App.getInstance().getToken());
+    }
+
+    @Override
+    public void onLoadBalance(BaseEntity<UserInfo> data) {
+        if (data != null){
+            mUserInfo = data.getData();
+        }
         getPresenter().getChargeBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
     }
 
@@ -209,15 +239,35 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             mAddress.setVisibility(View.GONE);
             mDoor.setVisibility(View.GONE);
             mCardMoney.setVisibility(View.GONE);
-            mNoBattery.setVisibility(View.GONE);
             mLayoutBottom.setVisibility(View.VISIBLE);
+            showNoBatteryView(false, mUserInfo != null && mUserInfo.getDeposit() > 0);
         } else {
-            mLayoutBottom.setVisibility(View.INVISIBLE);
-            mNoBattery.setVisibility(View.VISIBLE);
+            mLayoutBottom.setVisibility(View.GONE);
+            showNoBatteryView(true, mUserInfo != null && mUserInfo.getDeposit() > 0);
         }
         if (flag_http_success == 0) {
             mRefreshLayout.setRefreshing(false);
             flag_http_success = -1;
+        }
+    }
+
+    /**
+     * 显示无电池信息框
+     * @param show 是否显示
+     * @param hasDeposit 是否有押金
+     */
+    private void showNoBatteryView(boolean show, boolean hasDeposit){
+        if (show) {
+            mNoBatteryCon.setVisibility(View.VISIBLE);
+            if (hasDeposit) {
+                mGetBattery.setVisibility(View.VISIBLE);
+                mRentalBattery.setVisibility(View.GONE);
+            } else {
+                mGetBattery.setVisibility(View.GONE);
+                mRentalBattery.setVisibility(View.VISIBLE);
+            }
+        } else {
+            mNoBatteryCon.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -233,7 +283,36 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             case R.id.rl_home_batteryInfo:
                 startActivity(new Intent(getActivity(), MyBatteryActivity.class));
                 break;
+            case R.id.get_battery:
+                break;
+            case R.id.rental_battery:
+                Intent intent = new Intent(this.getContext(), HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("page", HomeActivity.PAGE_SHOP);
+                startActivity(intent);
+                break;
+            case R.id.bind_battery:
+                Intent intent1 = new Intent(this.getContext(), CaptureActivity.class);
+                intent1.putExtra(CaptureActivity.KEY_SHOW_MANUAL_INPUT, true);
+                startActivityForResult(intent1, REQUEST_CODE_BIND_BATTERY);
+                break;
+            default:
+                break;
 
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_BIND_BATTERY && resultCode == Activity.RESULT_OK){
+            boolean manualInput = data.getBooleanExtra(CaptureActivity.KEY_SHOW_MANUAL_INPUT, false);
+            if (manualInput){
+
+            } else {
+                String resultData = data.getStringExtra(CaptureActivity.KEY_SCAN_RESULT);
+            }
         }
     }
 }

@@ -50,7 +50,7 @@ public class MyDepositActivity extends BaseFragmentActivity implements View.OnCl
                 Intent intent = new Intent(this, HomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("page", 3);
+                intent.putExtra("page", HomeActivity.PAGE_SHOP);
                 startActivity(intent);
                 finish();
             }

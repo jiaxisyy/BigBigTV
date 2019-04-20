@@ -19,6 +19,7 @@ import com.share_will.mobile.presenter.HomeFragmentPresenter;
 import com.share_will.mobile.ui.adapter.HomeAlarmAdapter;
 import com.share_will.mobile.ui.adapter.HomeAlarmRfidAdapter;
 import com.share_will.mobile.ui.fragment.HomeFragment;
+import com.share_will.mobile.ui.views.IAlarmFragmentView;
 import com.share_will.mobile.ui.views.IHomeFragmentView;
 import com.share_will.mobile.ui.widget.RecyclerViewItemDecoration;
 import com.ubock.library.annotation.PresenterInjector;
@@ -29,7 +30,8 @@ import com.ubock.library.utils.LogUtils;
 import java.util.List;
 import java.util.function.LongFunction;
 
-public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresenter> implements IHomeFragmentView {
+public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresenter> implements IHomeFragmentView
+    , IAlarmFragmentView {
 
     private RecyclerView mRv;
     private RecyclerView mRvRfid;
@@ -105,6 +107,11 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
             mAdapterRfid.setNewData(data.getData().getRfid());
         }
         mRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onCloseAlarmResult(BaseEntity<Object> s) {
+
     }
 
     @Override

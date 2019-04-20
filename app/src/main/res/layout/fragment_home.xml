@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/refresh_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -176,7 +177,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40px"
-                android:layout_marginTop="45px">
+                android:layout_marginRight="40px"
+                android:layout_marginTop="45px"
+                android:layout_marginBottom="40px">
 
                 <TextView
                     android:id="@+id/tv_home_battery_big_title"
@@ -191,7 +194,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="40px"
                     android:src="@drawable/btn_main_arrow_right" />
 
                 <LinearLayout
@@ -206,18 +208,51 @@
                         android:visibility="invisible" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_home_no_battery"
-                    android:layout_width="wrap_content"
+                <LinearLayout android:id="@+id/ll_no_battery_con"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="90px"
+                    android:layout_marginBottom="90px"
                     android:layout_below="@+id/tv_home_battery_big_title"
-                    android:layout_centerInParent="true"
-                    android:drawableTop="@drawable/icon_binding_battery"
-                    android:drawablePadding="30px"
-                    android:gravity="center_horizontal"
-                    android:paddingTop="45px"
-                    android:text="暂无电池信息"
-                    android:visibility="gone" />
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tv_home_no_battery"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/icon_binding_battery"
+                        android:drawablePadding="30px"
+                        android:gravity="center_horizontal"
+                        android:text="暂无电池信息"/>
+
+                    <Button android:id="@+id/rental_battery"
+                        android:layout_width="516px"
+                        android:layout_height="120px"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="40px"
+                        android:text="去租用"
+                        android:textColor="#FFFFFFFF"
+                        android:background="@drawable/shape_bg_scan"/>
+
+                    <Button android:id="@+id/get_battery"
+                        android:layout_width="516px"
+                        android:layout_height="120px"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="40px"
+                        android:text="去领取"
+                        android:textColor="#FFFFFFFF"
+                        android:background="@drawable/shape_bg_scan"/>
+
+                    <Button android:id="@+id/bind_battery"
+                        android:layout_width="516px"
+                        android:layout_height="120px"
+                        android:layout_centerHorizontal="true"
+                        android:text="去绑定"
+                        android:textColor="#FFFFFFFF"
+                        android:layout_marginTop="30px"
+                        android:background="@drawable/shape_bg_scan"/>
+                </LinearLayout>
+
             </RelativeLayout>
 
         </LinearLayout>

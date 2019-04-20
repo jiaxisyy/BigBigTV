@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
@@ -52,6 +53,11 @@ public class CaptureActivity extends BaseFragmentActivity implements Callback {
     private RelativeLayout mContainer = null;
     private RelativeLayout mCropLayout = null;
     private boolean isNeedCapture = false;
+    private View mManuInput;
+    private boolean mShowManuInput = false;
+
+    final public static String KEY_SHOW_MANUAL_INPUT = "show_manual_input";
+    final public static String KEY_SCAN_RESULT = "scan_result";
 
     public boolean isNeedCapture() {
         return isNeedCapture;
@@ -125,6 +131,14 @@ public class CaptureActivity extends BaseFragmentActivity implements Callback {
         mAnimation.setInterpolator(new LinearInterpolator());
         mQrLineView.setAnimation(mAnimation);
 
+        mManuInput = findView(R.id.ll_manual_input);
+
+        mShowManuInput = getIntent().getBooleanExtra(KEY_SHOW_MANUAL_INPUT, false);
+        if (mShowManuInput){
+            mManuInput.setVisibility(View.VISIBLE);
+        } else {
+            mManuInput.setVisibility(View.GONE);
+        }
 
     }
 
@@ -139,6 +153,17 @@ public class CaptureActivity extends BaseFragmentActivity implements Callback {
             CameraManager.get().offLight();
         }
 
+    }
+
+    public void openLight(View view){
+        light();
+    }
+
+    public void manualInput(View view){
+        Intent intent = new Intent();
+        intent.putExtra(KEY_SHOW_MANUAL_INPUT, true);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     @SuppressWarnings("deprecation")
@@ -187,7 +212,7 @@ public class CaptureActivity extends BaseFragmentActivity implements Callback {
         inactivityTimer.onActivity();
         playBeepSoundAndVibrate();
         Intent intent = new Intent();
-        intent.putExtra("scan_result", result);
+        intent.putExtra(KEY_SCAN_RESULT, result);
         setResult(RESULT_OK, intent);
         finish();
     }

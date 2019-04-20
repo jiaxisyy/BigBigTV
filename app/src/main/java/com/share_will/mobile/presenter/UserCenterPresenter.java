@@ -6,6 +6,7 @@ import com.share_will.mobile.ui.views.UserCenterView;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseNetSubscriber;
 import com.ubock.library.base.BasePresenter;
+import com.ubock.library.common.RetryWithDelay;
 import com.ubock.library.utils.LogUtils;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -23,6 +24,7 @@ public class UserCenterPresenter extends BasePresenter<UserCenterModel, UserCent
     public void getBalance(String userId, final boolean showLoading) {
         getModel().getBalance(userId)
                 .compose(this.bindToLifecycle(getView()))
+                .retryWhen(new RetryWithDelay(3, 1))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseNetSubscriber<BaseEntity<UserInfo>>(UserCenterPresenter.this) {

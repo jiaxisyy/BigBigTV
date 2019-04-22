@@ -6,8 +6,9 @@
 
     <ImageView
         android:id="@+id/mWidgetRowIconImg"
-        android:layout_width="64px"
-        android:layout_height="64px"
+        android:layout_width="78px"
+        android:layout_height="wrap_content"
+        android:maxHeight="78px"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="60px" />
 

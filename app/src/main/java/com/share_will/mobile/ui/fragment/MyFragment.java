@@ -1,6 +1,7 @@
 package com.share_will.mobile.ui.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
@@ -45,6 +46,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
      * 机柜后台扫码
      */
     private static final int REQUEST_CODE_SCANLOGIN_CODE = 10011;
+    //异常扫码取电池
+    public final static int REQUEST_CODE_GET_BATTERY = 101;
 
     @PresenterInjector
     UserCenterPresenter userCenterPresenter;
@@ -77,6 +80,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
         view.findViewById(R.id.row_my_vehicle).setOnClickListener(this);
         view.findViewById(R.id.row_my_battery).setOnClickListener(this);
         view.findViewById(R.id.row_my_scan).setOnClickListener(this);
+        view.findViewById(R.id.row_exception_get_battery).setOnClickListener(this);
         mRefreshLayout = view.findViewById(R.id.refresh_my_center);
         mRefreshLayout.setOnRefreshListener(() -> getBalance(true));
         mRowScanLogin = view.findViewById(R.id.row_my_scan);
@@ -127,6 +131,12 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
             case R.id.btn_top_right_menu:
                 startActivity(new Intent(getActivity(), SettingActivity.class));
                 break;
+            case R.id.row_exception_get_battery:
+                Intent inte = new Intent(this.getContext(), CaptureActivity.class);
+                startActivityForResult(inte, REQUEST_CODE_GET_BATTERY);
+                break;
+            default:
+                break;
         }
 
     }
@@ -168,17 +178,47 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_CODE_SCANLOGIN_CODE && resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK) {
             String result = data.getStringExtra("scan_result");
             LogUtils.d(result + "=====");
-            //result  =   http://www.ep-ai.com/4GAgreement/qr/scanQR.html?customerCode=null&sn=E201805301000001&time=1547014958567
-            if (!TextUtils.isEmpty(result)) {
-                if (result.contains("sn=") && result.contains("&time")) {
-                    String sn = result.substring(result.indexOf("sn=") + 3, result.indexOf("&time"));
-                    userCenterPresenter.loginCMS(App.getInstance().getUserId(), sn, 3);
-                }
+            if (TextUtils.isEmpty(result)){
+                ToastExt.showExt("无效二维码");
+                return;
             }
+            String sn;
+            String time;
+            try {
+                Uri uri = Uri.parse(result);
+                sn = uri.getQueryParameter("sn");
+                time = uri.getQueryParameter("time");
+            } catch (Exception e) {
+                LogUtils.e(e);
+                ToastExt.showExt("无效二维码");
+                return;
+            }
+            if (TextUtils.isEmpty(sn) || TextUtils.isEmpty(time)){
+                ToastExt.showExt("无效二维码");
+                return;
+            }
+            if (requestCode == REQUEST_CODE_SCANLOGIN_CODE) {
+                //result  =   http://www.ep-ai.com/4GAgreement/qr/scanQR.html?customerCode=null&sn=E201805301000001&time=1547014958567
+                userCenterPresenter.loginCMS(App.getInstance().getUserId(), sn, 3);
+            } else if (requestCode == REQUEST_CODE_GET_BATTERY) {
+                userCenterPresenter.exceptionGetBattery(sn, App.getInstance().getUserId());
+            }
+        }
+    }
+
+    @Override
+    public void onExceptionGetBattery(BaseEntity<Object> data) {
+        if (data != null){
+            if (data.getCode() == 0){
+                ToastExt.showExt("认证成功,请及时取出电池");
+            } else {
+                ToastExt.showExt(data.getMessage());
+            }
+        } else {
+            ToastExt.showExt("取电失败");
         }
     }
 
@@ -200,7 +240,9 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
         if (info.sop > 0) {
             mTvBatteryPP.setText(String.format("%d%%", info.sop));
         }
-        mTvBind.setText(info.sn);
+        if (!TextUtils.isEmpty(info.sn)) {
+            mTvBind.setText(info.sn);
+        }
     }
 
     @Override

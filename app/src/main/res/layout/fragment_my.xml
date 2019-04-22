@@ -183,6 +183,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="3px" />
 
+            <com.share_will.mobile.ui.widget.RowItemView
+                android:id="@+id/row_exception_get_battery"
+                style="@style/user_center_row_style"
+                app:iconDrawable="@drawable/icon_list_abnormal"
+                app:text="异常取电" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3px" />
+
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

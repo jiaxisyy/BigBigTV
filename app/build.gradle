@@ -6,7 +6,8 @@ android {
     buildToolsVersion '28.0.3'
 
     defaultConfig {
-        applicationId "com.share_will.mobile"
+//        applicationId "com.share_will.mobile"
+        applicationId "com.smartmoss.mobile"
         versionCode 402
         versionName "4.0.2"
         minSdkVersion 14
@@ -67,10 +68,11 @@ android {
 
     productFlavors {
         moss {
-            manifestPlaceholders = [CHANNEL_VALUE: "shenzhen-chunteng", applicationPackage: "com.share_will.mobile"]
+            manifestPlaceholders = [CHANNEL_VALUE: "shenzhen-chunteng", applicationPackage: "com.smartmoss.mobile"]
             signingConfig signingConfigs.release
         }
         antEnergy {
+            applicationId = "com.share_will.mobile"
             manifestPlaceholders = [CHANNEL_VALUE: "zhili", applicationPackage: "com.share_will.mobile"]
             signingConfig signingConfigs.release
         }
@@ -83,7 +85,7 @@ android {
     android.applicationVariants.all {
         variant ->
             variant.outputs.all { output ->
-                outputFileName = "AntEnergy-${defaultConfig.versionName}-${variant.productFlavors[0].name}.apk"
+                outputFileName = "MOSS-${defaultConfig.versionName}-${variant.productFlavors[0].name}.apk"
                 //①output.outputFile.parent表示生成apk的路径，这个是默认路径在项目/app/build/outpus/apk，当然我们可以自己写路径。
                 //②defaultConfig.applicationId表示defaultConfig标签下的名称。
                 //③buildType.name指编译类型，就是debug或者release

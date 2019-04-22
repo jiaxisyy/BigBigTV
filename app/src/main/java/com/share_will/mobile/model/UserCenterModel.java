@@ -20,4 +20,8 @@ public class UserCenterModel extends BaseModel {
     public Observable<BaseEntity<Object>> loginCMS(String loginName, String cabinetId, int userType){
         return ApiClient.getInstance().getApiService(ApiService.class).loginCMS(loginName, cabinetId, userType);
     }
+
+    public Observable<BaseEntity<Object>> exceptionScanCodeGetBattery(String cabinetId, String userId){
+        return ApiClient.getInstance().getApiService(ApiService.class).exceptionScanCodeGetBattery(cabinetId, userId);
+    }
 }

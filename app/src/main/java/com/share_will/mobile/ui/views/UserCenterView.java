@@ -19,4 +19,10 @@ public interface UserCenterView extends BaseView {
      */
      default void onLoginCMS(boolean success, String message){}
 
+    /**
+     * 异常取电
+     * @param data
+     */
+    default void onExceptionGetBattery(BaseEntity<Object> data){}
+
 }

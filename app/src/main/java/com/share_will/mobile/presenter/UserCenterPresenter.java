@@ -79,4 +79,30 @@ public class UserCenterPresenter extends BasePresenter<UserCenterModel, UserCent
                 );
 
     }
+
+    /**
+     * 异常取电
+     * @param userId
+     */
+    public void exceptionGetBattery(String cabinetId, String userId) {
+        getModel().exceptionScanCodeGetBattery(cabinetId, userId)
+                .compose(this.bindToLifecycle(getView()))
+                .retryWhen(new RetryWithDelay(3, 1))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseNetSubscriber<BaseEntity<Object>>(UserCenterPresenter.this) {
+                               @Override
+                               public void onNext(BaseEntity<Object> s) {
+                                   getView().onExceptionGetBattery(s);
+                               }
+
+                               @Override
+                               public boolean onErr(Throwable e) {
+                                   getView().onExceptionGetBattery(null);
+                                   LogUtils.e(e);
+                                   return true;
+                               }
+                           }
+                );
+    }
 }

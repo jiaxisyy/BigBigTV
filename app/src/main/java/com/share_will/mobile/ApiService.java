@@ -586,7 +586,7 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("user/battery/fail")
-    Observable<BaseEntity<Object>> ExceptionScanCodeGetBattery(@Field("cabinetId") String cabinetId,
+    Observable<BaseEntity<Object>> exceptionScanCodeGetBattery(@Field("cabinetId") String cabinetId,
                                                                @Field("userId") String userId);
 
 }

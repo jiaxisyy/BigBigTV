@@ -29,7 +29,7 @@ android {
     }
 
     signingConfigs {
-        release {
+        ant {
             keyAlias 'ant'
             keyPassword 'ant2018'
             storeFile file('ant.jks')
@@ -69,16 +69,11 @@ android {
     productFlavors {
         moss {
             manifestPlaceholders = [CHANNEL_VALUE: "shenzhen-chunteng", applicationPackage: "com.smartmoss.mobile"]
-            signingConfig signingConfigs.release
-        }
-        antEnergy {
-            applicationId = "com.share_will.mobile"
-            manifestPlaceholders = [CHANNEL_VALUE: "zhili", applicationPackage: "com.share_will.mobile"]
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.ant
         }
         smartBMS {
             manifestPlaceholders = [CHANNEL_VALUE: "smartbms", applicationPackage: "com.share_will.mobile"]
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.ant
         }
     }
 

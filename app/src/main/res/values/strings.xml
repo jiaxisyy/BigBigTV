@@ -3,7 +3,7 @@
     <string name="app_name">春藤物联</string>
     <string name="scan_tips">将二维码/条码对准扫描框即可自动扫描</string>
     <!-- 高德地图appKey -->
-    <string name="amap_key">71c37653ed80cd8dde1626ff543a0fd1</string>
+    <string name="amap_key">0ee959b54288cfd4a6d463cd6428fb76</string>
 
     <string name="alerm_title"></string>
     <string name="alert_quit_confirm">确认退出春藤物联吗？</string>

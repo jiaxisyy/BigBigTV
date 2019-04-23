@@ -126,7 +126,9 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
                 startActivity(new Intent(getActivity(), ShopActivity.class));
                 break;
             case R.id.row_my_battery:
-                startActivity(new Intent(getActivity(), MyBatteryActivity.class));
+                Intent inten = new Intent(getActivity(), MyBatteryActivity.class);
+                inten.putExtra("isShowBindView", false);
+                startActivity(inten);
                 break;
             case R.id.btn_top_right_menu:
                 startActivity(new Intent(getActivity(), SettingActivity.class));
@@ -181,7 +183,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
         if (resultCode == RESULT_OK) {
             String result = data.getStringExtra("scan_result");
             LogUtils.d(result + "=====");
-            if (TextUtils.isEmpty(result)){
+            if (TextUtils.isEmpty(result)) {
                 ToastExt.showExt("无效二维码");
                 return;
             }
@@ -196,7 +198,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
                 ToastExt.showExt("无效二维码");
                 return;
             }
-            if (TextUtils.isEmpty(sn) || TextUtils.isEmpty(time)){
+            if (TextUtils.isEmpty(sn) || TextUtils.isEmpty(time)) {
                 ToastExt.showExt("无效二维码");
                 return;
             }
@@ -211,8 +213,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
 
     @Override
     public void onExceptionGetBattery(BaseEntity<Object> data) {
-        if (data != null){
-            if (data.getCode() == 0){
+        if (data != null) {
+            if (data.getCode() == 0) {
                 ToastExt.showExt("认证成功,请及时取出电池");
             } else {
                 ToastExt.showExt(data.getMessage());

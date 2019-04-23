@@ -28,9 +28,9 @@ public class RegisterPresenter extends BasePresenter<RegisterModel, RegisterView
      * @param password 密码
      * @param verCode  验证码
      */
-    public void register(String userId, String userName, String password, String verCode, String customer, String stationId) {
+    public void register(String userId, String userName, String password, String verCode, String customer, String stationId,int type) {
         password = MD5Util.MD5(MD5Util.MD5(password));
-        getModel().register(userId, userName, password, verCode, customer, stationId)
+        getModel().register(userId, userName, password, verCode, customer, stationId,type)
                 .compose(this.bindToLifecycle(getView()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

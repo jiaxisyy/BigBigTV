@@ -22,15 +22,16 @@
             android:layout_marginTop="45px"
             android:layout_marginRight="50px"
             android:background="@null"
-            android:drawableRight="@drawable/icon_scan"
             android:gravity="center_vertical"
             android:hint="请输入电池SN"
             android:maxLines="1"
             android:paddingLeft="20px"
+            android:singleLine="true"
             android:textColor="@color/text_color"
             android:textColorHint="#999999"
             android:textCursorDrawable="@null"
             android:textSize="40px" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -48,10 +49,12 @@
             android:hint="请再次输入电池SN"
             android:maxLines="1"
             android:paddingLeft="20px"
+            android:singleLine="true"
             android:textColor="@color/text_color"
             android:textColorHint="#999999"
             android:textCursorDrawable="@null"
             android:textSize="40px" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

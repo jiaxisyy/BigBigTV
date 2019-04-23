@@ -74,7 +74,8 @@ public interface ApiService {
                                             @Field("password") String password,
                                             @Field("verCode") String verCode,
                                             @Field("customer") String customer,
-                                            @Field("stationId") String stationId);
+                                            @Field("stationId") String stationId,
+                                            @Field("type") int type);
 
     /**
      * 发送验证码
@@ -569,8 +570,9 @@ public interface ApiService {
 
     /**
      * 扫码领取电池
+     *
      * @param cabinetId 机柜SN
-     * @param userId 用户手机
+     * @param userId    用户手机
      * @return
      */
     @FormUrlEncoded
@@ -580,8 +582,9 @@ public interface ApiService {
 
     /**
      * 异常扫码领取电池
+     *
      * @param cabinetId 机柜SN
-     * @param userId 用户手机
+     * @param userId    用户手机
      * @return
      */
     @FormUrlEncoded

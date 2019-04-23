@@ -1,6 +1,7 @@
 package com.share_will.mobile.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -36,11 +37,18 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
     private CityEntity mCityEntity;
     private StationEntity mStationEntity;
     private TextView mSelectStation;
+    /**
+     * 注册用户类型,默认为个人用户
+     */
+    private int REGISTERTYPE = 1;
 
     /**
      * 站点选择
      */
     private static final int REQUEST_CODE_SELECTSTATION = 10010;
+    private TextView mTvRider;
+    private TextView mTvPersonal;
+    private View mIncludeStation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +71,13 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
         mStation = findViewById(R.id.tv_station);
         mSelectStation = findViewById(R.id.tv_register_station);
         mTvForgetPassword = findViewById(R.id.tv_forgetPassword);
+        mTvPersonal = findViewById(R.id.tv_register_personal);
+        mTvRider = findViewById(R.id.tv_register_rider);
+        mIncludeStation = findViewById(R.id.include_register_station);
+        mIncludeStation.setOnClickListener(this);
+        mTvPersonal.setOnClickListener(this);
+        mTvRider.setOnClickListener(this);
         mTvForgetPassword.setVisibility(View.GONE);
-        mSelectStation.setOnClickListener(this);
         btnResign = findViewById(R.id.btn_Resign);
         btnResign.setOnClickListener((v) -> {
             final String userid = userPhone.getText().toString().trim();
@@ -103,10 +116,12 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
             btnResign.setEnabled(false);
             getPresenter().register(userid, username, password, verifyCode,
                     mStationEntity.getCustomerCode(),
-                    mStationEntity.getStationId() + "");
+                    mStationEntity.getStationId() + "", REGISTERTYPE);
         });
 
         getPresenter().getCityList();
+
+
     }
 
     public void showStationDialog(View view) {
@@ -192,8 +207,27 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
 
     @Override
     public void onClick(View view) {
-        Intent intent = new Intent(this, SelectStationActivity.class);
-        startActivityForResult(intent, REQUEST_CODE_SELECTSTATION);
+
+        switch (view.getId()) {
+            case R.id.tv_register_personal:
+                mTvRider.setBackgroundResource(R.drawable.shape_bg_rect_contour_red);
+                mTvPersonal.setTextColor(Color.WHITE);
+                mTvPersonal.setBackgroundColor(Color.parseColor("#F43838"));
+                mTvRider.setTextColor(Color.parseColor("#BDBDBD"));
+                REGISTERTYPE = 1;
+                break;
+            case R.id.tv_register_rider:
+                mTvPersonal.setBackgroundResource(R.drawable.shape_bg_rect_contour_red);
+                mTvRider.setTextColor(Color.WHITE);
+                mTvRider.setBackgroundColor(Color.parseColor("#F43838"));
+                mTvPersonal.setTextColor(Color.parseColor("#BDBDBD"));
+                REGISTERTYPE = 0;
+                break;
+            case R.id.include_register_station:
+                Intent intent = new Intent(this, SelectStationActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_SELECTSTATION);
+                break;
+        }
     }
 
     @Override

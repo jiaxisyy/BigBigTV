@@ -191,6 +191,7 @@
                     android:textColor="#FF1200" />
 
                 <ImageView
+                    android:id="@+id/iv_main_arrow_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"

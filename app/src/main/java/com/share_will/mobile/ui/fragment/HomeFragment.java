@@ -8,10 +8,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.amap.api.navi.INavi;
 import com.share_will.mobile.App;
 import com.share_will.mobile.R;
 import com.share_will.mobile.model.entity.AlarmEntity;
@@ -77,6 +79,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     public final static int REQUEST_CODE_BIND_BATTERY = 100;
     //扫码领取电池
     public final static int REQUEST_CODE_GET_BATTERY = 101;
+    private ImageView mArrowRight;
 
     @Override
     protected int getLayoutId() {
@@ -106,8 +109,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mGetBattery = view.findViewById(R.id.get_battery);
         mBindBattery = view.findViewById(R.id.bind_battery);
         mLayoutBottom = view.findViewById(R.id.include_layout_home_bottom);
-
-
         mStartTime = view.findViewById(R.id.tv_home_charge_start_time);
         mEnoughTime = view.findViewById(R.id.tv_home_charge_enough_time);
         mDurationTime = view.findViewById(R.id.tv_home_charge_duration_time);
@@ -119,6 +120,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mMoneManage = view.findViewById(R.id.tv_home_money_manage);
         mMoneyAll = view.findViewById(R.id.tv_home_money_all);
         mCardMoney = view.findViewById(R.id.rl_card_money);
+        mArrowRight = view.findViewById(R.id.iv_main_arrow_right);
 
         mTopCharge.setOnClickListener(this);
         mRlAlarm.setOnClickListener(this);
@@ -132,6 +134,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     private void initData() {
         mUserCenterPresenter.getBalance(App.getInstance().getUserId(), false);
         getPresenter().getAlarmList(App.getInstance().getUserId(), App.getInstance().getToken());
+        getPresenter().getChargeBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
     }
 
     @Override
@@ -231,8 +234,11 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     @Override
     public void onLoadBatteryInfoResult(BaseEntity<BatteryEntity> data) {
         BatteryEntity entity = data.getData();
+//
         if (data != null && !TextUtils.isEmpty(entity.getSn())) {
-            mStartTime.setText("电池SN:   " + entity.getSn());
+            if(!TextUtils.isEmpty(entity.getSn())){
+                mStartTime.setText("电池SN:   " + entity.getSn());
+            }
             if (!TextUtils.isEmpty(entity.getSop())) {
                 mEnoughTime.setText("当前电量:   " + entity.getSop() + "%");
             }
@@ -249,6 +255,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         } else {
             mLayoutBottom.setVisibility(View.GONE);
             showNoBatteryView(true, mUserInfo != null && mUserInfo.getDeposit() > 0);
+            mArrowRight.setVisibility(View.INVISIBLE);
         }
         if (flag_http_success == 0) {
             mRefreshLayout.setRefreshing(false);
@@ -287,7 +294,11 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 startActivity(new Intent(getActivity(), AlarmListActivity.class));
                 break;
             case R.id.rl_home_batteryInfo:
-                startActivity(new Intent(getActivity(), MyBatteryActivity.class));
+                if (mArrowRight.getVisibility() == View.VISIBLE) {
+                    Intent intent = new Intent(getActivity(), MyBatteryActivity.class);
+                    intent.putExtra("isShowBindView", false);
+                    startActivity(intent);
+                }
                 break;
             case R.id.get_battery:
                 Intent inte = new Intent(this.getContext(), CaptureActivity.class);
@@ -346,6 +357,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 boolean manualInput = data.getBooleanExtra(CaptureActivity.KEY_SHOW_MANUAL_INPUT, false);
                 if (manualInput) {
                     Intent intent = new Intent(getActivity(), MyBatteryActivity.class);
+                    intent.putExtra("isShowBindView", true);
                     startActivity(intent);
                 } else {
                     if (TextUtils.isEmpty(resultData) || resultData.length() != 16) {

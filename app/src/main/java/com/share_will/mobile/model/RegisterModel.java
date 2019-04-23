@@ -39,8 +39,8 @@ public class RegisterModel extends BaseModel {
         }
     }
 
-    public Observable<BaseEntity<Object>> register(String userId, String userName, String password, String verCode, String customer, String stationId) {
-        return ApiClient.getInstance().getApiService(ApiService.class).register(userId, userName, password, verCode, customer, stationId);
+    public Observable<BaseEntity<Object>> register(String userId, String userName, String password, String verCode, String customer, String stationId,int type) {
+        return ApiClient.getInstance().getApiService(ApiService.class).register(userId, userName, password, verCode, customer, stationId,type);
     }
 
     public Observable<BaseEntity<Object>> sendVerifyCode(String userId) {

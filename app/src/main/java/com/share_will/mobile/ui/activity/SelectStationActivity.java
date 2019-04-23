@@ -67,14 +67,14 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        setTitle("选择站点");
+        setTitle("选择归属");
         mEtPhone = findViewById(R.id.et_select_station_phone);
         mTvSearch = findViewById(R.id.tv_select_station_search);
         mTvScan = findViewById(R.id.tv_select_station_scan);
         mLlPicker = findViewById(R.id.ll_select_station_picker);
         mTvSelected = findViewById(R.id.tv_select_station_selected);
         mRvStation = findViewById(R.id.rv_select_station);
-        initStationList();
+//        initStationList();
         mTvSearch.setOnClickListener(this);
         mTvScan.setOnClickListener(this);
         mTvSelected.setOnClickListener(this);
@@ -87,7 +87,7 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
         mStationPickerView = new OptionsPickerBuilder(this, (options1, option2, options3, v) -> {
 
             StationEntity station = getPresenter().getModel().getStation(option2);
-            if(station!=null){
+            if (station != null) {
                 LogUtils.d("===getStationName==" + mStationEntity.getStationName());
                 mTvSelected.setText("当前:" + mStationEntity.getStationName());
                 if (list != null) {
@@ -96,11 +96,7 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
                 }
             }
         })
-                .isDialog(false)
-                .setDecorView(mLlPicker)
-                .setBackgroundId(Color.parseColor("#00FFFFFF"))
                 .setOutSideCancelable(false)
-                .setBgColor(Color.parseColor("#00FFFFFF"))
                 .setOptionsSelectChangeListener((options1, options2, options3) -> {
 
                     if (mCityIndex != options1) {
@@ -194,8 +190,10 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
     public void finish() {
         mStationIntent.putExtra("station_name", mTvSelected.getText().toString().substring(3));
         mStationIntent.putExtra("station_entity", mStationEntity);
-        LogUtils.d(mStationEntity.toString());
-        setResult(RESULT_OK, mStationIntent);
+//        LogUtils.d(mStationEntity.toString());
+        if (mStationIntent != null) {
+            setResult(RESULT_OK, mStationIntent);
+        }
         super.finish();
     }
 

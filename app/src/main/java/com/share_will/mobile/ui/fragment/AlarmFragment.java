@@ -34,6 +34,7 @@ import com.share_will.mobile.ui.views.IHomeFragmentView;
 import com.ubock.library.annotation.PresenterInjector;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseFragment;
+import com.ubock.library.ui.dialog.ToastExt;
 import com.ubock.library.utils.DateUtils;
 import com.ubock.library.utils.LogUtils;
 
@@ -325,6 +326,8 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
         if (s != null) {
             btnAlarmClose.setVisibility(View.INVISIBLE);
             refresh();
+        }else {
+            ToastExt.showExt("关闭告警失败");
         }
     }
 

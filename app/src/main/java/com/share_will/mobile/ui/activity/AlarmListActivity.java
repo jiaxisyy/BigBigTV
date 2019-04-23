@@ -25,13 +25,14 @@ import com.share_will.mobile.ui.widget.RecyclerViewItemDecoration;
 import com.ubock.library.annotation.PresenterInjector;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseFragmentActivity;
+import com.ubock.library.ui.dialog.ToastExt;
 import com.ubock.library.utils.LogUtils;
 
 import java.util.List;
 import java.util.function.LongFunction;
 
 public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresenter> implements IHomeFragmentView
-    , IAlarmFragmentView {
+        , IAlarmFragmentView {
 
     private RecyclerView mRv;
     private RecyclerView mRvRfid;
@@ -80,7 +81,7 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
                 .setTitle(R.string.alerm_title)
                 .setIcon(null)
                 .setCancelable(true)
-                .setMessage(R.string.alert_quit_confirm)
+                .setMessage(R.string.alert_quit_close_alarm)
                 .setPositiveButton(R.string.alert_yes_button, (dialog, which) -> {
                     closeAlarm(data);
                 })
@@ -94,24 +95,30 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
 
     @Override
     public void onLoadAlarmResult(BaseEntity<AlarmEntity> data) {
-        mAdapter.setNewData(data.getData().getSmoke());
-        mAdapter.setOnItemChildClickListener((baseQuickAdapter, view, i) -> {
-
-            if (view.getId() == R.id.item_tv_home_alarm_close) {
-                closeDialog(data.getData().getSmoke().get(i));
+        if (data != null) {
+            mAdapter.setNewData(data.getData().getSmoke());
+            mAdapter.setOnItemChildClickListener((baseQuickAdapter, view, i) -> {
+                if (view.getId() == R.id.item_tv_home_alarm_close && data.getData().getSmoke().size() > 0) {
+                    closeDialog(data.getData().getSmoke().get(i));
+                }
+            });
+            if (data.getData().getRfid() != null && data.getData().getRfid().size() > 0) {
+                mAdapterRfid.setNewData(data.getData().getRfid());
             }
-
-        });
-
-        if (data.getData().getRfid() != null && data.getData().getRfid().size() > 0) {
-            mAdapterRfid.setNewData(data.getData().getRfid());
+            mRefreshLayout.setRefreshing(false);
+        } else {
+            ToastExt.showExt("数据获取失败");
         }
-        mRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void onCloseAlarmResult(BaseEntity<Object> s) {
-
+        if (s != null) {
+            ToastExt.showExt("关闭告警成功");
+        } else {
+            ToastExt.showExt("关闭告警失败");
+        }
+        initData();
     }
 
     @Override

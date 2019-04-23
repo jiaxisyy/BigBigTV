@@ -36,6 +36,8 @@ import java.text.DecimalFormat;
 
 public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFragmentView, View.OnClickListener, UserCenterView {
     private static final int REQUEST_CODE_SCAN_SN = 10010;
+    private static final int REQUEST_CODE_BIND_BATTERY_SUCCESS = 10011;
+    final public static String KEY_BIND_SUCCESS = "bind_success";
     @PresenterInjector
     HomeFragmentPresenter homeFragmentPresenter;
     @PresenterInjector
@@ -104,7 +106,6 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
             mRefreshLayout.setEnabled(true);
             initData();
         }
-
         mBindSn = findViewById(R.id.et_my_battery_bind_sn);
         mBindSnAgain = findViewById(R.id.et_my_battery_bind_sn_again);
         mBindSubmit = findViewById(R.id.tv_my_battery_bind_submit);
@@ -125,10 +126,10 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
         mUserCenterPresenter.getBalance(App.getInstance().getUserId(), false);
     }
 
+
     @Override
     public void onLoadBatteryInfoResult(BaseEntity<BatteryEntity> data) {
         BatteryEntity entity = data.getData();
-
         if (data!=null&&entity!=null&&!TextUtils.isEmpty(entity.getSn())) {
             if (!TextUtils.isEmpty(entity.getSn())) {
                 mStartTime.setText("电池SN:   " + entity.getSn());
@@ -189,6 +190,7 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
         String snAgain = mBindSnAgain.getText().toString().trim();
         if (!sn.equals(snAgain) || TextUtils.isEmpty(sn)) {
             showMessage("SN码错误");
+
         } else {
             homeFragmentPresenter.bindBattery(App.getInstance().getUserId(), sn);
         }
@@ -208,7 +210,10 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
         if (data != null) {
             if (data.getCode() == 0) {
                 ToastExt.showExt("绑定电池成功");
-                homeFragmentPresenter.getBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
+                Intent intent = new Intent();
+                intent.putExtra(KEY_BIND_SUCCESS, "success");
+                setResult(RESULT_OK, intent);
+                finish();
             } else {
                 ToastExt.showExt(data.getMessage());
             }
@@ -248,7 +253,7 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
                 if (manualInput) {
                     Intent intent = new Intent(this, MyBatteryActivity.class);
                     intent.putExtra("isShowBindView", true);
-                    startActivity(intent);
+                    startActivityForResult(intent, REQUEST_CODE_BIND_BATTERY_SUCCESS);
                 } else {
                     if (TextUtils.isEmpty(resultData) || resultData.length() != 16) {
                         ToastExt.showExt("无效二维码/二维码");
@@ -278,7 +283,12 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
                         LogUtils.e(e);
                     }
                 }
-            } else {
+            } else if (requestCode == REQUEST_CODE_BIND_BATTERY_SUCCESS) {
+                String success = data.getStringExtra(KEY_BIND_SUCCESS);
+                if (success.equals("success")) {
+                    LogUtils.d("刷新成功");
+                    initData();
+                }
             }
         }
 
@@ -332,4 +342,5 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
         return decimalFormat.format(num);
     }
+
 }

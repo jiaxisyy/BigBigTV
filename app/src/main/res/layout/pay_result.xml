@@ -2,6 +2,12 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:gravity="center">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="150px"
+        android:gravity="center"
+        android:background="#77088d0c"
+        android:text="正在启动微信支付..."/>
 </LinearLayout>

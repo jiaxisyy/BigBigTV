@@ -27,7 +27,6 @@ proguard/
 
 
 .idea/
-QrCodeScan.iml
 app/app.iml
-/AntEnergy-Phone.iml
+/*.iml
 youXing

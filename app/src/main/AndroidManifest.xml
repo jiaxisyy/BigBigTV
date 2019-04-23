@@ -110,10 +110,9 @@
         <!--android:name=".ui.activity.PayActivity"-->
         <!--android:screenOrientation="portrait" />-->
         <activity
-            android:name=".wxapi.WXPayEntryActivity"
+            android:name="${applicationPackage}.wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"
             android:theme="@style/ActivityTransparent">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -273,8 +272,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!--微信分享-->
         <activity
-            android:name=".wxapi.WXEntryActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:name="${applicationPackage}.wxapi.WXEntryActivity"
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 

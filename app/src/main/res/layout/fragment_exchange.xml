@@ -85,7 +85,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="139px"
         android:background="@null"
-        android:src="@drawable/icon_scan_ct"
+        android:src="@drawable/icon_map_scan"
         app:layout_auto_basewidth="height" />
 
     <ImageButton

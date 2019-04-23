@@ -8,9 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
-import com.bigkoo.pickerview.listener.OnOptionsSelectChangeListener;
-import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.share_will.mobile.R;
 import com.share_will.mobile.model.entity.CityEntity;
@@ -21,7 +18,6 @@ import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseFragmentActivity;
 import com.ubock.library.ui.dialog.ToastExt;
 
-import java.io.Serializable;
 import java.util.List;
 
 public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> implements RegisterView, View.OnClickListener {
@@ -54,7 +50,7 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
 
     @Override
     protected int getLayoutId() {
-        return R.layout.resign_activity;
+        return R.layout.activity_register;
     }
 
     @Override

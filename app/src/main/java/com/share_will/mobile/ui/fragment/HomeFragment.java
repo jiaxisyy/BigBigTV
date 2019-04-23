@@ -38,7 +38,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements IHomeFragmentView, View.OnClickListener
-    , UserCenterView {
+        , UserCenterView {
     private TextView mAlarmTitle;
     private TextView mAlarmPositionName;
     private TextView mAlarmRemark;
@@ -136,7 +136,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
 
     @Override
     public void onLoadBalance(BaseEntity<UserInfo> data) {
-        if (data != null){
+        if (data != null) {
             mUserInfo = data.getData();
         }
         getPresenter().getChargeBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
@@ -170,7 +170,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 if (!TextUtils.isEmpty(alarmEntity.getRemark())) {
                     mAlarmRemark.setText(alarmEntity.getRemark());
                 }
-                if (alarmEntity.getAlarmtime()!=0) {
+                if (alarmEntity.getAlarmtime() != 0) {
                     mAlarmTime.setText("告警时间   " + DateUtils.timeStampToString(alarmEntity.getAlarmtime(), DateUtils.YYYYMMDD_HHMMSS));
                 }
                 mAlarmLevel.setText("告警级别   " + alarmEntity.getAlarmlevel() + "级");
@@ -204,9 +204,11 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             }
             mNowSop.setText("当前电量:   " + entity.getSop() + "%");
             mEnergy.setText("已充能量点:   " + entity.getEnergy());
-            mAddress.setText("电池位置:   " + entity.getCabinetAddress());
-            mDoor.setText("仓门号:   " + entity.getDoor());
 
+            if (!TextUtils.isEmpty(entity.getCabinetAddress())) {
+                mAddress.setText("电池位置:   " + entity.getCabinetAddress());
+            }
+            mDoor.setText("仓门号:   " + entity.getDoor());
             mMoneyCharge.setText(intChange(entity.getMoney() / 100f) + "元");
             mMoneManage.setText(intChange(entity.getManageMoney() / 100f) + "元");
             int all = entity.getMoney() + entity.getManageMoney();
@@ -256,10 +258,11 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
 
     /**
      * 显示无电池信息框
-     * @param show 是否显示
+     *
+     * @param show       是否显示
      * @param hasDeposit 是否有押金
      */
-    private void showNoBatteryView(boolean show, boolean hasDeposit){
+    private void showNoBatteryView(boolean show, boolean hasDeposit) {
         if (show) {
             mNoBatteryCon.setVisibility(View.VISIBLE);
             if (hasDeposit) {
@@ -310,7 +313,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
 
     @Override
     public void onScanCodeGetBatteryResult(BaseEntity<Object> data) {
-        if (data != null){
+        if (data != null) {
             if (data.getCode() == 0) {
                 ToastExt.showExt("扫码验证成功,请及时领取电池");
             } else {
@@ -323,8 +326,8 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
 
     @Override
     public void onBindBatteryResult(BaseEntity<Object> data) {
-        if (data != null){
-            if (data.getCode() == 0){
+        if (data != null) {
+            if (data.getCode() == 0) {
                 ToastExt.showExt("绑定电池成功");
             } else {
                 ToastExt.showExt(data.getMessage());
@@ -345,14 +348,14 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                     Intent intent = new Intent(getActivity(), MyBatteryActivity.class);
                     startActivity(intent);
                 } else {
-                    if (TextUtils.isEmpty(resultData) || resultData.length() != 16){
+                    if (TextUtils.isEmpty(resultData) || resultData.length() != 16) {
                         ToastExt.showExt("无效二维码/二维码");
                     } else {
                         getPresenter().bindBattery(App.getInstance().getUserId(), resultData);
                     }
                 }
             } else if (requestCode == REQUEST_CODE_GET_BATTERY) {
-                if (TextUtils.isEmpty(resultData)){
+                if (TextUtils.isEmpty(resultData)) {
                     ToastExt.showExt("无效二维码");
                 } else {
                     try {

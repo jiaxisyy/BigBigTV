@@ -196,9 +196,10 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
             }
             mNowSop.setText("当前电量:   " + entity.getSop() + "%");
             mEnergy.setText("已充能量点:   " + entity.getEnergy());
-            mAddress.setText("电池位置:   " + entity.getCabinetAddress());
+            if(!TextUtils.isEmpty(entity.getCabinetAddress())){
+                mAddress.setText("电池位置:   " + entity.getCabinetAddress());
+            }
             mDoor.setText("仓门号:   " + entity.getDoor());
-
             mMoneyCharge.setText(intChange(entity.getMoney() / 100f) + "元");
             mMoneManage.setText(intChange(entity.getManageMoney() / 100f) + "元");
             int all = entity.getMoney() + entity.getManageMoney();

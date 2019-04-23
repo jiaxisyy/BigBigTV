@@ -9,6 +9,39 @@
 
     <include layout="@layout/widget_topbar" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100px"
+        android:layout_marginLeft="50px"
+        android:layout_marginTop="30px"
+        android:layout_marginRight="50px"
+        android:background="@drawable/shape_bg_rect_contour_red"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/cb_register_personal"
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/text_color"
+            android:button="@null"
+            android:gravity="center"
+            android:text="个人用户"
+            android:textColor="#FFFFFF" />
+
+        <CheckBox
+            android:id="@+id/cb_register_rider"
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:text="骑手用户"
+            android:textColor="#BDBDBD" />
+
+    </LinearLayout>
+
     <include layout="@layout/include_user_phone" />
 
     <include layout="@layout/include_user_phone_with_get_code" />

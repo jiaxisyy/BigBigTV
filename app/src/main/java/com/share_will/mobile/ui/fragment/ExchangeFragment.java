@@ -2,6 +2,7 @@ package com.share_will.mobile.ui.fragment;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,10 +10,14 @@ import android.os.Message;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -130,6 +135,9 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
      */
     private int clickType = 0;
     private RideRouteOverlay rideRouteOverlay;
+    private PopupWindow mPopupWindow;
+    private TextView mTvAddress;
+    private View mViewPopup;
 
     @Override
     protected int getLayoutId() {
@@ -163,11 +171,20 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
         mCity.setOnClickListener(this);
         //获取地图控件引用
         mMapView = view.findViewById(R.id.map);
+
+        mViewPopup = LayoutInflater.from(getContext()).inflate(R.layout.popupwindow_map_marker, null);
+        mPopupWindow = new PopupWindow(mViewPopup, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        mPopupWindow.setFocusable(false);
+        //下面的是设置外部是否可以点击
+        mPopupWindow.setOutsideTouchable(false);
+        mViewPopup.findViewById(R.id.tv_pop_map_marker_gps).setOnClickListener(this);
+        mTvAddress = mViewPopup.findViewById(R.id.tv_pop_map_marker_address);
         //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
         mMapView.onCreate(savedInstanceState);
         //初始化地图控制器对象
         if (mAMap == null) {
             mAMap = mMapView.getMap();
+
             mAMap.setOnMapClickListener((v) -> {
                 if (mCabinetInfoView.getVisibility() == View.VISIBLE) {
                     hideCabinetInfo();
@@ -375,6 +392,7 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
     private void hideCabinetInfo() {
         if (mCabinetInfoView.getVisibility() == View.VISIBLE) {
             mCabinetInfoView.setVisibility(View.GONE);
+            mPopupWindow.dismiss();
         }
     }
 
@@ -384,11 +402,11 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
      * @param cabinetEntity
      */
     private void showCabinetInfo(CabinetEntity cabinetEntity) {
+
         boolean entitySubscribe = cabinetEntity.isSubscribe();
         if (cabinetEntity == null) {
             return;
         }
-
         if (mCurrentCabinet == cabinetEntity) {
             //点击的机柜正在显示则隐藏，否则显示
             if (mCabinetInfoView.getVisibility() == View.VISIBLE) {
@@ -396,9 +414,11 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
                 clickType = 0;
             } else {
                 mCabinetInfoView.setVisibility(View.VISIBLE);
+                if(!mPopupWindow.isShowing()){
+                    showPopupWindow();
+                }
                 getFullBattery(cabinetEntity.getCabinetSn());
                 clickType = 1;
-
             }
         } else {
             if (!TextUtils.isEmpty(cabinetEntity.getStation())) {
@@ -407,26 +427,31 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
             if (!TextUtils.isEmpty(cabinetEntity.getCabinetSn())) {
                 mCabinetSN.setText(String.format("SN码:%s", cabinetEntity.getCabinetSn()));
             }
-//            if (!TextUtils.isEmpty(cabinetEntity.getAddress())) {
-//                mCabinetAddress.setText(String.format("地址:%s", cabinetEntity.getAddress()));
-//            }
+            if (!TextUtils.isEmpty(cabinetEntity.getAddress())) {
+                mTvAddress.setText(String.format("地址:%s", cabinetEntity.getAddress()));
+            }
             mEmptyHouse.setText(String.format("空仓数量:%s/%s", cabinetEntity.getEmptyHouse(), cabinetEntity.getWareHouseTotal()));
 
             mBespeakIntent = new Intent(this.getActivity(), BespeakActivity.class);
             mBespeakIntent.putExtra(CABINETTITLE, cabinetEntity.getStation());
             mBespeakIntent.putExtra(CABINETSN, cabinetEntity.getCabinetSn());
             mBespeakIntent.putExtra(CABINETADDRESS, cabinetEntity.getAddress());
-
-            if (entitySubscribe) {
-                mBtnBespeak.setVisibility(View.VISIBLE);
-            } else {
-                mBtnBespeak.setVisibility(View.INVISIBLE);
-            }
+            
             mCabinetInfoView.setVisibility(View.VISIBLE);
+            if(!mPopupWindow.isShowing()){
+                showPopupWindow();
+            }
             mCurrentCabinet = cabinetEntity;
             getFullBattery(cabinetEntity.getCabinetSn());
             clickType = 1;
         }
+    }
+
+    /**
+     * 点击机柜后显示地址和开始导航按钮弹窗
+     */
+    private void showPopupWindow() {
+        mPopupWindow.showAtLocation(getView(), Gravity.BOTTOM, 0, 0);
     }
 
     /**
@@ -435,9 +460,7 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
      * @param view 是哪个view被点击了
      */
     public void onClick(View view) {
-        if (view.getId() != R.id.btn_navi) {
-            hideCabinetInfo();
-        }
+
         switch (view.getId()) {
             case R.id.tv_city:
                 showCityDialog();
@@ -467,6 +490,16 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
                     openPGSDialog();
                 }
                 break;
+            case R.id.tv_pop_map_marker_gps:
+                //导航到机柜
+                if (Utils.isOPenGPS(this.getContext())) {
+                    naviTo(mCurrentCabinet.getLatitude(), mCurrentCabinet.getLongitude());
+                } else {
+                    // 转到手机GPS设置界面
+                    openPGSDialog();
+                }
+                break;
+
             default:
                 break;
         }

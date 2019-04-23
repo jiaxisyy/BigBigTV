@@ -10,7 +10,7 @@ android {
         applicationId "com.smartmoss.mobile"
         versionCode 402
         versionName "4.0.2"
-        minSdkVersion 14
+        minSdkVersion 19
         targetSdkVersion 27
         multiDexEnabled true
         // Specifies a flavor dimension.

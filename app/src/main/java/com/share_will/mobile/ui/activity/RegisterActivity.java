@@ -152,7 +152,7 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
     public void onLoadCityList(BaseEntity<List<CityEntity>> ret) {
         if (ret != null && ret.getCode() == 0 && ret.getData().size() > 0) {
             String cityCode = ret.getData().get(0).getAreaCode();
-            getPresenter().getStationList(cityCode);
+            getPresenter().getStationList(cityCode,REGISTERTYPE);
         }
     }
 

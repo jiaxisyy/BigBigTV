@@ -81,7 +81,7 @@ public class NewRescueActivity extends BaseFragmentActivity<NewRescuePresenter> 
             mCityIndex = options1;
             mCityEntity = getPresenter().getModel().getCity(options1);
             String cityCode = mCityEntity.getAreaCode();
-            getPresenter().getStationList(cityCode);
+            getPresenter().getStationList(cityCode, 0);
         }
     }
 
@@ -105,7 +105,7 @@ public class NewRescueActivity extends BaseFragmentActivity<NewRescuePresenter> 
     public void onLoadCityList(BaseEntity<List<CityEntity>> ret) {
         if (ret != null && ret.getCode() == 0 && ret.getData().size() > 0) {
             String cityCode = ret.getData().get(0).getAreaCode();
-            getPresenter().getStationList(cityCode);
+            getPresenter().getStationList(cityCode, 0);//默认骑手,用户类型未知
         }
     }
 

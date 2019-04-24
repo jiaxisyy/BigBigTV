@@ -47,8 +47,8 @@ public class RegisterModel extends BaseModel {
         return ApiClient.getInstance().getApiService(ApiService.class).sendVerifyCode(userId);
     }
 
-    public Observable<BaseEntity<List<StationEntity>>> getStationList(String areaCode) {
-        Observable<BaseEntity<List<StationEntity>>> ret = ApiClient.getInstance().getApiService(ApiService.class).getStationList(areaCode);
+    public Observable<BaseEntity<List<StationEntity>>> getStationList(String areaCode,int type) {
+        Observable<BaseEntity<List<StationEntity>>> ret = ApiClient.getInstance().getApiService(ApiService.class).getStationList(areaCode,type);
         return ret.flatMap(new Func1<BaseEntity<List<StationEntity>>, Observable<BaseEntity<List<StationEntity>>>>() {
             @Override
             public Observable<BaseEntity<List<StationEntity>>> call(BaseEntity<List<StationEntity>> listBaseEntity) {

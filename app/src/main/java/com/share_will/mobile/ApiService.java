@@ -398,7 +398,8 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("user/station")
-    Observable<BaseEntity<List<StationEntity>>> getStationList(@Field("areaCode") String areaCode);
+    Observable<BaseEntity<List<StationEntity>>> getStationList(@Field("areaCode") String areaCode,
+                                                               @Field("type") int type);
 
     /**
      * 申请救援

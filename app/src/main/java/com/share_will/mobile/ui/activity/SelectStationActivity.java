@@ -67,6 +67,8 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
     private WheelView mWvCity;
     private WheelView mWvName;
 
+    private int register_type = 1;//默认为1 个人用户
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_select_station;
@@ -75,7 +77,7 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
     @Override
     protected void initView(Bundle savedInstanceState) {
         setTitle("选择归属");
-        int register_type = getIntent().getIntExtra("register_type", 0);
+        register_type = getIntent().getIntExtra("register_type", 1);
 
         mEtPhone = findViewById(R.id.et_select_station_phone);
         mTvSearch = findViewById(R.id.tv_select_station_search);
@@ -115,7 +117,7 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
                         mCityEntity = getPresenter().getModel().getCity(options1);
                         String cityCode = mCityEntity.getAreaCode();
                         LogUtils.d("==cityCode===" + cityCode);
-                        getPresenter().getStationList(cityCode);
+                        getPresenter().getStationList(cityCode,register_type);
                     }
                 }).build();
 
@@ -189,7 +191,7 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
         if (ret != null && ret.getCode() == 0 && ret.getData().size() > 0) {
 
             String cityCode = ret.getData().get(0).getAreaCode();
-            getPresenter().getStationList(cityCode);
+            getPresenter().getStationList(cityCode,register_type);
         }
     }
 

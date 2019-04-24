@@ -52,8 +52,8 @@ public class NewRescuePresenter extends BasePresenter<NewRescueModel, NewRescueV
      *
      * @param areaCode 手机号
      */
-    public void getStationList(String areaCode) {
-        getModel().getStationList(areaCode)
+    public void getStationList(String areaCode,int type) {
+        getModel().getStationList(areaCode,type)
                 .compose(this.bindToLifecycle(getView()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

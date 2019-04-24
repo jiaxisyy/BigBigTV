@@ -31,6 +31,7 @@ import com.share_will.mobile.ui.activity.AlarmListActivity;
 import com.share_will.mobile.ui.dialog.InfoWindows;
 import com.share_will.mobile.ui.views.IAlarmFragmentView;
 import com.share_will.mobile.ui.views.IHomeFragmentView;
+import com.share_will.mobile.ui.widget.AutoFitTextView;
 import com.ubock.library.annotation.PresenterInjector;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseFragment;
@@ -66,7 +67,9 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
     @PresenterInjector
     HomeFragmentPresenter presenter;
     private ViewFlipper mVfTitle;
-    /**正在报警中的告警信息*/
+    /**
+     * 正在报警中的告警信息
+     */
     private AlarmEntity.SmokeBean mAlarming;
 
     @Override
@@ -101,6 +104,7 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
             mAMap.animateCamera(CameraUpdateFactory.changeLatLng(latLng));
         }
     }
+
     private void initMap(View view, Bundle savedInstanceState) {
         //获取地图控件引用
         mMapView = view.findViewById(R.id.map_alarm);
@@ -353,13 +357,13 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
     @Override
     public View getInfoWindow(Marker marker) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.window_map_alarm_detail, null);
-        TextView tvTitle = view.findViewById(R.id.tv_window_map_alarm_detail_title);
-        TextView tvAddress = view.findViewById(R.id.tv_window_map_alarm_detail_address);
-        TextView tvMessage = view.findViewById(R.id.tv_window_map_alarm_detail_message);
+        AutoFitTextView tvTitle = view.findViewById(R.id.tv_window_map_alarm_detail_title);
+        AutoFitTextView tvAddress = view.findViewById(R.id.tv_window_map_alarm_detail_address);
+        AutoFitTextView tvMessage = view.findViewById(R.id.tv_window_map_alarm_detail_message);
         AlarmEntity.SmokeBean smokeBean = mSmokeList.get(Integer.parseInt(marker.getSnippet()));
-        tvTitle.setText("名称: " + smokeBean.getPositionName());
-        tvAddress.setText("地址: " + smokeBean.getDeviceAddress());
-        tvMessage.setText("备注: " + smokeBean.getRemark());
+        tvTitle.setText(smokeBean.getPositionName());
+        tvAddress.setText(smokeBean.getDeviceAddress());
+        tvMessage.setText(smokeBean.getRemark());
         return view;
     }
 

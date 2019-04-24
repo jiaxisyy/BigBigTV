@@ -19,7 +19,6 @@ import com.share_will.mobile.model.entity.ChargeBatteryEntity;
 import com.share_will.mobile.presenter.HomeServicePresenter;
 
 import com.share_will.mobile.ui.views.IHomeServiceView;
-import com.ubock.library.base.BaseConfig;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseFragmentActivity;
 import com.ubock.library.utils.DateUtils;
@@ -28,7 +27,6 @@ import com.ubock.library.utils.LogUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Map;
 
@@ -165,11 +163,11 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
             if (entity.getFullTime() != 0) {
                 mEnoughTime.setText("充满时间:   " + DateUtils.timeStampToString(entity.getFullTime(), DateUtils.YYYYMMDD_HHMMSS));
                 long l = entity.getFullTime() - entity.getStartTime();
-                mDurationTime.setText("充电时长:   " + DateUtils.unixToUTcTimeTest(l));
+                mDurationTime.setText("充电时长:   " + DateUtils.unixToUTcTimeDuration(l));
             } else {
                 mEnoughTime.setVisibility(View.GONE);
                 long l = entity.getNowTime() - entity.getStartTime();
-                mDurationTime.setText("充电时长:   " + DateUtils.unixToUTcTimeTest(l));
+                mDurationTime.setText("充电时长:   " + DateUtils.unixToUTcTimeDuration(l));
             }
             if (!TextUtils.isEmpty(entity.getSop())) {
                 mNowSop.setText("当前电量:   " + entity.getSop() + "%");

@@ -59,7 +59,6 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
 
     private boolean isclicked = false;
 
-
     @Override
     protected int getLayoutId() {
         return R.layout.activity_select_station;
@@ -68,6 +67,8 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
     @Override
     protected void initView(Bundle savedInstanceState) {
         setTitle("选择归属");
+        int register_type = getIntent().getIntExtra("register_type", 0);
+
         mEtPhone = findViewById(R.id.et_select_station_phone);
         mTvSearch = findViewById(R.id.tv_select_station_search);
         mTvScan = findViewById(R.id.tv_select_station_scan);
@@ -158,7 +159,7 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
 
     @Override
     public void onLoadStationList(BaseEntity<List<StationEntity>> ret) {
-        if (ret != null && ret.getCode() == 0) {
+        if (ret != null && ret.getCode() == 0&&ret.getData().size()>0) {
             mStationPickerView.setNPicker(getPresenter().getModel().getCity(), ret.getData(), null);
             mStationPickerView.setSelectOptions(mCityIndex);
             mTvSelected.setText("当前:" + ret.getData().get(0).getStationName());

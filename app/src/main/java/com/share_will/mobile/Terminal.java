@@ -11,7 +11,7 @@ public class Terminal {
 
     public static String intChange(int num) {
 
-        DecimalFormat df = new DecimalFormat("#.00");
+        DecimalFormat df = new DecimalFormat("0.00");
         return df.format(num);
     }
 }

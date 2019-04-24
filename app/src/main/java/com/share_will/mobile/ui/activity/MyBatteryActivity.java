@@ -2,12 +2,10 @@ package com.share_will.mobile.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,7 +23,6 @@ import com.share_will.mobile.presenter.UserCenterPresenter;
 import com.share_will.mobile.ui.views.IHomeFragmentView;
 import com.share_will.mobile.ui.views.UserCenterView;
 import com.ubock.library.annotation.PresenterInjector;
-import com.ubock.library.base.BaseConfig;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseFragmentActivity;
 import com.ubock.library.ui.dialog.ToastExt;
@@ -312,15 +309,15 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
         if (data != null) {
             mLayoutBottom.setVisibility(View.VISIBLE);
             ChargeBatteryEntity entity = data.getData();
-            mStartTime.setText("开始时间:   " + DateUtils.unixToLocalTime(String.valueOf(entity.getStartTime())));
+            mStartTime.setText("开始时间:   " + DateUtils.timeStampToString(entity.getStartTime(), DateUtils.YYYYMMDD_HHMMSS));
             if (entity.getFullTime() != 0) {
                 mEnoughTime.setText("充满时间:   " + DateUtils.timeStampToString(entity.getFullTime(), DateUtils.YYYYMMDD_HHMMSS));
                 long l = entity.getFullTime() - entity.getStartTime();
-                mDurationTime.setText("充电时长:   " + DateUtils.unixToUTcTimeTest(l));
+                mDurationTime.setText("充电时长:   " + DateUtils.unixToUTcTimeDuration(l));
             } else {
                 mEnoughTime.setVisibility(View.GONE);
                 long l = entity.getNowTime() - entity.getStartTime();
-                mDurationTime.setText("充电时长:   " + DateUtils.unixToUTcTimeTest(l));
+                mDurationTime.setText("充电时长:   " + DateUtils.unixToUTcTimeDuration(l));
             }
             mNowSop.setText("当前电量:   " + entity.getSop() + "%");
             mEnergy.setText("已充能量点:   " + entity.getEnergy());

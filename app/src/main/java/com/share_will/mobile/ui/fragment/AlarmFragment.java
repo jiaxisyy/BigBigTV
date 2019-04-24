@@ -101,8 +101,8 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
             mAMap.getUiSettings().setZoomControlsEnabled(false);
             mAMap.getUiSettings().setLogoPosition(AMapOptions.LOGO_POSITION_BOTTOM_CENTER);
             mAMap.moveCamera(CameraUpdateFactory.zoomTo(14));
-            mInfoWindows = new InfoWindows(getActivity());
-            mAMap.setInfoWindowAdapter(mInfoWindows);
+//            mInfoWindows = new InfoWindows(getActivity());
+//            mAMap.setInfoWindowAdapter(mInfoWindows);
             mAMap.setOnMarkerClickListener(markerClickListener);
             //添加Marker显示定位位置
             if (mLocationMarker == null) {

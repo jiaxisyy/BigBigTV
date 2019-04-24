@@ -322,9 +322,9 @@ public class DateUtils {
     }
     /**
      * @param fromDate
-     * @return 时间戳格式化成本地utc时间 HH:mm
+     * @return 时间戳格式化成本地utc时间时长 HH:mm
      */
-    public static String unixToUTcTimeTest(long fromDate) {
+    public static String unixToUTcTimeDuration(long fromDate) {
         String res;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));

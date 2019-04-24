@@ -2,7 +2,6 @@ package com.share_will.mobile.ui.fragment;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -57,18 +56,19 @@ import com.share_will.mobile.services.LocationService;
 import com.share_will.mobile.ui.activity.BespeakActivity;
 import com.share_will.mobile.ui.activity.CaptureActivity;
 import com.share_will.mobile.ui.activity.NaviActivity;
-import com.share_will.mobile.ui.dialog.InfoWindows;
 import com.share_will.mobile.ui.views.HomeView;
 import com.share_will.mobile.utils.Utils;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseFragment;
 import com.ubock.library.ui.dialog.ToastExt;
+import com.ubock.library.utils.DateUtils;
 import com.ubock.library.utils.LogUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -77,7 +77,7 @@ import static android.app.Activity.RESULT_OK;
 import static com.amap.api.services.route.RouteSearch.RIDING_RECOMMEND;
 
 
-public class ExchangeFragment extends BaseFragment<HomePresenter> implements HomeView, View.OnClickListener {
+public class ExchangeFragment extends BaseFragment<HomePresenter> implements HomeView, View.OnClickListener, AMap.InfoWindowAdapter {
 
     TextureMapView mMapView = null;
     AMap mAMap = null;
@@ -91,7 +91,7 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
      */
     private TextView battery_numPP;
     private TextView mCity;
-    private InfoWindows mInfoWindows;
+
     private Button mBtnBespeak;
     private Button mNaviBtn;
     private ImageButton mRefreshBtn;
@@ -138,6 +138,10 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
     private PopupWindow mPopupWindow;
     private TextView mTvAddress;
     private View mViewPopup;
+    private long ridePathDuration;
+    private float ridePathDistance;
+    private TextView mDistance;
+    private TextView mDuration;
 
     @Override
     protected int getLayoutId() {
@@ -196,8 +200,7 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
 //            initMultiPoint();
 //            mAMap.setOnMultiPointClickListener(mMultiPointClickListener);
             mAMap.setOnMarkerClickListener(markerClickListener);
-            mInfoWindows = new InfoWindows(this.getActivity());
-            mAMap.setInfoWindowAdapter(mInfoWindows);
+            mAMap.setInfoWindowAdapter(this);
             //添加Marker显示定位位置
             if (mLocationMarker == null) {
                 //如果是空的添加一个新的,icon方法就是设置定位图标，可以自定义
@@ -365,7 +368,6 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
                 mCityEntity.setStationCity(al.getCity());
                 App.getInstance().getGlobalModel().setCityEntity(mCityEntity);
                 setCity(al.getCityCode());
-
             }
         }
         mCurrentLocation = event.location;
@@ -414,7 +416,7 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
                 clickType = 0;
             } else {
                 mCabinetInfoView.setVisibility(View.VISIBLE);
-                if(!mPopupWindow.isShowing()){
+                if (!mPopupWindow.isShowing()) {
                     showPopupWindow();
                 }
                 getFullBattery(cabinetEntity.getCabinetSn());
@@ -436,9 +438,9 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
             mBespeakIntent.putExtra(CABINETTITLE, cabinetEntity.getStation());
             mBespeakIntent.putExtra(CABINETSN, cabinetEntity.getCabinetSn());
             mBespeakIntent.putExtra(CABINETADDRESS, cabinetEntity.getAddress());
-            
+
             mCabinetInfoView.setVisibility(View.VISIBLE);
-            if(!mPopupWindow.isShowing()){
+            if (!mPopupWindow.isShowing()) {
                 showPopupWindow();
             }
             mCurrentCabinet = cabinetEntity;
@@ -463,6 +465,7 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
 
         switch (view.getId()) {
             case R.id.tv_city:
+                hideCabinetInfo();
                 showCityDialog();
                 break;
             case R.id.btn_bespeak:
@@ -611,10 +614,17 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
             clickMarker = marker;
             CabinetEntity cabinetEntity = mCabinetList.get(Integer.parseInt(marker.getSnippet()));
             showCabinetInfo(cabinetEntity);
-            if (cabinetEntity.isOnline()) {
+            if (!cabinetEntity.isOnline()) {
                 showRideRoute(cabinetEntity);
+                marker.showInfoWindow();
             } else {
                 showMessage("设备离线中");
+                if (clickType == 1) {
+                    if (rideRouteOverlay != null) {
+                        rideRouteOverlay.removeFromMap();
+                        marker.hideInfoWindow();
+                    }
+                }
             }
             return true;
         }
@@ -658,6 +668,7 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
                         if (rideRouteResult != null && rideRouteResult.getPaths() != null) {
                             if (rideRouteResult.getPaths().size() > 0) {
                                 RidePath ridePath = rideRouteResult.getPaths().get(0);
+
                                 if (ridePath == null) {
                                     return;
                                 }
@@ -666,8 +677,18 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
                                 rideRouteOverlay.removeFromMap();
                                 rideRouteOverlay.addToMap();
                                 rideRouteOverlay.zoomToSpan();
-                                long duration = ridePath.getDuration();
-                                float distance = ridePath.getDistance();
+                                ridePathDuration = ridePath.getDuration();
+                                ridePathDistance = ridePath.getDistance();
+                                LogUtils.d("骑行时间:" + ridePathDuration + "骑行距离:" + ridePathDistance);
+                                if (ridePathDistance != 0) {
+                                    float v = ridePathDistance / 1000;
+                                    DecimalFormat decimalFormat = new DecimalFormat("0.0");
+                                    String p = decimalFormat.format(v);
+                                    mDistance.setText(p + "公里");
+                                }
+                                if (ridePathDuration != 0) {
+                                    mDuration.setText(ridePathDuration / 60 + "分钟");
+                                }
                             }
                         }
                     }
@@ -841,5 +862,18 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
             }
             battery_num.setImageResource(getResources().getIdentifier("battery_" + i, "drawable", getContext().getPackageName()));
         }
+    }
+
+    @Override
+    public View getInfoWindow(Marker marker) {
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.window_map_exchange_rider_info, null);
+        mDistance = view.findViewById(R.id.tv_window_map_rider_distance);
+        mDuration = view.findViewById(R.id.tv_window_map_rider_duration);
+        return view;
+    }
+
+    @Override
+    public View getInfoContents(Marker marker) {
+        return null;
     }
 }

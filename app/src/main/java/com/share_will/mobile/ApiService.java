@@ -74,8 +74,7 @@ public interface ApiService {
                                             @Field("password") String password,
                                             @Field("verCode") String verCode,
                                             @Field("customer") String customer,
-                                            @Field("stationId") String stationId,
-                                            @Field("type") int type);
+                                            @Field("stationId") String stationId);
 
     /**
      * 发送验证码

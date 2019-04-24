@@ -113,15 +113,18 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
                 showError("请输入您的姓名");
                 return;
             }
+            String s = mSelectStation.getText().toString();
+            if (TextUtils.isEmpty(s) || s.equals("请选择归属")) {
+                showError("请选择归属");
+                return;
+            }
             btnResign.setEnabled(false);
             getPresenter().register(userid, username, password, verifyCode,
                     mStationEntity.getCustomerCode(),
-                    mStationEntity.getStationId() + "", REGISTERTYPE);
+                    mStationEntity.getStationId() + "");
         });
 
         getPresenter().getCityList();
-
-
     }
 
     public void showStationDialog(View view) {
@@ -225,6 +228,7 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
                 break;
             case R.id.include_register_station:
                 Intent intent = new Intent(this, SelectStationActivity.class);
+                intent.putExtra("register_type", REGISTERTYPE);
                 startActivityForResult(intent, REQUEST_CODE_SELECTSTATION);
                 break;
         }

@@ -136,6 +136,7 @@
                 android:id="@+id/row_my_order"
                 style="@style/user_center_row_style"
                 app:iconDrawable="@drawable/icon_list_order"
+                android:visibility="gone"
                 app:text="我的订单" />
 
             <View

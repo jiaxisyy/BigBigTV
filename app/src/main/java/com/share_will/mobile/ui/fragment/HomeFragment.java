@@ -95,6 +95,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
 //        View vie = view.findViewById(R.id.topbar);
 //        vie.setBackgroundColor(Color.parseColor("#FFFFFF"));
         mRefreshLayout = view.findViewById(R.id.refresh_home);
+        mRefreshLayout.setRefreshing(true);
         //执行刷新
         mRefreshLayout.setOnRefreshListener(this::initData);
         mAlarmTitle = view.findViewById(R.id.tv_home_alarm_title);
@@ -247,8 +248,16 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
 
     @Override
     public void onLoadBatteryInfoResult(BaseEntity<BatteryEntity> data) {
+
+        mDurationTime.setVisibility(View.GONE);
+        mNowSop.setVisibility(View.GONE);
+        mEnergy.setVisibility(View.GONE);
+        mAddress.setVisibility(View.GONE);
+        mDoor.setVisibility(View.GONE);
+        mCardMoney.setVisibility(View.GONE);
+        mLayoutBottom.setVisibility(View.VISIBLE);
+        showNoBatteryView(false, mUserInfo != null && mUserInfo.getDeposit() > 0);
         BatteryEntity entity = data.getData();
-//
         if (data != null && !TextUtils.isEmpty(entity.getSn())) {
             if (!TextUtils.isEmpty(entity.getSn())) {
                 mStartTime.setText("电池SN:   " + entity.getSn());
@@ -256,16 +265,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             if (!TextUtils.isEmpty(entity.getSop())) {
                 mEnoughTime.setText("当前电量:   " + entity.getSop() + "%");
             }
-            mStartTime.setVisibility(View.VISIBLE);
-            mEnoughTime.setVisibility(View.VISIBLE);
-            mDurationTime.setVisibility(View.GONE);
-            mNowSop.setVisibility(View.GONE);
-            mEnergy.setVisibility(View.GONE);
-            mAddress.setVisibility(View.GONE);
-            mDoor.setVisibility(View.GONE);
-            mCardMoney.setVisibility(View.GONE);
-            mLayoutBottom.setVisibility(View.VISIBLE);
-            showNoBatteryView(false, mUserInfo != null && mUserInfo.getDeposit() > 0);
         } else {
             mLayoutBottom.setVisibility(View.GONE);
             showNoBatteryView(true, mUserInfo != null && mUserInfo.getDeposit() > 0);
@@ -309,11 +308,14 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 break;
             case R.id.rl_home_batteryInfo:
                 if (mArrowRight.getVisibility() == View.VISIBLE) {
-                    Intent intent = new Intent(getActivity(), MyBatteryActivity.class);
-                    intent.putExtra("isShowBindView", false);
-                    startActivity(intent);
-                } else if (mArrowRight.getVisibility() == View.VISIBLE && hasChargeBatteryInfo) {
-                    startActivity(new Intent(getActivity(), HomeServiceActivity.class));
+                    if (hasChargeBatteryInfo) {
+                        startActivity(new Intent(getActivity(), HomeServiceActivity.class));
+                    } else {
+                        Intent intent = new Intent(getActivity(), MyBatteryActivity.class);
+                        intent.putExtra("isShowBindView", false);
+                        startActivity(intent);
+                    }
+
                 }
                 break;
             case R.id.get_battery:

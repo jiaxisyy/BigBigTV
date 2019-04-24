@@ -21,7 +21,7 @@
     </style>
 
     <style name="splash" parent="AppTheme">
-        <item name="android:windowBackground">@drawable/splash</item>
+        <item name="android:windowBackground">@drawable/launch_image</item>
         <item name="android:windowFullscreen">false</item>
     </style>
 

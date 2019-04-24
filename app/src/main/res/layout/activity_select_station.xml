@@ -74,8 +74,19 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-    </LinearLayout>
+        <com.contrarywind.view.WheelView
+            android:id="@+id/wv_select_station_city"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
+        <com.contrarywind.view.WheelView
+            android:id="@+id/wv_select_station_name"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+    </LinearLayout>
 
 
 </LinearLayout>

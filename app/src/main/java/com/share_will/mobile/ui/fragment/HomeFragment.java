@@ -66,11 +66,11 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     private Button mBindBattery;
     private View mLayoutBottom;
     private SwipeRefreshLayout mRefreshLayout;
+    private boolean hasChargeBatteryInfo = false;
     /**
      * 网络请求
      */
     private int flag_http_success = -1;
-
 
 
     @PresenterInjector
@@ -134,14 +134,12 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     }
 
 
-
     private void initData() {
 
         mUserCenterPresenter.getBalance(App.getInstance().getUserId(), false);
         getPresenter().getAlarmList(App.getInstance().getUserId(), App.getInstance().getToken());
         getPresenter().getChargeBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
     }
-
 
 
     @Override
@@ -232,8 +230,11 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             if (flag_http_success == 0) {
                 mRefreshLayout.setRefreshing(false);
             }
+            mArrowRight.setVisibility(View.INVISIBLE);
+            hasChargeBatteryInfo = true;
         } else {
             //没有充电电池,展示已有电池信息
+            hasChargeBatteryInfo = false;
             getPresenter().getBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
         }
 
@@ -249,7 +250,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         BatteryEntity entity = data.getData();
 //
         if (data != null && !TextUtils.isEmpty(entity.getSn())) {
-            if(!TextUtils.isEmpty(entity.getSn())){
+            if (!TextUtils.isEmpty(entity.getSn())) {
                 mStartTime.setText("电池SN:   " + entity.getSn());
             }
             if (!TextUtils.isEmpty(entity.getSop())) {
@@ -311,6 +312,8 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                     Intent intent = new Intent(getActivity(), MyBatteryActivity.class);
                     intent.putExtra("isShowBindView", false);
                     startActivity(intent);
+                } else if (mArrowRight.getVisibility() == View.VISIBLE && hasChargeBatteryInfo) {
+                    startActivity(new Intent(getActivity(), HomeServiceActivity.class));
                 }
                 break;
             case R.id.get_battery:

@@ -614,7 +614,7 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
             clickMarker = marker;
             CabinetEntity cabinetEntity = mCabinetList.get(Integer.parseInt(marker.getSnippet()));
             showCabinetInfo(cabinetEntity);
-            if (!cabinetEntity.isOnline()) {
+            if (cabinetEntity.isOnline()) {
                 showRideRoute(cabinetEntity);
                 marker.showInfoWindow();
             } else {

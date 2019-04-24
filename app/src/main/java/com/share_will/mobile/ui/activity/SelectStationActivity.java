@@ -9,12 +9,18 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bigkoo.pickerview.adapter.ArrayWheelAdapter;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.CustomListener;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.contrarywind.view.WheelView;
 import com.share_will.mobile.Constant;
 import com.share_will.mobile.R;
 import com.share_will.mobile.model.entity.CityEntity;
@@ -58,6 +64,8 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
     private int tempPos = 0;
 
     private boolean isclicked = false;
+    private WheelView mWvCity;
+    private WheelView mWvName;
 
     @Override
     protected int getLayoutId() {
@@ -75,7 +83,6 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
         mLlPicker = findViewById(R.id.ll_select_station_picker);
         mTvSelected = findViewById(R.id.tv_select_station_selected);
         mRvStation = findViewById(R.id.rv_select_station);
-//        initStationList();
         mTvSearch.setOnClickListener(this);
         mTvScan.setOnClickListener(this);
         mTvSelected.setOnClickListener(this);
@@ -83,7 +90,10 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
         //下划线
         mTvSelected.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         mStationIntent = new Intent();
-        LogUtils.d("TEST===========");
+        mWvCity = findViewById(R.id.wv_select_station_city);
+        mWvName = findViewById(R.id.wv_select_station_name);
+        mWvCity.setCyclic(false);
+        mWvName.setCyclic(false);
         //站点选择器
         mStationPickerView = new OptionsPickerBuilder(this, (options1, option2, options3, v) -> {
 
@@ -108,6 +118,7 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
                         getPresenter().getStationList(cityCode);
                     }
                 }).build();
+
         getPresenter().getCityList();
     }
 
@@ -159,7 +170,7 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
 
     @Override
     public void onLoadStationList(BaseEntity<List<StationEntity>> ret) {
-        if (ret != null && ret.getCode() == 0&&ret.getData().size()>0) {
+        if (ret != null && ret.getCode() == 0 && ret.getData().size() > 0) {
             mStationPickerView.setNPicker(getPresenter().getModel().getCity(), ret.getData(), null);
             mStationPickerView.setSelectOptions(mCityIndex);
             mTvSelected.setText("当前:" + ret.getData().get(0).getStationName());
@@ -170,11 +181,13 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
             mStationPickerView.setNPicker(getPresenter().getModel().getCity(), nullList, null);
             mStationPickerView.setSelectOptions(mCityIndex);
         }
+        mStationPickerView.show();
     }
 
     @Override
     public void onLoadCityList(BaseEntity<List<CityEntity>> ret) {
         if (ret != null && ret.getCode() == 0 && ret.getData().size() > 0) {
+
             String cityCode = ret.getData().get(0).getAreaCode();
             getPresenter().getStationList(cityCode);
         }
@@ -218,9 +231,9 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
         if (getPresenter().getModel().getCity() == null ||
                 getPresenter().getModel().getCity().isEmpty()) {
             getPresenter().getCityList();
+        } else {
+            mStationPickerView.show();
         }
-        mStationPickerView.show();
-
     }
 
     private void initStationList() {

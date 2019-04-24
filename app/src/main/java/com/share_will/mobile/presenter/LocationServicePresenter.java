@@ -40,6 +40,8 @@ public class LocationServicePresenter extends BasePresenter<LocationServiceModel
                        public void onNext(BaseEntity<Object> s) {
                            if (s.getCode() == 0) {
                                getView().onUploadPosition(s);
+                           }else {
+                               getView().showMessage(s.getMessage());
                            }
                        }
 

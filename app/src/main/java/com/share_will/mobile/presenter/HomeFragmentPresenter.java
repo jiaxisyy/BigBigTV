@@ -31,6 +31,9 @@ public class HomeFragmentPresenter extends BasePresenter<HomeFragmentModel, IHom
                                    if (s.getCode() == 0) {
                                        getView().onLoadAlarmResult(s);
                                    } else {
+
+                                           getView().showMessage(s.getMessage());
+
                                        getView().onLoadAlarmResult(null);
                                    }
                                }
@@ -62,6 +65,9 @@ public class HomeFragmentPresenter extends BasePresenter<HomeFragmentModel, IHom
                                    if (s.getCode() == 0) {
                                        getView().onLoadChargeBatteryInfoResult(s);
                                    } else {
+
+                                           getView().showMessage(s.getMessage());
+
                                        getView().onLoadChargeBatteryInfoResult(null);
                                    }
                                }
@@ -93,6 +99,9 @@ public class HomeFragmentPresenter extends BasePresenter<HomeFragmentModel, IHom
                                    if (s.getCode() == 0) {
                                        getView().onLoadBatteryInfoResult(s);
                                    } else {
+
+                                           getView().showMessage(s.getMessage());
+
                                        getView().onLoadBatteryInfoResult(null);
                                    }
                                }

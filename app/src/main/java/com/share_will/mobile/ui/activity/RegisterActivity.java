@@ -153,6 +153,8 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
         if (ret != null && ret.getCode() == 0 && ret.getData().size() > 0) {
             String cityCode = ret.getData().get(0).getAreaCode();
             getPresenter().getStationList(cityCode,REGISTERTYPE);
+        }else {
+         showMessage(ret.getMessage());
         }
     }
 

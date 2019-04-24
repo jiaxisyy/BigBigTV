@@ -69,6 +69,8 @@ public class ConsumeActivity extends BaseFragmentActivity<ConsumePresenter> impl
     public void onLoadConsumeList(BaseEntity<List<RecordEntity>> data) {
         if (data != null && data.getCode() == 0) {
             mRecordAdapter.setLoadMoreData(data.getData());
+        }else {
+           showMessage(data.getMessage());
         }
         mRefreshLayout.setRefreshing(false);
     }

@@ -98,6 +98,8 @@ public class NewRescueActivity extends BaseFragmentActivity<NewRescuePresenter> 
         if (ret != null && ret.getCode() == 0) {
             mStationPickerView.setNPicker(getPresenter().getModel().getCity(), ret.getData(), null);
             mStationPickerView.setSelectOptions(mCityIndex);
+        } else {
+            showMessage(ret.getMessage());
         }
     }
 
@@ -106,6 +108,8 @@ public class NewRescueActivity extends BaseFragmentActivity<NewRescuePresenter> 
         if (ret != null && ret.getCode() == 0 && ret.getData().size() > 0) {
             String cityCode = ret.getData().get(0).getAreaCode();
             getPresenter().getStationList(cityCode, 0);//默认骑手,用户类型未知
+        }else {
+            showMessage(ret.getMessage());
         }
     }
 

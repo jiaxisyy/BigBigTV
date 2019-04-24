@@ -173,6 +173,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
                     mCauseStatus = entity.getData().getCauseStatus();
                 }
             }
+        }else {
+           showMessage(entity.getMessage());
         }
         mRefreshLayout.setRefreshing(false);
     }

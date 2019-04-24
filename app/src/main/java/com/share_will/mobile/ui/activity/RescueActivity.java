@@ -73,6 +73,8 @@ public class RescueActivity extends BaseFragmentActivity<RescueListPresenter> im
     public void onLoadRescueList(BaseEntity<List<RescueEntity>> ret) {
         if (ret.getCode() == 0) {
             mRescueListAdapter.setLoadMoreData(getPresenter().getModel().getRescue(), true);
+        }else {
+           showMessage(ret.getMessage());
         }
         mRefreshLayout.setRefreshing(false);
     }

@@ -39,6 +39,7 @@ public class HomeServicePresenter extends BasePresenter<HomeServiceModel, IHomeS
                                        getView().showMessage("成功");
                                        getView().OnChargeScanResult(s);
                                    } else {
+                                       getView().showMessage(s.getMessage());
                                        getView().OnChargeScanResult(null);
                                    }
                                }
@@ -68,6 +69,9 @@ public class HomeServicePresenter extends BasePresenter<HomeServiceModel, IHomeS
                                        getView().showMessage("成功");
                                        getView().OnStopChargeScanResult(s);
                                    } else {
+
+                                           getView().showMessage(s.getMessage());
+
                                        getView().OnStopChargeScanResult(null);
                                    }
                                }
@@ -98,6 +102,9 @@ public class HomeServicePresenter extends BasePresenter<HomeServiceModel, IHomeS
                                    if (s.getCode() == 0) {
                                        getView().OnChargeResult(s);
                                    } else {
+
+                                           getView().showMessage(s.getMessage());
+
                                        getView().OnChargeResult(null);
                                    }
                                }

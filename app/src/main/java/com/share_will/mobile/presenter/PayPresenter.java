@@ -23,7 +23,7 @@ public class PayPresenter extends BasePresenter<PayModel, PayView> {
      * 获取支付宝预支付订单
      */
     public void getAliPayOrder(int payType, String appId, int orderType, String orderId, String body) {
-        getModel().getAliPayOrder(payType, appId,orderType,orderId,body)
+        getModel().getAliPayOrder(payType, appId, orderType, orderId, body)
                 .compose(this.bindToLifecycle(getView()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -34,6 +34,7 @@ public class PayPresenter extends BasePresenter<PayModel, PayView> {
                                    if (s.getCode() == 0 && !TextUtils.isEmpty(s.getData())) {
                                        getView().onCreateAlipayOrder(true, s.getData(), "已生成订单");
                                    } else {
+                                       getView().showMessage(s.getMessage());
                                        getView().onCreateAlipayOrder(false, null, s.getMessage());
                                    }
                                }
@@ -51,7 +52,7 @@ public class PayPresenter extends BasePresenter<PayModel, PayView> {
      * 获取微信预支付订单
      */
     public void getWeiXinOrder(String appId, int orderType, String orderId, String body) {
-        getModel().getWeiXinOrder(appId, orderType,orderId,body)
+        getModel().getWeiXinOrder(appId, orderType, orderId, body)
                 .compose(this.bindToLifecycle(getView()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -73,6 +74,7 @@ public class PayPresenter extends BasePresenter<PayModel, PayView> {
 
     /**
      * 支付套餐
+     *
      * @param userId
      */
     public void payPackageOrder(String userId, final String orderId) {
@@ -83,12 +85,12 @@ public class PayPresenter extends BasePresenter<PayModel, PayView> {
                 .subscribe(new BaseNetSubscriber<BaseEntity<Object>>(PayPresenter.this) {
                                @Override
                                public void onNext(BaseEntity<Object> s) {
-                                   if (s.getCode() == 0){
+                                   if (s.getCode() == 0) {
                                        getView().onPayPackageResult(true, "套餐购买成功");
-                                   } else if (s.getCode() == 10011){
+                                   } else if (s.getCode() == 10011) {
                                        //余额不足
                                        getView().onPayPackageResult(false, s.getMessage());
-                                   }else {
+                                   } else {
                                        getView().onPayPackageResult(false, s.getMessage());
                                    }
                                }
@@ -102,6 +104,7 @@ public class PayPresenter extends BasePresenter<PayModel, PayView> {
                            }
                 );
     }
+
     public void payMoneyOrder(String userId, final String orderId) {
         getModel().payMoneyOrder(userId, orderId)
                 .compose(this.bindToLifecycle(getView()))
@@ -110,12 +113,12 @@ public class PayPresenter extends BasePresenter<PayModel, PayView> {
                 .subscribe(new BaseNetSubscriber<BaseEntity<Object>>(PayPresenter.this) {
                                @Override
                                public void onNext(BaseEntity<Object> s) {
-                                   if (s.getCode() == 0){
+                                   if (s.getCode() == 0) {
                                        getView().onPayPackageResult(true, "套餐购买成功");
-                                   } else if (s.getCode() == 10011){
+                                   } else if (s.getCode() == 10011) {
                                        //余额不足
                                        getView().onPayPackageResult(false, s.getMessage());
-                                   }else {
+                                   } else {
                                        getView().onPayPackageResult(false, s.getMessage());
                                    }
                                }

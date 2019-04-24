@@ -100,6 +100,8 @@ public class MallFragment extends BaseFragment<ShopPresenter> implements BaseQui
         mDataList.clear();
         if (data != null && data.getCode() == 0) {
             mDataList.addAll(data.getData());
+        }else {
+            showMessage(data.getMessage());
         }
         mPackageAdapter.setLoadMoreData(mDataList);
         mRefreshLayout.setRefreshing(false);

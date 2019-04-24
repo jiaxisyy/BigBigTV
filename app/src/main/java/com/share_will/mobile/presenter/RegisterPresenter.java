@@ -112,10 +112,10 @@ public class RegisterPresenter extends BasePresenter<RegisterModel, RegisterView
      * 获取站点列表
      *
      * @param areaCode 手机号
-     * @param type 用户类型 type :0.B端骑手，1.C端个人
+     * @param type     用户类型 type :0.B端骑手，1.C端个人
      */
-    public void getStationList(String areaCode,int type) {
-        getModel().getStationList(areaCode,type)
+    public void getStationList(String areaCode, int type) {
+        getModel().getStationList(areaCode, type)
                 .compose(this.bindToLifecycle(getView()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -125,6 +125,7 @@ public class RegisterPresenter extends BasePresenter<RegisterModel, RegisterView
                                    if (s.getCode() == 0) {
                                        getView().onLoadStationList(s);
                                    } else {
+                                       getView().showMessage(s.getMessage());
                                        getView().onLoadStationList(null);
                                    }
                                }

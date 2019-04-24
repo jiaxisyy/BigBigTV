@@ -795,6 +795,8 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
         mCabinetList.clear();
         if (ret != null && ret.getCode() == 0) {
             mCabinetList.addAll(ret.getData());
+        }else {
+           showMessage(ret.getMessage());
         }
         mHandler.sendEmptyMessage(MSG_SHOW_CABINET_LIST);
     }
@@ -821,7 +823,8 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
         msg.what = MSG_SHOW_FULL_BATTERY_COUNT;
         if (ret != null && ret.getCode() == 0) {
             msg.arg1 = ret.getData().get("count");
-
+        }else {
+          showMessage(ret.getMessage());
         }
         mHandler.sendMessage(msg);
     }

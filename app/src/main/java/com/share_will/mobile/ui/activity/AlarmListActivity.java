@@ -39,6 +39,7 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
     private SwipeRefreshLayout mRefreshLayout;
     private HomeAlarmAdapter mAdapter;
     private HomeAlarmRfidAdapter mAdapterRfid;
+
     @PresenterInjector
     AlarmFragmentPresenter fragmentPresenter;
 
@@ -71,7 +72,6 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
     private void initData() {
         getPresenter().getAlarmList(App.getInstance().getUserId(), App.getInstance().getToken());
     }
-
 
     /**
      * 关闭告警对话框

@@ -248,15 +248,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
 
     @Override
     public void onLoadBatteryInfoResult(BaseEntity<BatteryEntity> data) {
-
-        mDurationTime.setVisibility(View.GONE);
-        mNowSop.setVisibility(View.GONE);
-        mEnergy.setVisibility(View.GONE);
-        mAddress.setVisibility(View.GONE);
-        mDoor.setVisibility(View.GONE);
-        mCardMoney.setVisibility(View.GONE);
-        mLayoutBottom.setVisibility(View.VISIBLE);
-        showNoBatteryView(false, mUserInfo != null && mUserInfo.getDeposit() > 0);
         BatteryEntity entity = data.getData();
         if (data != null && !TextUtils.isEmpty(entity.getSn())) {
             if (!TextUtils.isEmpty(entity.getSn())) {
@@ -265,6 +256,16 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             if (!TextUtils.isEmpty(entity.getSop())) {
                 mEnoughTime.setText("当前电量:   " + entity.getSop() + "%");
             }
+
+            mDurationTime.setVisibility(View.GONE);
+            mNowSop.setVisibility(View.GONE);
+            mEnergy.setVisibility(View.GONE);
+            mAddress.setVisibility(View.GONE);
+            mDoor.setVisibility(View.GONE);
+            mCardMoney.setVisibility(View.GONE);
+            mLayoutBottom.setVisibility(View.VISIBLE);
+            showNoBatteryView(false, mUserInfo != null && mUserInfo.getDeposit() > 0);
+
         } else {
             mLayoutBottom.setVisibility(View.GONE);
             showNoBatteryView(true, mUserInfo != null && mUserInfo.getDeposit() > 0);

@@ -59,10 +59,15 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
     private TextView mAlarmTitle;
     private List<AlarmEntity.SmokeBean> mSmokeList = new ArrayList<>();
     private AlarmEntity.SmokeBean mClickSmoke;
-
+    /**
+     * 默认没有告警信息
+     */
+    private boolean HASALARMINFO = false;
     @PresenterInjector
     HomeFragmentPresenter presenter;
     private ViewFlipper mVfTitle;
+    /**正在报警中的告警信息*/
+    private AlarmEntity.SmokeBean mAlarming;
 
     @Override
     protected int getLayoutId() {
@@ -84,11 +89,18 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
         btnAlarmClose.setOnClickListener(this);
         mAlarmTitle.setOnClickListener(this);
         initMap(view, savedInstanceState);
-        getLocation();
         presenter.getAlarmList(App.getInstance().getUserId(), App.getInstance().getToken());
+
     }
 
-
+    private void getAlarmLocation() {
+        //模拟 经纬度 43.4833579589 87.7997907050
+        if (mAlarming != null) {
+            LatLng latLng = new LatLng(mAlarming.getLatitude(), mAlarming.getLongitude());
+            showCurrentPosition(latLng);
+            mAMap.animateCamera(CameraUpdateFactory.changeLatLng(latLng));
+        }
+    }
     private void initMap(View view, Bundle savedInstanceState) {
         //获取地图控件引用
         mMapView = view.findViewById(R.id.map_alarm);
@@ -287,13 +299,20 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
             if (validPos != -1) {
                 mVfTitle.setVisibility(View.VISIBLE);
                 mVfTitle.startFlipping();
-                AlarmEntity.SmokeBean smokeBean = data.getData().getSmoke().get(validPos);
-                mAlarmTitle.setText(DateUtils.timeStampToString(smokeBean.getAlarmtime(), DateUtils.HHMMSS) + smokeBean.getPositionName() + "告警,点击查看详情......");
+                HASALARMINFO = true;
+                mAlarming = data.getData().getSmoke().get(validPos);
+                mAlarmTitle.setText(DateUtils.timeStampToString(mAlarming.getAlarmtime(), DateUtils.HHMMSS) + mAlarming.getPositionName() + "告警,点击查看详情......");
             } else {
+                HASALARMINFO = false;
                 mVfTitle.setVisibility(View.INVISIBLE);
                 mVfTitle.stopFlipping();
             }
             useMarker(data.getData());
+        }
+        if (HASALARMINFO) {
+            getAlarmLocation();
+        } else {
+            getLocation();
         }
     }
 
@@ -326,7 +345,7 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
         if (s != null) {
             btnAlarmClose.setVisibility(View.INVISIBLE);
             refresh();
-        }else {
+        } else {
             ToastExt.showExt("关闭告警失败");
         }
     }

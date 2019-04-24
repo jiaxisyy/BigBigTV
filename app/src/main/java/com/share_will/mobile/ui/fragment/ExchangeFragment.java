@@ -230,13 +230,12 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
         }).setCyclic(false, false, false).build();
 
         getContext().startService(new Intent(this.getActivity(), BatteryService.class));
-
+        refresh();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         getPresenter().getCityList();
     }
 

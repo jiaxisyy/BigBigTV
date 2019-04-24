@@ -27,6 +27,7 @@ import com.ubock.library.utils.LogUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Map;
 
@@ -180,10 +181,10 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
 
             mDoor.setText("仓门号:   " + entity.getDoor());
 
-            mMoneyCharge.setText(intChange(entity.getMoney()) + "元");
-            mMoneyManage.setText(intChange(entity.getManageMoney()) + "元");
+            mMoneyCharge.setText(intChange(entity.getMoney() / 100f) + "元");
+            mMoneyManage.setText(intChange(entity.getManageMoney() / 100f) + "元");
             mPrice = entity.getMoney() + entity.getManageMoney();
-            mMoneyAll.setText(String.format("合计:%s元", intChange(mPrice)));
+            mMoneyAll.setText(String.format("合计:%s元", intChange(mPrice / 100f) ));
         } else {
             mChargeScan.setText("扫一扫");
             mLlInCludeHomeBottom.setVisibility(View.INVISIBLE);
@@ -193,10 +194,9 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
         mRefreshLayout.setRefreshing(false);
     }
 
-    public String intChange(int num) {
-//        DecimalFormat df = new DecimalFormat("#.00");
-//        return df.format(num);
-        return NumberFormat.getInstance().format(num / 100f);
+    public String intChange(float num) {
+        DecimalFormat df = new DecimalFormat("0.00");
+        return df.format(num);
     }
 
     @Override

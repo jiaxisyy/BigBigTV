@@ -231,7 +231,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             if (flag_http_success == 0) {
                 mRefreshLayout.setRefreshing(false);
             }
-            mArrowRight.setVisibility(View.INVISIBLE);
+            mArrowRight.setVisibility(View.VISIBLE);
             hasChargeBatteryInfo = true;
         } else {
             //没有充电电池,展示已有电池信息

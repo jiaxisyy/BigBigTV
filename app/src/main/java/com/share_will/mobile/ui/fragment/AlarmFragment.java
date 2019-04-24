@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -361,9 +362,15 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
         AutoFitTextView tvAddress = view.findViewById(R.id.tv_window_map_alarm_detail_address);
         AutoFitTextView tvMessage = view.findViewById(R.id.tv_window_map_alarm_detail_message);
         AlarmEntity.SmokeBean smokeBean = mSmokeList.get(Integer.parseInt(marker.getSnippet()));
-        tvTitle.setText(smokeBean.getPositionName());
-        tvAddress.setText(smokeBean.getDeviceAddress());
-        tvMessage.setText(smokeBean.getRemark());
+        if(!TextUtils.isEmpty(smokeBean.getPositionName())){
+            tvTitle.setText(smokeBean.getPositionName());
+        }
+        if(!TextUtils.isEmpty(smokeBean.getDeviceAddress())){
+            tvAddress.setText(smokeBean.getDeviceAddress());
+        }
+        if(!TextUtils.isEmpty(smokeBean.getRemark())){
+            tvMessage.setText(smokeBean.getRemark());
+        }
         return view;
     }
 

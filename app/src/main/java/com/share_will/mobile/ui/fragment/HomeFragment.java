@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -74,8 +75,11 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
      */
     private int flag_http_success = -1;
 
+
+
     @PresenterInjector
-    private UserCenterPresenter mUserCenterPresenter;
+    UserCenterPresenter mUserCenterPresenter;
+
     private UserInfo mUserInfo;
     //扫码绑定电池
     public final static int REQUEST_CODE_BIND_BATTERY = 100;
@@ -133,11 +137,16 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         initData();
     }
 
+
+
     private void initData() {
+
         mUserCenterPresenter.getBalance(App.getInstance().getUserId(), false);
         getPresenter().getAlarmList(App.getInstance().getUserId(), App.getInstance().getToken());
         getPresenter().getChargeBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
     }
+
+
 
     @Override
     public void onLoadBalance(BaseEntity<UserInfo> data) {
@@ -148,16 +157,10 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     }
 
 
-
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser){
-            //刷新界面
-            initData();
-        }
-    }
+//    @Override
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        super.setUserVisibleHint(isVisibleToUser);
+//    }
 
     @Override
     public void onLoadAlarmResult(BaseEntity<AlarmEntity> data) {

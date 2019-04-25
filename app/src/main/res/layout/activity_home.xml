@@ -31,7 +31,7 @@
         app:tabPaddingEnd="0dp"
         app:tabPaddingStart="0dp"
         app:tabBackground="@null"
-        app:tabMode="scrollable"
+        app:tabMode="fixed"
         android:layout_alignParentBottom="true"
         android:background="#FFFFFFFF">
     </android.support.design.widget.TabLayout>

@@ -181,6 +181,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="142px"
+                android:visibility="invisible"
                 android:orientation="vertical">
 
                 <include layout="@layout/include_layout_home_bottom" />

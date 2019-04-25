@@ -219,27 +219,31 @@
                 android:background="@drawable/list_divider" />
 
             <Button
+                android:layout_marginTop="90px"
                 android:id="@+id/btn_cancel"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="50px"
-                android:background="@drawable/shape_main_btn_circular"
+                android:layout_height="120px"
+                android:layout_marginLeft="30px"
+                android:layout_marginRight="30px"
+                android:background="@drawable/shape_bg_login"
                 android:onClick="onCancel"
                 android:text="取消申请"
                 android:textColor="#FFFFFFFF"
-                android:textSize="54px"
+                android:textSize="40px"
                 android:visibility="gone"
                 tools:visibility="visible" />
             <Button
+                android:layout_marginTop="30px"
                 android:id="@+id/btn_applyRefund"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="50px"
-                android:background="@drawable/shape_main_btn_circular"
+                android:layout_height="120px"
+                android:layout_marginLeft="30px"
+                android:layout_marginRight="30px"
+                android:background="@drawable/shape_bg_login"
                 android:onClick="applyRefund"
                 android:text="重新申请"
                 android:textColor="#FFFFFFFF"
-                android:textSize="54px"
+                android:textSize="40px"
                 android:visibility="gone"
                 tools:visibility="visible" />
         </LinearLayout>

@@ -193,13 +193,14 @@
     <TextView
         android:id="@+id/btn_paysure"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="120px"
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="30px"
         android:layout_marginTop="90px"
         android:layout_marginRight="30px"
         android:background="@drawable/shape_bg_login"
         android:gravity="center"
+        android:textSize="40px"
         android:text="立即充值"
         android:textColor="#FFFFFF" />
 

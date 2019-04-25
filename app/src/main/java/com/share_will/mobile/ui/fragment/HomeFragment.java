@@ -23,6 +23,7 @@ import com.share_will.mobile.presenter.HomeFragmentPresenter;
 import com.share_will.mobile.presenter.UserCenterPresenter;
 import com.share_will.mobile.ui.activity.AlarmListActivity;
 import com.share_will.mobile.ui.activity.CaptureActivity;
+import com.share_will.mobile.ui.activity.ChargeStakeActivity;
 import com.share_will.mobile.ui.activity.HomeActivity;
 import com.share_will.mobile.ui.activity.HomeServiceActivity;
 import com.share_will.mobile.ui.activity.MyBatteryActivity;
@@ -46,6 +47,8 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     private TextView mAlarmTime;
     private TextView mAlarmLevel;
     private TextView mTopCharge;
+    private TextView mTopChargeStake;
+
     private RelativeLayout mRlAlarm;
     private RelativeLayout mRlBattery;
     private TextView mStartTime;
@@ -104,6 +107,8 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mAlarmTime = view.findViewById(R.id.tv_home_alarm_time);
         mAlarmLevel = view.findViewById(R.id.tv_home_alarm_level);
         mTopCharge = view.findViewById(R.id.tv_home_top_charge);
+        mTopChargeStake = view.findViewById(R.id.tv_home_top_charge_stake);
+
         mRlAlarm = view.findViewById(R.id.rl_home_alarmInfo);
         mRlBattery = view.findViewById(R.id.rl_home_batteryInfo);
         mNoAlarm = view.findViewById(R.id.tv_home_no_alarm);
@@ -126,6 +131,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mArrowRight = view.findViewById(R.id.iv_main_arrow_right);
 
         mTopCharge.setOnClickListener(this);
+        mTopChargeStake.setOnClickListener(this);
         mRlAlarm.setOnClickListener(this);
         mRlBattery.setOnClickListener(this);
         mRentalBattery.setOnClickListener(this);
@@ -304,6 +310,10 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             case R.id.tv_home_top_charge:
                 startActivity(new Intent(getActivity(), HomeServiceActivity.class));
                 break;
+            case R.id.tv_home_top_charge_stake:
+                startActivity(new Intent(getActivity(), ChargeStakeActivity.class));
+                break;
+
             case R.id.rl_home_alarmInfo:
                 startActivity(new Intent(getActivity(), AlarmListActivity.class));
                 break;

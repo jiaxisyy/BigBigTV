@@ -131,8 +131,6 @@ public class ShopActivity extends BaseFragmentActivity<ShopPresenter> implements
         mDataList.clear();
         if (data != null && data.getCode() == 0) {
             mDataList.addAll(data.getData());
-        }else {
-            showMessage(data.getMessage());
         }
         mPackageAdapter.setLoadMoreData(mDataList);
     }

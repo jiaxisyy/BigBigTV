@@ -20,31 +20,49 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_above="@+id/tabLayout"
-        android:background="#FFd8d8d8" />
+        android:background="#dedede" />
+
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#FFFFFFFF"
+        app:tabBackground="@null"
         app:tabIndicatorColor="@color/text_color"
-        app:tabSelectedTextColor="@color/text_color"
         app:tabIndicatorHeight="0dp"
+        app:tabMode="scrollable"
         app:tabPaddingEnd="0dp"
         app:tabPaddingStart="0dp"
-        app:tabBackground="@null"
-        app:tabMode="scrollable"
-        android:layout_alignParentBottom="true"
-        android:background="#FFFFFFFF">
-    </android.support.design.widget.TabLayout>
+        app:tabSelectedTextColor="@color/text_color"></android.support.design.widget.TabLayout>
+
+    <!--<ImageView-->
+    <!--android:layout_width="136px"-->
+    <!--android:layout_height="136px"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:layout_marginBottom="48px"-->
+    <!--android:background="@null"-->
+    <!--android:onClick="scan"-->
+    <!--android:scaleType="fitXY"-->
+    <!--android:src="@drawable/icon_main_scan"-->
+    <!--app:layout_auto_baseheight="width" />-->
 
     <ImageView
-        android:layout_width="136px"
-        android:layout_height="136px"
-        android:layout_alignParentBottom="true"
+        android:id="@+id/iv_tab_scan_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tabLayout"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="48px"
-        android:background="@null"
+        android:src="@drawable/icon_test_top" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/iv_tab_scan_top"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15px"
         android:onClick="scan"
-        android:scaleType="fitXY"
-        android:src="@drawable/icon_main_scan"
-        app:layout_auto_baseheight="width" />
+        android:src="@drawable/icon_test_bottom" />
+
 </RelativeLayout>

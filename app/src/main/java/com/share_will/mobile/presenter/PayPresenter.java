@@ -34,7 +34,6 @@ public class PayPresenter extends BasePresenter<PayModel, PayView> {
                                    if (s.getCode() == 0 && !TextUtils.isEmpty(s.getData())) {
                                        getView().onCreateAlipayOrder(true, s.getData(), "已生成订单");
                                    } else {
-                                       getView().showMessage(s.getMessage());
                                        getView().onCreateAlipayOrder(false, null, s.getMessage());
                                    }
                                }

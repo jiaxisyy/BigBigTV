@@ -20,7 +20,7 @@ public class UserInfo implements Serializable, Parcelable {
     private long account;
     private long beginTime;
     private int deposit;
-    private int causeStatus;
+    private String causeStatus;
     private boolean adminStatus;
 
     public boolean isAdminStatus() {
@@ -83,11 +83,11 @@ public class UserInfo implements Serializable, Parcelable {
         this.deposit = deposit;
     }
 
-    public int getCauseStatus() {
+    public String getCauseStatus() {
         return causeStatus;
     }
 
-    public void setCauseStatus(int causeStatus) {
+    public void setCauseStatus(String causeStatus) {
         this.causeStatus = causeStatus;
     }
 
@@ -129,7 +129,7 @@ public class UserInfo implements Serializable, Parcelable {
         dest.writeLong(this.account);
         dest.writeLong(this.beginTime);
         dest.writeInt(this.deposit);
-        dest.writeInt(this.causeStatus);
+        dest.writeString(this.causeStatus);
         dest.writeString(this.userName);
         dest.writeString(this.userId);
         dest.writeString(this.token);
@@ -145,7 +145,7 @@ public class UserInfo implements Serializable, Parcelable {
         this.account = in.readLong();
         this.beginTime = in.readLong();
         this.deposit = in.readInt();
-        this.causeStatus = in.readInt();
+        this.causeStatus = in.readString();
         this.userName = in.readString();
         this.userId = in.readString();
         this.token = in.readString();

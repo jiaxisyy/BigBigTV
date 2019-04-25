@@ -103,7 +103,7 @@ public class HomeServicePresenter extends BasePresenter<HomeServiceModel, IHomeS
                                        getView().OnChargeResult(s);
                                    } else {
 
-                                           getView().showMessage(s.getMessage());
+
 
                                        getView().OnChargeResult(null);
                                    }

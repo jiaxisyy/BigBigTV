@@ -71,7 +71,7 @@
         <TextView
             android:id="@+id/tv_my_battery_bind_submit"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="120px"
             android:layout_marginLeft="30px"
             android:layout_marginTop="30px"
             android:layout_marginRight="30px"

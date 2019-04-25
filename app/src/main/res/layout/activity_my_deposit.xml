@@ -24,7 +24,7 @@
     <TextView
         android:id="@+id/tv_my_deposit_retreat"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="120px"
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="30px"
         android:layout_marginTop="90px"
@@ -32,6 +32,7 @@
         android:background="@drawable/shape_bg_login"
         android:gravity="center"
         android:text="申请退押金"
+        android:textSize="40px"
         android:textColor="#FFFFFF" />
 
 

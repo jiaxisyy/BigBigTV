@@ -73,7 +73,6 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
     protected int getLayoutId() {
         return R.layout.activity_battery;
     }
-
     @Override
     protected void initView(Bundle savedInstanceState) {
         setTitle("我的电池");

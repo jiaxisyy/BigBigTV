@@ -115,8 +115,7 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
     public void onCloseAlarmResult(BaseEntity<Object> s) {
         if (s != null) {
             ToastExt.showExt("关闭告警成功");
-        } else {
-            showMessage(s.getMessage());
+
         }
         initData();
     }

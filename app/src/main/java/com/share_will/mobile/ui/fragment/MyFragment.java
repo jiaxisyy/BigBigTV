@@ -13,7 +13,9 @@ import android.widget.TextView;
 import com.share_will.mobile.App;
 import com.share_will.mobile.MessageEvent;
 import com.share_will.mobile.R;
+import com.share_will.mobile.model.entity.DepositRefundEntity;
 import com.share_will.mobile.model.entity.UserInfo;
+import com.share_will.mobile.presenter.RefundPresenter;
 import com.share_will.mobile.presenter.UserCenterPresenter;
 import com.share_will.mobile.services.BatteryService;
 import com.share_will.mobile.ui.activity.CaptureActivity;
@@ -22,9 +24,12 @@ import com.share_will.mobile.ui.activity.MyBatteryActivity;
 import com.share_will.mobile.ui.activity.MyDepositActivity;
 import com.share_will.mobile.ui.activity.OrderActivity;
 import com.share_will.mobile.ui.activity.RechargeActivity;
+import com.share_will.mobile.ui.activity.RefundActivity;
+import com.share_will.mobile.ui.activity.RefundDetailActivity;
 import com.share_will.mobile.ui.activity.RescueActivity;
 import com.share_will.mobile.ui.activity.SettingActivity;
 import com.share_will.mobile.ui.activity.ShopActivity;
+import com.share_will.mobile.ui.views.RefundView;
 import com.share_will.mobile.ui.views.UserCenterView;
 import com.share_will.mobile.ui.widget.RowItemView;
 import com.ubock.library.annotation.PresenterInjector;
@@ -58,7 +63,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
     private TextView mTvBatteryPP;
     private TextView mTvBind;
     private int mDeposit;
-    private int mCauseStatus;
+    private int mCauseStatus = -1;
     private ImageButton mBtnTopRightMenu;
     private SwipeRefreshLayout mRefreshLayout;
 
@@ -103,12 +108,19 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
                 scanLogin();
                 break;
             case R.id.row_my_deposit:
-                Intent intent = new Intent(getActivity(), MyDepositActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putInt("deposit", mDeposit);
-                bundle.putInt("cause_status", mCauseStatus);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                //-1:正常 0:正在退款中 1:退款成功 2:拒绝退款 3:取消退款
+                if (mCauseStatus == -1) {
+                    Intent intent = new Intent(getActivity(), MyDepositActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("deposit", mDeposit);
+                    bundle.putInt("cause_status", mCauseStatus);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                } else if (mCauseStatus == 2) {
+                    startActivity(new Intent(getActivity(), RefundDetailActivity.class));
+                } else if (mCauseStatus == 3) {
+                    startActivity(new Intent(getActivity(), RefundActivity.class));
+                }
                 break;
             case R.id.row_my_money:
                 startActivity(new Intent(getActivity(), RechargeActivity.class));
@@ -157,6 +169,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
     private void getBalance(boolean showLoading) {
         final String username = App.getInstance().getUserId();
         userCenterPresenter.getBalance(username, showLoading);
+
     }
 
     @Override
@@ -166,15 +179,14 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
                 if (entity.getData().isAdminStatus()) {
                     mRowScanLogin.setVisibility(View.VISIBLE);
                 }
+
                 String balance = String.format("￥%s", NumberFormat.getInstance().format(entity.getData().getAccount() / 100f));
                 mTvBalance.setText(balance);
                 if (entity.getData().getDeposit() > 0) {
                     mDeposit = entity.getData().getDeposit();
-                    mCauseStatus = entity.getData().getCauseStatus();
+                    mCauseStatus = Integer.valueOf(entity.getData().getCauseStatus());
                 }
             }
-        }else {
-           showMessage(entity.getMessage());
         }
         mRefreshLayout.setRefreshing(false);
     }
@@ -260,6 +272,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
+
 
 }
 

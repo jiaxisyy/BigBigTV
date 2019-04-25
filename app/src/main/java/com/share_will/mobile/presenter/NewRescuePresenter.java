@@ -62,8 +62,6 @@ public class NewRescuePresenter extends BasePresenter<NewRescueModel, NewRescueV
                                public void onNext(BaseEntity<List<StationEntity>> s) {
                                    if (s.getCode() == 0) {
                                        getView().onLoadStationList(s);
-                                   }else {
-                                       getView().showMessage(s.getMessage());
                                    }
                                }
 

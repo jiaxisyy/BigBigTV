@@ -23,6 +23,7 @@ public class ForgetPasswordActivityOne extends BaseFragmentActivity<ForgetPasswo
     private TextView btnForgetPasswordNext;
     private EditText mPassword;
     private EditText mPassword2;
+    private TextView mTvForgetPwd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,10 @@ public class ForgetPasswordActivityOne extends BaseFragmentActivity<ForgetPasswo
         mPhoneEt = findViewById(R.id.et_phone);
         mVerifyCodeEt = findViewById(R.id.edit_verifyCode);
         btnForgetPasswordNext = findViewById(R.id.btn_forgetPassword_next);
+        mPassword = findViewById(R.id.edit_pwd);
+        mPassword2 = findViewById(R.id.edit_pwd2);
+        mTvForgetPwd = findViewById(R.id.tv_forgetPassword);
+        mTvForgetPwd.setVisibility(View.GONE);
 
         String phone = getIntent().getStringExtra("phone");
         if (!TextUtils.isEmpty(phone)) {
@@ -40,21 +45,6 @@ public class ForgetPasswordActivityOne extends BaseFragmentActivity<ForgetPasswo
         if (!TextUtils.isEmpty(userId)) {
             mPhoneEt.setText(userId);
         }
-        btnForgetPasswordNext.setOnClickListener(v -> {
-            String verifyCode = mVerifyCodeEt.getText().toString().trim();
-            if (TextUtils.isEmpty(mPhoneEt.getText().toString().trim())) {
-                showError("请输入手机号码");
-                return;
-            }
-            if (TextUtils.isEmpty(verifyCode)) {
-                showError("请输入验证码");
-                return;
-            }
-            Intent intent = new Intent(this, ForgetPasswordActivityTwo.class);
-            intent.putExtra("phone", mPhone);
-            intent.putExtra("verifyCode", verifyCode);
-            startActivityForResult(intent, REQUEST_CODE_FORGETPWD);
-        });
     }
 
     @Override

@@ -22,20 +22,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="invisible"
-                >
+                android:visibility="invisible">
 
                 <include layout="@layout/include_layout_home_bottom" />
             </LinearLayout>
-            <LinearLayout android:id="@+id/ll_no_battery_con"
+
+            <LinearLayout
+                android:id="@+id/ll_no_battery_con"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_below="@+id/tv_home_battery_big_title"
                 android:layout_marginTop="90px"
                 android:layout_marginBottom="90px"
-                android:visibility="gone"
-                android:layout_below="@+id/tv_home_battery_big_title"
-                android:orientation="vertical">
+                android:gravity="center"
+                android:layout_centerInParent="true"
+                android:orientation="vertical"
+                android:visibility="gone">
                 <TextView
                     android:id="@+id/tv_home_no_battery"
                     android:layout_width="wrap_content"
@@ -43,36 +45,39 @@
                     android:drawableTop="@drawable/icon_binding_battery"
                     android:drawablePadding="30px"
                     android:gravity="center_horizontal"
-                    android:text="暂无电池信息"/>
+                    android:text="暂无电池信息" />
 
-                <Button android:id="@+id/rental_battery"
+                <Button
+                    android:id="@+id/rental_battery"
                     android:layout_width="516px"
                     android:layout_height="120px"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="40px"
+                    android:background="@drawable/shape_bg_scan"
                     android:text="去租用"
                     android:textColor="#FFFFFFFF"
-                    android:visibility="gone"
-                    android:background="@drawable/shape_bg_scan"/>
+                    android:visibility="gone" />
 
-                <Button android:id="@+id/get_battery"
+                <Button
+                    android:id="@+id/get_battery"
                     android:layout_width="516px"
                     android:layout_height="120px"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="40px"
+                    android:background="@drawable/shape_bg_scan"
                     android:text="去领取"
                     android:textColor="#FFFFFFFF"
-                    android:visibility="gone"
-                    android:background="@drawable/shape_bg_scan"/>
+                    android:visibility="gone" />
 
-                <Button android:id="@+id/bind_battery"
+                <Button
+                    android:id="@+id/bind_battery"
                     android:layout_width="516px"
                     android:layout_height="120px"
                     android:layout_centerHorizontal="true"
-                    android:text="去绑定"
-                    android:textColor="#FFFFFFFF"
                     android:layout_marginTop="30px"
-                    android:background="@drawable/shape_bg_scan"/>
+                    android:background="@drawable/shape_bg_scan"
+                    android:text="去绑定"
+                    android:textColor="#FFFFFFFF" />
             </LinearLayout>
 
             <TextView

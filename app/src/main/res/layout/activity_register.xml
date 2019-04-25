@@ -62,15 +62,15 @@
     <Button
         android:id="@+id/btn_Resign"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="120px"
         android:layout_gravity="center"
         android:layout_marginLeft="30px"
-        android:layout_marginTop="120px"
+        android:layout_marginTop="90px"
         android:layout_marginRight="30px"
         android:background="@drawable/shape_bg_login"
         android:text="注册"
         android:textColor="#fff"
-        android:textSize="54px" />
+        android:textSize="40px" />
 
     <LinearLayout
         android:layout_width="match_parent"

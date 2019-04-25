@@ -86,6 +86,9 @@
             android:name=".ui.activity.MyBatteryActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.activity.ChargeStakeActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.activity.MyDepositActivity"
             android:screenOrientation="portrait" />
         <activity

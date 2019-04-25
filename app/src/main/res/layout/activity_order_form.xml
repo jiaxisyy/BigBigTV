@@ -141,7 +141,7 @@
     <TextView
         android:id="@+id/tv_order_form_submit"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="120px"
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="30px"
         android:layout_marginTop="90px"
@@ -149,6 +149,7 @@
         android:background="@drawable/shape_bg_login"
         android:gravity="center"
         android:text="立即支付"
+        android:textSize="40px"
         android:textColor="#FFFFFF" />
 
 

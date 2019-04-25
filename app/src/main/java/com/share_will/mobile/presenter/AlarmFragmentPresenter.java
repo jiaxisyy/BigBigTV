@@ -27,7 +27,6 @@ public class AlarmFragmentPresenter extends BasePresenter<AlarmFragmentModel, IA
                                    if (s.getCode() == 0) {
                                        getView().onCloseAlarmResult(s);
                                    } else {
-                                       getView().showMessage(s.getMessage());
                                        getView().onCloseAlarmResult(null);
                                    }
                                }

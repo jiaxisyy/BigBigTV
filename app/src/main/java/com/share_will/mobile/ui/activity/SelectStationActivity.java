@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -20,6 +21,8 @@ import com.bigkoo.pickerview.listener.CustomListener;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.contrarywind.adapter.WheelAdapter;
+import com.contrarywind.listener.OnItemSelectedListener;
 import com.contrarywind.view.WheelView;
 import com.share_will.mobile.Constant;
 import com.share_will.mobile.R;
@@ -63,11 +66,18 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
     private int mCityIndex;
     private int tempPos = 0;
 
+    private int itemSelectedPos = 0;
+
+
     private boolean isclicked = false;
     private WheelView mWvCity;
     private WheelView mWvName;
 
     private int register_type = 1;//默认为1 个人用户
+    private List<CityEntity> cityEntities;
+    private TextView mCancel;
+    private TextView mSure;
+    private List<StationEntity> stationEntities;
 
     @Override
     protected int getLayoutId() {
@@ -85,6 +95,10 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
         mLlPicker = findViewById(R.id.ll_select_station_picker);
         mTvSelected = findViewById(R.id.tv_select_station_selected);
         mRvStation = findViewById(R.id.rv_select_station);
+        mCancel = findViewById(R.id.tv_select_station_cancel);
+        mSure = findViewById(R.id.tv_select_station_sure);
+        mCancel.setOnClickListener(this);
+        mSure.setOnClickListener(this);
         mTvSearch.setOnClickListener(this);
         mTvScan.setOnClickListener(this);
         mTvSelected.setOnClickListener(this);
@@ -97,7 +111,7 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
         mWvCity.setCyclic(false);
         mWvName.setCyclic(false);
         //站点选择器
-        mStationPickerView = new OptionsPickerBuilder(this, (options1, option2, options3, v) -> {
+       /* mStationPickerView = new OptionsPickerBuilder(this, (options1, option2, options3, v) -> {
 
             StationEntity station = getPresenter().getModel().getStation(option2);
             if (station != null) {
@@ -117,11 +131,39 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
                         mCityEntity = getPresenter().getModel().getCity(options1);
                         String cityCode = mCityEntity.getAreaCode();
                         LogUtils.d("==cityCode===" + cityCode);
-                        getPresenter().getStationList(cityCode,register_type);
+                        getPresenter().getStationList(cityCode, register_type);
                     }
-                }).build();
-
+                }).build();*/
         getPresenter().getCityList();
+        initWheelView();
+    }
+
+    private void initWheelView() {
+        mWvCity.setLineSpacingMultiplier(3.0F);
+        mWvName.setLineSpacingMultiplier(3.0F);
+        mWvCity.setDividerColor(Color.parseColor("#FF3F3F"));
+        mWvCity.setTextColorOut(Color.parseColor("#999999"));
+        mWvCity.setTextColorCenter(Color.parseColor("#FF3F3F"));
+        mWvName.setDividerColor(Color.parseColor("#FF3F3F"));
+        mWvName.setTextColorOut(Color.parseColor("#999999"));
+        mWvName.setTextColorCenter(Color.parseColor("#FF3F3F"));
+        mWvCity.setDividerType(WheelView.DividerType.WRAP);
+        mWvName.setDividerType(WheelView.DividerType.WRAP);
+        //初始化,不添加此行不显示条目,不可删
+        List<String> mOptionsItems = new ArrayList<>();
+        mWvCity.setAdapter(new ArrayWheelAdapter(mOptionsItems));
+        mWvName.setAdapter(new ArrayWheelAdapter(mOptionsItems));
+        mWvCity.setOnItemSelectedListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(int index) {
+                mWvName.setCurrentItem(0);
+                itemSelectedPos = index;
+                if (cityEntities != null && cityEntities.size() > 0) {
+                    String areaCode = cityEntities.get(index).getAreaCode();
+                    getPresenter().getStationList(areaCode, register_type);
+                }
+            }
+        });
     }
 
 
@@ -139,6 +181,17 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
                 if (AppUtils.getAppMetaData(this, Constant.CHANNEL) != null) {
                     showStationDialog();
                 }
+                break;
+            case R.id.tv_select_station_cancel:
+                finish();
+                break;
+            case R.id.tv_select_station_sure:
+                if (stationEntities != null && stationEntities.size() > 0) {
+                    mStationEntity = stationEntities.get(mWvName.getCurrentItem());
+                    mStationIntent.putExtra("station_entity", mStationEntity);
+                    setResult(RESULT_OK, mStationIntent);
+                }
+                finish();
                 break;
         }
     }
@@ -173,25 +226,42 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
     @Override
     public void onLoadStationList(BaseEntity<List<StationEntity>> ret) {
         if (ret != null && ret.getCode() == 0 && ret.getData().size() > 0) {
-            mStationPickerView.setNPicker(getPresenter().getModel().getCity(), ret.getData(), null);
-            mStationPickerView.setSelectOptions(mCityIndex);
-            mTvSelected.setText("当前:" + ret.getData().get(0).getStationName());
-            mStationEntity = ret.getData().get(0);
+//            mStationPickerView.setNPicker(getPresenter().getModel().getCity(), ret.getData(), null);
+//            mStationPickerView.setSelectOptions(mCityIndex);
+//            mTvSelected.setText("当前:" + ret.getData().get(0).getStationName());
+//            mStationEntity = ret.getData().get(0);
+            List<String> names = new ArrayList<>();
+            stationEntities = ret.getData();
+            for (StationEntity stationEntity : stationEntities) {
+                if (!TextUtils.isEmpty(stationEntity.getStationName())) {
+                    names.add(stationEntity.getStationName());
+                }
+            }
+            mWvName.setAdapter(new ArrayWheelAdapter(names));
+
         } else {
             //站点404处理
-            List<StationEntity> nullList = new ArrayList<>();
-            mStationPickerView.setNPicker(getPresenter().getModel().getCity(), nullList, null);
-            mStationPickerView.setSelectOptions(mCityIndex);
+//            List<StationEntity> nullList = new ArrayList<>();
+//            mStationPickerView.setNPicker(getPresenter().getModel().getCity(), nullList, null);
+//            mStationPickerView.setSelectOptions(mCityIndex);
+
         }
-        mStationPickerView.show();
+//        mStationPickerView.show();
     }
 
     @Override
     public void onLoadCityList(BaseEntity<List<CityEntity>> ret) {
         if (ret != null && ret.getCode() == 0 && ret.getData().size() > 0) {
-
+            cityEntities = ret.getData();
+            List<String> citys = new ArrayList<>();
+            for (CityEntity cityEntity : cityEntities) {
+                if (!TextUtils.isEmpty(cityEntity.getStationCity())) {
+                    citys.add(cityEntity.getStationCity());
+                }
+            }
+            mWvCity.setAdapter(new ArrayWheelAdapter(citys));
             String cityCode = ret.getData().get(0).getAreaCode();
-            getPresenter().getStationList(cityCode,register_type);
+            getPresenter().getStationList(cityCode, register_type);
         }
     }
 
@@ -204,12 +274,12 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
 
     @Override
     public void finish() {
-        mStationIntent.putExtra("station_name", mTvSelected.getText().toString().substring(3));
-        mStationIntent.putExtra("station_entity", mStationEntity);
-//        LogUtils.d(mStationEntity.toString());
-        if (mStationIntent != null) {
-            setResult(RESULT_OK, mStationIntent);
-        }
+//        mStationIntent.putExtra("station_name", mTvSelected.getText().toString().substring(3));
+//        mStationIntent.putExtra("station_entity", mStationEntity);
+////        LogUtils.d(mStationEntity.toString());
+//        if (mStationIntent != null) {
+//            setResult(RESULT_OK, mStationIntent);
+//        }
         super.finish();
     }
 

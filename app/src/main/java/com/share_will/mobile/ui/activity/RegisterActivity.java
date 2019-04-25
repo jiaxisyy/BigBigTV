@@ -124,7 +124,7 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
                     mStationEntity.getStationId() + "");
         });
 
-        getPresenter().getCityList();
+//        getPresenter().getCityList();
     }
 
     public void showStationDialog(View view) {
@@ -144,7 +144,6 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
             Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
             RegisterActivity.this.startActivity(intent);
             finish();
-
         }
     }
 
@@ -152,9 +151,7 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
     public void onLoadCityList(BaseEntity<List<CityEntity>> ret) {
         if (ret != null && ret.getCode() == 0 && ret.getData().size() > 0) {
             String cityCode = ret.getData().get(0).getAreaCode();
-            getPresenter().getStationList(cityCode,REGISTERTYPE);
-        }else {
-         showMessage(ret.getMessage());
+            getPresenter().getStationList(cityCode, REGISTERTYPE);
         }
     }
 
@@ -242,13 +239,12 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
         switch (requestCode) {
             case REQUEST_CODE_SELECTSTATION:
                 if (resultCode == RESULT_OK) {
-                    String stationName = data.getStringExtra("station_name");
                     StationEntity stationEntity = (StationEntity) data.getSerializableExtra("station_entity");
                     if (stationEntity != null) {
                         mStationEntity = stationEntity;
-                    }
-                    if (!TextUtils.isEmpty(stationName)) {
-                        mSelectStation.setText(stationName);
+                        if (!TextUtils.isEmpty(stationEntity.getStationName())) {
+                            mSelectStation.setText(stationEntity.getStationName());
+                        }
                     }
                 }
                 break;

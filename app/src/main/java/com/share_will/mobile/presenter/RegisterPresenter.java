@@ -125,7 +125,6 @@ public class RegisterPresenter extends BasePresenter<RegisterModel, RegisterView
                                    if (s.getCode() == 0) {
                                        getView().onLoadStationList(s);
                                    } else {
-                                       getView().showMessage(s.getMessage());
                                        getView().onLoadStationList(null);
                                    }
                                }

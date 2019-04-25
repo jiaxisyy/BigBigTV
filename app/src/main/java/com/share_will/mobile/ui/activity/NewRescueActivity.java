@@ -98,8 +98,6 @@ public class NewRescueActivity extends BaseFragmentActivity<NewRescuePresenter> 
         if (ret != null && ret.getCode() == 0) {
             mStationPickerView.setNPicker(getPresenter().getModel().getCity(), ret.getData(), null);
             mStationPickerView.setSelectOptions(mCityIndex);
-        } else {
-            showMessage(ret.getMessage());
         }
     }
 

@@ -65,15 +65,15 @@
     <Button
         android:id="@+id/btn_ok"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="120px"
         android:layout_marginLeft="30px"
-        android:layout_marginTop="90px"
         android:layout_marginRight="30px"
+        android:layout_marginTop="90px"
         android:background="@drawable/shape_bg_login"
         android:onClick="onSubmit"
         android:text="提交申请"
         android:textColor="#FFFFFFFF"
-        android:textSize="54px" />
+        android:textSize="40px" />
 
 
 </LinearLayout>

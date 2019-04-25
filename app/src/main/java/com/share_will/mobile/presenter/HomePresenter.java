@@ -45,7 +45,6 @@ public class HomePresenter extends BasePresenter<HomeModel, HomeView> {
                                    if (s.getCode() == 0) {
                                        getView().onLoadCabinetList(s);
                                    } else {
-                                       getView().showMessage(s.getMessage());
                                        getView().onLoadCabinetList(null);
                                    }
                                }
@@ -81,7 +80,6 @@ public class HomePresenter extends BasePresenter<HomeModel, HomeView> {
                                    if (s.getCode() == 0) {
                                        getView().onLoadFullBattery(s);
                                    } else {
-                                       getView().showMessage(s.getMessage());
                                        getView().onLoadFullBattery(null);
                                    }
                                }

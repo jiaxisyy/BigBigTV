@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/capture_containter"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <SurfaceView
         android:id="@+id/capture_preview"
@@ -24,7 +24,7 @@
         android:layout_below="@id/top_mask"
         android:layout_centerHorizontal="true"
         android:background="@drawable/capture"
-        android:contentDescription="@string/app_name" >
+        android:contentDescription="@string/app_name">
 
         <ImageView
             android:id="@+id/capture_scan_line"
@@ -40,8 +40,8 @@
         android:id="@+id/bottom_mask"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
         android:layout_below="@id/capture_crop_layout"
+        android:layout_alignParentBottom="true"
         android:background="@drawable/scan_mask"
         android:contentDescription="@string/app_name" />
 
@@ -49,8 +49,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_mask"
-        android:layout_alignParentLeft="true"
         android:layout_below="@id/top_mask"
+        android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@id/capture_crop_layout"
         android:background="@drawable/scan_mask"
         android:contentDescription="@string/app_name" />
@@ -59,8 +59,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_mask"
-        android:layout_alignParentRight="true"
         android:layout_below="@id/top_mask"
+        android:layout_alignParentRight="true"
         android:layout_toRightOf="@id/capture_crop_layout"
         android:background="@drawable/scan_mask"
         android:contentDescription="@string/app_name" />
@@ -75,50 +75,56 @@
         android:textColor="@android:color/white"
         android:textSize="15sp" />
 
-    <LinearLayout android:id="@+id/ll_manual_input"
+    <LinearLayout
+        android:id="@+id/ll_manual_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="120px"
         android:layout_marginBottom="90px"
         android:clickable="true"
-        android:onClick="manualInput"
         android:gravity="center"
+        android:onClick="manualInput"
         android:orientation="vertical">
+
         <ImageView
             android:layout_width="62px"
             android:layout_height="76px"
-            android:background="@drawable/btn_manual_input"/>
+            android:background="@drawable/btn_manual_input" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20px"
-            android:textColor="#FFFFFFFF"
-            android:text="手动输入"/>
+            android:text="手动输入"
+            android:textColor="#FFFFFFFF" />
     </LinearLayout>
 
-    <LinearLayout android:id="@+id/ll_light"
+    <LinearLayout
+        android:id="@+id/ll_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:layout_marginRight="120px"
         android:layout_marginBottom="90px"
         android:clickable="true"
-        android:onClick="openLight"
         android:gravity="center"
+        android:onClick="openLight"
         android:orientation="vertical">
+
         <ImageView
             android:layout_width="48px"
             android:layout_height="77px"
             android:background="@null"
-            android:src="@drawable/icon_flashlight"/>
+            android:src="@drawable/icon_flashlight" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20px"
-            android:textColor="#FFFFFFFF"
-            android:text="手电筒"/>
+            android:text="手电筒"
+            android:textColor="#FFFFFFFF" />
     </LinearLayout>
 
 </RelativeLayout>

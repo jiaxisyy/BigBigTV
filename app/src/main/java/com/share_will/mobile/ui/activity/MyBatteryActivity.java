@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -73,6 +74,7 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
     protected int getLayoutId() {
         return R.layout.activity_battery;
     }
+
     @Override
     protected void initView(Bundle savedInstanceState) {
         setTitle("我的电池");
@@ -92,16 +94,7 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
         mLlCardBatteryBind = findViewById(R.id.rl_card_bind);
         mLayoutBottom = findViewById(R.id.include_layout_my_battery_bottom);
         mRefreshLayout = findViewById(R.id.refresh_my_battery);
-        if (isShowBindView) {
-            mLlCardBatteryBind.setVisibility(View.VISIBLE);
-            mLayoutBottom.setVisibility(View.VISIBLE);
-            mLlCardBatteryInfo.setVisibility(View.INVISIBLE);
-            mCardMoney.setVisibility(View.INVISIBLE);
-            mRefreshLayout.setEnabled(false);
-        } else {
-            mRefreshLayout.setEnabled(true);
-            initData();
-        }
+        isShowBindView();
         mBindSn = findViewById(R.id.et_my_battery_bind_sn);
         mBindSnAgain = findViewById(R.id.et_my_battery_bind_sn_again);
         mBindSubmit = findViewById(R.id.tv_my_battery_bind_submit);
@@ -117,6 +110,19 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
 
     }
 
+    private void isShowBindView() {
+        if (isShowBindView) {
+            mLlCardBatteryBind.setVisibility(View.VISIBLE);
+            mLayoutBottom.setVisibility(View.VISIBLE);
+            mLlCardBatteryInfo.setVisibility(View.INVISIBLE);
+            mCardMoney.setVisibility(View.INVISIBLE);
+            mRefreshLayout.setEnabled(false);
+        } else {
+            mRefreshLayout.setEnabled(true);
+            initData();
+        }
+    }
+
     private void initData() {
         homeFragmentPresenter.getChargeBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
         mUserCenterPresenter.getBalance(App.getInstance().getUserId(), false);
@@ -125,24 +131,33 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
 
     @Override
     public void onLoadBatteryInfoResult(BaseEntity<BatteryEntity> data) {
-        BatteryEntity entity = data.getData();
-        if (data!=null&&entity!=null&&!TextUtils.isEmpty(entity.getSn())) {
-            if (!TextUtils.isEmpty(entity.getSn())) {
-                mStartTime.setText("电池SN:   " + entity.getSn());
+        if (data != null) {
+            BatteryEntity entity = data.getData();
+            if (entity != null && !TextUtils.isEmpty(entity.getSn())) {
+                if (!TextUtils.isEmpty(entity.getSn())) {
+                    mStartTime.setText("电池SN:   " + entity.getSn());
+                }
+                if (!TextUtils.isEmpty(entity.getSop())) {
+                    mEnoughTime.setText("当前电量:   " + entity.getSop() + "%");
+                }
+                mDurationTime.setVisibility(View.GONE);
+                mNowSop.setVisibility(View.GONE);
+                mEnergy.setVisibility(View.GONE);
+                mAddress.setVisibility(View.GONE);
+                mDoor.setVisibility(View.GONE);
+                mLlCardBatteryInfo.setVisibility(View.VISIBLE);
+                mCardMoney.setVisibility(View.GONE);
+                mLlCardBatteryBind.setVisibility(View.GONE);
+                mLayoutBottom.setVisibility(View.VISIBLE);
+                showNoBatteryView(false, mUserInfo != null && mUserInfo.getDeposit() > 0);
+            }else {
+                showNoBatteryView(true, mUserInfo != null && mUserInfo.getDeposit() > 0);
+                mLlCardBatteryInfo.setVisibility(View.GONE);
+                mCardMoney.setVisibility(View.GONE);
+                mLlCardBatteryBind.setVisibility(View.VISIBLE);
+                mLayoutBottom.setVisibility(View.VISIBLE);
+                mLlCardBatteryBind.setVisibility(View.INVISIBLE);
             }
-            if (!TextUtils.isEmpty(entity.getSop())) {
-                mEnoughTime.setText("当前电量:   " + entity.getSop() + "%");
-            }
-            mDurationTime.setVisibility(View.GONE);
-            mNowSop.setVisibility(View.GONE);
-            mEnergy.setVisibility(View.GONE);
-            mAddress.setVisibility(View.GONE);
-            mDoor.setVisibility(View.GONE);
-            mLlCardBatteryInfo.setVisibility(View.VISIBLE);
-            mCardMoney.setVisibility(View.GONE);
-            mLlCardBatteryBind.setVisibility(View.GONE);
-            mLayoutBottom.setVisibility(View.VISIBLE);
-            showNoBatteryView(false, mUserInfo != null && mUserInfo.getDeposit() > 0);
         } else {
             showNoBatteryView(true, mUserInfo != null && mUserInfo.getDeposit() > 0);
             mLlCardBatteryInfo.setVisibility(View.GONE);
@@ -177,7 +192,6 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
                 startActivityForResult(intent1, REQUEST_CODE_BIND_BATTERY);
                 break;
         }
-
     }
 
 
@@ -197,7 +211,7 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
         if (data != null) {
             mUserInfo = data.getData();
         }
-        homeFragmentPresenter.getChargeBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
+//        homeFragmentPresenter.getChargeBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
     }
 
     @Override
@@ -328,8 +342,15 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
             mMoneManage.setText(intChange(entity.getManageMoney() / 100f) + "元");
             int all = entity.getMoney() + entity.getManageMoney();
             mMoneyAll.setText("合计:" + intChange(all / 100f) + "元");
+            mRefreshLayout.setRefreshing(false);
+            showNoBatteryView(false, mUserInfo != null && mUserInfo.getDeposit() > 0);
+            mLlCardBatteryInfo.setVisibility(View.VISIBLE);
+            mCardMoney.setVisibility(View.VISIBLE);
+            mLlCardBatteryBind.setVisibility(View.GONE);
+
         } else {
             //没有充电电池,展示已有电池信息
+
             homeFragmentPresenter.getBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
         }
     }

@@ -250,6 +250,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             }
             mArrowRight.setVisibility(View.VISIBLE);
             hasChargeBatteryInfo = true;
+            showNoBatteryView(false, mUserInfo != null && mUserInfo.getDeposit() > 0);
         } else {
             //没有充电电池,展示已有电池信息
             hasChargeBatteryInfo = false;
@@ -268,14 +269,13 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
 
         if (data != null) {
             BatteryEntity entity = data.getData();
-            if (!TextUtils.isEmpty(entity.getSn())) {
+            if (entity!=null&&!TextUtils.isEmpty(entity.getSn())) {
                 if (!TextUtils.isEmpty(entity.getSn())) {
                     mStartTime.setText("电池SN:   " + entity.getSn());
                 }
                 if (!TextUtils.isEmpty(entity.getSop())) {
                     mEnoughTime.setText("当前电量:   " + entity.getSop() + "%");
                 }
-
                 mDurationTime.setVisibility(View.GONE);
                 mNowSop.setVisibility(View.GONE);
                 mEnergy.setVisibility(View.GONE);
@@ -284,8 +284,11 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 mCardMoney.setVisibility(View.GONE);
                 mLayoutBottom.setVisibility(View.VISIBLE);
                 showNoBatteryView(false, mUserInfo != null && mUserInfo.getDeposit() > 0);
+            }else {
+                mLayoutBottom.setVisibility(View.GONE);
+                showNoBatteryView(true, mUserInfo != null && mUserInfo.getDeposit() > 0);
+                mArrowRight.setVisibility(View.INVISIBLE);
             }
-
         } else {
             mLayoutBottom.setVisibility(View.GONE);
             showNoBatteryView(true, mUserInfo != null && mUserInfo.getDeposit() > 0);
@@ -329,7 +332,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-
             case R.id.tv_home_top_exchange:
                 goToExchange();
                 break;

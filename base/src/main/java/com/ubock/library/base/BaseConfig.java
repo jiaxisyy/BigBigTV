@@ -30,6 +30,7 @@ public class BaseConfig {
      * 项目名称
      */
     public static String PROJECT_NAME = "4GAgreement/";
+//    public static String PROJECT_NAME = "ct-moss/";
 
     /**
      * 服务器地址

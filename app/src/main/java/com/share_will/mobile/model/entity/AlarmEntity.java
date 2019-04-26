@@ -45,7 +45,7 @@ public class AlarmEntity {
          * alarmlevel : 1
          * alarmtime : 1554705778000
          * descp :
-         * confirmstate : 0
+         * confirmstate : 0 未处理 1已处理
          */
 
         private int id;
@@ -62,7 +62,7 @@ public class AlarmEntity {
         private String creator;
         private Object modifyTime;
         private Object modifier;
-        private int alarmcode;
+        private String alarmcode;
         private int typeflag;
         private String title;
         private int alarmlevel;
@@ -182,11 +182,11 @@ public class AlarmEntity {
             this.modifier = modifier;
         }
 
-        public int getAlarmcode() {
+        public String getAlarmcode() {
             return alarmcode;
         }
 
-        public void setAlarmcode(int alarmcode) {
+        public void setAlarmcode(String alarmcode) {
             this.alarmcode = alarmcode;
         }
 

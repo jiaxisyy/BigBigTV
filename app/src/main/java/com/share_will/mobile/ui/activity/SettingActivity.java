@@ -18,6 +18,7 @@ import com.share_will.mobile.utils.Utils;
 import com.ubock.library.annotation.PresenterInjector;
 import com.ubock.library.base.BaseApp;
 import com.ubock.library.base.BaseFragmentActivity;
+import com.ubock.library.ui.dialog.ToastExt;
 import com.ubock.library.utils.SharedPreferencesUtils;
 
 import java.util.Map;
@@ -33,6 +34,7 @@ public class SettingActivity extends BaseFragmentActivity implements View.OnClic
     private TextView mAbout;
     private TextView mProtocol;
     private TextView mLogout;
+    private TextView mClean;
 
     @Override
     protected int getLayoutId() {
@@ -48,12 +50,14 @@ public class SettingActivity extends BaseFragmentActivity implements View.OnClic
         mAbout = findViewById(R.id.tv_setting_about);
         mProtocol = findViewById(R.id.tv_setting_protocol);
         mLogout = findViewById(R.id.tv_setting_logout);
+        mClean = findViewById(R.id.tv_setting_clear);
         mAutonym.setOnClickListener(this);
         mChangePwd.setOnClickListener(this);
         mUpdate.setOnClickListener(this);
         mAbout.setOnClickListener(this);
         mProtocol.setOnClickListener(this);
         mLogout.setOnClickListener(this);
+        mClean.setOnClickListener(this);
 
     }
 
@@ -68,6 +72,9 @@ public class SettingActivity extends BaseFragmentActivity implements View.OnClic
                 break;
             case R.id.tv_setting_update:
                 checkVersion();
+                break;
+            case R.id.tv_setting_clear:
+                ToastExt.showExt("功能暂未开放");
                 break;
             case R.id.tv_setting_about:
                 startActivity(new Intent(this, AboutActivity.class));

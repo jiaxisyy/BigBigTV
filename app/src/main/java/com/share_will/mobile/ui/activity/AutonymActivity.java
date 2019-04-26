@@ -15,6 +15,7 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.share_will.mobile.R;
 import com.ubock.library.base.BaseFragmentActivity;
+import com.ubock.library.ui.dialog.ToastExt;
 
 import java.util.List;
 
@@ -62,14 +63,13 @@ public class AutonymActivity extends BaseFragmentActivity implements View.OnClic
             case R.id.iv_papers_front:
                 tempType = TYPE_FRONT;
                 selectPic();
-
                 break;
             case R.id.iv_papers_contrary:
                 tempType = TYPE_CONTRARY;
                 selectPic();
                 break;
             case R.id.tv_papers_submit:
-
+                ToastExt.showExt("功能暂未开放");
                 break;
         }
     }

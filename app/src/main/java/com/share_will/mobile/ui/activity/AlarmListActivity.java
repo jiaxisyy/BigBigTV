@@ -64,6 +64,7 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
         mAdapter = new HomeAlarmAdapter(R.layout.item_home_alarm, null);
         mRv.setAdapter(mAdapter);
 
+
         LinearLayoutManager managerRfid = new LinearLayoutManager(this);
         mRvRfid.addItemDecoration(new RecyclerViewItemDecoration(20, Color.parseColor("#F5F5F5")));
         mRvRfid.setLayoutManager(managerRfid);
@@ -111,11 +112,13 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
             if (data.getData().getRfid() != null && data.getData().getRfid().size() > 0) {
                 mAdapterRfid.setNewData(data.getData().getRfid());
             }
-            mRefreshLayout.setRefreshing(false);
         } else {
             mTvNoAlarm.setVisibility(View.VISIBLE);
+            mAdapter.setNewData(null);
+            mAdapterRfid.setNewData(null);
             ToastExt.showExt("数据获取失败");
         }
+        mRefreshLayout.setRefreshing(false);
     }
 
     @Override

@@ -85,6 +85,8 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     //扫码领取电池
     public final static int REQUEST_CODE_GET_BATTERY = 101;
     private ImageView mArrowRight;
+    private TextView mTopRent;
+    private TextView mTopStorage;
 
     @Override
     protected int getLayoutId() {
@@ -108,6 +110,10 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mAlarmLevel = view.findViewById(R.id.tv_home_alarm_level);
         mTopCharge = view.findViewById(R.id.tv_home_top_charge);
         mTopChargeStake = view.findViewById(R.id.tv_home_top_charge_stake);
+        mTopRent = view.findViewById(R.id.tv_home_top_rent);
+        mTopStorage = view.findViewById(R.id.tv_home_top_storage);
+
+
         mRlAlarm = view.findViewById(R.id.rl_home_alarmInfo);
         mRlBattery = view.findViewById(R.id.rl_home_batteryInfo);
         mNoAlarm = view.findViewById(R.id.tv_home_no_alarm);
@@ -131,6 +137,8 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
 
         mTopCharge.setOnClickListener(this);
         mTopChargeStake.setOnClickListener(this);
+        mTopRent.setOnClickListener(this);
+        mTopStorage.setOnClickListener(this);
         mRlAlarm.setOnClickListener(this);
         mRlBattery.setOnClickListener(this);
         mRentalBattery.setOnClickListener(this);
@@ -170,7 +178,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             List<AlarmEntity.SmokeBean> smokeBeanList = data.getData().getSmoke();
             int size = smokeBeanList.size();
             for (int i = 0; i < size; i++) {
-                if (smokeBeanList.get(i).getAlarmcode() != 0) {
+                if (!TextUtils.isEmpty(smokeBeanList.get(i).getAlarmcode())) {
                     validPos = i;
                 }
             }
@@ -303,7 +311,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 mRentalBattery.setVisibility(View.VISIBLE);
             }
         } else {
-            mNoBatteryCon.setVisibility(View.INVISIBLE);
+            mNoBatteryCon.setVisibility(View.GONE);
         }
     }
 
@@ -316,7 +324,12 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             case R.id.tv_home_top_charge_stake:
                 startActivity(new Intent(getActivity(), ChargeStakeActivity.class));
                 break;
-
+            case R.id.tv_home_top_rent:
+                ToastExt.showExt("功能暂未开放");
+                break;
+            case R.id.tv_home_top_storage:
+                ToastExt.showExt("功能暂未开放");
+                break;
             case R.id.rl_home_alarmInfo:
                 startActivity(new Intent(getActivity(), AlarmListActivity.class));
                 break;
@@ -329,7 +342,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                         intent.putExtra("isShowBindView", false);
                         startActivity(intent);
                     }
-
                 }
                 break;
             case R.id.get_battery:

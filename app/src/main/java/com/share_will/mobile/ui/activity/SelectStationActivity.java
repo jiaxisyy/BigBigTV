@@ -78,6 +78,7 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
     private TextView mCancel;
     private TextView mSure;
     private List<StationEntity> stationEntities;
+    private List<String> mOptionsItems;
 
     @Override
     protected int getLayoutId() {
@@ -150,7 +151,7 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
         mWvCity.setDividerType(WheelView.DividerType.WRAP);
         mWvName.setDividerType(WheelView.DividerType.WRAP);
         //初始化,不添加此行不显示条目,不可删
-        List<String> mOptionsItems = new ArrayList<>();
+        mOptionsItems = new ArrayList<>();
         mWvCity.setAdapter(new ArrayWheelAdapter(mOptionsItems));
         mWvName.setAdapter(new ArrayWheelAdapter(mOptionsItems));
         mWvCity.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -244,6 +245,7 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
 //            List<StationEntity> nullList = new ArrayList<>();
 //            mStationPickerView.setNPicker(getPresenter().getModel().getCity(), nullList, null);
 //            mStationPickerView.setSelectOptions(mCityIndex);
+            mWvName.setAdapter(new ArrayWheelAdapter(mOptionsItems));
 
         }
 //        mStationPickerView.show();

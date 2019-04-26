@@ -161,7 +161,7 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
     };
 
     private void showCloseButton(AlarmEntity.SmokeBean data) {
-        if (data.getAlarmcode() != 0) {
+        if (!TextUtils.isEmpty(data.getAlarmcode())) {
             if (mClickSmoke == data) {
                 //点击的正在显示则隐藏，否则显示
                 if (btnAlarmClose.getVisibility() == View.VISIBLE) {
@@ -205,7 +205,7 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
             markerOptions.title(entity.getTitle());
             markerOptions.setFlat(true);//设置marker平贴地图效果
 
-            if (data.getSmoke().get(pos).getAlarmcode() != 0) {
+            if (!TextUtils.isEmpty(data.getSmoke().get(pos).getAlarmcode())) {
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_alarm_map_marker));
             } else {
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_alarm_map_device_marker));
@@ -295,7 +295,7 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
             List<AlarmEntity.SmokeBean> smokeBeanList = data.getData().getSmoke();
             int size = smokeBeanList.size();
             for (int i = 0; i < size; i++) {
-                if (smokeBeanList.get(i).getAlarmcode() != 0) {
+                if (!TextUtils.isEmpty(smokeBeanList.get(i).getAlarmcode())) {
                     validPos = i;
                 }
             }
@@ -362,13 +362,13 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
         AutoFitTextView tvAddress = view.findViewById(R.id.tv_window_map_alarm_detail_address);
         AutoFitTextView tvMessage = view.findViewById(R.id.tv_window_map_alarm_detail_message);
         AlarmEntity.SmokeBean smokeBean = mSmokeList.get(Integer.parseInt(marker.getSnippet()));
-        if(!TextUtils.isEmpty(smokeBean.getPositionName())){
+        if (!TextUtils.isEmpty(smokeBean.getPositionName())) {
             tvTitle.setText(smokeBean.getPositionName());
         }
-        if(!TextUtils.isEmpty(smokeBean.getDeviceAddress())){
+        if (!TextUtils.isEmpty(smokeBean.getDeviceAddress())) {
             tvAddress.setText(smokeBean.getDeviceAddress());
         }
-        if(!TextUtils.isEmpty(smokeBean.getRemark())){
+        if (!TextUtils.isEmpty(smokeBean.getRemark())) {
             tvMessage.setText(smokeBean.getRemark());
         }
         return view;

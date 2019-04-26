@@ -1,6 +1,7 @@
 package com.share_will.mobile.ui.views;
 
 import com.share_will.mobile.model.entity.ChargeBatteryEntity;
+import com.share_will.mobile.model.entity.ChargeOrderEntity;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseView;
 
@@ -19,7 +20,7 @@ public interface IHomeServiceView extends BaseView {
     /**
      * 停止充电扫码回调
      */
-    void OnStopChargeScanResult(BaseEntity<Object> s);
+    void OnStopChargeScanResult(BaseEntity<ChargeOrderEntity> s);
 
 
 }

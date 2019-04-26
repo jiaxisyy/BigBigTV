@@ -17,7 +17,8 @@
         android:layout_marginRight="50px"
         android:background="@drawable/shape_bg_rect_contour_red"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tv_register_personal"
@@ -26,8 +27,8 @@
             android:layout_weight="1"
             android:background="@color/text_color"
             android:gravity="center"
-            android:textColor="#FFFFFF"
-            android:text="个人用户" />
+            android:text="个人用户"
+            android:textColor="#FFFFFF" />
 
 
         <TextView
@@ -77,11 +78,20 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="30px"
         android:layout_marginTop="30px"
+
         android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/cb_register_protocol_agree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:checked="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:text="@string/register_protocol"
             android:textColor="#999999"
             android:textSize="36px" />
@@ -90,6 +100,7 @@
             android:id="@+id/tv_register_protocol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:onClick="openUserProtocol"
             android:text="《用户协议》"
             android:textColor="@color/text_color"

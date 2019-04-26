@@ -16,11 +16,13 @@ import com.share_will.mobile.App;
 import com.share_will.mobile.R;
 
 import com.share_will.mobile.model.entity.ChargeBatteryEntity;
+import com.share_will.mobile.model.entity.ChargeOrderEntity;
 import com.share_will.mobile.presenter.HomeServicePresenter;
 
 import com.share_will.mobile.ui.views.IHomeServiceView;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseFragmentActivity;
+import com.ubock.library.ui.dialog.ToastExt;
 import com.ubock.library.utils.DateUtils;
 import com.ubock.library.utils.LogUtils;
 
@@ -183,7 +185,7 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
             mMoneyCharge.setText(intChange(entity.getMoney() / 100f) + "元");
             mMoneyManage.setText(intChange(entity.getManageMoney() / 100f) + "元");
             mPrice = entity.getMoney() + entity.getManageMoney();
-            mMoneyAll.setText(String.format("合计:%s元", intChange(mPrice / 100f) ));
+            mMoneyAll.setText(String.format("合计:%s元", intChange(mPrice / 100f)));
         } else {
             mChargeScan.setText("扫一扫");
             mLlInCludeHomeBottom.setVisibility(View.INVISIBLE);
@@ -205,26 +207,18 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
     }
 
     @Override
-    public void OnStopChargeScanResult(BaseEntity<Object> s) {
+    public void OnStopChargeScanResult(BaseEntity<ChargeOrderEntity> s) {
         if (s != null) {
-            try {
-                //处理数字过长变成科学计数法
-                Gson gson = new Gson();
-                Map<String, String> resStr = gson.fromJson(s.getData().toString(),
-                        new TypeToken<Map<String, String>>() {
-                        }.getType());
-                JSONObject jsonObject = new JSONObject(resStr);
-                String id = String.valueOf(jsonObject.get("orderId"));
-                Intent intent = new Intent(this, OrderFormActivity.class);
-                intent.putExtra("orderId", id);
-                intent.putExtra("orderType", 0);
-                intent.putExtra("price", mPrice);
-                intent.putExtra("body", "充电费用");
 
-                startActivityForResult(intent, REQUEST_CODE_ORDERFORM);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            String orderId = s.getData().getOrderId();
+            Intent intent = new Intent(this, OrderFormActivity.class);
+            intent.putExtra("orderId", orderId);
+            intent.putExtra("orderType", 0);
+            intent.putExtra("price", mPrice);
+            intent.putExtra("body", "充电费用");
+            startActivityForResult(intent, REQUEST_CODE_ORDERFORM);
+        } else {
+            ToastExt.showExt("获取充电订单失败,请稍后再试");
         }
 
     }

@@ -46,7 +46,9 @@ public class ProtocolActivity extends BaseFragmentActivity {
 //        //支持自动适配
 //        settings.setUseWideViewPort(true);
 //        settings.setLoadWithOverviewMode(true);
-        mWebView.loadUrl(BaseConfig.SERVER_HOST + "protocol/protocol.html?hideAcceptButton=1");
+//        http://services.smart-moss.com/static/protocol/protocol.html
+//        mWebView.loadUrl(BaseConfig.SERVER_HOST + "protocol/protocol.html?hideAcceptButton=1");
+        mWebView.loadUrl(BaseConfig.DEFAULT_SERVER_HOST_MOSS + "static/protocol/protocol.html");
     }
 
     public void startAnt(View view){

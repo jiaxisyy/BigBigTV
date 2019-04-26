@@ -87,6 +87,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     private ImageView mArrowRight;
     private TextView mTopRent;
     private TextView mTopStorage;
+    private TextView mTopExchange;
 
     @Override
     protected int getLayoutId() {
@@ -112,6 +113,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mTopChargeStake = view.findViewById(R.id.tv_home_top_charge_stake);
         mTopRent = view.findViewById(R.id.tv_home_top_rent);
         mTopStorage = view.findViewById(R.id.tv_home_top_storage);
+        mTopExchange = view.findViewById(R.id.tv_home_top_exchange);
 
 
         mRlAlarm = view.findViewById(R.id.rl_home_alarmInfo);
@@ -144,6 +146,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mRentalBattery.setOnClickListener(this);
         mGetBattery.setOnClickListener(this);
         mBindBattery.setOnClickListener(this);
+        mTopExchange.setOnClickListener(this);
         initData();
     }
 
@@ -315,7 +318,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         }
     }
 
-    private void goToShop(){
+    private void goToShop() {
         Intent intent = new Intent(this.getContext(), HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -326,6 +329,10 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+
+            case R.id.tv_home_top_exchange:
+                goToExchange();
+                break;
             case R.id.tv_home_top_charge:
                 startActivity(new Intent(getActivity(), HomeServiceActivity.class));
                 break;
@@ -368,6 +375,14 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 break;
 
         }
+    }
+
+    private void goToExchange() {
+        Intent intent = new Intent(this.getContext(), HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("page", HomeActivity.PAGE_EXCHANGE);
+        startActivity(intent);
     }
 
     @Override

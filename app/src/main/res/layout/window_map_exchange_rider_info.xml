@@ -17,7 +17,7 @@
         android:layout_weight="1"
         android:drawableLeft="@drawable/icon_map_window_info_cycle"
         android:drawablePadding="15px"
-        android:text="0公里"
+        android:text="0.0公里"
         android:textColor="#686868" />
 
     <TextView

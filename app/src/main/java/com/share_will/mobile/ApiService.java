@@ -5,6 +5,7 @@ import com.share_will.mobile.model.entity.BatteryEntity;
 import com.share_will.mobile.model.entity.BespeakEntity;
 import com.share_will.mobile.model.entity.CabinetEntity;
 import com.share_will.mobile.model.entity.ChargeBatteryEntity;
+import com.share_will.mobile.model.entity.ChargeOrderEntity;
 import com.share_will.mobile.model.entity.ChargingEntity;
 import com.share_will.mobile.model.entity.CityEntity;
 import com.share_will.mobile.model.entity.DepositRefundEntity;
@@ -175,9 +176,9 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("order/balance")
-    Observable<BaseEntity<Object>> stopChargeScan(@Field("userId") String userId,
-                                                  @Field("token") String token,
-                                                  @Field("cabinetId") String cabinetId);
+    Observable<BaseEntity<ChargeOrderEntity>> stopChargeScan(@Field("userId") String userId,
+                                                             @Field("token") String token,
+                                                             @Field("cabinetId") String cabinetId);
 
     /**
      * 充电电池信息

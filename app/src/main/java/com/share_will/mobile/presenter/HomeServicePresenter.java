@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.share_will.mobile.model.HomeServiceModel;
 import com.share_will.mobile.model.entity.ChargeBatteryEntity;
+import com.share_will.mobile.model.entity.ChargeOrderEntity;
 import com.share_will.mobile.ui.views.IHomeServiceView;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseNetSubscriber;
@@ -62,16 +63,12 @@ public class HomeServicePresenter extends BasePresenter<HomeServiceModel, IHomeS
                 .compose(this.bindToLifecycle(getView()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseNetSubscriber<BaseEntity<Object>>(HomeServicePresenter.this) {
+                .subscribe(new BaseNetSubscriber<BaseEntity<ChargeOrderEntity>>(HomeServicePresenter.this) {
                                @Override
-                               public void onNext(BaseEntity<Object> s) {
+                               public void onNext(BaseEntity<ChargeOrderEntity> s) {
                                    if (s.getCode() == 0) {
-                                       getView().showMessage("成功");
                                        getView().OnStopChargeScanResult(s);
                                    } else {
-
-                                           getView().showMessage(s.getMessage());
-
                                        getView().OnStopChargeScanResult(null);
                                    }
                                }
@@ -102,7 +99,6 @@ public class HomeServicePresenter extends BasePresenter<HomeServiceModel, IHomeS
                                    if (s.getCode() == 0) {
                                        getView().OnChargeResult(s);
                                    } else {
-
 
 
                                        getView().OnChargeResult(null);

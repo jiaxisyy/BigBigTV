@@ -116,7 +116,6 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
             mTvNoAlarm.setVisibility(View.VISIBLE);
             mAdapter.setNewData(null);
             mAdapterRfid.setNewData(null);
-            ToastExt.showExt("数据获取失败");
         }
         mRefreshLayout.setRefreshing(false);
     }

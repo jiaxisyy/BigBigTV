@@ -41,28 +41,36 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_home_top_exchange"
+                    style="@style/style_text_home_top"
+                    android:drawableTop="@drawable/icon_bar_battery_scan"
+                    android:text="电柜换电" />
+
+                <TextView
                     android:id="@+id/tv_home_top_charge"
                     style="@style/style_text_home_top"
                     android:drawableTop="@drawable/icon_bar_battery_charge"
-                    android:text="充电服务" />
+                    android:text="电柜充电" />
 
                 <TextView
                     android:id="@+id/tv_home_top_charge_stake"
                     style="@style/style_text_home_top"
                     android:drawableTop="@drawable/icon_bar_battery_charge_stake"
-                    android:text="充电桩" />
+                    android:text="充电桩"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/tv_home_top_rent"
                     style="@style/style_text_home_top"
                     android:drawableTop="@drawable/icon_bar_battery_rent"
-                    android:text="租电服务" />
+                    android:text="电池租用" />
 
                 <TextView
                     android:id="@+id/tv_home_top_storage"
                     style="@style/style_text_home_top"
                     android:drawableTop="@drawable/icon_bar_battery_storage"
-                    android:text="保管服务" />
+                    android:text="保管服务"
+                    android:visibility="invisible" />
 
 
             </LinearLayout>
@@ -166,6 +174,7 @@
                 </LinearLayout>
 
             </RelativeLayout>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="20px"

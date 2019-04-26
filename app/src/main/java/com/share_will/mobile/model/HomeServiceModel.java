@@ -2,6 +2,7 @@ package com.share_will.mobile.model;
 
 import com.share_will.mobile.ApiService;
 import com.share_will.mobile.model.entity.ChargeBatteryEntity;
+import com.share_will.mobile.model.entity.ChargeOrderEntity;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseModel;
 import com.ubock.library.http.ApiClient;
@@ -16,8 +17,8 @@ public class HomeServiceModel extends BaseModel {
                                                      int appType) {
         return ApiClient.getInstance().getApiService(ApiService.class).chargeScan(userId, token, cabinetId, time, type, appType);
     }
-    public Observable<BaseEntity<Object>> stopChargeScan(String userId, String token,
-                                                     String cabinetId) {
+    public Observable<BaseEntity<ChargeOrderEntity>> stopChargeScan(String userId, String token,
+                                                                    String cabinetId) {
         return ApiClient.getInstance().getApiService(ApiService.class).stopChargeScan(userId, token, cabinetId);
     }
 

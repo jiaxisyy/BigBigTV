@@ -188,7 +188,6 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
                 finish();
                 break;
             case R.id.tv_select_station_sure:
-
                 if (stationEntities != null && stationEntities.size() > 0) {
                     mStationEntity = stationEntities.get(mWvName.getCurrentItem());
                     mStationIntent.putExtra("station_entity", mStationEntity);
@@ -268,6 +267,8 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
             mWvCity.setAdapter(new ArrayWheelAdapter(citys));
             String cityCode = ret.getData().get(0).getAreaCode();
             getPresenter().getStationList(cityCode, register_type);
+        } else {
+            ToastExt.showExt("获取归属地失败,请稍后重试");
         }
     }
 

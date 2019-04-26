@@ -25,7 +25,7 @@ public class BaseConfig {
     public static String DEFAULT_SERVER_HOST = "http://www.ep-ai.com/";
 //    public static String DEFAULT_SERVER_HOST = "http://bigdata.share-will.com/";
     public static String SERVER_HOST = DEFAULT_SERVER_HOST;
-
+    public static String DEFAULT_SERVER_HOST_MOSS = "http://services.smart-moss.com/";
     /**
      * 项目名称
      */

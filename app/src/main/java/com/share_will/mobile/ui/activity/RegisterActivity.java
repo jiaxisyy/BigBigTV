@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -38,9 +39,9 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
     private StationEntity mStationEntity;
     private TextView mSelectStation;
     /**
-     * 注册用户类型,默认为个人用户
+     * 注册用户类型,默认为骑手用户
      */
-    private int REGISTERTYPE = 1;
+    private int REGISTERTYPE = 0;
 
     /**
      * 站点选择
@@ -49,6 +50,7 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
     private TextView mTvRider;
     private TextView mTvPersonal;
     private View mIncludeStation;
+    private CheckBox mCbAgree;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +76,7 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
         mTvPersonal = findViewById(R.id.tv_register_personal);
         mTvRider = findViewById(R.id.tv_register_rider);
         mIncludeStation = findViewById(R.id.include_register_station);
+        mCbAgree = findViewById(R.id.cb_register_protocol_agree);
         mIncludeStation.setOnClickListener(this);
         mTvPersonal.setOnClickListener(this);
         mTvRider.setOnClickListener(this);
@@ -118,6 +121,10 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
                 showError("请选择归属");
                 return;
             }
+            if (!mCbAgree.isChecked()) {
+                showError("请确认已阅读并同意用户协议");
+                return;
+            }
             btnResign.setEnabled(false);
             getPresenter().register(userid, username, password, verifyCode,
                     mStationEntity.getCustomerCode(),
@@ -132,7 +139,6 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
                 getPresenter().getModel().getCity().isEmpty()) {
             getPresenter().getCityList();
         }
-
         mStationPickerView.show();
     }
 

@@ -12,7 +12,8 @@
     <ImageView
         android:id="@+id/top_mask"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/capture_crop_layout"
         android:layout_alignParentTop="true"
         android:background="@drawable/scan_mask"
         android:contentDescription="@string/app_name" />
@@ -21,9 +22,8 @@
         android:id="@+id/capture_crop_layout"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_below="@id/top_mask"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/capture"
+        android:layout_centerInParent="true"
+        android:background="@drawable/icon_scan_bg"
         android:contentDescription="@string/app_name">
 
         <ImageView
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_margin="5dp"
-            android:background="@drawable/scan_line"
+            android:background="@drawable/icon_scan_line"
             android:contentDescription="@string/app_name" />
     </RelativeLayout>
 

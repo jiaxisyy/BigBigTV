@@ -163,7 +163,7 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
     @Override
     public void onLoadStationList(BaseEntity<List<StationEntity>> ret) {
         if (ret != null && ret.getCode() == 0) {
-            mStationEntity = ret.getData().get(0);
+//            mStationEntity = ret.getData().get(0);
 //            mStationPickerView.setNPicker(getPresenter().getModel().getCity(), ret.getData(), null);
 //            mStationPickerView.setSelectOptions(mCityIndex);
         }

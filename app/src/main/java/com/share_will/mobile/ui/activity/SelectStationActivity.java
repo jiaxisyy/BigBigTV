@@ -34,6 +34,7 @@ import com.share_will.mobile.ui.views.RegisterView;
 import com.share_will.mobile.ui.widget.RecyclerViewItemDecoration;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseFragmentActivity;
+import com.ubock.library.ui.dialog.ToastExt;
 import com.ubock.library.utils.AppUtils;
 import com.ubock.library.utils.LogUtils;
 
@@ -187,12 +188,15 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
                 finish();
                 break;
             case R.id.tv_select_station_sure:
+
                 if (stationEntities != null && stationEntities.size() > 0) {
                     mStationEntity = stationEntities.get(mWvName.getCurrentItem());
                     mStationIntent.putExtra("station_entity", mStationEntity);
                     setResult(RESULT_OK, mStationIntent);
+                    finish();
+                } else {
+                    ToastExt.showExt("无效选择");
                 }
-                finish();
                 break;
         }
     }
@@ -246,7 +250,7 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
 //            mStationPickerView.setNPicker(getPresenter().getModel().getCity(), nullList, null);
 //            mStationPickerView.setSelectOptions(mCityIndex);
             mWvName.setAdapter(new ArrayWheelAdapter(mOptionsItems));
-
+            stationEntities = null;
         }
 //        mStationPickerView.show();
     }

@@ -98,7 +98,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
 //        View vie = view.findViewById(R.id.topbar);
 //        vie.setBackgroundColor(Color.parseColor("#FFFFFF"));
         mRefreshLayout = view.findViewById(R.id.refresh_home);
-        mRefreshLayout.setRefreshing(true);
+//        mRefreshLayout.setRefreshing(true);
         //执行刷新
         mRefreshLayout.setOnRefreshListener(this::initData);
         mAlarmTitle = view.findViewById(R.id.tv_home_alarm_title);
@@ -146,6 +146,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mUserCenterPresenter.getBalance(App.getInstance().getUserId(), false);
         getPresenter().getAlarmList(App.getInstance().getUserId(), App.getInstance().getToken());
         getPresenter().getChargeBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
+
     }
 
 
@@ -254,23 +255,26 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
 
     @Override
     public void onLoadBatteryInfoResult(BaseEntity<BatteryEntity> data) {
-        BatteryEntity entity = data.getData();
-        if (data != null && !TextUtils.isEmpty(entity.getSn())) {
-            if (!TextUtils.isEmpty(entity.getSn())) {
-                mStartTime.setText("电池SN:   " + entity.getSn());
-            }
-            if (!TextUtils.isEmpty(entity.getSop())) {
-                mEnoughTime.setText("当前电量:   " + entity.getSop() + "%");
-            }
 
-            mDurationTime.setVisibility(View.GONE);
-            mNowSop.setVisibility(View.GONE);
-            mEnergy.setVisibility(View.GONE);
-            mAddress.setVisibility(View.GONE);
-            mDoor.setVisibility(View.GONE);
-            mCardMoney.setVisibility(View.GONE);
-            mLayoutBottom.setVisibility(View.VISIBLE);
-            showNoBatteryView(false, mUserInfo != null && mUserInfo.getDeposit() > 0);
+        if (data != null) {
+            BatteryEntity entity = data.getData();
+            if (!TextUtils.isEmpty(entity.getSn())) {
+                if (!TextUtils.isEmpty(entity.getSn())) {
+                    mStartTime.setText("电池SN:   " + entity.getSn());
+                }
+                if (!TextUtils.isEmpty(entity.getSop())) {
+                    mEnoughTime.setText("当前电量:   " + entity.getSop() + "%");
+                }
+
+                mDurationTime.setVisibility(View.GONE);
+                mNowSop.setVisibility(View.GONE);
+                mEnergy.setVisibility(View.GONE);
+                mAddress.setVisibility(View.GONE);
+                mDoor.setVisibility(View.GONE);
+                mCardMoney.setVisibility(View.GONE);
+                mLayoutBottom.setVisibility(View.VISIBLE);
+                showNoBatteryView(false, mUserInfo != null && mUserInfo.getDeposit() > 0);
+            }
 
         } else {
             mLayoutBottom.setVisibility(View.GONE);

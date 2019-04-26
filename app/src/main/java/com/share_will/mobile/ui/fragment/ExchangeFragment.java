@@ -433,17 +433,19 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
             }
             mEmptyHouse.setText(String.format("空仓数量:%s/%s", cabinetEntity.getEmptyHouse(), cabinetEntity.getWareHouseTotal()));
 
-            mBespeakIntent = new Intent(this.getActivity(), BespeakActivity.class);
-            mBespeakIntent.putExtra(CABINETTITLE, cabinetEntity.getStation());
-            mBespeakIntent.putExtra(CABINETSN, cabinetEntity.getCabinetSn());
-            mBespeakIntent.putExtra(CABINETADDRESS, cabinetEntity.getAddress());
+//            mBespeakIntent = new Intent(this.getActivity(), BespeakActivity.class);
+//            mBespeakIntent.putExtra(CABINETTITLE, cabinetEntity.getStation());
+//            mBespeakIntent.putExtra(CABINETSN, cabinetEntity.getCabinetSn());
+//            mBespeakIntent.putExtra(CABINETADDRESS, cabinetEntity.getAddress());
 
             mCabinetInfoView.setVisibility(View.VISIBLE);
             if (!mPopupWindow.isShowing()) {
                 showPopupWindow();
             }
             mCurrentCabinet = cabinetEntity;
+
             getFullBattery(cabinetEntity.getCabinetSn());
+
             clickType = 1;
         }
     }
@@ -707,7 +709,7 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
                     break;
                 case MSG_SHOW_FULL_BATTERY_COUNT:
                     mFullNum.setText(String.format("可换电池数量:%d/%d", msg.arg1, mCabinetList.get(Integer.parseInt(clickMarker.getSnippet())).getBatteryCount()));
-                    mBespeakIntent.putExtra(FULLNUM, msg.arg1);
+//                    mBespeakIntent.putExtra(FULLNUM, msg.arg1);
 //                    clickMarker.setIcon(BitmapDescriptorFactory.fromResource(getResources().getIdentifier("icon_battery" + msg.arg1, "drawable", getContext().getPackageName())));
                     break;
                 default:
@@ -821,8 +823,6 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
         msg.what = MSG_SHOW_FULL_BATTERY_COUNT;
         if (ret != null && ret.getCode() == 0) {
             msg.arg1 = ret.getData().get("count");
-        }else {
-          showMessage(ret.getMessage());
         }
         mHandler.sendMessage(msg);
     }

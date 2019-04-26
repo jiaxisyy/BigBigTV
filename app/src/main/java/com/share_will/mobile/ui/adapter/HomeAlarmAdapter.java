@@ -24,6 +24,7 @@ public class HomeAlarmAdapter extends BaseQuickAdapter<AlarmEntity.SmokeBean, Ba
         if (item.getAlarmcode() != 0) {
             helper.setVisible(R.id.item_iv_home_alarm_disposed, false);
             helper.setVisible(R.id.item_tv_home_alarm_close, true);
+
         }
         if (!TextUtils.isEmpty(item.getTitle())) {
             helper.setText(R.id.item_tv_home_alarm_title, "标题: " + item.getTitle());

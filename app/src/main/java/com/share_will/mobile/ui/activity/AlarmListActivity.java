@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.share_will.mobile.App;
@@ -42,6 +43,7 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
 
     @PresenterInjector
     AlarmFragmentPresenter fragmentPresenter;
+    private TextView mTvNoAlarm;
 
     @Override
     protected int getLayoutId() {
@@ -54,6 +56,7 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
         mRv = findViewById(R.id.rv_home_alarm_list);
         mRvRfid = findViewById(R.id.rv_home_alarm_list_ufid);
         mRefreshLayout = findViewById(R.id.refresh_alarm_list);
+        mTvNoAlarm = findViewById(R.id.tv_home_no_alarm);
         mRefreshLayout.setOnRefreshListener(this::initData);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         mRv.addItemDecoration(new RecyclerViewItemDecoration(20, Color.parseColor("#F5F5F5")));
@@ -96,6 +99,9 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
     @Override
     public void onLoadAlarmResult(BaseEntity<AlarmEntity> data) {
         if (data != null) {
+            if (data.getData().getSmoke().size() > 0 || data.getData().getRfid().size() > 0) {
+                mTvNoAlarm.setVisibility(View.INVISIBLE);
+            }
             mAdapter.setNewData(data.getData().getSmoke());
             mAdapter.setOnItemChildClickListener((baseQuickAdapter, view, i) -> {
                 if (view.getId() == R.id.item_tv_home_alarm_close && data.getData().getSmoke().size() > 0) {
@@ -107,6 +113,7 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
             }
             mRefreshLayout.setRefreshing(false);
         } else {
+            mTvNoAlarm.setVisibility(View.VISIBLE);
             ToastExt.showExt("数据获取失败");
         }
     }
@@ -115,7 +122,8 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
     public void onCloseAlarmResult(BaseEntity<Object> s) {
         if (s != null) {
             ToastExt.showExt("关闭告警成功");
-
+        } else {
+            ToastExt.showExt("关闭告警失败,请重试");
         }
         initData();
     }

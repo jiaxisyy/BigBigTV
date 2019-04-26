@@ -4,45 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/topbar"
-        layout="@layout/widget_topbar" />
-
-    <LinearLayout
-        android:id="@+id/ll_charge_stake_pic"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/topbar"
-        android:layout_marginLeft="126px"
-        android:layout_marginRight="126px"
-        android:orientation="vertical"
-        android:visibility="invisible">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="60px"
-            android:text="请选择插座充电"
-            android:textColor="#333333"
-            android:textSize="42px" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_charge_stake"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16px" />
-
-        <TextView
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30px"
-            android:text="@string/text_charge_stake_info"
-            android:textColor="#333333"
-            android:textSize="36px" />
-
-    </LinearLayout>
+    <include layout="@layout/widget_topbar" />
 
     <LinearLayout
         android:id="@+id/tv_home_charge_stake_info"
@@ -50,7 +12,8 @@
         android:layout_height="450px"
         android:layout_centerInParent="true"
         android:background="@drawable/shape_bg_rect_card"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="invisible">
 
         <TextView
             style="@style/style_text_charge"
@@ -98,15 +61,27 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_home_charge_stake_stop"
+        android:id="@+id/tv_home_charge_stake_no_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:drawableTop="@drawable/icon_charge_stake"
+        android:drawablePadding="116px"
+        android:textColor="#333333"
+        android:textSize="38px"
+        android:gravity="center_horizontal"
+        android:text="您还没有充电,请先扫一扫进行充电" />
+
+    <TextView
+        android:id="@+id/tv_home_charge_stake_scan"
+        android:layout_width="516px"
+        android:layout_height="120px"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="347px"
         android:background="@drawable/shape_bg_scan"
         android:gravity="center"
-        android:text="结束充电"
+        android:text="扫一扫"
         android:textColor="#FFFFFF"
         android:textSize="40px" />
 

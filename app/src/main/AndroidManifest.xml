@@ -89,6 +89,9 @@
             android:name=".ui.activity.ChargeStakeActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.activity.ChooseChargeStakeActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.activity.MyDepositActivity"
             android:screenOrientation="portrait" />
         <activity

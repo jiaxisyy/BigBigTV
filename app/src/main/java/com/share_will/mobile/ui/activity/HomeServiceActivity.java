@@ -39,7 +39,7 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
     private TextView mChargeScan;
     private TextView mTextServiceCharge;
     private LinearLayout mLlInCludeHomeBottom;
-    private ImageView mIvServiceBattery;
+
 
     private TextView mStartTime;
     private TextView mEnoughTime;
@@ -65,7 +65,7 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
         setTitle("充电服务");
         mChargeScan = findViewById(R.id.tv_home_service_charge_scan);
         mLlInCludeHomeBottom = findViewById(R.id.include_layout_home_bottom);
-        mIvServiceBattery = findViewById(R.id.iv_icon_home_service_battery);
+
         mTextServiceCharge = findViewById(R.id.tv_text_home_service_charge);
         mChargeScan.setOnClickListener(this);
         mRefreshLayout = findViewById(R.id.refresh_service);
@@ -158,7 +158,6 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
             ChargeBatteryEntity entity = s.getData();
             mChargeScan.setText("扫一扫结束充电");
             mLlInCludeHomeBottom.setVisibility(View.VISIBLE);
-            mIvServiceBattery.setVisibility(View.INVISIBLE);
             mTextServiceCharge.setVisibility(View.INVISIBLE);
             mStartTime.setText("开始时间:   " + DateUtils.timeStampToString(entity.getStartTime(), DateUtils.YYYYMMDD_HHMMSS));
             if (entity.getFullTime() != 0) {
@@ -188,7 +187,6 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
         } else {
             mChargeScan.setText("扫一扫");
             mLlInCludeHomeBottom.setVisibility(View.INVISIBLE);
-            mIvServiceBattery.setVisibility(View.VISIBLE);
             mTextServiceCharge.setVisibility(View.VISIBLE);
         }
         mRefreshLayout.setRefreshing(false);

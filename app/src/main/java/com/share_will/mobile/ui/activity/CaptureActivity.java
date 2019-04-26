@@ -134,7 +134,7 @@ public class CaptureActivity extends BaseFragmentActivity implements Callback {
         mManuInput = findView(R.id.ll_manual_input);
 
         mShowManuInput = getIntent().getBooleanExtra(KEY_SHOW_MANUAL_INPUT, false);
-        if (mShowManuInput){
+        if (mShowManuInput) {
             mManuInput.setVisibility(View.VISIBLE);
         } else {
             mManuInput.setVisibility(View.GONE);
@@ -155,11 +155,11 @@ public class CaptureActivity extends BaseFragmentActivity implements Callback {
 
     }
 
-    public void openLight(View view){
+    public void openLight(View view) {
         light();
     }
 
-    public void manualInput(View view){
+    public void manualInput(View view) {
         Intent intent = new Intent();
         intent.putExtra(KEY_SHOW_MANUAL_INPUT, true);
         setResult(RESULT_OK, intent);

@@ -98,7 +98,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
 //        View vie = view.findViewById(R.id.topbar);
 //        vie.setBackgroundColor(Color.parseColor("#FFFFFF"));
         mRefreshLayout = view.findViewById(R.id.refresh_home);
-//        mRefreshLayout.setRefreshing(true);
+        mRefreshLayout.setRefreshing(true);
         //执行刷新
         mRefreshLayout.setOnRefreshListener(this::initData);
         mAlarmTitle = view.findViewById(R.id.tv_home_alarm_title);
@@ -108,7 +108,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mAlarmLevel = view.findViewById(R.id.tv_home_alarm_level);
         mTopCharge = view.findViewById(R.id.tv_home_top_charge);
         mTopChargeStake = view.findViewById(R.id.tv_home_top_charge_stake);
-
         mRlAlarm = view.findViewById(R.id.rl_home_alarmInfo);
         mRlBattery = view.findViewById(R.id.rl_home_batteryInfo);
         mNoAlarm = view.findViewById(R.id.tv_home_no_alarm);
@@ -245,7 +244,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             hasChargeBatteryInfo = false;
             getPresenter().getBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
         }
-
+        flag_http_success = 1;
     }
 
     public String intChange(float num) {
@@ -281,7 +280,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             showNoBatteryView(true, mUserInfo != null && mUserInfo.getDeposit() > 0);
             mArrowRight.setVisibility(View.INVISIBLE);
         }
-        if (flag_http_success == 0) {
+        if (flag_http_success == 1) {
             mRefreshLayout.setRefreshing(false);
             flag_http_success = -1;
         }

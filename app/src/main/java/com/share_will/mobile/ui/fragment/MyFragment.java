@@ -87,7 +87,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
         view.findViewById(R.id.row_my_scan).setOnClickListener(this);
         view.findViewById(R.id.row_exception_get_battery).setOnClickListener(this);
         mRefreshLayout = view.findViewById(R.id.refresh_my_center);
-        mRefreshLayout.setOnRefreshListener(() -> getBalance(true));
+        mRefreshLayout.setOnRefreshListener(() -> update(true));
         mRowScanLogin = view.findViewById(R.id.row_my_scan);
         mRowScanLogin.setOnClickListener(this);
         mTvPhoneNum = view.findViewById(R.id.tv_my_top_phone_num);
@@ -116,10 +116,12 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
                     bundle.putInt("cause_status", mCauseStatus);
                     intent.putExtras(bundle);
                     startActivity(intent);
-                } else if (mCauseStatus == 2) {
+                } else if (mCauseStatus == 2 || mCauseStatus == 0) {
                     startActivity(new Intent(getActivity(), RefundDetailActivity.class));
                 } else if (mCauseStatus == 3) {
                     startActivity(new Intent(getActivity(), RefundActivity.class));
+                } else {
+                    ToastExt.showExt("状态错误");
                 }
                 break;
             case R.id.row_my_money:
@@ -246,7 +248,11 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
     @Override
     public void onResume() {
         super.onResume();
-        getBalance(false);
+        update(false);
+    }
+
+    private void update(boolean showLoading){
+        getBalance(showLoading);
         getActivity().startService(new Intent(getActivity(), BatteryService.class));
     }
 

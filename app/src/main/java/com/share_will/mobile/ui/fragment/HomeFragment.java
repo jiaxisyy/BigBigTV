@@ -315,6 +315,14 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         }
     }
 
+    private void goToShop(){
+        Intent intent = new Intent(this.getContext(), HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("page", HomeActivity.PAGE_SHOP);
+        startActivity(intent);
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -325,7 +333,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 startActivity(new Intent(getActivity(), ChargeStakeActivity.class));
                 break;
             case R.id.tv_home_top_rent:
-                ToastExt.showExt("功能暂未开放");
+                goToShop();
                 break;
             case R.id.tv_home_top_storage:
                 ToastExt.showExt("功能暂未开放");
@@ -349,11 +357,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 startActivityForResult(inte, REQUEST_CODE_GET_BATTERY);
                 break;
             case R.id.rental_battery:
-                Intent intent = new Intent(this.getContext(), HomeActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("page", HomeActivity.PAGE_SHOP);
-                startActivity(intent);
+                goToShop();
                 break;
             case R.id.bind_battery:
                 Intent intent1 = new Intent(this.getContext(), CaptureActivity.class);

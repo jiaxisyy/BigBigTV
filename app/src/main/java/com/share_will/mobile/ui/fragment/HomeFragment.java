@@ -88,6 +88,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     private TextView mTopRent;
     private TextView mTopStorage;
     private TextView mTopExchange;
+    private TextView mBatteryBigTitle;
 
     @Override
     protected int getLayoutId() {
@@ -136,6 +137,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mMoneyAll = view.findViewById(R.id.tv_home_money_all);
         mCardMoney = view.findViewById(R.id.rl_card_money);
         mArrowRight = view.findViewById(R.id.iv_main_arrow_right);
+        mBatteryBigTitle = view.findViewById(R.id.tv_home_battery_big_title);
 
         mTopCharge.setOnClickListener(this);
         mTopChargeStake.setOnClickListener(this);
@@ -225,9 +227,10 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     @Override
     public void onLoadChargeBatteryInfoResult(BaseEntity<ChargeBatteryEntity> data) {
         if (data != null) {
+            mBatteryBigTitle.setText("电池信息");
             mLayoutBottom.setVisibility(View.VISIBLE);
             ChargeBatteryEntity entity = data.getData();
-            if(entity!=null){
+            if (entity != null) {
                 mStartTime.setText("开始时间:   " + DateUtils.timeStampToString(entity.getStartTime(), DateUtils.YYYYMMDD_HHMMSS));
                 if (entity.getFullTime() != 0) {
                     mEnoughTime.setText("充满时间:   " + DateUtils.timeStampToString(entity.getFullTime(), DateUtils.YYYYMMDD_HHMMSS));
@@ -276,6 +279,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         if (data != null) {
             BatteryEntity entity = data.getData();
             if (entity != null && !TextUtils.isEmpty(entity.getSn())) {
+                mBatteryBigTitle.setText("我的电池");
                 if (!TextUtils.isEmpty(entity.getSn())) {
                     mStartTime.setText("电池SN:   " + entity.getSn());
                 }
@@ -348,7 +352,12 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 startActivity(new Intent(getActivity(), ChargeStakeActivity.class));
                 break;
             case R.id.tv_home_top_rent:
-                goToShop();
+                if(mUserInfo != null && mUserInfo.getDeposit() > 0){
+                    getBattery();
+                }else {
+                    goToShop();
+                }
+
                 break;
             case R.id.tv_home_top_storage:
                 ToastExt.showExt("功能暂未开放");
@@ -368,8 +377,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 }
                 break;
             case R.id.get_battery:
-                Intent inte = new Intent(this.getContext(), CaptureActivity.class);
-                startActivityForResult(inte, REQUEST_CODE_GET_BATTERY);
+                getBattery();
                 break;
             case R.id.rental_battery:
                 goToShop();
@@ -377,12 +385,18 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             case R.id.bind_battery:
                 Intent intent1 = new Intent(this.getContext(), CaptureActivity.class);
                 intent1.putExtra(CaptureActivity.KEY_SHOW_MANUAL_INPUT, true);
+                intent1.putExtra(CaptureActivity.KEY_SHOW_LIGHT, true);
                 startActivityForResult(intent1, REQUEST_CODE_BIND_BATTERY);
                 break;
             default:
                 break;
 
         }
+    }
+
+    private void getBattery() {
+        Intent inte = new Intent(this.getContext(), CaptureActivity.class);
+        startActivityForResult(inte, REQUEST_CODE_GET_BATTERY);
     }
 
     private void goToExchange() {

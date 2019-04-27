@@ -20,6 +20,7 @@ import com.share_will.mobile.presenter.UserCenterPresenter;
 import com.share_will.mobile.services.BatteryService;
 import com.share_will.mobile.ui.activity.CaptureActivity;
 import com.share_will.mobile.ui.activity.ConsumeActivity;
+import com.share_will.mobile.ui.activity.HomeActivity;
 import com.share_will.mobile.ui.activity.MyBatteryActivity;
 import com.share_will.mobile.ui.activity.MyDepositActivity;
 import com.share_will.mobile.ui.activity.OrderActivity;
@@ -36,6 +37,7 @@ import com.ubock.library.annotation.PresenterInjector;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseFragment;
 import com.ubock.library.ui.dialog.ToastExt;
+import com.ubock.library.utils.DateUtils;
 import com.ubock.library.utils.LogUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -66,6 +68,9 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
     private int mCauseStatus = -1;
     private ImageButton mBtnTopRightMenu;
     private SwipeRefreshLayout mRefreshLayout;
+    private TextView mValidity;
+    private TextView mShopping;
+    private UserInfo mUserInfo;
 
     @Override
     protected int getLayoutId() {
@@ -77,6 +82,20 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
         setTitle("个人中心");
         showBackMenu(false);
         showTopRightMenu(true);
+
+        view.findViewById(R.id.row_exception_get_battery).setOnClickListener(this);
+        mRefreshLayout = view.findViewById(R.id.refresh_my_center);
+        mRefreshLayout.setOnRefreshListener(() -> update(true));
+        mRowScanLogin = view.findViewById(R.id.row_my_scan);
+        mTvPhoneNum = view.findViewById(R.id.tv_my_top_phone_num);
+        mTvBalance = view.findViewById(R.id.tv_my_top_balance);
+        mTvBatteryPP = view.findViewById(R.id.tv_my_top_batteryPP);
+        mTvBind = view.findViewById(R.id.tv_my_top_bind);
+        mBtnTopRightMenu = view.findViewById(R.id.btn_top_right_menu);
+        mValidity = view.findViewById(R.id.tv_my_top_validity);
+        mShopping = view.findViewById(R.id.tv_my_top_shopping);
+        mRowScanLogin.setOnClickListener(this);
+        mShopping.setOnClickListener(this);
         view.findViewById(R.id.row_my_deposit).setOnClickListener(this);
         view.findViewById(R.id.row_my_money).setOnClickListener(this);
         view.findViewById(R.id.row_my_order).setOnClickListener(this);
@@ -85,16 +104,6 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
         view.findViewById(R.id.row_my_vehicle).setOnClickListener(this);
         view.findViewById(R.id.row_my_battery).setOnClickListener(this);
         view.findViewById(R.id.row_my_scan).setOnClickListener(this);
-        view.findViewById(R.id.row_exception_get_battery).setOnClickListener(this);
-        mRefreshLayout = view.findViewById(R.id.refresh_my_center);
-        mRefreshLayout.setOnRefreshListener(() -> update(true));
-        mRowScanLogin = view.findViewById(R.id.row_my_scan);
-        mRowScanLogin.setOnClickListener(this);
-        mTvPhoneNum = view.findViewById(R.id.tv_my_top_phone_num);
-        mTvBalance = view.findViewById(R.id.tv_my_top_balance);
-        mTvBatteryPP = view.findViewById(R.id.tv_my_top_batteryPP);
-        mTvBind = view.findViewById(R.id.tv_my_top_bind);
-        mBtnTopRightMenu = view.findViewById(R.id.btn_top_right_menu);
         mBtnTopRightMenu.setOnClickListener(this);
         mTvPhoneNum.setText(App.getInstance().getUserId());
         getBalance(true);
@@ -151,10 +160,22 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
                 Intent inte = new Intent(this.getContext(), CaptureActivity.class);
                 startActivityForResult(inte, REQUEST_CODE_GET_BATTERY);
                 break;
+
+            case R.id.tv_my_top_shopping:
+                goToShopping();
+                break;
             default:
                 break;
         }
 
+    }
+
+    private void goToShopping() {
+        Intent intent = new Intent(this.getContext(), HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("page", HomeActivity.PAGE_SHOP);
+        startActivity(intent);
     }
 
     /**
@@ -178,10 +199,17 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
     public void onLoadBalance(BaseEntity<UserInfo> entity) {
         if (entity != null && entity.getCode() == 0) {
             if (entity.getData() != null) {
+                mUserInfo = entity.getData();
                 if (entity.getData().isAdminStatus()) {
                     mRowScanLogin.setVisibility(View.VISIBLE);
                 }
-
+                long expirationTime = entity.getData().getExpirationTime();
+                if (expirationTime != 0) {
+                    mValidity.setText("套餐有效期:  " + DateUtils.timeStampToString(expirationTime, DateUtils.YYYYMMDD));
+                    mShopping.setText("点击续费");
+                }else {
+                    mShopping.setText("点击购买");
+                }
                 String balance = String.format("￥%s", NumberFormat.getInstance().format(entity.getData().getAccount() / 100f));
                 mTvBalance.setText(balance);
                 if (entity.getData().getDeposit() > 0) {
@@ -251,7 +279,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
         update(false);
     }
 
-    private void update(boolean showLoading){
+    private void update(boolean showLoading) {
         getBalance(showLoading);
         getActivity().startService(new Intent(getActivity(), BatteryService.class));
     }

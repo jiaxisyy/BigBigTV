@@ -54,7 +54,7 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        setTitle("消防告警");
+        setTitle("告警信息");
         mRv = findViewById(R.id.rv_home_alarm_list);
         mRvRfid = findViewById(R.id.rv_home_alarm_list_ufid);
         mRefreshLayout = findViewById(R.id.refresh_alarm_list);
@@ -65,7 +65,6 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
         mRv.setLayoutManager(manager);
         mAdapter = new HomeAlarmAdapter(R.layout.item_home_alarm, null);
         mRv.setAdapter(mAdapter);
-
 
         LinearLayoutManager managerRfid = new LinearLayoutManager(this);
         mRvRfid.addItemDecoration(new RecyclerViewItemDecoration(20, Color.parseColor("#F5F5F5")));
@@ -120,10 +119,11 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
                         closeDialog(data.getData().getSmoke().get(i));
                     }
                 });
-                if (data.getData().getRfid() != null && data.getData().getRfid().size() > 0) {
-                    //TODO 可能会改动显示条件,待定
-                    mAdapterRfid.setNewData(data.getData().getRfid());
-                }
+
+            }
+            if (data.getData().getRfid() != null && data.getData().getRfid().size() > 0) {
+                //TODO 可能会改动显示条件,待定
+                mAdapterRfid.setNewData(data.getData().getRfid());
             }
 
         } else {

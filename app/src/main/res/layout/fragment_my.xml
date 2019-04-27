@@ -20,7 +20,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="532px"
+                android:layout_height="615px"
                 android:background="@color/text_color"
                 android:orientation="vertical">
 
@@ -74,6 +74,9 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:textStyle="bold"
+
+
                         android:id="@+id/tv_my_top_balance"
                         style="@style/style_text_my_top"
                         android:layout_weight="1"
@@ -81,6 +84,7 @@
                         android:textSize="42px" />
 
                     <TextView
+                        android:textStyle="bold"
                         android:id="@+id/tv_my_top_bind"
                         style="@style/style_text_my_top"
                         android:layout_weight="2"
@@ -89,6 +93,7 @@
                         android:textSize="42px" />
 
                     <TextView
+                        android:textStyle="bold"
                         android:id="@+id/tv_my_top_batteryPP"
                         style="@style/style_text_my_top"
                         android:layout_weight="1"
@@ -96,6 +101,37 @@
                         android:textSize="42px" />
 
                 </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="45px"
+                    android:paddingRight="45px">
+
+                    <TextView
+                        android:id="@+id/tv_my_top_validity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="63px"
+                        android:text="套餐有效期:"
+                        android:textColor="#FFFFFF"
+                        android:textSize="36px" />
+
+                    <TextView
+                        android:id="@+id/tv_my_top_shopping"
+                        android:layout_width="200px"
+                        android:layout_height="70px"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="45px"
+                        android:background="@drawable/shape_bg_oval_white"
+                        android:gravity="center"
+                        android:text="点击续费"
+                        android:textColor="@color/text_color"
+                        android:textSize="36px" />
+
+                </RelativeLayout>
 
 
             </LinearLayout>
@@ -135,8 +171,8 @@
             <com.share_will.mobile.ui.widget.RowItemView
                 android:id="@+id/row_my_order"
                 style="@style/user_center_row_style"
-                app:iconDrawable="@drawable/icon_list_order"
                 android:visibility="gone"
+                app:iconDrawable="@drawable/icon_list_order"
                 app:text="我的订单" />
 
             <View

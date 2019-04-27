@@ -71,7 +71,7 @@ public class RescueActivity extends BaseFragmentActivity<RescueListPresenter> im
 
     @Override
     public void onLoadRescueList(BaseEntity<List<RescueEntity>> ret) {
-        if (ret.getCode() == 0) {
+        if (ret != null && ret.getData() != null) {
             mRescueListAdapter.setLoadMoreData(getPresenter().getModel().getRescue(), true);
         }
         mRefreshLayout.setRefreshing(false);

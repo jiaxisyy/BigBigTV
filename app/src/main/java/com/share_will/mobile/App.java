@@ -39,8 +39,8 @@ import com.umeng.socialize.PlatformConfig;
 
 public class App extends BaseApp implements Application.ActivityLifecycleCallbacks {
     private AlarmManager mAlarmManager;
-    private int mActivityCount = 0;
-    private int mActivityResumeCount = 0;
+    private volatile int mActivityCount = 0;
+    private volatile int mActivityResumeCount = 0;
     private static App mSelf;
     //app是否退到后台
     private boolean mIsAppGotoBackground = true;
@@ -67,6 +67,8 @@ public class App extends BaseApp implements Application.ActivityLifecycleCallbac
         if (!BuildConfig.DEBUG) {
             initBugly();
         }
+
+        startService(new Intent(this, UpgradeService.class));
     }
 
     /**
@@ -225,7 +227,6 @@ public class App extends BaseApp implements Application.ActivityLifecycleCallbac
         //应用从后台回来，则检测新版本
         if (mIsAppGotoBackground) {
             mIsAppGotoBackground = false;
-            startService(new Intent(this, UpgradeService.class));
         }
         mActivityResumeCount++;
     }

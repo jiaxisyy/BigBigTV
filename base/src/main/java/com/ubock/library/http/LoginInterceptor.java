@@ -24,6 +24,7 @@ import rx.schedulers.Schedulers;
  * 介绍： 统一处理未登录情况
  */
 public class LoginInterceptor implements Interceptor {
+    long startTime = 0;
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
@@ -35,11 +36,12 @@ public class LoginInterceptor implements Interceptor {
             Observable.just(null)
                     .observeOn(Schedulers.io())
                     .subscribeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Action1<Object>() {
-                                   @Override
-                                   public void call(Object o) {
+                    .subscribe((o) -> {
+                                    if (System.currentTimeMillis() - startTime < 2000){
+                                        return;
+                                    }
+                                    startTime = System.currentTimeMillis();
                                        //TODO 这里弹出登录界面
-//                            ToastExt.showExt("未登录");
 //                                       Intent intent = new Intent("action_sharewill_login");
                                        Intent intent = new Intent();
                                        intent.setComponent(new ComponentName(UiUtils.getApplicationContext(), "com.share_will.mobile.ui.activity.LoginActivity"));
@@ -47,14 +49,9 @@ public class LoginInterceptor implements Interceptor {
                                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 //                                       intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                        UiUtils.getApplicationContext().startActivity(intent);
-                                   }
                                },
-                            new Action1<Throwable>() {
-                                @Override
-                                public void call(Throwable throwable) {
-                                    LogUtils.e(throwable);
-                                }
-                            });
+                               (throwable) ->  LogUtils.e(throwable)
+                            );
         }
         return response;
     }

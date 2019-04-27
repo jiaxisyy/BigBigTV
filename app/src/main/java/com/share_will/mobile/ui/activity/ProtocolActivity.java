@@ -33,9 +33,10 @@ public class ProtocolActivity extends BaseFragmentActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        setTitle("用户协议");
         mTopBar = findViewById(R.id.view_topbar);
         mAccept = findViewById(R.id.btn_accept);
-        if (mShowTopBar = getIntent().getBooleanExtra("showTopBar", false)){
+        if (mShowTopBar = getIntent().getBooleanExtra("showTopBar", true)){
             mTopBar.setVisibility(View.VISIBLE);
             mAccept.setVisibility(View.GONE);
         }
@@ -48,7 +49,7 @@ public class ProtocolActivity extends BaseFragmentActivity {
 //        settings.setLoadWithOverviewMode(true);
 //        http://services.smart-moss.com/static/protocol/protocol.html
 //        mWebView.loadUrl(BaseConfig.SERVER_HOST + "protocol/protocol.html?hideAcceptButton=1");
-        mWebView.loadUrl(BaseConfig.DEFAULT_SERVER_HOST_MOSS + "static/protocol/protocol.html");
+        mWebView.loadUrl(BaseConfig.SERVER_HOST + "static/protocol/protocol.html");
     }
 
     public void startAnt(View view){
@@ -56,12 +57,12 @@ public class ProtocolActivity extends BaseFragmentActivity {
         finish();
     }
 
-    @Override
-    public void onBackPressed() {
-        if (mShowTopBar){
-            super.onBackPressed();
-        }
-    }
+//    @Override
+//    public void onBackPressed() {
+//        if (mShowTopBar){
+//            super.onBackPressed();
+//        }
+//    }
 
     @Override
     protected void onDestroy() {

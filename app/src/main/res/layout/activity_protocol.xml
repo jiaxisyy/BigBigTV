@@ -21,5 +21,6 @@
         android:textColor="#FFFFFFFF"
         android:onClick="startAnt"
         android:textSize="56px"
+        android:visibility="gone"
         android:text="@string/user_protocol"/>
 </LinearLayout>

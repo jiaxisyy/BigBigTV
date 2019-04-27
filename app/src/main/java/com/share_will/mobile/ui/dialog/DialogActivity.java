@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.share_will.mobile.MessageEvent;
 import com.share_will.mobile.R;
 import com.ubock.library.base.BaseFragmentActivity;
+import com.ubock.library.utils.LogUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -40,6 +41,10 @@ public class DialogActivity extends BaseFragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mNeedCheckPermission = getIntent().getBooleanExtra(PARAM_NEED_PERMISSION, false);
+        if (mNeedCheckPermission){
+            DialogActivityPermissionsDispatcher.onAllowPermissionWithPermissionCheck(DialogActivity.this);
+        }
     }
 
     @Override
@@ -64,12 +69,8 @@ public class DialogActivity extends BaseFragmentActivity {
         mOkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mNeedCheckPermission){
-                    DialogActivityPermissionsDispatcher.onAllowPermissionWithPermissionCheck(DialogActivity.this);
-                } else {
-                    EventBus.getDefault().post(new MessageEvent.DialogActivityEvent(true));
-                    finish();
-                }
+                EventBus.getDefault().post(new MessageEvent.DialogActivityEvent(true));
+                finish();
             }
         });
 
@@ -77,7 +78,6 @@ public class DialogActivity extends BaseFragmentActivity {
         mShowOK = intent.getBooleanExtra(PARAM_SHOW_OK, true);
         String title = intent.getStringExtra(PARAM_TITLE);
         String message = intent.getStringExtra(PARAM_MESSAGE);
-        mNeedCheckPermission = intent.getBooleanExtra(PARAM_NEED_PERMISSION, false);
         String ok = intent.getStringExtra(PARAM_OK);
         String cancel = intent.getStringExtra(PARAM_CANCEL);
         if (title != null){
@@ -114,8 +114,7 @@ public class DialogActivity extends BaseFragmentActivity {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.REQUEST_INSTALL_PACKAGES})
     void onAllowPermission() {
-        EventBus.getDefault().post(new MessageEvent.DialogActivityEvent(true));
-        finish();
+        LogUtils.d("onAllowPermission");
     }
 
     @Override
@@ -128,7 +127,6 @@ public class DialogActivity extends BaseFragmentActivity {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.REQUEST_INSTALL_PACKAGES})
     void onPermissionDenied() {
-        EventBus.getDefault().post(new MessageEvent.DialogActivityEvent(false));
         Toast.makeText(this, "权限被拒绝", Toast.LENGTH_LONG).show();
         finish();
     }
@@ -137,8 +135,5 @@ public class DialogActivity extends BaseFragmentActivity {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.REQUEST_INSTALL_PACKAGES})
     void onNeverAskAgain() {
-        EventBus.getDefault().post(new MessageEvent.DialogActivityEvent(false));
-        Toast.makeText(this, "权限被拒绝", Toast.LENGTH_LONG).show();
-        finish();
     }
 }

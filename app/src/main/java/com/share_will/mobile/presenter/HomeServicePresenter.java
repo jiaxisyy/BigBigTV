@@ -13,13 +13,17 @@ import com.ubock.library.utils.LogUtils;
 
 import java.util.concurrent.TimeUnit;
 
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class HomeServicePresenter extends BasePresenter<HomeServiceModel, IHomeServiceView> {
     public HomeServicePresenter(HomeServiceModel model, IHomeServiceView rootView) {
         super(model, rootView);
     }
+
+
 
     /**
      * 扫码充电
@@ -89,6 +93,7 @@ public class HomeServicePresenter extends BasePresenter<HomeServiceModel, IHomeS
      * @param token
      */
     public void getChargeBatteryInfo(String userId, String token) {
+
         getModel().getChargeBatteryInfo(userId, token)
                 .compose(this.bindToLifecycle(getView()))
                 .subscribeOn(Schedulers.io())
@@ -99,8 +104,6 @@ public class HomeServicePresenter extends BasePresenter<HomeServiceModel, IHomeS
                                    if (s.getCode() == 0) {
                                        getView().OnChargeResult(s);
                                    } else {
-
-
                                        getView().OnChargeResult(null);
                                    }
                                }

@@ -161,7 +161,7 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
     };
 
     private void showCloseButton(AlarmEntity.SmokeBean data) {
-        if (!TextUtils.isEmpty(data.getAlarmcode())) {
+        if (data.getConfirmstate() != 1 && !TextUtils.isEmpty(data.getAlarmcode())) {
             if (mClickSmoke == data) {
                 //点击的正在显示则隐藏，否则显示
                 if (btnAlarmClose.getVisibility() == View.VISIBLE) {
@@ -205,7 +205,7 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
             markerOptions.title(entity.getTitle());
             markerOptions.setFlat(true);//设置marker平贴地图效果
 
-            if (!TextUtils.isEmpty(data.getSmoke().get(pos).getAlarmcode())) {
+            if (data.getSmoke().get(pos).getConfirmstate() != 1 && !TextUtils.isEmpty(data.getSmoke().get(pos).getAlarmcode())) {
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_alarm_map_marker));
             } else {
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_alarm_map_device_marker));
@@ -294,25 +294,28 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
         if (data != null) {
             List<AlarmEntity.SmokeBean> smokeBeanList = data.getData().getSmoke();
             int size = smokeBeanList.size();
-            for (int i = 0; i < size; i++) {
-                if (!TextUtils.isEmpty(smokeBeanList.get(i).getAlarmcode())) {
-                    validPos = i;
+            if(size>0){
+                for (int i = 0; i < size; i++) {
+                    if (smokeBeanList.get(i).getConfirmstate() != 1 && !TextUtils.isEmpty(smokeBeanList.get(i).getAlarmcode())) {
+                        validPos = i;
+                    }
                 }
+                mSmokeList.clear();
+                mSmokeList.addAll(data.getData().getSmoke());
+                if (validPos != -1) {
+                    mVfTitle.setVisibility(View.VISIBLE);
+                    mVfTitle.startFlipping();
+                    HASALARMINFO = true;
+                    mAlarming = data.getData().getSmoke().get(validPos);
+                    mAlarmTitle.setText(DateUtils.timeStampToString(mAlarming.getAlarmtime(), DateUtils.HHMMSS) + mAlarming.getPositionName() + "告警,点击查看详情......");
+                } else {
+                    HASALARMINFO = false;
+                    mVfTitle.setVisibility(View.INVISIBLE);
+                    mVfTitle.stopFlipping();
+                }
+                useMarker(data.getData());
             }
-            mSmokeList.clear();
-            mSmokeList.addAll(data.getData().getSmoke());
-            if (validPos != -1) {
-                mVfTitle.setVisibility(View.VISIBLE);
-                mVfTitle.startFlipping();
-                HASALARMINFO = true;
-                mAlarming = data.getData().getSmoke().get(validPos);
-                mAlarmTitle.setText(DateUtils.timeStampToString(mAlarming.getAlarmtime(), DateUtils.HHMMSS) + mAlarming.getPositionName() + "告警,点击查看详情......");
-            } else {
-                HASALARMINFO = false;
-                mVfTitle.setVisibility(View.INVISIBLE);
-                mVfTitle.stopFlipping();
-            }
-            useMarker(data.getData());
+
         }
         if (HASALARMINFO) {
             getAlarmLocation();

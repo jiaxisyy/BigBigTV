@@ -1,6 +1,7 @@
 package com.share_will.mobile.ui.activity;
 
 import android.app.AlertDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -40,7 +41,7 @@ import java.util.Map;
 
 public class RechargeActivity extends BaseFragmentActivity<RechargePresenter> implements RechargeView,
         PayTypeFragmentDialog.OnFragmentInteractionListener, View.OnClickListener, RadioGroup.OnCheckedChangeListener
-        ,PayView, UserCenterView {
+        , PayView, UserCenterView {
 
     private static final String TAG = "RechargeActivity";
 
@@ -141,7 +142,7 @@ public class RechargeActivity extends BaseFragmentActivity<RechargePresenter> im
         switch (v.getId()) {
             case R.id.btn_paysure:
                 String money = mCustomMoney.getText().toString().trim();
-                if (!TextUtils.isEmpty(money)){
+                if (!TextUtils.isEmpty(money)) {
                     try {
                         mPrice = Float.parseFloat(money);
                     } catch (Exception e) {
@@ -190,21 +191,24 @@ public class RechargeActivity extends BaseFragmentActivity<RechargePresenter> im
         }
     }
 
-    private void setRadioButtonStyle(int index){
-        for (int i = 0; i < 5; i++){
-            if (i == index){
+    private void setRadioButtonStyle(int index) {
+        for (int i = 0; i < 5; i++) {
+            if (i == index) {
                 mRadioButtons[i].setChecked(true);
+                mRadioButtons[i].setTextColor(Color.parseColor("#FFFFFF"));
             } else {
                 mRadioButtons[i].setChecked(false);
+                mRadioButtons[i].setTextColor(Color.parseColor("#333333"));
             }
         }
         mCustomMoney.setText("");
         mCustomMoney.clearFocus();
     }
 
-    private void clearRadioButton(){
-        for (int i = 0; i < 5; i++){
+    private void clearRadioButton() {
+        for (int i = 0; i < 5; i++) {
             mRadioButtons[i].setChecked(false);
+            mRadioButtons[i].setTextColor(Color.parseColor("#333333"));
         }
     }
 

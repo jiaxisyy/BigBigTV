@@ -180,40 +180,43 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         if (data != null) {
             List<AlarmEntity.SmokeBean> smokeBeanList = data.getData().getSmoke();
             int size = smokeBeanList.size();
-            for (int i = 0; i < size; i++) {
-                if (!TextUtils.isEmpty(smokeBeanList.get(i).getAlarmcode())) {
-                    validPos = i;
+            if (size > 0) {
+                for (int i = 0; i < size; i++) {
+                    if (smokeBeanList.get(i).getConfirmstate() != 1 && !TextUtils.isEmpty(smokeBeanList.get(i).getAlarmcode())) {
+                        validPos = i;
+                    }
+                }
+                if (validPos != -1) {
+                    AlarmEntity.SmokeBean alarmEntity = data.getData().getSmoke().get(validPos);
+                    mAlarmTitle.setVisibility(View.VISIBLE);
+                    mAlarmPositionName.setVisibility(View.VISIBLE);
+                    mAlarmRemark.setVisibility(View.VISIBLE);
+                    mAlarmTime.setVisibility(View.VISIBLE);
+                    mAlarmLevel.setVisibility(View.VISIBLE);
+                    mNoAlarm.setVisibility(View.INVISIBLE);
+                    if (!TextUtils.isEmpty(alarmEntity.getTitle())) {
+                        mAlarmTitle.setText("标题: " + alarmEntity.getTitle());
+                    }
+                    if (!TextUtils.isEmpty(alarmEntity.getPositionName())) {
+                        mAlarmPositionName.setText(alarmEntity.getPositionName());
+                    }
+                    if (!TextUtils.isEmpty(alarmEntity.getRemark())) {
+                        mAlarmRemark.setText(alarmEntity.getRemark());
+                    }
+                    if (alarmEntity.getAlarmtime() != 0) {
+                        mAlarmTime.setText("告警时间   " + DateUtils.timeStampToString(alarmEntity.getAlarmtime(), DateUtils.YYYYMMDD_HHMMSS));
+                    }
+                    mAlarmLevel.setText("告警级别   " + alarmEntity.getAlarmlevel() + "级");
+                } else {
+                    mNoAlarm.setVisibility(View.VISIBLE);
+                    mAlarmTitle.setVisibility(View.INVISIBLE);
+                    mAlarmPositionName.setVisibility(View.INVISIBLE);
+                    mAlarmRemark.setVisibility(View.INVISIBLE);
+                    mAlarmTime.setVisibility(View.INVISIBLE);
+                    mAlarmLevel.setVisibility(View.INVISIBLE);
                 }
             }
-            if (validPos != -1) {
-                AlarmEntity.SmokeBean alarmEntity = data.getData().getSmoke().get(validPos);
-                mAlarmTitle.setVisibility(View.VISIBLE);
-                mAlarmPositionName.setVisibility(View.VISIBLE);
-                mAlarmRemark.setVisibility(View.VISIBLE);
-                mAlarmTime.setVisibility(View.VISIBLE);
-                mAlarmLevel.setVisibility(View.VISIBLE);
-                mNoAlarm.setVisibility(View.INVISIBLE);
-                if (!TextUtils.isEmpty(alarmEntity.getTitle())) {
-                    mAlarmTitle.setText("标题: " + alarmEntity.getTitle());
-                }
-                if (!TextUtils.isEmpty(alarmEntity.getPositionName())) {
-                    mAlarmPositionName.setText(alarmEntity.getPositionName());
-                }
-                if (!TextUtils.isEmpty(alarmEntity.getRemark())) {
-                    mAlarmRemark.setText(alarmEntity.getRemark());
-                }
-                if (alarmEntity.getAlarmtime() != 0) {
-                    mAlarmTime.setText("告警时间   " + DateUtils.timeStampToString(alarmEntity.getAlarmtime(), DateUtils.YYYYMMDD_HHMMSS));
-                }
-                mAlarmLevel.setText("告警级别   " + alarmEntity.getAlarmlevel() + "级");
-            } else {
-                mNoAlarm.setVisibility(View.VISIBLE);
-                mAlarmTitle.setVisibility(View.INVISIBLE);
-                mAlarmPositionName.setVisibility(View.INVISIBLE);
-                mAlarmRemark.setVisibility(View.INVISIBLE);
-                mAlarmTime.setVisibility(View.INVISIBLE);
-                mAlarmLevel.setVisibility(View.INVISIBLE);
-            }
+
         }
         flag_http_success = 0;
     }
@@ -224,33 +227,36 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         if (data != null) {
             mLayoutBottom.setVisibility(View.VISIBLE);
             ChargeBatteryEntity entity = data.getData();
-            mStartTime.setText("开始时间:   " + DateUtils.timeStampToString(entity.getStartTime(), DateUtils.YYYYMMDD_HHMMSS));
-            if (entity.getFullTime() != 0) {
-                mEnoughTime.setText("充满时间:   " + DateUtils.timeStampToString(entity.getFullTime(), DateUtils.YYYYMMDD_HHMMSS));
-                long l = entity.getFullTime() - entity.getStartTime();
-                mDurationTime.setText("充电时长:   " + DateUtils.unixToUTcTimeDuration(l));
-            } else {
-                mEnoughTime.setVisibility(View.GONE);
-                long l = entity.getNowTime() - entity.getStartTime();
-                mDurationTime.setText("充电时长:   " + DateUtils.unixToUTcTimeDuration(l));
-            }
-            mNowSop.setText("当前电量:   " + entity.getSop() + "%");
-            mEnergy.setText("已充能量点:   " + entity.getEnergy());
+            if(entity!=null){
+                mStartTime.setText("开始时间:   " + DateUtils.timeStampToString(entity.getStartTime(), DateUtils.YYYYMMDD_HHMMSS));
+                if (entity.getFullTime() != 0) {
+                    mEnoughTime.setText("充满时间:   " + DateUtils.timeStampToString(entity.getFullTime(), DateUtils.YYYYMMDD_HHMMSS));
+                    long l = entity.getFullTime() - entity.getStartTime();
+                    mDurationTime.setText("充电时长:   " + DateUtils.unixToUTcTimeDuration(l));
+                } else {
+                    mEnoughTime.setVisibility(View.GONE);
+                    long l = entity.getNowTime() - entity.getStartTime();
+                    mDurationTime.setText("充电时长:   " + DateUtils.unixToUTcTimeDuration(l));
+                }
+                mNowSop.setText("当前电量:   " + entity.getSop() + "%");
+                mEnergy.setText("已充能量点:   " + entity.getEnergy());
 
-            if (!TextUtils.isEmpty(entity.getCabinetAddress())) {
-                mAddress.setText("电池位置:   " + entity.getCabinetAddress());
+                if (!TextUtils.isEmpty(entity.getCabinetAddress())) {
+                    mAddress.setText("电池位置:   " + entity.getCabinetAddress());
+                }
+                mDoor.setText("仓门号:   " + entity.getDoor());
+                mMoneyCharge.setText(intChange(entity.getMoney() / 100f) + "元");
+                mMoneManage.setText(intChange(entity.getManageMoney() / 100f) + "元");
+                int all = entity.getMoney() + entity.getManageMoney();
+                mMoneyAll.setText("合计:" + intChange(all / 100f) + "元");
+                if (flag_http_success == 0) {
+                    mRefreshLayout.setRefreshing(false);
+                }
+                mArrowRight.setVisibility(View.VISIBLE);
+                hasChargeBatteryInfo = true;
+                showNoBatteryView(false, mUserInfo != null && mUserInfo.getDeposit() > 0);
             }
-            mDoor.setText("仓门号:   " + entity.getDoor());
-            mMoneyCharge.setText(intChange(entity.getMoney() / 100f) + "元");
-            mMoneManage.setText(intChange(entity.getManageMoney() / 100f) + "元");
-            int all = entity.getMoney() + entity.getManageMoney();
-            mMoneyAll.setText("合计:" + intChange(all / 100f) + "元");
-            if (flag_http_success == 0) {
-                mRefreshLayout.setRefreshing(false);
-            }
-            mArrowRight.setVisibility(View.VISIBLE);
-            hasChargeBatteryInfo = true;
-            showNoBatteryView(false, mUserInfo != null && mUserInfo.getDeposit() > 0);
+
         } else {
             //没有充电电池,展示已有电池信息
             hasChargeBatteryInfo = false;
@@ -269,7 +275,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
 
         if (data != null) {
             BatteryEntity entity = data.getData();
-            if (entity!=null&&!TextUtils.isEmpty(entity.getSn())) {
+            if (entity != null && !TextUtils.isEmpty(entity.getSn())) {
                 if (!TextUtils.isEmpty(entity.getSn())) {
                     mStartTime.setText("电池SN:   " + entity.getSn());
                 }
@@ -284,7 +290,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 mCardMoney.setVisibility(View.GONE);
                 mLayoutBottom.setVisibility(View.VISIBLE);
                 showNoBatteryView(false, mUserInfo != null && mUserInfo.getDeposit() > 0);
-            }else {
+            } else {
                 mLayoutBottom.setVisibility(View.GONE);
                 showNoBatteryView(true, mUserInfo != null && mUserInfo.getDeposit() > 0);
                 mArrowRight.setVisibility(View.INVISIBLE);
@@ -406,7 +412,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             if (data.getCode() == 0) {
                 ToastExt.showExt("绑定电池成功");
             } else {
-                ToastExt.showExt(data.getMessage());
+                ToastExt.showExt("绑定电池失败");
             }
         } else {
             ToastExt.showExt("绑定电池失败");

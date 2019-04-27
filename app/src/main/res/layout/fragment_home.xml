@@ -70,7 +70,7 @@
                     style="@style/style_text_home_top"
                     android:drawableTop="@drawable/icon_bar_battery_storage"
                     android:text="保管服务"
-                    android:visibility="invisible" />
+                    android:visibility="gone " />
 
 
             </LinearLayout>

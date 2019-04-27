@@ -117,8 +117,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mTopRent = view.findViewById(R.id.tv_home_top_rent);
         mTopStorage = view.findViewById(R.id.tv_home_top_storage);
         mTopExchange = view.findViewById(R.id.tv_home_top_exchange);
-
-
         mRlAlarm = view.findViewById(R.id.rl_home_alarmInfo);
         mRlBattery = view.findViewById(R.id.rl_home_batteryInfo);
         mNoAlarm = view.findViewById(R.id.tv_home_no_alarm);
@@ -156,11 +154,9 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
 
 
     private void initData() {
-
         mUserCenterPresenter.getBalance(App.getInstance().getUserId(), false);
         getPresenter().getAlarmList(App.getInstance().getUserId(), App.getInstance().getToken());
         getPresenter().getChargeBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
-
     }
 
 
@@ -260,6 +256,12 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 mArrowRight.setVisibility(View.VISIBLE);
                 hasChargeBatteryInfo = true;
                 showNoBatteryView(false, mUserInfo != null && mUserInfo.getDeposit() > 0);
+                mDurationTime.setVisibility(View.VISIBLE);
+                mNowSop.setVisibility(View.VISIBLE);
+                mEnergy.setVisibility(View.VISIBLE);
+                mAddress.setVisibility(View.VISIBLE);
+                mDoor.setVisibility(View.VISIBLE);
+                mCardMoney.setVisibility(View.VISIBLE);
             }
 
         } else {

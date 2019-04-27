@@ -33,6 +33,8 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Map;
 
+import rx.Observable;
+
 
 public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresenter> implements IHomeServiceView, View.OnClickListener {
     private static final int REQUEST_CODE_CHARGESCAN = 10010;
@@ -201,6 +203,7 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
 
     @Override
     public void OnChargeScanResult(BaseEntity<Object> s) {
+
         if (s != null) {
             getPresenter().getChargeBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
         }

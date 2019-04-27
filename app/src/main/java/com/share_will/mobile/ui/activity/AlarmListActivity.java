@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -29,6 +30,7 @@ import com.ubock.library.base.BaseFragmentActivity;
 import com.ubock.library.ui.dialog.ToastExt;
 import com.ubock.library.utils.LogUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.LongFunction;
 
@@ -52,7 +54,7 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        setTitle("消防告警");
+        setTitle("告警信息");
         mRv = findViewById(R.id.rv_home_alarm_list);
         mRvRfid = findViewById(R.id.rv_home_alarm_list_ufid);
         mRefreshLayout = findViewById(R.id.refresh_alarm_list);
@@ -63,7 +65,6 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
         mRv.setLayoutManager(manager);
         mAdapter = new HomeAlarmAdapter(R.layout.item_home_alarm, null);
         mRv.setAdapter(mAdapter);
-
 
         LinearLayoutManager managerRfid = new LinearLayoutManager(this);
         mRvRfid.addItemDecoration(new RecyclerViewItemDecoration(20, Color.parseColor("#F5F5F5")));
@@ -100,18 +101,31 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
     @Override
     public void onLoadAlarmResult(BaseEntity<AlarmEntity> data) {
         if (data != null) {
-            if (data.getData().getSmoke().size() > 0 || data.getData().getRfid().size() > 0) {
+            int size = data.getData().getSmoke().size();
+            if (size > 0 || data.getData().getRfid().size() > 0) {
                 mTvNoAlarm.setVisibility(View.INVISIBLE);
             }
-            mAdapter.setNewData(data.getData().getSmoke());
-            mAdapter.setOnItemChildClickListener((baseQuickAdapter, view, i) -> {
-                if (view.getId() == R.id.item_tv_home_alarm_close && data.getData().getSmoke().size() > 0) {
-                    closeDialog(data.getData().getSmoke().get(i));
+            if (size > 0) {
+                List<AlarmEntity.SmokeBean> smokeAlarms = new ArrayList<>();//烟感告警
+                List<AlarmEntity.SmokeBean> smokeBeanList = data.getData().getSmoke();//所有设备
+                for (AlarmEntity.SmokeBean smokeBean : smokeBeanList) {
+                    if (!TextUtils.isEmpty(smokeBean.getAlarmcode())) {
+                        smokeAlarms.add(smokeBean);
+                    }
                 }
-            });
+                mAdapter.setNewData(smokeAlarms);
+                mAdapter.setOnItemChildClickListener((baseQuickAdapter, view, i) -> {
+                    if (view.getId() == R.id.item_tv_home_alarm_close && data.getData().getSmoke().size() > 0) {
+                        closeDialog(data.getData().getSmoke().get(i));
+                    }
+                });
+
+            }
             if (data.getData().getRfid() != null && data.getData().getRfid().size() > 0) {
+                //TODO 可能会改动显示条件,待定
                 mAdapterRfid.setNewData(data.getData().getRfid());
             }
+
         } else {
             mTvNoAlarm.setVisibility(View.VISIBLE);
             mAdapter.setNewData(null);

@@ -31,7 +31,18 @@ public class RescueListPresenter extends BasePresenter<RescueListModel, RescueLi
                 .subscribe(new BaseNetSubscriber<BaseEntity<List<RescueEntity>>>(RescueListPresenter.this) {
                                @Override
                                public void onNext(BaseEntity<List<RescueEntity>> s) {
-                                   getView().onLoadRescueList(s);
+                                   if(s.getCode()==0){
+                                       getView().onLoadRescueList(s);
+                                   }else {
+                                       getView().onLoadRescueList(null);
+                                   }
+
+                               }
+
+                               @Override
+                               public boolean onErr(Throwable e) {
+                                   getView().onLoadRescueList(null);
+                                   return super.onErr(e);
                                }
                            }
                 );

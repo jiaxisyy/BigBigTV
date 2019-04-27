@@ -1,5 +1,7 @@
 package com.share_will.mobile.presenter;
 
+import android.support.annotation.NonNull;
+
 import com.share_will.mobile.model.RegisterModel;
 import com.share_will.mobile.model.entity.CityEntity;
 import com.share_will.mobile.model.entity.StationEntity;
@@ -11,8 +13,12 @@ import com.ubock.library.utils.LogUtils;
 import com.ubock.library.utils.MD5Util;
 
 import java.util.List;
+import java.util.function.Function;
 
+import io.reactivex.ObservableSource;
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class RegisterPresenter extends BasePresenter<RegisterModel, RegisterView> {
@@ -88,11 +94,12 @@ public class RegisterPresenter extends BasePresenter<RegisterModel, RegisterView
      * 获取已开通城市列表
      */
     public void getCityList() {
+
         getModel().getCityList()
+                .compose(this.bindToLifecycle(getView()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseNetSubscriber<BaseEntity<List<CityEntity>>>(RegisterPresenter.this) {
-
                                @Override
                                public void onNext(BaseEntity<List<CityEntity>> ret) {
                                    getView().onLoadCityList(ret);

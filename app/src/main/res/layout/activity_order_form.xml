@@ -17,22 +17,20 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="260px"
+        android:gravity="center_vertical"
         android:paddingLeft="45px"
-        android:paddingRight="45px"
-        android:layout_marginTop="50px">
+        android:paddingRight="45px">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="46px"
             android:text="商品名称" />
 
         <TextView
             android:id="@+id/tv_order_form_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="46px"
             android:layout_alignParentRight="true"
             android:text="电动车" />
 
@@ -42,7 +40,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_order_form_name"
             android:layout_marginTop="30px"
-            android:textSize="46px"
             android:text="商品价格" />
 
         <TextView
@@ -52,7 +49,6 @@
             android:layout_below="@+id/tv_order_form_name"
             android:layout_alignParentRight="true"
             android:layout_marginTop="30px"
-            android:textSize="46px"
             android:text="100.00元"
             android:textColor="@color/text_color" />
 
@@ -63,7 +59,6 @@
         android:layout_height="106px"
         android:background="#F5F5F5"
         android:gravity="center_vertical"
-        android:layout_marginTop="50px"
         android:paddingLeft="45px"
         android:text="请选择支付方式" />
 
@@ -75,31 +70,44 @@
         android:paddingRight="45px">
 
 
-        <TextView
-            android:id="@+id/tv_form_balance"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/icon_form_balance"
-            android:drawablePadding="45px"
-            android:text="余额" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_form_balance"
+                android:layout_width="wrap_content"
+                android:layout_height="0px"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/icon_form_balance"
+                android:drawablePadding="45px"
+                android:gravity="center_vertical"
+                android:text="余额" />
+
+            <TextView
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="0px"
+                android:layout_centerVertical="true"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/icon_form_zhifubao"
+                android:drawablePadding="45px"
+                android:text="支付宝" />
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:drawableLeft="@drawable/icon_form_zhifubao"
-            android:drawablePadding="45px"
-            android:text="支付宝" />
+            <TextView
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="0px"
+                android:layout_alignParentBottom="true"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/icon_form_weixin"
+                android:drawablePadding="45px"
+                android:text="微信" />
 
+        </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:drawableLeft="@drawable/icon_form_weixin"
-            android:drawablePadding="45px"
-            android:text="微信" />
 
         <RadioGroup
             android:id="@+id/rg_order_type"
@@ -112,25 +120,25 @@
                 android:id="@+id/rb_order_type_balance"
                 android:layout_width="match_parent"
                 android:layout_height="0px"
+                android:layout_weight="1"
                 android:button="@null"
-                android:drawableRight="@drawable/choice_selector"
-                android:layout_weight="1" />
+                android:drawableRight="@drawable/choice_selector" />
 
             <RadioButton
                 android:id="@+id/rb_order_type_zfb"
                 android:layout_width="match_parent"
                 android:layout_height="0px"
+                android:layout_weight="1"
                 android:button="@null"
-                android:drawableRight="@drawable/choice_selector"
-                android:layout_weight="1" />
+                android:drawableRight="@drawable/choice_selector" />
 
             <RadioButton
                 android:id="@+id/rb_order_type_wx"
                 android:layout_width="match_parent"
                 android:layout_height="0px"
+                android:layout_weight="1"
                 android:button="@null"
-                android:drawableRight="@drawable/choice_selector"
-                android:layout_weight="1" />
+                android:drawableRight="@drawable/choice_selector" />
 
 
         </RadioGroup>
@@ -149,8 +157,8 @@
         android:background="@drawable/shape_bg_login"
         android:gravity="center"
         android:text="立即支付"
-        android:textSize="40px"
-        android:textColor="#FFFFFF" />
+        android:textColor="#FFFFFF"
+        android:textSize="40px" />
 
 
 </LinearLayout>

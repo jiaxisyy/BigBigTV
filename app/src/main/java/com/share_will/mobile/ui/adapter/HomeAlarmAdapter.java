@@ -21,7 +21,7 @@ public class HomeAlarmAdapter extends BaseQuickAdapter<AlarmEntity.SmokeBean, Ba
 
     @Override
     protected void convert(BaseViewHolder helper, AlarmEntity.SmokeBean item) {
-        if (!TextUtils.isEmpty(item.getAlarmcode())) {
+        if (item.getConfirmstate() != 1) {
             helper.setVisible(R.id.item_iv_home_alarm_disposed, false);
             helper.setVisible(R.id.item_tv_home_alarm_close, true);
         }

@@ -38,6 +38,7 @@ import permissions.dispatcher.RuntimePermissions;
 @RuntimePermissions
 public class CaptureActivity extends BaseFragmentActivity implements Callback {
 
+
     SurfaceView surfaceView;
     private CaptureActivityHandler handler;
     private boolean hasSurface;
@@ -54,9 +55,12 @@ public class CaptureActivity extends BaseFragmentActivity implements Callback {
     private RelativeLayout mCropLayout = null;
     private boolean isNeedCapture = false;
     private View mManuInput;
+    private View mLight;
     private boolean mShowManuInput = false;
+    private boolean mShowLight = false;
 
     final public static String KEY_SHOW_MANUAL_INPUT = "show_manual_input";
+    final public static String KEY_SHOW_LIGHT = "show_light";
     final public static String KEY_SCAN_RESULT = "scan_result";
 
     public boolean isNeedCapture() {
@@ -132,12 +136,21 @@ public class CaptureActivity extends BaseFragmentActivity implements Callback {
         mQrLineView.setAnimation(mAnimation);
 
         mManuInput = findView(R.id.ll_manual_input);
+        mLight = findView(R.id.ll_light);
+
 
         mShowManuInput = getIntent().getBooleanExtra(KEY_SHOW_MANUAL_INPUT, false);
+        mShowLight = getIntent().getBooleanExtra(KEY_SHOW_LIGHT, false);
+
         if (mShowManuInput) {
             mManuInput.setVisibility(View.VISIBLE);
         } else {
             mManuInput.setVisibility(View.GONE);
+        }
+        if (mShowLight) {
+            mLight.setVisibility(View.VISIBLE);
+        } else {
+            mLight.setVisibility(View.GONE);
         }
 
     }

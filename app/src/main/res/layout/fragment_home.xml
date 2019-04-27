@@ -25,6 +25,7 @@
                 android:src="@drawable/banner_bg" />
 
             <TextView
+                android:textSize="40px"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40px"
@@ -63,14 +64,14 @@
                     android:id="@+id/tv_home_top_rent"
                     style="@style/style_text_home_top"
                     android:drawableTop="@drawable/icon_bar_battery_rent"
-                    android:text="电池租用" />
+                    android:text="电池领取" />
 
                 <TextView
                     android:id="@+id/tv_home_top_storage"
                     style="@style/style_text_home_top"
                     android:drawableTop="@drawable/icon_bar_battery_storage"
                     android:text="保管服务"
-                    android:visibility="invisible" />
+                    android:visibility="gone" />
 
 
             </LinearLayout>
@@ -91,6 +92,7 @@
                 android:layout_marginBottom="40px">
 
                 <TextView
+                    android:textSize="40px"
                     android:id="@+id/tv_home_battery_big_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

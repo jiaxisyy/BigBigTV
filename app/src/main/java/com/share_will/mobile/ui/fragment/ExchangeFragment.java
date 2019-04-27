@@ -616,17 +616,19 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
         public boolean onMarkerClick(Marker marker) {
 
             clickMarker = marker;
-            CabinetEntity cabinetEntity = mCabinetList.get(Integer.parseInt(marker.getSnippet()));
-            showCabinetInfo(cabinetEntity);
-            if (cabinetEntity.isOnline()) {
-                showRideRoute(cabinetEntity);
-                marker.showInfoWindow();
-            } else {
-                showMessage("设备离线中");
-                if (clickType == 1) {
-                    if (rideRouteOverlay != null) {
-                        rideRouteOverlay.removeFromMap();
-                        marker.hideInfoWindow();
+            if(mCabinetList.size()>0){
+                CabinetEntity cabinetEntity = mCabinetList.get(Integer.parseInt(marker.getSnippet()));
+                showCabinetInfo(cabinetEntity);
+                if (cabinetEntity.isOnline()) {
+                    showRideRoute(cabinetEntity);
+                    marker.showInfoWindow();
+                } else {
+                    showMessage("设备离线中");
+                    if (clickType == 1) {
+                        if (rideRouteOverlay != null) {
+                            rideRouteOverlay.removeFromMap();
+                            marker.hideInfoWindow();
+                        }
                     }
                 }
             }

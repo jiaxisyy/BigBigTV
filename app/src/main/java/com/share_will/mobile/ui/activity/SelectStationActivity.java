@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -141,8 +142,9 @@ public class SelectStationActivity extends BaseFragmentActivity<RegisterPresente
     }
 
     private void initWheelView() {
-        mWvCity.setLineSpacingMultiplier(3.0F);
-        mWvName.setLineSpacingMultiplier(3.0F);
+        mWvCity.setLineSpacingMultiplier(3.5F);
+        mWvName.setLineSpacingMultiplier(3.5F);
+
         mWvCity.setDividerColor(Color.parseColor("#FF3F3F"));
         mWvCity.setTextColorOut(Color.parseColor("#999999"));
         mWvCity.setTextColorCenter(Color.parseColor("#FF3F3F"));

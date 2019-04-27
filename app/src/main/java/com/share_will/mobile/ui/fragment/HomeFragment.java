@@ -89,6 +89,8 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     private TextView mTopStorage;
     private TextView mTopExchange;
     private TextView mBatteryBigTitle;
+    private BatteryEntity batteryEntity;
+    private ChargeBatteryEntity chargeBatteryEntity;
 
     @Override
     protected int getLayoutId() {
@@ -229,28 +231,28 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         if (data != null) {
             mBatteryBigTitle.setText("电池信息");
             mLayoutBottom.setVisibility(View.VISIBLE);
-            ChargeBatteryEntity entity = data.getData();
-            if (entity != null) {
-                mStartTime.setText("开始时间:   " + DateUtils.timeStampToString(entity.getStartTime(), DateUtils.YYYYMMDD_HHMMSS));
-                if (entity.getFullTime() != 0) {
-                    mEnoughTime.setText("充满时间:   " + DateUtils.timeStampToString(entity.getFullTime(), DateUtils.YYYYMMDD_HHMMSS));
-                    long l = entity.getFullTime() - entity.getStartTime();
+            chargeBatteryEntity = data.getData();
+            if (chargeBatteryEntity != null) {
+                mStartTime.setText("开始时间:   " + DateUtils.timeStampToString(chargeBatteryEntity.getStartTime(), DateUtils.YYYYMMDD_HHMMSS));
+                if (chargeBatteryEntity.getFullTime() != 0) {
+                    mEnoughTime.setText("充满时间:   " + DateUtils.timeStampToString(chargeBatteryEntity.getFullTime(), DateUtils.YYYYMMDD_HHMMSS));
+                    long l = chargeBatteryEntity.getFullTime() - chargeBatteryEntity.getStartTime();
                     mDurationTime.setText("充电时长:   " + DateUtils.unixToUTcTimeDuration(l));
                 } else {
                     mEnoughTime.setVisibility(View.GONE);
-                    long l = entity.getNowTime() - entity.getStartTime();
+                    long l = chargeBatteryEntity.getNowTime() - chargeBatteryEntity.getStartTime();
                     mDurationTime.setText("充电时长:   " + DateUtils.unixToUTcTimeDuration(l));
                 }
-                mNowSop.setText("当前电量:   " + entity.getSop() + "%");
-                mEnergy.setText("已充能量点:   " + entity.getEnergy());
+                mNowSop.setText("当前电量:   " + chargeBatteryEntity.getSop() + "%");
+                mEnergy.setText("已充能量点:   " + chargeBatteryEntity.getEnergy());
 
-                if (!TextUtils.isEmpty(entity.getCabinetAddress())) {
-                    mAddress.setText("电池位置:   " + entity.getCabinetAddress());
+                if (!TextUtils.isEmpty(chargeBatteryEntity.getCabinetAddress())) {
+                    mAddress.setText("电池位置:   " + chargeBatteryEntity.getCabinetAddress());
                 }
-                mDoor.setText("仓门号:   " + entity.getDoor());
-                mMoneyCharge.setText(intChange(entity.getMoney() / 100f) + "元");
-                mMoneManage.setText(intChange(entity.getManageMoney() / 100f) + "元");
-                int all = entity.getMoney() + entity.getManageMoney();
+                mDoor.setText("仓门号:   " + chargeBatteryEntity.getDoor());
+                mMoneyCharge.setText(intChange(chargeBatteryEntity.getMoney() / 100f) + "元");
+                mMoneManage.setText(intChange(chargeBatteryEntity.getManageMoney() / 100f) + "元");
+                int all = chargeBatteryEntity.getMoney() + chargeBatteryEntity.getManageMoney();
                 mMoneyAll.setText("合计:" + intChange(all / 100f) + "元");
                 if (flag_http_success == 0) {
                     mRefreshLayout.setRefreshing(false);
@@ -277,14 +279,15 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     public void onLoadBatteryInfoResult(BaseEntity<BatteryEntity> data) {
 
         if (data != null) {
-            BatteryEntity entity = data.getData();
-            if (entity != null && !TextUtils.isEmpty(entity.getSn())) {
+            batteryEntity = data.getData();
+            if (batteryEntity != null && !TextUtils.isEmpty(batteryEntity.getSn())) {
+
                 mBatteryBigTitle.setText("我的电池");
-                if (!TextUtils.isEmpty(entity.getSn())) {
-                    mStartTime.setText("电池SN:   " + entity.getSn());
+                if (!TextUtils.isEmpty(batteryEntity.getSn())) {
+                    mStartTime.setText("电池SN:   " + batteryEntity.getSn());
                 }
-                if (!TextUtils.isEmpty(entity.getSop())) {
-                    mEnoughTime.setText("当前电量:   " + entity.getSop() + "%");
+                if (!TextUtils.isEmpty(batteryEntity.getSop())) {
+                    mEnoughTime.setText("当前电量:   " + batteryEntity.getSop() + "%");
                 }
                 mDurationTime.setVisibility(View.GONE);
                 mNowSop.setVisibility(View.GONE);
@@ -352,12 +355,15 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 startActivity(new Intent(getActivity(), ChargeStakeActivity.class));
                 break;
             case R.id.tv_home_top_rent:
-                if(mUserInfo != null && mUserInfo.getDeposit() > 0){
-                    getBattery();
-                }else {
-                    goToShop();
+                if (batteryEntity != null || chargeBatteryEntity!=null) {
+                    ToastExt.showExt("已有电池,无需领取");
+                } else {
+                    if (mUserInfo != null && mUserInfo.getDeposit() > 0) {
+                        getBattery();
+                    } else {
+                        goToShop();
+                    }
                 }
-
                 break;
             case R.id.tv_home_top_storage:
                 ToastExt.showExt("功能暂未开放");

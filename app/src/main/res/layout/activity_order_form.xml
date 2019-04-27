@@ -23,11 +23,15 @@
         android:paddingRight="45px">
 
         <TextView
+            android:textSize="40px"
+            android:textColor="#333333"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="商品名称" />
 
         <TextView
+            android:textSize="40px"
+            android:textColor="#999999"
             android:id="@+id/tv_order_form_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,6 +40,8 @@
 
 
         <TextView
+            android:textSize="40px"
+            android:textColor="#333333"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_order_form_name"
@@ -43,6 +49,7 @@
             android:text="商品价格" />
 
         <TextView
+            android:textSize="40px"
             android:id="@+id/tv_order_form_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -80,12 +87,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0px"
                 android:layout_weight="1"
+                android:textSize="40px"
+                android:textColor="#333333"
                 android:drawableLeft="@drawable/icon_form_balance"
                 android:drawablePadding="45px"
                 android:gravity="center_vertical"
                 android:text="余额" />
 
             <TextView
+                android:textSize="40px"
+                android:textColor="#333333"
                 android:gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="0px"
@@ -97,6 +108,8 @@
 
 
             <TextView
+                android:textSize="40px"
+                android:textColor="#333333"
                 android:gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="0px"

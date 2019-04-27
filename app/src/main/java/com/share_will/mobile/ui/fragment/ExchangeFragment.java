@@ -394,6 +394,9 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
         if (mCabinetInfoView.getVisibility() == View.VISIBLE) {
             mCabinetInfoView.setVisibility(View.GONE);
             mPopupWindow.dismiss();
+            if(clickMarker!=null){
+                clickMarker.hideInfoWindow();
+            }
         }
     }
 

@@ -210,14 +210,19 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
     public void OnStopChargeScanResult(BaseEntity<ChargeOrderEntity> s) {
         if (s != null) {
 
-            String orderId = s.getData().getOrderId();
-            Intent intent = new Intent(this, OrderFormActivity.class);
-            intent.putExtra("orderId", orderId);
-            intent.putExtra("orderType", 0);
-            intent.putExtra("price", mPrice);
-            intent.putExtra("body", "充电费用");
-            startActivityForResult(intent, REQUEST_CODE_ORDERFORM);
+            if (!TextUtils.isEmpty(s.getData().getOrderId())) {
+                String orderId = s.getData().getOrderId();
+                Intent intent = new Intent(this, OrderFormActivity.class);
+                intent.putExtra("orderId", orderId);
+                intent.putExtra("orderType", 0);
+                intent.putExtra("price", mPrice);
+                intent.putExtra("body", "充电费用");
+                startActivityForResult(intent, REQUEST_CODE_ORDERFORM);
+            } else {
+                ToastExt.showExt("获取充电订单失败,请稍后再试");
+            }
         } else {
+
             ToastExt.showExt("获取充电订单失败,请稍后再试");
         }
 

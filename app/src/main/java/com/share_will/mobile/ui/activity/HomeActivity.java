@@ -103,7 +103,7 @@ public class HomeActivity extends BaseTabContainerActivity<HomePresenter> implem
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        openUserProtocol();
+//        openUserProtocol();
         showNotifyMessage();
     }
 
@@ -170,7 +170,7 @@ public class HomeActivity extends BaseTabContainerActivity<HomePresenter> implem
         if (!isLogin()){
             return;
         }
-        openUserProtocol();
+//        openUserProtocol();
         getPresenter().parseUri(intent);
     }
 

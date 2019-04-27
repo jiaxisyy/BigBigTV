@@ -247,6 +247,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             }
             mArrowRight.setVisibility(View.VISIBLE);
             hasChargeBatteryInfo = true;
+            showNoBatteryView(false, mUserInfo != null && mUserInfo.getDeposit() > 0);
         } else {
             //没有充电电池,展示已有电池信息
             hasChargeBatteryInfo = false;

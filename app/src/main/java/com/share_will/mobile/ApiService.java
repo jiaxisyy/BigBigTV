@@ -6,6 +6,7 @@ import com.share_will.mobile.model.entity.BespeakEntity;
 import com.share_will.mobile.model.entity.CabinetEntity;
 import com.share_will.mobile.model.entity.ChargeBatteryEntity;
 import com.share_will.mobile.model.entity.ChargeOrderEntity;
+import com.share_will.mobile.model.entity.ChargeStakeEntity;
 import com.share_will.mobile.model.entity.ChargingEntity;
 import com.share_will.mobile.model.entity.CityEntity;
 import com.share_will.mobile.model.entity.DepositRefundEntity;
@@ -592,5 +593,38 @@ public interface ApiService {
     @POST("user/battery/fail")
     Observable<BaseEntity<Object>> exceptionScanCodeGetBattery(@Field("cabinetId") String cabinetId,
                                                                @Field("userId") String userId);
+
+    /**
+     * 获取用户充电信息
+     * @return
+     */
+    @POST("cabinet/stake/user")
+    Observable<BaseEntity<ChargeStakeEntity>> getChargingInfo();
+
+    /**
+     * 获取充电桩状态
+     *
+     * @param cabinetId 机柜SN
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("cabinet/stake/list")
+    Observable<BaseEntity<Object>> getStakeStatus(@Field("cabinetId") String cabinetId);
+
+    /**
+     * 充电桩充电或结束充电结果
+     *
+     * @param cabinetId 机柜SN
+     * @param userId    用户手机
+     * @param index    充电桩号
+     * @param status    设置的状态，0关(断电)，1开(通电)
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("cabinet/stake/save")
+    Observable<BaseEntity<Object>> stakeCharging(@Field("cabinetId") String cabinetId,
+                                                 @Field("userId") String userId,
+                                                 @Field("index") int index,
+                                                 @Field("status") int status);
 
 }

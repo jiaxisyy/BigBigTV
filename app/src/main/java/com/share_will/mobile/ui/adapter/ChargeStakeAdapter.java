@@ -17,7 +17,7 @@ public class ChargeStakeAdapter extends BaseQuickAdapter<TempEntity, BaseViewHol
     @Override
     protected void convert(BaseViewHolder helper, TempEntity item) {
 
-        helper.setText(R.id.tv_item_charge_stake_num, String.valueOf(helper.getAdapterPosition()));
+        helper.setText(R.id.tv_item_charge_stake_num, String.valueOf(helper.getAdapterPosition() + 1));
 
         if (item.getStatus() == 0) {
             helper.setImageResource(R.id.iv_item_choose_stake_pic, R.drawable.icon_socket_no_normal);

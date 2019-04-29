@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -27,6 +26,7 @@ import com.share_will.mobile.ui.activity.ChargeStakeActivity;
 import com.share_will.mobile.ui.activity.HomeActivity;
 import com.share_will.mobile.ui.activity.HomeServiceActivity;
 import com.share_will.mobile.ui.activity.MyBatteryActivity;
+import com.share_will.mobile.ui.adapter.GlideImageLoader;
 import com.share_will.mobile.ui.views.IHomeFragmentView;
 import com.share_will.mobile.ui.views.UserCenterView;
 import com.ubock.library.annotation.PresenterInjector;
@@ -35,8 +35,10 @@ import com.ubock.library.base.BaseFragment;
 import com.ubock.library.ui.dialog.ToastExt;
 import com.ubock.library.utils.DateUtils;
 import com.ubock.library.utils.LogUtils;
+import com.youth.banner.Banner;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements IHomeFragmentView, View.OnClickListener
@@ -91,6 +93,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     private TextView mBatteryBigTitle;
     private BatteryEntity batteryEntity;
     private ChargeBatteryEntity chargeBatteryEntity;
+    private Banner mBanner;
 
     @Override
     protected int getLayoutId() {
@@ -138,7 +141,8 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mCardMoney = view.findViewById(R.id.rl_card_money);
         mArrowRight = view.findViewById(R.id.iv_main_arrow_right);
         mBatteryBigTitle = view.findViewById(R.id.tv_home_battery_big_title);
-
+        mBanner = view.findViewById(R.id.banner_main_top);
+        initBanner();
         mTopCharge.setOnClickListener(this);
         mTopChargeStake.setOnClickListener(this);
         mTopRent.setOnClickListener(this);
@@ -159,6 +163,27 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         getPresenter().getChargeBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
     }
 
+    private void initBanner() {
+        List<Integer> localImages = new ArrayList<>();
+        localImages.add(R.drawable.banner_bg0);
+        localImages.add(R.drawable.banner_bg1);
+        localImages.add(R.drawable.banner_bg2);
+        mBanner.setImages(localImages).setImageLoader(new GlideImageLoader()).start();
+    }
+
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mBanner.startAutoPlay();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mBanner.stopAutoPlay();
+    }
 
     @Override
     public void onLoadBalance(BaseEntity<UserInfo> data) {
@@ -357,7 +382,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 startActivity(new Intent(getActivity(), ChargeStakeActivity.class));
                 break;
             case R.id.tv_home_top_rent:
-                if (batteryEntity != null || chargeBatteryEntity!=null) {
+                if (batteryEntity != null || chargeBatteryEntity != null) {
                     ToastExt.showExt("已有电池,无需领取");
                 } else {
                     if (mUserInfo != null && mUserInfo.getDeposit() > 0) {

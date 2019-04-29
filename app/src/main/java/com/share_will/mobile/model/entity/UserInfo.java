@@ -22,6 +22,25 @@ public class UserInfo implements Serializable, Parcelable {
     private int deposit;
     private String causeStatus;
     private boolean adminStatus;
+    private String headPicPath;
+    private String gender;
+
+
+    public String getHeadPicPath() {
+        return headPicPath;
+    }
+
+    public void setHeadPicPath(String headPicPath) {
+        this.headPicPath = headPicPath;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
     public boolean isAdminStatus() {
         return adminStatus;

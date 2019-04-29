@@ -78,7 +78,10 @@ public class AutonymActivity extends BaseFragmentActivity implements View.OnClic
         PictureSelector.create(AutonymActivity.this)
                 .openGallery(PictureMimeType.ofImage())
                 .maxSelectNum(1)
-                .isCamera(false)
+                .enableCrop(true)// 是否裁剪
+                .isCamera(false)//TODO 点击拍照错误,待处理
+                .compress(true)// 是否压缩
+                .withAspectRatio(16,10)// int 裁剪比例
                 .forResult(PictureConfig.CHOOSE_REQUEST);
         // Caused by: java.lang.IllegalArgumentException: Failed to find configured root that contains /storage/emulated/0/PictureSelector/CameraImage/PictureSelector_20190417_152946.JPEG
     }
@@ -97,12 +100,13 @@ public class AutonymActivity extends BaseFragmentActivity implements View.OnClic
                     // 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true  注意：音视频除外
                     // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true  注意：音视频除外
                     // 如果裁剪并压缩了，以取压缩路径为准，因为是先裁剪后压缩的
-                    String path = selectList.get(0).getPath();
-
-                    if (tempType == TYPE_FRONT) {
-                        mIvFront.setImageURI(Uri.parse(path));
-                    } else if (tempType == TYPE_CONTRARY) {
-                        mIvContrary.setImageURI(Uri.parse(path));
+                    if (selectList.get(0).isCompressed()) {
+                        String path = selectList.get(0).getCompressPath();
+                        if (tempType == TYPE_FRONT) {
+                            mIvFront.setImageURI(Uri.parse(path));
+                        } else if (tempType == TYPE_CONTRARY) {
+                            mIvContrary.setImageURI(Uri.parse(path));
+                        }
                     }
                     break;
             }

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5"
+    android:orientation="vertical">
+
+    <include layout="@layout/widget_topbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="290px"
+        android:orientation="horizontal">
+
+        <com.share_will.mobile.ui.widget.CircleImageView
+            android:id="@+id/civ_information_head"
+            android:layout_width="200px"
+            android:layout_height="200px"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="45px"
+            android:src="@drawable/icon_my_head" />
+
+        <TextView
+            android:id="@+id/tv_information_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="66px"
+            android:textColor="#333333"
+            android:textSize="54px"
+            tools:text="18328317002" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#dedede" />
+
+    <LinearLayout
+        android:id="@+id/ll_information_phone"
+        android:layout_width="match_parent"
+        android:layout_height="150px"
+        android:orientation="horizontal"
+        android:paddingLeft="45px"
+        android:paddingRight="45px">
+
+        <TextView
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+
+            android:layout_weight="1"
+            android:text="手机号"
+            android:textColor="#333333"
+            android:textSize="48px" />
+
+        <TextView
+            android:id="@+id/tv_information_phone2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="#999999"
+            android:textSize="48px"
+            tools:text="10000000000" />
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#dedede" />
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="150px"
+        android:orientation="horizontal"
+        android:paddingLeft="45px"
+        android:paddingRight="45px">
+
+        <TextView
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="姓名"
+            android:textColor="#333333"
+            android:textSize="48px" />
+
+        <TextView
+            android:id="@+id/tv_information_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="未填写"
+            android:textColor="#333333"
+            android:textSize="48px" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#dedede" />
+
+    <LinearLayout
+        android:id="@+id/ll_information_gender"
+        android:layout_width="match_parent"
+        android:layout_height="150px"
+        android:orientation="horizontal"
+        android:paddingLeft="45px"
+        android:paddingRight="45px">
+
+        <TextView
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="性别"
+            android:textColor="#333333"
+            android:textSize="48px" />
+
+        <TextView
+            android:id="@+id/tv_information_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:drawableRight="@drawable/btn_arrow_right_gray"
+            android:drawablePadding="30px"
+            android:text="男"
+            android:textColor="#333333"
+            android:textSize="48px" />
+
+
+    </LinearLayout>
+</LinearLayout>

@@ -13,6 +13,8 @@ import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
@@ -164,6 +166,13 @@ public class CircleImageView extends AppCompatImageView {
     public void setImageDrawable(Drawable drawable) {
         super.setImageDrawable(drawable);
         mBitmap = getBitmapFromDrawable(drawable);
+        setup();
+    }
+
+    @Override
+    public void setImageURI(@Nullable Uri uri) {
+        super.setImageURI(uri);
+        mBitmap = getBitmapFromDrawable(getDrawable());
         setup();
     }
 

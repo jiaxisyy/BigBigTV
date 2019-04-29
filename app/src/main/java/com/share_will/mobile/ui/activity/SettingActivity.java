@@ -3,9 +3,11 @@ package com.share_will.mobile.ui.activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.share_will.mobile.App;
@@ -19,6 +21,7 @@ import com.ubock.library.annotation.PresenterInjector;
 import com.ubock.library.base.BaseApp;
 import com.ubock.library.base.BaseFragmentActivity;
 import com.ubock.library.ui.dialog.ToastExt;
+import com.ubock.library.utils.AppUtils;
 import com.ubock.library.utils.SharedPreferencesUtils;
 
 import java.util.Map;
@@ -30,11 +33,12 @@ public class SettingActivity extends BaseFragmentActivity implements View.OnClic
 
     private TextView mAutonym;
     private TextView mChangePwd;
-    private TextView mUpdate;
+    private RelativeLayout mUpdate;
     private TextView mAbout;
     private TextView mProtocol;
     private TextView mLogout;
     private TextView mClean;
+    private TextView mVersion;
 
     @Override
     protected int getLayoutId() {
@@ -46,11 +50,12 @@ public class SettingActivity extends BaseFragmentActivity implements View.OnClic
         setTitle("设置");
         mAutonym = findViewById(R.id.tv_setting_autonym);
         mChangePwd = findViewById(R.id.tv_setting_changePwd);
-        mUpdate = findViewById(R.id.tv_setting_update);
+        mUpdate = findViewById(R.id.rl_setting_update);
         mAbout = findViewById(R.id.tv_setting_about);
         mProtocol = findViewById(R.id.tv_setting_protocol);
         mLogout = findViewById(R.id.tv_setting_logout);
         mClean = findViewById(R.id.tv_setting_clear);
+        mVersion = findViewById(R.id.tv_setting_version);
         mAutonym.setOnClickListener(this);
         mChangePwd.setOnClickListener(this);
         mUpdate.setOnClickListener(this);
@@ -58,7 +63,7 @@ public class SettingActivity extends BaseFragmentActivity implements View.OnClic
         mProtocol.setOnClickListener(this);
         mLogout.setOnClickListener(this);
         mClean.setOnClickListener(this);
-
+        mVersion.setText("V" + AppUtils.getVersionName(this));
     }
 
     @Override
@@ -70,11 +75,11 @@ public class SettingActivity extends BaseFragmentActivity implements View.OnClic
             case R.id.tv_setting_changePwd:
                 startActivity(new Intent(this, ForgetPasswordActivityOne.class));
                 break;
-            case R.id.tv_setting_update:
+            case R.id.rl_setting_update:
                 checkVersion();
                 break;
             case R.id.tv_setting_clear:
-                ToastExt.showExt("功能暂未开放");
+                ToastExt.showExt("清除缓存成功");
                 break;
             case R.id.tv_setting_about:
                 startActivity(new Intent(this, AboutActivity.class));
@@ -147,10 +152,11 @@ public class SettingActivity extends BaseFragmentActivity implements View.OnClic
         if (newVersion) {
             intent.putExtra(DialogActivity.PARAM_OK, "升级");
             intent.putExtra(DialogActivity.PARAM_CANCEL, "取消");
+            startActivity(intent);
         } else {
-            intent.putExtra(DialogActivity.PARAM_SHOW_OK, false);
-            intent.putExtra(DialogActivity.PARAM_CANCEL, "确定");
+//            intent.putExtra(DialogActivity.PARAM_SHOW_OK, false);
+//            intent.putExtra(DialogActivity.PARAM_CANCEL, "确定");
+            ToastExt.showExt("已是最新版本");
         }
-        startActivity(intent);
     }
 }

@@ -28,10 +28,31 @@
         android:layout_height="20px"
         android:background="@color/text_color_line" />
 
-    <TextView
-        android:id="@+id/tv_setting_update"
-        style="@style/setting_row_style"
-        android:text="检查更新" />
+    <RelativeLayout
+        android:id="@+id/rl_setting_update"
+        android:layout_width="match_parent"
+        android:layout_height="150px"
+        android:paddingLeft="45px"
+        android:paddingRight="45px">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="检查更新"
+            android:textColor="#333333"
+            android:textSize="40px" />
+
+        <TextView
+            android:id="@+id/tv_setting_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:drawableRight="@drawable/btn_arrow_right_gray"
+            android:drawablePadding="50px"
+            android:text="V1.0.0" />
+    </RelativeLayout>
 
 
     <TextView
@@ -67,8 +88,8 @@
         android:background="@drawable/shape_bg_login"
         android:gravity="center"
         android:text="退出登录"
-        android:textSize="40px"
-        android:textColor="#FFFFFF" />
+        android:textColor="#FFFFFF"
+        android:textSize="40px" />
 
 
 </LinearLayout>

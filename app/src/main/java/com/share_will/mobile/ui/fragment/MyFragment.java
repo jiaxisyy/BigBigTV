@@ -13,9 +13,7 @@ import android.widget.TextView;
 import com.share_will.mobile.App;
 import com.share_will.mobile.MessageEvent;
 import com.share_will.mobile.R;
-import com.share_will.mobile.model.entity.DepositRefundEntity;
 import com.share_will.mobile.model.entity.UserInfo;
-import com.share_will.mobile.presenter.RefundPresenter;
 import com.share_will.mobile.presenter.UserCenterPresenter;
 import com.share_will.mobile.services.BatteryService;
 import com.share_will.mobile.ui.activity.CaptureActivity;
@@ -23,6 +21,7 @@ import com.share_will.mobile.ui.activity.ConsumeActivity;
 import com.share_will.mobile.ui.activity.HomeActivity;
 import com.share_will.mobile.ui.activity.MyBatteryActivity;
 import com.share_will.mobile.ui.activity.MyDepositActivity;
+import com.share_will.mobile.ui.activity.MyInformationActivity;
 import com.share_will.mobile.ui.activity.OrderActivity;
 import com.share_will.mobile.ui.activity.RechargeActivity;
 import com.share_will.mobile.ui.activity.RefundActivity;
@@ -30,7 +29,6 @@ import com.share_will.mobile.ui.activity.RefundDetailActivity;
 import com.share_will.mobile.ui.activity.RescueActivity;
 import com.share_will.mobile.ui.activity.SettingActivity;
 import com.share_will.mobile.ui.activity.ShopActivity;
-import com.share_will.mobile.ui.views.RefundView;
 import com.share_will.mobile.ui.views.UserCenterView;
 import com.share_will.mobile.ui.widget.RowItemView;
 import com.ubock.library.annotation.PresenterInjector;
@@ -72,6 +70,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
     private TextView mShopping;
     private UserInfo mUserInfo;
 
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_my;
@@ -94,6 +93,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
         mBtnTopRightMenu = view.findViewById(R.id.btn_top_right_menu);
         mValidity = view.findViewById(R.id.tv_my_top_validity);
         mShopping = view.findViewById(R.id.tv_my_top_shopping);
+
         mRowScanLogin.setOnClickListener(this);
         mShopping.setOnClickListener(this);
         view.findViewById(R.id.row_my_deposit).setOnClickListener(this);
@@ -104,11 +104,17 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
         view.findViewById(R.id.row_my_vehicle).setOnClickListener(this);
         view.findViewById(R.id.row_my_battery).setOnClickListener(this);
         view.findViewById(R.id.row_my_scan).setOnClickListener(this);
+        view.findViewById(R.id.iv_my_head).setOnClickListener(this);
         mBtnTopRightMenu.setOnClickListener(this);
         mTvPhoneNum.setText(App.getInstance().getUserId());
         getBalance(true);
         showTopRightMenu(true);
+
     }
+
+
+
+
 
     @Override
     public void onClick(View view) {
@@ -160,9 +166,11 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
                 Intent inte = new Intent(this.getContext(), CaptureActivity.class);
                 startActivityForResult(inte, REQUEST_CODE_GET_BATTERY);
                 break;
-
             case R.id.tv_my_top_shopping:
                 goToShopping();
+                break;
+            case R.id.iv_my_head:
+                startActivity(new Intent(getActivity(), MyInformationActivity.class));
                 break;
             default:
                 break;
@@ -207,7 +215,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
                 if (expirationTime != 0) {
                     mValidity.setText("套餐有效期:  " + DateUtils.timeStampToString(expirationTime, DateUtils.YYYYMMDD));
                     mShopping.setText("点击续费");
-                }else {
+                } else {
                     mShopping.setText("点击购买");
                 }
                 String balance = String.format("￥%s", NumberFormat.getInstance().format(entity.getData().getAccount() / 100f));

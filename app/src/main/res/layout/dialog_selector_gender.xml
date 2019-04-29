@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="#80000000"
+    android:orientation="vertical">
+
+    <LinearLayout
+
+        android:layout_width="990px"
+        android:layout_height="594px"
+        android:layout_gravity="center"
+        android:background="@drawable/shape_bg_rect_card"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="63px"
+            android:layout_marginTop="72px"
+            android:text="选择性别"
+            android:textColor="#999999"
+            android:textSize="38px" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:layout_marginTop="53px"
+            android:layout_weight="1"
+            android:paddingLeft="63px"
+            android:paddingRight="63px">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0px"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="男"
+                    android:textColor="#333333"
+                    android:textSize="38px" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:background="#e5e5e5" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="女"
+                    android:textColor="#333333"
+                    android:textSize="38px" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:background="#e5e5e5" />
+            </LinearLayout>
+
+
+            <RadioGroup
+                android:id="@+id/rg_dialog_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/rb_dialog_gender_man"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0px"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical" />
+
+                <RadioButton
+                    android:id="@+id/rb_dialog_gender_woman"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0px"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical" />
+
+            </RadioGroup>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_dialog_gender_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="168px"
+            android:gravity="center"
+            android:text="取消" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

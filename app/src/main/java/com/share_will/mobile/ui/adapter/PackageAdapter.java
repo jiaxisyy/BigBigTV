@@ -28,10 +28,7 @@ public class PackageAdapter extends LoadMoreAdapter<PackageEntity, PackageAdapte
     protected void convert(Holder helper, PackageEntity item) {
         ImageView poster = helper.getView(R.id.iv_poster);
         RequestOptions options = new RequestOptions().placeholder(R.drawable.no).error(R.drawable.no);
-
-
         Glide.with(mContext).load(item.getPoster()).apply(options).into(poster);
-
         if(!TextUtils.isEmpty(item.getPackageName())){
             helper.setText(R.id.tv_name, item.getPackageName());
         }

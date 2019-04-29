@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="45px"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/icon_alarm_location"
+            android:drawableLeft="@drawable/icon_map_pop_location"
             android:drawablePadding="36px"
             android:text="地址:"
             android:textColor="#333333"

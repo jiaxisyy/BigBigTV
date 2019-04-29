@@ -115,6 +115,9 @@ dependencies {
     implementation project(':base')
     implementation 'com.contrarywind:Android-PickerView:4.1.8'
     implementation 'com.contrarywind:wheelview:4.0.9'
+    //轮播图
+    implementation 'com.youth.banner:banner:1.4.10'
+
     implementation project(':autolayout')
 
 }

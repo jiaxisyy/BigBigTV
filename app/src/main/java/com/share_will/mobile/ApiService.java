@@ -609,7 +609,7 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("cabinet/stake/list")
-    Observable<BaseEntity<Object>> getStakeStatus(@Field("cabinetId") String cabinetId);
+    Observable<BaseEntity<List<ChargeStakeEntity>>> getStakeStatus(@Field("cabinetId") String cabinetId);
 
     /**
      * 充电桩充电或结束充电结果

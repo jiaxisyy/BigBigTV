@@ -10,6 +10,7 @@ public class ChargeStakeEntity {
     private String cabinet;
     private int status;
     private long time;
+    private boolean selected;
 
     public int getIndex() {
         return index;
@@ -41,6 +42,14 @@ public class ChargeStakeEntity {
 
     public void setTime(long time) {
         this.time = time;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     @Override

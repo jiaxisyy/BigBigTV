@@ -22,14 +22,19 @@ public class ChargeStakePresenter extends BasePresenter<ChargeStakeModel, Charge
     /**
      * 获取用户充电信息
      */
-    public void getChargingInfo() {
+    public void getChargingInfo(final boolean isFinishing) {
 
         getModel().getChargingInfo()
                 .compose(this.bindToLifecycle(getView()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseNetSubscriber<BaseEntity<ChargeStakeEntity>>(ChargeStakePresenter.this) {
-                            @Override
+                    @Override
+                    protected boolean showLoading() {
+                        return isFinishing;
+                    }
+
+                    @Override
                             public void onNext(BaseEntity<ChargeStakeEntity> s) {
                                 getView().onLoadChargingInfo(s);
                             }
@@ -53,9 +58,9 @@ public class ChargeStakePresenter extends BasePresenter<ChargeStakeModel, Charge
                 .compose(this.bindToLifecycle(getView()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseNetSubscriber<BaseEntity<Object>>(ChargeStakePresenter.this) {
+                .subscribe(new BaseNetSubscriber<BaseEntity<List<ChargeStakeEntity>>>(ChargeStakePresenter.this) {
                                @Override
-                               public void onNext(BaseEntity<Object> s) {
+                               public void onNext(BaseEntity<List<ChargeStakeEntity>> s) {
                                    getView().onLoadStakeStatus(s);
                                }
                                @Override

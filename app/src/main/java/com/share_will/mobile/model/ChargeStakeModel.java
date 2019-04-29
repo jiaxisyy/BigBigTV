@@ -6,6 +6,8 @@ import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseModel;
 import com.ubock.library.http.ApiClient;
 
+import java.util.List;
+
 import rx.Observable;
 
 public class ChargeStakeModel extends BaseModel {
@@ -14,7 +16,7 @@ public class ChargeStakeModel extends BaseModel {
         return ApiClient.getInstance().getApiService(ApiService.class).getChargingInfo();
     }
 
-    public Observable<BaseEntity<Object>> getStakeStatus(String cabinetId){
+    public Observable<BaseEntity<List<ChargeStakeEntity>>> getStakeStatus(String cabinetId){
         return ApiClient.getInstance().getApiService(ApiService.class).getStakeStatus(cabinetId);
     }
 

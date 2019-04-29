@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,19 +39,21 @@ public class DialogActivity extends BaseFragmentActivity {
     public final static String PARAM_OK = "ok";
     public final static String PARAM_CANCEL = "cancel";
     public final static String PARAM_SHOW_OK = "show_ok";
+    private ImageView mIvCancel;
+    private ImageView mIvOk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mNeedCheckPermission = getIntent().getBooleanExtra(PARAM_NEED_PERMISSION, false);
-        if (mNeedCheckPermission){
+        if (mNeedCheckPermission) {
             DialogActivityPermissionsDispatcher.onAllowPermissionWithPermissionCheck(DialogActivity.this);
         }
     }
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_dialog;
+        return R.layout.activity_dialog_update;
     }
 
     @Override
@@ -59,6 +63,8 @@ public class DialogActivity extends BaseFragmentActivity {
         mMessage = findViewById(R.id.auth_tip_txt);
         mCancelBtn = findViewById(R.id.cancel_btn);
         mOkBtn = findViewById(R.id.ok_btn);
+        mIvCancel = findViewById(R.id.iv_dialog_update_cancel);
+        mIvOk = findViewById(R.id.iv_dialog_update_ok);
         mCancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,6 +79,16 @@ public class DialogActivity extends BaseFragmentActivity {
                 finish();
             }
         });
+        if(mIvCancel!=null&&mIvOk!=null){
+            mIvCancel.setOnClickListener(v -> {
+                EventBus.getDefault().post(new MessageEvent.DialogActivityEvent(false));
+                finish();
+            });
+            mIvOk.setOnClickListener(v -> {
+                EventBus.getDefault().post(new MessageEvent.DialogActivityEvent(true));
+                finish();
+            });
+        }
 
         Intent intent = getIntent();
         mShowOK = intent.getBooleanExtra(PARAM_SHOW_OK, true);
@@ -80,21 +96,24 @@ public class DialogActivity extends BaseFragmentActivity {
         String message = intent.getStringExtra(PARAM_MESSAGE);
         String ok = intent.getStringExtra(PARAM_OK);
         String cancel = intent.getStringExtra(PARAM_CANCEL);
-        if (title != null){
+        if (title != null) {
             mTitle.setText(title);
         }
-        if (message != null){
+        if (message != null) {
             mMessage.setText(message);
         }
-        if (ok != null){
+        if (ok != null) {
             mOkBtn.setText(ok);
         }
-        if (cancel != null){
+        if (cancel != null) {
             mCancelBtn.setText(cancel);
         }
 
-        if (!mShowOK){
+        if (!mShowOK) {
             mOkBtn.setVisibility(View.GONE);
+            if(mIvOk!=null){
+                mIvOk.setVisibility(View.GONE);
+            }
             mLine.setVisibility(View.GONE);
         }
     }

@@ -394,9 +394,9 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
         if (mCabinetInfoView.getVisibility() == View.VISIBLE) {
             mCabinetInfoView.setVisibility(View.GONE);
             mPopupWindow.dismiss();
-            if(clickMarker!=null){
-                clickMarker.hideInfoWindow();
-            }
+//            if (clickMarker != null) {
+//                clickMarker.hideInfoWindow();
+//            }
         }
     }
 
@@ -615,8 +615,7 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
         @Override
         public boolean onMarkerClick(Marker marker) {
 
-            clickMarker = marker;
-            if(mCabinetList.size()>0){
+            if (mCabinetList.size() > 0) {
                 CabinetEntity cabinetEntity = mCabinetList.get(Integer.parseInt(marker.getSnippet()));
                 showCabinetInfo(cabinetEntity);
                 if (cabinetEntity.isOnline()) {
@@ -627,11 +626,12 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
                     if (clickType == 1) {
                         if (rideRouteOverlay != null) {
                             rideRouteOverlay.removeFromMap();
-                            marker.hideInfoWindow();
+                            clickMarker.hideInfoWindow();
                         }
                     }
                 }
             }
+            clickMarker = marker;
             return true;
         }
     };
@@ -641,66 +641,64 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
      */
     private void showRideRoute(CabinetEntity cabinetEntity) {
         LogUtils.d(clickType + "===== 0:未点击 1:点击后=====");
-        if (clickType == 0) {
-            if (rideRouteOverlay != null) {
-                rideRouteOverlay.removeFromMap();
+        if (rideRouteOverlay != null) {
+            rideRouteOverlay.removeFromMap();
+        }
+        RouteSearch routeSearch = new RouteSearch(getActivity());
+        RouteSearch.FromAndTo fromAndTo = new RouteSearch.FromAndTo(new LatLonPoint(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()),
+                new LatLonPoint(cabinetEntity.getLatitude(), cabinetEntity.getLongitude()));
+        RouteSearch.RideRouteQuery query = new RouteSearch.RideRouteQuery(fromAndTo, RIDING_RECOMMEND);
+        routeSearch.calculateRideRouteAsyn(query);
+        routeSearch.setRouteSearchListener(new RouteSearch.OnRouteSearchListener() {
+            @Override
+            public void onBusRouteSearched(BusRouteResult busRouteResult, int i) {
+
             }
-        } else {
-            RouteSearch routeSearch = new RouteSearch(getActivity());
-            RouteSearch.FromAndTo fromAndTo = new RouteSearch.FromAndTo(new LatLonPoint(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()),
-                    new LatLonPoint(cabinetEntity.getLatitude(), cabinetEntity.getLongitude()));
-            RouteSearch.RideRouteQuery query = new RouteSearch.RideRouteQuery(fromAndTo, RIDING_RECOMMEND);
-            routeSearch.calculateRideRouteAsyn(query);
-            routeSearch.setRouteSearchListener(new RouteSearch.OnRouteSearchListener() {
-                @Override
-                public void onBusRouteSearched(BusRouteResult busRouteResult, int i) {
 
-                }
-
-                @Override
-                public void onDriveRouteSearched(DriveRouteResult driveRouteResult, int i) {
+            @Override
+            public void onDriveRouteSearched(DriveRouteResult driveRouteResult, int i) {
 
 
-                }
+            }
 
-                @Override
-                public void onWalkRouteSearched(WalkRouteResult walkRouteResult, int i) {
+            @Override
+            public void onWalkRouteSearched(WalkRouteResult walkRouteResult, int i) {
 
-                }
+            }
 
-                @Override
-                public void onRideRouteSearched(RideRouteResult rideRouteResult, int errorCode) {
-                    if (errorCode == AMapException.CODE_AMAP_SUCCESS) {
-                        if (rideRouteResult != null && rideRouteResult.getPaths() != null) {
-                            if (rideRouteResult.getPaths().size() > 0) {
-                                RidePath ridePath = rideRouteResult.getPaths().get(0);
+            @Override
+            public void onRideRouteSearched(RideRouteResult rideRouteResult, int errorCode) {
+                if (errorCode == AMapException.CODE_AMAP_SUCCESS) {
+                    if (rideRouteResult != null && rideRouteResult.getPaths() != null) {
+                        if (rideRouteResult.getPaths().size() > 0) {
+                            RidePath ridePath = rideRouteResult.getPaths().get(0);
 
-                                if (ridePath == null) {
-                                    return;
-                                }
-                                rideRouteOverlay = new RideRouteOverlay(getActivity(), mAMap, ridePath, rideRouteResult.getStartPos(), rideRouteResult.getTargetPos());
-                                rideRouteOverlay.setNodeIconVisibility(false);//设置节点marker是否显示
-                                rideRouteOverlay.removeFromMap();
-                                rideRouteOverlay.addToMap();
-                                rideRouteOverlay.zoomToSpan();
-                                ridePathDuration = ridePath.getDuration();
-                                ridePathDistance = ridePath.getDistance();
-                                LogUtils.d("骑行时间:" + ridePathDuration + "骑行距离:" + ridePathDistance);
-                                if (ridePathDistance != 0) {
-                                    float v = ridePathDistance / 1000;
-                                    DecimalFormat decimalFormat = new DecimalFormat("0.0");
-                                    String p = decimalFormat.format(v);
-                                    mDistance.setText(p + "公里");
-                                }
-                                if (ridePathDuration != 0) {
-                                    mDuration.setText(ridePathDuration / 60 + "分钟");
-                                }
+                            if (ridePath == null) {
+                                return;
+                            }
+                            rideRouteOverlay = new RideRouteOverlay(getActivity(), mAMap, ridePath, rideRouteResult.getStartPos(), rideRouteResult.getTargetPos());
+                            rideRouteOverlay.setNodeIconVisibility(false);//设置节点marker是否显示
+                            rideRouteOverlay.removeFromMap();
+                            rideRouteOverlay.addToMap();
+                            rideRouteOverlay.zoomToSpan();
+                            ridePathDuration = ridePath.getDuration();
+                            ridePathDistance = ridePath.getDistance();
+                            LogUtils.d("骑行时间:" + ridePathDuration + "骑行距离:" + ridePathDistance);
+                            if (ridePathDistance != 0) {
+                                float v = ridePathDistance / 1000;
+                                DecimalFormat decimalFormat = new DecimalFormat("0.0");
+                                String p = decimalFormat.format(v);
+                                mDistance.setText(p + "公里");
+                            }
+                            if (ridePathDuration != 0) {
+                                mDuration.setText(ridePathDuration / 60 + "分钟");
                             }
                         }
                     }
                 }
-            });
-        }
+            }
+        });
+
     }
 
 

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="793px"
+        android:layout_height="1280px"
+        android:background="@drawable/icon_bg_dialog_update">
+
+        <ImageView
+            android:id="@+id/iv_dialog_update_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="60px"
+            android:src="@drawable/icon_dialog_update_close" />
+
+        <TextView
+            android:id="@+id/tv_dialog_update_bg_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="45px"
+            android:layout_marginTop="250px"
+            android:text="发现新版本"
+            android:textColor="#FFFFFF"
+            android:textSize="60px"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_dialog_update_version"
+            android:layout_width="150px"
+            android:layout_height="50px"
+            android:layout_below="@+id/tv_dialog_update_bg_title"
+            android:layout_alignRight="@+id/tv_dialog_update_bg_title"
+            android:layout_marginTop="15px"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:text="V1.0.0" />
+
+        <TextView
+            android:id="@+id/tv_dialog_update_info_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="45px"
+            android:textStyle="bold"
+            android:text="更新内容:" />
+
+        <com.share_will.mobile.ui.widget.AutoFitTextView
+            android:id="@+id/auth_tip_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/iv_dialog_update_ok"
+            android:layout_below="@+id/tv_dialog_update_info_title"
+            android:layout_marginLeft="45px"
+            android:layout_marginRight="45px"
+            android:layout_marginTop="30px"
+            android:lineSpacingExtra="10dp"
+            android:text="1.更新1\n2.更新2\n3.更新3" />
+
+        <ImageView
+            android:id="@+id/iv_dialog_update_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="50px"
+            android:src="@drawable/icon_dialog_update_start" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/icon_bg_dialog_update"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/auth_tip_tilte"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/dialog_title_hint"
+            android:textColor="@color/common_text_2"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center_vertical"
+            android:lineSpacingExtra="5dp"
+            android:minWidth="200dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textColor="@color/common_text_1"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/common_line_color" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <Button
+                android:id="@+id/ok_btn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="center"
+                android:textColor="@color/common_green"
+                android:textSize="20sp" />
+
+            <View
+                android:id="@+id/view_line"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/common_line_color" />
+
+            <Button
+                android:id="@+id/cancel_btn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="center"
+                android:textColor="@color/common_green"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

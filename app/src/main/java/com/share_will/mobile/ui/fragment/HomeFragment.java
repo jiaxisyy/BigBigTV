@@ -64,9 +64,9 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     private RelativeLayout mCardMoney;
     private TextView mNoAlarm;
     private LinearLayout mNoBatteryCon;
-    private Button mRentalBattery;
-    private Button mGetBattery;
-    private Button mBindBattery;
+    private TextView mRentalBattery;
+    private TextView mGetBattery;
+    private TextView mBindBattery;
     private View mLayoutBottom;
     private SwipeRefreshLayout mRefreshLayout;
     private boolean hasChargeBatteryInfo = false;

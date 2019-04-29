@@ -151,6 +151,8 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
             } else {
                 LogUtils.d("=============");
             }
+        } else if (requestCode == REQUEST_CODE_ORDERFORM) {
+            finish();
         }
 
     }
@@ -212,7 +214,6 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
     @Override
     public void OnStopChargeScanResult(BaseEntity<ChargeOrderEntity> s) {
         if (s != null) {
-
             if (!TextUtils.isEmpty(s.getData().getOrderId())) {
                 String orderId = s.getData().getOrderId();
                 Intent intent = new Intent(this, OrderFormActivity.class);
@@ -225,7 +226,6 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
                 ToastExt.showExt("获取充电订单失败,请稍后再试");
             }
         } else {
-
             ToastExt.showExt("获取充电订单失败,请稍后再试");
         }
 

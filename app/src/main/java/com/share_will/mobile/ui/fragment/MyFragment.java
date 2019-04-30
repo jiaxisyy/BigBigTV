@@ -30,6 +30,7 @@ import com.share_will.mobile.ui.activity.RescueActivity;
 import com.share_will.mobile.ui.activity.SettingActivity;
 import com.share_will.mobile.ui.activity.ShopActivity;
 import com.share_will.mobile.ui.views.UserCenterView;
+import com.share_will.mobile.ui.widget.CircleImageView;
 import com.share_will.mobile.ui.widget.RowItemView;
 import com.ubock.library.annotation.PresenterInjector;
 import com.ubock.library.base.BaseEntity;
@@ -37,6 +38,7 @@ import com.ubock.library.base.BaseFragment;
 import com.ubock.library.ui.dialog.ToastExt;
 import com.ubock.library.utils.DateUtils;
 import com.ubock.library.utils.LogUtils;
+import com.ubock.library.utils.SharedPreferencesUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -53,6 +55,9 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
     private static final int REQUEST_CODE_SCANLOGIN_CODE = 10011;
     //异常扫码取电池
     public final static int REQUEST_CODE_GET_BATTERY = 101;
+    private static final int REQUEST_CODE_USERINFO = 10012;
+    //头像图片选择
+    private static final int RESULTCODE_HEADPATH = 10020;
 
     @PresenterInjector
     UserCenterPresenter userCenterPresenter;
@@ -69,6 +74,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
     private TextView mValidity;
     private TextView mShopping;
     private UserInfo mUserInfo;
+    private CircleImageView mHeadView;
 
 
     @Override
@@ -104,16 +110,17 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
         view.findViewById(R.id.row_my_vehicle).setOnClickListener(this);
         view.findViewById(R.id.row_my_battery).setOnClickListener(this);
         view.findViewById(R.id.row_my_scan).setOnClickListener(this);
-        view.findViewById(R.id.iv_my_head).setOnClickListener(this);
+        mHeadView = view.findViewById(R.id.civ_my_head);
+        UserInfo mUserInfo = SharedPreferencesUtils.getDeviceData(getActivity(), App.getInstance().getUserId());
+        if (!TextUtils.isEmpty(mUserInfo.getHeadPicPath())) {
+            mHeadView.setImageURI(Uri.parse(mUserInfo.getHeadPicPath()));
+        }
+        mHeadView.setOnClickListener(this);
         mBtnTopRightMenu.setOnClickListener(this);
         mTvPhoneNum.setText(App.getInstance().getUserId());
         getBalance(true);
         showTopRightMenu(true);
-
     }
-
-
-
 
 
     @Override
@@ -169,8 +176,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
             case R.id.tv_my_top_shopping:
                 goToShopping();
                 break;
-            case R.id.iv_my_head:
-                startActivity(new Intent(getActivity(), MyInformationActivity.class));
+            case R.id.civ_my_head:
+                startActivityForResult(new Intent(getActivity(), MyInformationActivity.class), REQUEST_CODE_USERINFO);
                 break;
             default:
                 break;
@@ -260,7 +267,16 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
             } else if (requestCode == REQUEST_CODE_GET_BATTERY) {
                 userCenterPresenter.exceptionGetBattery(sn, App.getInstance().getUserId());
             }
+        } else if (resultCode == RESULTCODE_HEADPATH) {
+            if (requestCode == REQUEST_CODE_USERINFO) {
+                String path = data.getStringExtra("head_pic_path");
+                if (path != null) {
+                    mHeadView.setImageURI(Uri.parse(path));
+                }
+            }
         }
+
+
     }
 
     @Override

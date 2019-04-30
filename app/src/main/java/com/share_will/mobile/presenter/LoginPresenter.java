@@ -39,6 +39,10 @@ public class LoginPresenter extends BasePresenter<LoginModel, LoginView> {
                                        getView().onLogin(true, "登录成功");
                                        App.getInstance().getGlobalModel().setUserInfo(s.getData());
                                        SharedPreferencesUtils.saveDeviceData(App.getContext(), Constant.USER_INFO, s.getData());
+                                       UserInfo userInfo = SharedPreferencesUtils.getDeviceData(App.getContext(), App.getInstance().getUserId());
+                                       if(userInfo==null){
+                                           SharedPreferencesUtils.saveDeviceData(App.getContext(), s.getData().getUserId(), s.getData());
+                                       }
                                    } else {
                                        getView().onLogin(false, s.getMessage());
                                    }

@@ -26,6 +26,7 @@ import com.share_will.mobile.App;
 import com.share_will.mobile.Constant;
 import com.share_will.mobile.R;
 import com.share_will.mobile.model.entity.UserInfo;
+
 import com.share_will.mobile.ui.widget.CircleImageView;
 import com.ubock.library.base.BaseFragmentActivity;
 import com.ubock.library.utils.SharedPreferencesUtils;
@@ -36,6 +37,7 @@ import java.util.List;
 
 public class MyInformationActivity extends BaseFragmentActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
 
+    private static final int RESULTCODE_HEADPATH = 10020;
     private CircleImageView mHead;
     private TextView mTvPhone;
     private TextView mTvPhone2;
@@ -47,8 +49,14 @@ public class MyInformationActivity extends BaseFragmentActivity implements View.
     private RadioButton mWoman;
     private RadioGroup mRgGender;
     private LinearLayout mLlGender;
-    private UserInfo mUserInfo;
+
     private String mGender;
+    private UserInfo mUserInfo;
+    private RadioButton mRbMan;
+    private RadioButton mRbWoman;
+
+    private static final String GENDER_MAN = "男";
+    private static final String GENDER_WOMAN = "女";
 
     @Override
     protected int getLayoutId() {
@@ -68,15 +76,16 @@ public class MyInformationActivity extends BaseFragmentActivity implements View.
         mLlGender.setOnClickListener(this);
         mTvPhone.setText(App.getInstance().getUserId());
         mTvPhone2.setText(App.getInstance().getUserId());
-        mUserInfo = new UserInfo();
-        UserInfo userInfo = SharedPreferencesUtils.getDeviceData(this, Constant.USER_INFO);
-        mTvName.setText(userInfo.getUserName());
-        mGender = userInfo.getGender();
+        mUserInfo = SharedPreferencesUtils.getDeviceData(this, App.getInstance().getUserId());
+        if (!TextUtils.isEmpty(mUserInfo.getUserName())) {
+            mTvName.setText(mUserInfo.getUserName());
+        }
+        mGender = mUserInfo.getGender();
         if (!TextUtils.isEmpty(mGender)) {
             mTvGender.setText(mGender);
         }
-        if (!TextUtils.isEmpty(userInfo.getHeadPicPath())) {
-            mHead.setImageURI(Uri.parse(userInfo.getHeadPicPath()));
+        if (!TextUtils.isEmpty(mUserInfo.getHeadPicPath())) {
+            mHead.setImageURI(Uri.parse(mUserInfo.getHeadPicPath()));
         }
 
     }
@@ -103,11 +112,16 @@ public class MyInformationActivity extends BaseFragmentActivity implements View.
         mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
         mCancel = view.findViewById(R.id.tv_dialog_gender_cancel);
         mRgGender = view.findViewById(R.id.rg_dialog_gender);
-        if (mGender != null) {
-            if (mGender.equals("女")) {
-                //TODO
-            }
+        mRbMan = view.findViewById(R.id.rb_dialog_gender_man);
+        mRbWoman = view.findViewById(R.id.rb_dialog_gender_woman);
+
+        if (mTvGender.getText().toString().equals(GENDER_MAN)) {
+
+            mRbMan.setChecked(true);
+        } else {
+            mRbWoman.setChecked(true);
         }
+
         mRgGender.setOnCheckedChangeListener(this);
 
         mCancel.setOnClickListener(v -> {
@@ -147,9 +161,10 @@ public class MyInformationActivity extends BaseFragmentActivity implements View.
                     if (selectList.get(0).isCompressed()) {
                         String path = selectList.get(0).getCompressPath();
                         mHead.setImageURI(Uri.parse(path));
-
                         mUserInfo.setHeadPicPath(path);
-                        SharedPreferencesUtils.saveDeviceData(App.getContext(), Constant.USER_INFO, mUserInfo);
+                        Intent intent = new Intent();
+                        intent.putExtra("head_pic_path", path);
+                        setResult(RESULTCODE_HEADPATH, intent);
 
                     }
                     break;
@@ -162,14 +177,21 @@ public class MyInformationActivity extends BaseFragmentActivity implements View.
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         if (i == R.id.rb_dialog_gender_man) {
-            mTvGender.setText("男");
-            mUserInfo.setGender("男");
+            mRbMan.setChecked(true);
+            mTvGender.setText(GENDER_MAN);
+            mUserInfo.setGender(GENDER_MAN);
             mPopupWindow.dismiss();
         } else if (i == R.id.rb_dialog_gender_woman) {
-            mTvGender.setText("女");
-            mUserInfo.setGender("女");
+            mRbWoman.setChecked(true);
+            mTvGender.setText(GENDER_WOMAN);
+            mUserInfo.setGender(GENDER_WOMAN);
             mPopupWindow.dismiss();
         }
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SharedPreferencesUtils.saveDeviceData(this, App.getInstance().getUserId(), mUserInfo);
     }
 }

@@ -25,10 +25,10 @@
                 android:paddingBottom="63px"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/iv_my_head"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <com.share_will.mobile.ui.widget.CircleImageView
+                    android:id="@+id/civ_my_head"
+                    android:layout_width="200px"
+                    android:layout_height="200px"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/icon_my_head" />
 

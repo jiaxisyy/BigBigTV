@@ -84,9 +84,9 @@ public class Loading extends BaseDialog {
 
     @Override
     public boolean dispatchKeyEvent(@NonNull KeyEvent event) {
-        if (mContext instanceof Activity){
-            return ((Activity) mContext).dispatchKeyEvent(event);
-        }
+//        if (mContext instanceof Activity){
+//            return ((Activity) mContext).dispatchKeyEvent(event);
+//        }
         return super.dispatchKeyEvent(event);
     }
 

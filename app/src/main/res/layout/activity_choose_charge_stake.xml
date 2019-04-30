@@ -7,50 +7,58 @@
         android:id="@+id/topbar"
         layout="@layout/widget_topbar" />
 
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/topbar"
-        android:layout_marginLeft="126px"
-        android:layout_marginRight="126px"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topbar">
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="60px"
-            android:text="请选择插座充电"
-            android:textColor="#333333"
-            android:textSize="42px" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_charge_stake"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16px" />
+            android:layout_marginLeft="126px"
+            android:layout_marginRight="126px"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="60px"
+                android:text="请选择插座充电"
+                android:textColor="#333333"
+                android:textSize="42px" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_charge_stake"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30px"
+                android:text="@string/text_charge_stake_info"
+                android:textColor="#333333"
+                android:textSize="36px" />
+
+        </LinearLayout>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30px"
-            android:text="@string/text_charge_stake_info"
-            android:textColor="#333333"
-            android:textSize="36px" />
-
+            android:id="@+id/tv_home_choose_charge_socket_start"
+            android:layout_width="516px"
+            android:layout_height="120px"
+            android:layout_marginTop="80px"
+            android:layout_marginBottom="100px"
+            android:background="@drawable/shape_bg_scan"
+            android:gravity="center"
+            android:text="开始充电"
+            android:textColor="#FFFFFF"
+            android:textSize="40px" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_home_choose_charge_socket_start"
-        android:layout_width="516px"
-        android:layout_height="120px"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="347px"
-        android:background="@drawable/shape_bg_scan"
-        android:gravity="center"
-        android:text="开始充电"
-        android:textColor="#FFFFFF"
-        android:textSize="40px" />
-
+    </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>

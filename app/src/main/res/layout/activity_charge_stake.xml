@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <include layout="@layout/widget_topbar" />
@@ -73,7 +74,7 @@
         android:text="您还没有充电,请先扫一扫进行充电" />
 
     <TextView
-        android:id="@+id/tv_home_charge_stake_scan"
+        android:id="@+id/tv_home_charge_stake_scan_start"
         android:layout_width="516px"
         android:layout_height="120px"
         android:layout_alignParentBottom="true"
@@ -81,9 +82,37 @@
         android:layout_marginBottom="347px"
         android:background="@drawable/shape_bg_scan"
         android:gravity="center"
-        android:text="扫一扫"
+        android:text="扫一扫充电"
         android:textColor="#FFFFFF"
         android:textSize="40px" />
+
+    <TextView
+        android:id="@+id/tv_home_charge_stake_scan_stop"
+        android:layout_width="516px"
+        android:layout_height="120px"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="347px"
+        android:background="@drawable/shape_bg_scan"
+        android:gravity="center"
+        android:text="结束充电"
+        android:textColor="#FFFFFF"
+        android:visibility="gone"
+        android:textSize="40px" />
+
+
+    <TextView android:id="@+id/tv_finish_charge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#cc000000"
+        android:layout_centerInParent="true"
+        android:text="正在结束充电..."
+        android:textColor="#FFFFFFFF"
+        android:padding="30px"
+        android:textSize="46px"
+        android:gravity="center"
+        android:visibility="gone"
+        tools:visibility="visible"/>
 
 
 </RelativeLayout>

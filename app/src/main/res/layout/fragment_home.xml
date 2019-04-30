@@ -58,8 +58,7 @@
                     android:id="@+id/tv_home_top_charge_stake"
                     style="@style/style_text_home_top"
                     android:drawableTop="@drawable/icon_bar_battery_charge_stake"
-                    android:text="充电桩"
-                    android:visibility="gone" />
+                    android:text="充电桩"/>
 
                 <TextView
                     android:id="@+id/tv_home_top_rent"

@@ -43,7 +43,7 @@ public class Constant {
         WEIXIN_APP_INFO.put("smartbms_APP_ID", "wx6065fed506b579c6");
 
         //春藤
-        WEIXIN_APP_INFO.put("shenzhen-chunteng_APP_ID", "wx6065fed506b579c6");
+        WEIXIN_APP_INFO.put("shenzhen-chunteng_APP_ID", "wx3285a452a886be73");
     }
 
     //log级别

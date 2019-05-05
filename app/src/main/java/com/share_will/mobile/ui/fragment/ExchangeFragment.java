@@ -754,12 +754,12 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
             int usableCount = entity.getUsableCount();
             //根据图片名获取对应id
             if (!entity.isOnline()) {
-                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_battery_offline));
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_no_battery));
             } else {
                 if (usableCount >= 0 && usableCount <= 18) {
-                    markerOptions.icon(BitmapDescriptorFactory.fromResource(getResources().getIdentifier("icon_battery" + usableCount, "drawable", getContext().getPackageName())));
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(getResources().getIdentifier("icon_battery_" + usableCount, "drawable", getContext().getPackageName())));
                 } else {
-                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_battery0));
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_battery_0));
                 }
             }
             markerOptions.setFlat(true);//设置marker平贴地图效果

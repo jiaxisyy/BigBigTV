@@ -116,7 +116,6 @@ public class MyInformationActivity extends BaseFragmentActivity implements View.
         mRbWoman = view.findViewById(R.id.rb_dialog_gender_woman);
 
         if (mTvGender.getText().toString().equals(GENDER_MAN)) {
-
             mRbMan.setChecked(true);
         } else {
             mRbWoman.setChecked(true);

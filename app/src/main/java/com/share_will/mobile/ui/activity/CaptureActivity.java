@@ -20,6 +20,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.share_will.mobile.R;
@@ -125,7 +126,7 @@ public class CaptureActivity extends BaseFragmentActivity implements Callback {
 
         mContainer = findViewById(R.id.capture_containter);
         mCropLayout = findViewById(R.id.capture_crop_layout);
-
+        findViewById(R.id.tv_scan_back).setOnClickListener(v -> finish());
         ImageView mQrLineView = findViewById(R.id.capture_scan_line);
         TranslateAnimation mAnimation = new TranslateAnimation(TranslateAnimation.ABSOLUTE, 0f, TranslateAnimation.ABSOLUTE, 0f,
                 TranslateAnimation.RELATIVE_TO_PARENT, 0f, TranslateAnimation.RELATIVE_TO_PARENT, 0.9f);

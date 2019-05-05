@@ -112,7 +112,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
         view.findViewById(R.id.row_my_scan).setOnClickListener(this);
         mHeadView = view.findViewById(R.id.civ_my_head);
         UserInfo mUserInfo = SharedPreferencesUtils.getDeviceData(getActivity(), App.getInstance().getUserId());
-        if (!TextUtils.isEmpty(mUserInfo.getHeadPicPath())) {
+        if (mUserInfo != null && !TextUtils.isEmpty(mUserInfo.getHeadPicPath())) {
             mHeadView.setImageURI(Uri.parse(mUserInfo.getHeadPicPath()));
         }
         mHeadView.setOnClickListener(this);

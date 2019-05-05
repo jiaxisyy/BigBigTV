@@ -62,11 +62,13 @@ public class WXPayEntryActivity extends BaseFragmentActivity implements IWXAPIEv
 
     @Override
 	public void onReq(BaseReq req) {
+
 	}
 
 	@Override
 	public void onResp(BaseResp resp) {
-		Log.d(TAG, "onPayFinish, errCode = " + resp.errCode);
+		Log.d(TAG, String.format("onPayFinish, errCode = %d; errStr = %s; transaction = %s; checkArgs=%b" ,
+				resp.errCode, resp.errStr, resp.transaction, resp.checkArgs()));
 		if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
 			MessageEvent.PayEvent payEvent;
 			if(resp.errCode == 0) {

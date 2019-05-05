@@ -229,13 +229,20 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.ProtocolActivity"
-            android:launchMode="singleTop" />
-        <activity android:name=".ui.activity.RescueActivity" />
-        <activity android:name=".ui.activity.NewRescueActivity" />
-        <activity android:name=".ui.activity.RescueDetailActivity" />
-        <activity android:name=".ui.activity.RefundActivity" />
-        <activity android:name=".ui.activity.RefundDetailActivity" />
-        <activity android:name=".ui.activity.BespeakActivity" />
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.RescueActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.NewRescueActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.RescueDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.RefundActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.RefundDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.BespeakActivity"
+            android:screenOrientation="portrait" />
         <!--友盟分享-->
         <!--新浪分享-->
         <activity

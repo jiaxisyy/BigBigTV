@@ -342,7 +342,5 @@ public class CaptureActivity extends BaseFragmentActivity implements Callback {
 
     @OnNeverAskAgain(Manifest.permission.CAMERA)
     void onNeverAskAgain() {
-        Toast.makeText(this, "已取消打开相机", Toast.LENGTH_LONG).show();
-        finish();
     }
 }

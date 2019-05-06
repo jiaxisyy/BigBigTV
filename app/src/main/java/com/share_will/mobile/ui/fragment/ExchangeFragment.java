@@ -680,7 +680,6 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
                             rideRouteOverlay.setNodeIconVisibility(false);//设置节点marker是否显示
                             rideRouteOverlay.removeFromMap();
                             rideRouteOverlay.addToMap();
-                            rideRouteOverlay.zoomToSpan();
                             ridePathDuration = ridePath.getDuration();
                             ridePathDistance = ridePath.getDistance();
                             LogUtils.d("骑行时间:" + ridePathDuration + "骑行距离:" + ridePathDistance);

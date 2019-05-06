@@ -94,6 +94,16 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     private BatteryEntity batteryEntity;
     private ChargeBatteryEntity chargeBatteryEntity;
     private Banner mBanner;
+    /**
+     * 我的电池信息
+     */
+    private View mMyBatteryView;
+    private ImageView mIvBatteryPic;
+    private TextView mTvMyBatterySn;
+    private TextView mTvMyBatteryModel;
+    private TextView mTvMyBatteryUsed;
+    private TextView mTvMyBatteryMileage;
+    private TextView mTvMyBatteryRsoc;
 
     @Override
     protected int getLayoutId() {
@@ -142,6 +152,15 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mArrowRight = view.findViewById(R.id.iv_main_arrow_right);
         mBatteryBigTitle = view.findViewById(R.id.tv_home_battery_big_title);
         mBanner = view.findViewById(R.id.banner_main_top);
+        //我的电池信息
+        mIvBatteryPic = view.findViewById(R.id.iv_home_my_battery_pic);
+        mTvMyBatterySn = view.findViewById(R.id.tv_home_my_battery_sn);
+        mTvMyBatteryModel = view.findViewById(R.id.tv_home_my_battery_model);
+        mTvMyBatteryUsed = view.findViewById(R.id.tv_home_my_battery_used);
+        mTvMyBatteryMileage = view.findViewById(R.id.tv_home_my_battery_mileage);
+        mTvMyBatteryRsoc = view.findViewById(R.id.tv_home_my_battery_rsoc);
+        mMyBatteryView = view.findViewById(R.id.ll_home_my_battery);
+
         initBanner();
         mTopCharge.setOnClickListener(this);
         mTopChargeStake.setOnClickListener(this);
@@ -170,7 +189,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         localImages.add(R.drawable.banner_bg2);
         mBanner.setImages(localImages).setImageLoader(new GlideImageLoader()).start();
     }
-
 
 
     @Override
@@ -252,6 +270,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         if (data != null) {
             mBatteryBigTitle.setText("电池信息");
             mLayoutBottom.setVisibility(View.VISIBLE);
+            showMyBatteryView(false);
             chargeBatteryEntity = data.getData();
             if (chargeBatteryEntity != null) {
                 mStartTime.setText("开始时间:   " + DateUtils.timeStampToString(chargeBatteryEntity.getStartTime(), DateUtils.YYYYMMDD_HHMMSS));
@@ -281,12 +300,12 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 mArrowRight.setVisibility(View.VISIBLE);
                 hasChargeBatteryInfo = true;
                 showNoBatteryView(false, mUserInfo != null && mUserInfo.getDeposit() > 0);
-                mDurationTime.setVisibility(View.VISIBLE);
-                mNowSop.setVisibility(View.VISIBLE);
-                mEnergy.setVisibility(View.VISIBLE);
-                mAddress.setVisibility(View.VISIBLE);
-                mDoor.setVisibility(View.VISIBLE);
-                mCardMoney.setVisibility(View.VISIBLE);
+//                mDurationTime.setVisibility(View.VISIBLE);
+//                mNowSop.setVisibility(View.VISIBLE);
+//                mEnergy.setVisibility(View.VISIBLE);
+//                mAddress.setVisibility(View.VISIBLE);
+//                mDoor.setVisibility(View.VISIBLE);
+//                mCardMoney.setVisibility(View.VISIBLE);
             }
 
         } else {
@@ -308,28 +327,53 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         if (data != null) {
             batteryEntity = data.getData();
             if (batteryEntity != null && !TextUtils.isEmpty(batteryEntity.getSn())) {
-
                 mBatteryBigTitle.setText("我的电池");
+                showMyBatteryView(true);
+                mArrowRight.setVisibility(View.VISIBLE);
                 if (!TextUtils.isEmpty(batteryEntity.getSn())) {
-                    mStartTime.setText("电池SN:   " + batteryEntity.getSn());
+                    mTvMyBatterySn.setText("电池SN:   " + batteryEntity.getSn());
                 }
-                if (!TextUtils.isEmpty(batteryEntity.getSop())) {
-                    mEnoughTime.setText("当前电量:   " + batteryEntity.getSop() + "%");
+                if (!TextUtils.isEmpty(batteryEntity.getRsoc())) {
+                    Integer rsoc = Integer.valueOf(batteryEntity.getRsoc());
+                    mTvMyBatteryRsoc.setText(batteryEntity.getRsoc() + "%");
+                    switch (rsoc / 20) {
+                        case 0:
+                            mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_00);
+                            break;
+                        case 1:
+                            mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_01);
+                            break;
+                        case 2:
+                            mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_02);
+                            break;
+                        case 3:
+                            mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_03);
+                            break;
+                        case 4:
+                            mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_04);
+                            break;
+                        case 5:
+                            mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_05);
+                            break;
+                    }
                 }
-                mDurationTime.setVisibility(View.GONE);
-                mNowSop.setVisibility(View.GONE);
-                mEnergy.setVisibility(View.GONE);
-                mAddress.setVisibility(View.GONE);
-                mDoor.setVisibility(View.GONE);
-                mCardMoney.setVisibility(View.GONE);
-                mLayoutBottom.setVisibility(View.VISIBLE);
+
+//                mDurationTime.setVisibility(View.GONE);
+//                mNowSop.setVisibility(View.GONE);
+//                mEnergy.setVisibility(View.GONE);
+//                mAddress.setVisibility(View.GONE);
+//                mDoor.setVisibility(View.GONE);
+//                mCardMoney.setVisibility(View.GONE);
+//                mLayoutBottom.setVisibility(View.VISIBLE);
                 showNoBatteryView(false, mUserInfo != null && mUserInfo.getDeposit() > 0);
             } else {
+                showMyBatteryView(false);
                 mLayoutBottom.setVisibility(View.GONE);
                 showNoBatteryView(true, mUserInfo != null && mUserInfo.getDeposit() > 0);
                 mArrowRight.setVisibility(View.INVISIBLE);
             }
         } else {
+            showMyBatteryView(false);
             mLayoutBottom.setVisibility(View.GONE);
             showNoBatteryView(true, mUserInfo != null && mUserInfo.getDeposit() > 0);
             mArrowRight.setVisibility(View.INVISIBLE);
@@ -337,6 +381,16 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         if (flag_http_success == 1) {
             mRefreshLayout.setRefreshing(false);
             flag_http_success = -1;
+        }
+    }
+
+    private void showMyBatteryView(boolean b) {
+        if (b) {
+            mMyBatteryView.setVisibility(View.VISIBLE);
+            mLayoutBottom.setVisibility(View.GONE);
+        } else {
+            mMyBatteryView.setVisibility(View.GONE);
+//            mLayoutBottom.setVisibility(View.VISIBLE);
         }
     }
 

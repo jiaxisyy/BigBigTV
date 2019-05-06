@@ -58,7 +58,7 @@
                     android:id="@+id/tv_home_top_charge_stake"
                     style="@style/style_text_home_top"
                     android:drawableTop="@drawable/icon_bar_battery_charge_stake"
-                    android:text="充电桩"/>
+                    android:text="充电桩" />
 
                 <TextView
                     android:id="@+id/tv_home_top_rent"
@@ -107,6 +107,80 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:src="@drawable/btn_main_arrow_right" />
+
+                <LinearLayout
+                    android:id="@+id/ll_home_my_battery"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_home_battery_big_title"
+                    android:orientation="horizontal"
+                    android:paddingLeft="114px"
+                    android:paddingTop="45px"
+                    android:paddingBottom="63px">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/iv_home_my_battery_pic"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/icon_mybattery_05" />
+
+                        <TextView
+                            android:id="@+id/tv_home_my_battery_rsoc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="100%"
+                            android:textColor="#7CAE1C" />
+
+                    </RelativeLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="75px"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_home_my_battery_sn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="电池SN:"
+                            android:textColor="#333333"
+                            android:textSize="36px" />
+
+                        <TextView
+                            android:id="@+id/tv_home_my_battery_model"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="电池规格:"
+                            android:textColor="#333333"
+                            android:textSize="36px" />
+
+                        <TextView
+                            android:id="@+id/tv_home_my_battery_used"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="电池已使用次数:"
+                            android:textColor="#333333"
+                            android:textSize="36px" />
+
+                        <TextView
+                            android:id="@+id/tv_home_my_battery_mileage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="电池可骑行里程 (预估) :"
+                            android:textColor="#333333"
+                            android:textSize="36px" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

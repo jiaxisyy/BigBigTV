@@ -315,7 +315,6 @@ public class HomeActivity extends BaseTabContainerActivity<HomePresenter> implem
 
     @OnNeverAskAgain({Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION})
     void onNeverAskAgain() {
-        Toast.makeText(this, "已拒绝定位权限", Toast.LENGTH_LONG).show();
     }
 
 

@@ -61,7 +61,7 @@ public class ChooseChargeStakeActivity extends BaseFragmentActivity<ChargeStakeP
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 ChargeStakeEntity entity = mChargeStakeAdapter.getItem(position);
-                if (entity.getStatus() != 1 && mSelectedIndex != position) {
+                if (entity.getStatus() == 0 && mSelectedIndex != position) {
                     entity.setSelected(true);
                     mChargeStakeAdapter.setData(position, entity);
                     if (mSelectedIndex >= 0) {

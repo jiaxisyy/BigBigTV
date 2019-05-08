@@ -2,6 +2,7 @@ package com.share_will.mobile.ui.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -31,7 +32,7 @@ import java.text.NumberFormat;
 import java.util.Map;
 
 public class OrderFormActivity extends BaseFragmentActivity<PayPresenter> implements View.OnClickListener, PayView
-    ,DialogInterface.OnClickListener{
+        , DialogInterface.OnClickListener {
     private RadioButton mRbBalance;
     private RadioButton mRbZfb;
     private RadioButton mRbWz;
@@ -79,7 +80,7 @@ public class OrderFormActivity extends BaseFragmentActivity<PayPresenter> implem
         mBody = getIntent().getStringExtra("body");
 
         mOrderName.setText(mBody);
-        mOrderPrice.setText(String.format("%s元", NumberFormat.getInstance().format(mPrice/100f)));
+        mOrderPrice.setText(String.format("%s元", NumberFormat.getInstance().format(mPrice / 100f)));
 
         mRgType.setOnCheckedChangeListener((radioGroup, i) -> {
             switch (i) {
@@ -125,6 +126,7 @@ public class OrderFormActivity extends BaseFragmentActivity<PayPresenter> implem
     public void onClick(DialogInterface dialog, int which) {
         if (which == DialogInterface.BUTTON_POSITIVE) {
             finish();
+
         }
     }
 
@@ -138,6 +140,7 @@ public class OrderFormActivity extends BaseFragmentActivity<PayPresenter> implem
                 .setTitle("")
                 .setMessage(message)//设置显示的内容
                 .setPositiveButton("知道了", null).show();
+
     }
 
     @Override
@@ -195,6 +198,9 @@ public class OrderFormActivity extends BaseFragmentActivity<PayPresenter> implem
         if (success) {
             mAlertDialog.setMessage("支付成功");
             mAlertDialog.show();
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
+
         } else {
             showError(message);
         }

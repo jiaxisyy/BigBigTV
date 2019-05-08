@@ -1,6 +1,7 @@
 package com.share_will.mobile.ui.views;
 
 import com.share_will.mobile.model.entity.ChargeStakeEntity;
+import com.share_will.mobile.model.entity.ChargeStakeOrderInfoEntity;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseView;
 
@@ -12,7 +13,7 @@ public interface ChargeStakeView extends BaseView {
      * 获取用户充电信息
      * @param data
      */
-    default void onLoadChargingInfo(BaseEntity<ChargeStakeEntity> data){}
+    default void onLoadChargingInfo(BaseEntity<ChargeStakeOrderInfoEntity> data){}
 
     /**
      * 获取充电桩状态

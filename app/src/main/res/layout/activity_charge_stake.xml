@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <include layout="@layout/widget_topbar" />
@@ -10,17 +10,20 @@
     <LinearLayout
         android:id="@+id/tv_home_charge_stake_info"
         android:layout_width="860px"
-        android:layout_height="450px"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:background="@drawable/shape_bg_rect_card"
         android:orientation="vertical"
         android:visibility="invisible">
 
         <TextView
-            style="@style/style_text_charge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="33px"
-            android:text="充电状态" />
+            android:text="充电状态"
+            android:textColor="#333333"
+            android:textSize="36px" />
 
         <TextView
             android:id="@+id/tv_home_charge_stake_start_time"
@@ -49,15 +52,43 @@
             style="@style/style_text_charge"
             android:text="插座:" />
 
-        <TextView
-            android:id="@+id/tv_home_charge_stake_price"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:paddingBottom="30px"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="33px"
-            android:layout_marginTop="30px"
-            android:text="充电费用:"
-            android:textColor="@color/text_color"
-            android:textSize="36px" />
+            android:layout_marginTop="30px">
+
+            <TextView
+                android:id="@+id/tv_home_charge_stake_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="充电费用:"
+                android:textColor="@color/text_color"
+                android:textSize="36px" />
+
+            <TextView
+                android:id="@+id/tv_home_charge_stake_manage_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_home_charge_stake_price"
+                android:layout_marginTop="15px"
+                android:text="服务费用:"
+                android:textColor="@color/text_color"
+                android:textSize="36px" />
+
+            <TextView
+                android:id="@+id/tv_home_charge_stake_all_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="33px"
+                android:text="合计:"
+                android:textColor="@color/text_color"
+                android:textSize="36px" />
+
+        </RelativeLayout>
+
 
     </LinearLayout>
 
@@ -68,10 +99,10 @@
         android:layout_centerInParent="true"
         android:drawableTop="@drawable/icon_charge_stake"
         android:drawablePadding="116px"
-        android:textColor="#333333"
-        android:textSize="38px"
         android:gravity="center_horizontal"
-        android:text="您还没有充电,请先扫一扫进行充电" />
+        android:text="您还没有充电,请先扫一扫进行充电"
+        android:textColor="#333333"
+        android:textSize="38px" />
 
     <TextView
         android:id="@+id/tv_home_charge_stake_scan_start"
@@ -97,22 +128,23 @@
         android:gravity="center"
         android:text="结束充电"
         android:textColor="#FFFFFF"
-        android:visibility="gone"
-        android:textSize="40px" />
+        android:textSize="40px"
+        android:visibility="gone" />
 
 
-    <TextView android:id="@+id/tv_finish_charge"
+    <TextView
+        android:id="@+id/tv_finish_charge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#cc000000"
         android:layout_centerInParent="true"
+        android:background="#cc000000"
+        android:gravity="center"
+        android:padding="30px"
         android:text="正在结束充电..."
         android:textColor="#FFFFFFFF"
-        android:padding="30px"
         android:textSize="46px"
-        android:gravity="center"
         android:visibility="gone"
-        tools:visibility="visible"/>
+        tools:visibility="visible" />
 
 
 </RelativeLayout>

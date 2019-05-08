@@ -384,8 +384,8 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         }
     }
 
-    private void showMyBatteryView(boolean b) {
-        if (b) {
+    private void showMyBatteryView(boolean show) {
+        if (show) {
             mMyBatteryView.setVisibility(View.VISIBLE);
             mLayoutBottom.setVisibility(View.GONE);
         } else {
@@ -402,6 +402,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
      */
     private void showNoBatteryView(boolean show, boolean hasDeposit) {
         if (show) {
+            mBatteryBigTitle.setText("电池信息");
             mNoBatteryCon.setVisibility(View.VISIBLE);
             if (hasDeposit) {
                 mGetBattery.setVisibility(View.VISIBLE);

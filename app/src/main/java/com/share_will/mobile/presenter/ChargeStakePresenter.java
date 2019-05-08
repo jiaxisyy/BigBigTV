@@ -2,6 +2,7 @@ package com.share_will.mobile.presenter;
 
 import com.share_will.mobile.model.ChargeStakeModel;
 import com.share_will.mobile.model.entity.ChargeStakeEntity;
+import com.share_will.mobile.model.entity.ChargeStakeOrderInfoEntity;
 import com.share_will.mobile.model.entity.ChargingEntity;
 import com.share_will.mobile.ui.views.ChargeStakeView;
 import com.ubock.library.base.BaseEntity;
@@ -28,14 +29,14 @@ public class ChargeStakePresenter extends BasePresenter<ChargeStakeModel, Charge
                 .compose(this.bindToLifecycle(getView()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseNetSubscriber<BaseEntity<ChargeStakeEntity>>(ChargeStakePresenter.this) {
+                .subscribe(new BaseNetSubscriber<BaseEntity<ChargeStakeOrderInfoEntity>>(ChargeStakePresenter.this) {
                     @Override
                     protected boolean showLoading() {
                         return isFinishing;
                     }
 
                     @Override
-                            public void onNext(BaseEntity<ChargeStakeEntity> s) {
+                            public void onNext(BaseEntity<ChargeStakeOrderInfoEntity> s) {
                                 getView().onLoadChargingInfo(s);
                             }
                             @Override

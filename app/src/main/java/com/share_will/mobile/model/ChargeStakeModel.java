@@ -2,6 +2,7 @@ package com.share_will.mobile.model;
 
 import com.share_will.mobile.ApiService;
 import com.share_will.mobile.model.entity.ChargeStakeEntity;
+import com.share_will.mobile.model.entity.ChargeStakeOrderInfoEntity;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseModel;
 import com.ubock.library.http.ApiClient;
@@ -12,7 +13,7 @@ import rx.Observable;
 
 public class ChargeStakeModel extends BaseModel {
 
-    public Observable<BaseEntity<ChargeStakeEntity>> getChargingInfo(){
+    public Observable<BaseEntity<ChargeStakeOrderInfoEntity>> getChargingInfo(){
         return ApiClient.getInstance().getApiService(ApiService.class).getChargingInfo();
     }
 

@@ -7,6 +7,7 @@ import com.share_will.mobile.model.entity.CabinetEntity;
 import com.share_will.mobile.model.entity.ChargeBatteryEntity;
 import com.share_will.mobile.model.entity.ChargeOrderEntity;
 import com.share_will.mobile.model.entity.ChargeStakeEntity;
+import com.share_will.mobile.model.entity.ChargeStakeOrderInfoEntity;
 import com.share_will.mobile.model.entity.ChargingEntity;
 import com.share_will.mobile.model.entity.CityEntity;
 import com.share_will.mobile.model.entity.DepositRefundEntity;
@@ -599,7 +600,7 @@ public interface ApiService {
      * @return
      */
     @POST("cabinet/stake/user")
-    Observable<BaseEntity<ChargeStakeEntity>> getChargingInfo();
+    Observable<BaseEntity<ChargeStakeOrderInfoEntity>> getChargingInfo();
 
     /**
      * 获取充电桩状态

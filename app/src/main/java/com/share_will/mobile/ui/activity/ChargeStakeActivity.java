@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.share_will.mobile.App;
 import com.share_will.mobile.R;
 import com.share_will.mobile.model.entity.ChargeStakeEntity;
+import com.share_will.mobile.model.entity.ChargeStakeOrderInfoEntity;
 import com.share_will.mobile.presenter.ChargeStakePresenter;
 import com.share_will.mobile.ui.views.ChargeStakeView;
 import com.ubock.library.base.BaseEntity;
@@ -21,8 +22,11 @@ import com.ubock.library.ui.dialog.ToastExt;
 import com.ubock.library.utils.DateUtils;
 import com.ubock.library.utils.LogUtils;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresenter> implements View.OnClickListener
-    ,ChargeStakeView {
+        , ChargeStakeView {
 
     /**
      * 充电扫码
@@ -37,6 +41,10 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
      * 轮询结束充电结束
      */
     private static final int MSG_FINISH_CHARGE = 1;
+    /**
+     * 支付成功
+     */
+    private static final int REQUEST_CODE_PAY_SUCCESS = 10012;
     private boolean mIsFinishing = false;
 
     private TextView mStartTime;
@@ -45,12 +53,18 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
     private TextView mAddress;
     private TextView mDoor;
     private TextView mPrice;
+    private TextView mManagePrice;
+    private TextView mAllPrice;
+
     private TextView mScanStart;
     private TextView mScanStop;
     private TextView mTvNoInfo;
     private LinearLayout mLlInfo;
     private ChargeStakeEntity mChargeStakeEntity;
     private TextView mFinishCharge;
+    private ChargeStakeOrderInfoEntity mOrderInfoEntity;
+
+    private boolean flag = false;
 
     @Override
     protected int getLayoutId() {
@@ -67,6 +81,9 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
         mAddress = findViewById(R.id.tv_home_charge_stake_address);
         mDoor = findViewById(R.id.tv_home_charge_stake_door);
         mPrice = findViewById(R.id.tv_home_charge_stake_price);
+        mManagePrice = findViewById(R.id.tv_home_charge_stake_manage_price);
+        mAllPrice = findViewById(R.id.tv_home_charge_stake_all_price);
+
         mScanStart = findViewById(R.id.tv_home_charge_stake_scan_start);
         mScanStop = findViewById(R.id.tv_home_charge_stake_scan_stop);
         mLlInfo = findViewById(R.id.tv_home_charge_stake_info);
@@ -100,12 +117,24 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
             mScanStart.setVisibility(View.GONE);
             mScanStop.setVisibility(View.VISIBLE);
 
-            mStartTime.setText("开始时间: "+DateUtils.timeStampToString(mChargeStakeEntity.getTime(), "YYYY-MM-dd HH:mm:ss"));
-            long time = System.currentTimeMillis() - mChargeStakeEntity.getTime();
-            mDurationTime.setText("充电时长: "+formatTime(time));
-            mAddress.setText("机柜: "+mChargeStakeEntity.getCabinet());
-            mDoor.setText("插座号:"+ (mChargeStakeEntity.getIndex() + 1));
-            mPrice.setText("费用: 0元");
+            if (mOrderInfoEntity.getStartTime() > 0) {
+                mStartTime.setText("开始时间: " + DateUtils.timeStampToString(mOrderInfoEntity.getStartTime(), "YYYY-MM-dd HH:mm:ss"));
+            }
+            if (mOrderInfoEntity.getEndTime() > 0) {
+                long time = mOrderInfoEntity.getEndTime() - mOrderInfoEntity.getStartTime();
+                mDurationTime.setText("充电时长: " + formatTime(time));
+            } else {
+                long time = System.currentTimeMillis() - mOrderInfoEntity.getStartTime();
+                mDurationTime.setText("充电时长: " + formatTime(time));
+            }
+            mEnergy.setText("已充能量点: " + mOrderInfoEntity.getEnergy());
+            if (!TextUtils.isEmpty(mOrderInfoEntity.getCabinetAddress())) {
+                mAddress.setText("充电座位置: " + mOrderInfoEntity.getCabinetAddress());
+            }
+            mDoor.setText("插座号: " + (mOrderInfoEntity.getDoor()));
+            mPrice.setText("充电费用: " + changeMoney(mOrderInfoEntity.getMoney() / 100f));
+            mManagePrice.setText("服务费用: " + changeMoney(mOrderInfoEntity.getManageMoney() / 100f));
+            mAllPrice.setText("合计: " + changeMoney((mOrderInfoEntity.getManageMoney() + mOrderInfoEntity.getMoney()) / 100f));
         } else {
             mLlInfo.setVisibility(View.INVISIBLE);
             mTvNoInfo.setVisibility(View.VISIBLE);
@@ -114,10 +143,16 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
         }
     }
 
-    private String formatTime(long time){
-        int h = (int) (time / (60*60*1000));
-        time = (time % (60*60*1000));
-        int m = (int) (time / (60*1000));
+    private String changeMoney(float money) {
+        DecimalFormat decimalFormat=new DecimalFormat("0.00");
+        return decimalFormat.format(money) + "元";
+
+    }
+
+    private String formatTime(long time) {
+        int h = (int) (time / (60 * 60 * 1000));
+        time = (time % (60 * 60 * 1000));
+        int m = (int) (time / (60 * 1000));
         return String.format("%d小时%d分钟", h, m);
     }
 
@@ -133,7 +168,7 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
      * 结束充电
      */
     private void chargeScanStop() {
-        getPresenter().stakeCharging(mChargeStakeEntity.getCabinet(), App.getInstance().getUserId(), mChargeStakeEntity.getIndex(), 0);
+        getPresenter().stakeCharging(mOrderInfoEntity.getCabinetId(), App.getInstance().getUserId(), mOrderInfoEntity.getDoor(), 0);
     }
 
     @Override
@@ -171,7 +206,11 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
                 boolean result = data.getBooleanExtra("key_refresh", false);
                 if (result) {
                     getPresenter().getChargingInfo(true);
+                    flag = true;
+                    sendEmptyMessageDelayed(MSG_FINISH_CHARGE, 3000);
                 }
+            } else if (requestCode == REQUEST_CODE_PAY_SUCCESS) {
+                finish();
             }
         }
     }
@@ -183,18 +222,32 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
                 chargeScanStart();
                 break;
             case R.id.tv_home_charge_stake_scan_stop:
-                mScanStop.setEnabled(false);
-                chargeScanStop();
+                if (mScanStop.getText().toString().equals("立即支付")) {
+                    pay();
+                } else {
+                    mScanStop.setEnabled(false);
+                    flag = false;
+                    chargeScanStop();
+                }
                 break;
             default:
                 break;
         }
     }
 
+    private void pay() {
+        Intent intent = new Intent(this, OrderFormActivity.class);
+        intent.putExtra("orderId", mOrderInfoEntity.getOrderId());
+        intent.putExtra("orderType", 0);
+        intent.putExtra("price", mOrderInfoEntity.getMoney() + mOrderInfoEntity.getManageMoney());
+        intent.putExtra("body", "充电费用");
+        startActivityForResult(intent, REQUEST_CODE_PAY_SUCCESS);
+    }
+
     @Override
     public void handleMessage(Message msg) {
         super.handleMessage(msg);
-        switch (msg.what){
+        switch (msg.what) {
             case MSG_FINISH_CHARGE:
                 getPresenter().getChargingInfo(false);
                 sendEmptyMessageDelayed(MSG_FINISH_CHARGE, 3000);
@@ -205,33 +258,47 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
     }
 
     @Override
-    public void onLoadChargingInfo(BaseEntity<ChargeStakeEntity> data) {
-        if (data != null){
-            mChargeStakeEntity = data.getData();
-            if (mChargeStakeEntity!= null){
-                if (TextUtils.isEmpty(mChargeStakeEntity.getCabinet())){
-                    mChargeStakeEntity = null;
-                }
-            }
-            if (mIsFinishing){
-                if (mChargeStakeEntity == null) {
-                    mIsFinishing = false;
-                    mScanStop.setEnabled(true);
-                    mFinishCharge.setVisibility(View.GONE);
-                    getBaseHandler().removeMessages(MSG_FINISH_CHARGE);
+    public void onLoadChargingInfo(BaseEntity<ChargeStakeOrderInfoEntity> data) {
+        if (data != null) {
+            mOrderInfoEntity = data.getData();
+            if (mOrderInfoEntity != null) {
+                if (TextUtils.isEmpty(mOrderInfoEntity.getOrderId())) {
+                    mOrderInfoEntity = null;
                 } else {
-                    return;
+                    if (flag) {
+                        getBaseHandler().removeMessages(MSG_FINISH_CHARGE);
+                    }
+                    boolean status = mOrderInfoEntity.isStatus();
+                    if (status) {
+                        //已经结束充电,待支付
+                        mScanStop.setText("立即支付");
+                    } else {
+                        mScanStop.setText("结束充电");
+                        if (mIsFinishing) {
+                            if (mOrderInfoEntity != null) {
+                                mIsFinishing = false;
+                                mScanStop.setEnabled(true);
+                                mFinishCharge.setVisibility(View.GONE);
+                                getBaseHandler().removeMessages(MSG_FINISH_CHARGE);
+                                mScanStop.setText("立即支付");
+                                pay();
+                            } else {
+                                return;
+                            }
+                        }
+                    }
                 }
+
             }
         } else {
-            mChargeStakeEntity = null;
+            mOrderInfoEntity = null;
         }
-        hasChargeInfoView(mChargeStakeEntity != null);
+        hasChargeInfoView(mOrderInfoEntity != null);
     }
 
     @Override
     public void onChargingResult(BaseEntity<Object> data) {
-        if (data != null){
+        if (data != null) {
             if (data.getCode() == 0) {
                 mIsFinishing = true;
                 mFinishCharge.setVisibility(View.VISIBLE);

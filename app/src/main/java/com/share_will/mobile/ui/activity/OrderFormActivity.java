@@ -200,7 +200,6 @@ public class OrderFormActivity extends BaseFragmentActivity<PayPresenter> implem
             mAlertDialog.show();
             Intent intent = new Intent();
             setResult(RESULT_OK, intent);
-
         } else {
             showError(message);
         }
@@ -212,6 +211,8 @@ public class OrderFormActivity extends BaseFragmentActivity<PayPresenter> implem
             //支付成功刷新界面
             mAlertDialog.setMessage("支付成功");
             mAlertDialog.show();
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
         } else {
             showError(event.message);
         }

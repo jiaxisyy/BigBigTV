@@ -22,6 +22,16 @@ public class BatteryEntity {
     private long time;
     private String longitude;
 
+    public String getDischarges() {
+        return discharges;
+    }
+
+    public void setDischarges(String discharges) {
+        this.discharges = discharges;
+    }
+
+    private String discharges;
+
     public String getRsoc() {
         return rsoc;
     }

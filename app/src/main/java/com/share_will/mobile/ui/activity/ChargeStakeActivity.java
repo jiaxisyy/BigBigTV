@@ -241,6 +241,7 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
         intent.putExtra("orderType", 0);
         intent.putExtra("price", mOrderInfoEntity.getMoney() + mOrderInfoEntity.getManageMoney());
         intent.putExtra("body", "充电费用");
+
         startActivityForResult(intent, REQUEST_CODE_PAY_SUCCESS);
     }
 

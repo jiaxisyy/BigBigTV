@@ -329,7 +329,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             if (batteryEntity != null && !TextUtils.isEmpty(batteryEntity.getSn())) {
                 mBatteryBigTitle.setText("我的电池");
                 showMyBatteryView(true);
-//                mArrowRight.setVisibility(View.VISIBLE);
+                mArrowRight.setVisibility(View.INVISIBLE);
                 if (!TextUtils.isEmpty(batteryEntity.getSn())) {
                     mTvMyBatterySn.setText("电池SN:   " + batteryEntity.getSn());
                 }
@@ -337,9 +337,9 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                     mTvMyBatteryUsed.setText("电池已使用次数:    "+batteryEntity.getDischarges() + "次");
                 }
                 if (!TextUtils.isEmpty(batteryEntity.getRsoc())) {
-                    Integer rsoc = Integer.valueOf(batteryEntity.getSop());
+                    Integer sop = Integer.valueOf(batteryEntity.getSop());
                     mTvMyBatteryRsoc.setText(batteryEntity.getSop() + "%");
-                    switch (rsoc / 20) {
+                    switch (sop / 20) {
                         case 0:
                             mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_00);
                             break;

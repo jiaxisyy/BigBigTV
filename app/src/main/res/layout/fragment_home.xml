@@ -158,7 +158,7 @@
                             android:id="@+id/tv_home_my_battery_model"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="电池规格:   48V 12Ah (磷酸铁锂)"
+                            android:text="电池规格:"
                             android:textColor="#333333"
                             android:textSize="36px" />
 
@@ -174,7 +174,7 @@
                             android:id="@+id/tv_home_my_battery_mileage"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="电池可骑行里程 (预估) :   10km"
+                            android:text="电池可骑行里程 (预估) :"
                             android:textColor="#333333"
                             android:textSize="36px" />
                     </LinearLayout>

@@ -30,27 +30,35 @@ public class ChargeStakePresenter extends BasePresenter<ChargeStakeModel, Charge
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseNetSubscriber<BaseEntity<ChargeStakeOrderInfoEntity>>(ChargeStakePresenter.this) {
-                    @Override
-                    protected boolean showLoading() {
-                        return isFinishing;
-                    }
+                               @Override
+                               protected boolean showLoading() {
+                                   return isFinishing;
+                               }
 
-                    @Override
-                            public void onNext(BaseEntity<ChargeStakeOrderInfoEntity> s) {
-                                getView().onLoadChargingInfo(s);
-                            }
-                            @Override
-                            public boolean onErr(Throwable e) {
-                                getView().onLoadChargingInfo(null);
-                               LogUtils.e(e);
-                               return true;
-                            }
-                   }
+                               @Override
+                               public void onNext(BaseEntity<ChargeStakeOrderInfoEntity> s) {
+
+                                   if (s.getCode() == 0) {
+                                       getView().onLoadChargingInfo(s);
+                                   } else {
+                                       getView().onLoadChargingInfo(null);
+                                   }
+
+                               }
+
+                               @Override
+                               public boolean onErr(Throwable e) {
+                                   getView().onLoadChargingInfo(null);
+                                   LogUtils.e(e);
+                                   return true;
+                               }
+                           }
                 );
     }
 
     /**
      * 获取充电桩状态
+     *
      * @param cabinetId 机柜SN
      */
     public void getStakeStatus(String cabinetId) {
@@ -62,8 +70,14 @@ public class ChargeStakePresenter extends BasePresenter<ChargeStakeModel, Charge
                 .subscribe(new BaseNetSubscriber<BaseEntity<List<ChargeStakeEntity>>>(ChargeStakePresenter.this) {
                                @Override
                                public void onNext(BaseEntity<List<ChargeStakeEntity>> s) {
-                                   getView().onLoadStakeStatus(s);
+                                   if (s.getCode() == 0) {
+                                       getView().onLoadStakeStatus(s);
+                                   } else {
+                                       getView().onLoadStakeStatus(null);
+                                   }
+
                                }
+
                                @Override
                                public boolean onErr(Throwable e) {
                                    LogUtils.e(e);
@@ -76,22 +90,28 @@ public class ChargeStakePresenter extends BasePresenter<ChargeStakeModel, Charge
 
     /**
      * 充电桩充电或结束充电结果
+     *
      * @param cabinetId 机柜SN
      * @param userId    用户手机
-     * @param index    充电桩号
+     * @param index     充电桩号
      * @param status    设置的状态，0关(断电)，1开(通电)
      */
-    public void stakeCharging(String cabinetId,String userId,int index,int status) {
+    public void stakeCharging(String cabinetId, String userId, int index, int status) {
 
-        getModel().stakeCharging(cabinetId,userId,index,status)
+        getModel().stakeCharging(cabinetId, userId, index, status)
                 .compose(this.bindToLifecycle(getView()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseNetSubscriber<BaseEntity<Object>>(ChargeStakePresenter.this) {
                                @Override
                                public void onNext(BaseEntity<Object> s) {
-                                   getView().onChargingResult(s);
+                                   if (s.getCode() == 0) {
+                                       getView().onChargingResult(s);
+                                   } else {
+                                       getView().onChargingResult(null);
+                                   }
                                }
+
                                @Override
                                public boolean onErr(Throwable e) {
                                    LogUtils.e(e);

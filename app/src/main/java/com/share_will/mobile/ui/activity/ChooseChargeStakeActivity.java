@@ -134,7 +134,7 @@ public class ChooseChargeStakeActivity extends BaseFragmentActivity<ChargeStakeP
                 ToastExt.showExt(data.getMessage());
             }
         } else {
-            ToastExt.showExt("当前机柜不支持充电桩充电");
+            ToastExt.showExt("获取充电桩信息失败,请重试");
         }
     }
 

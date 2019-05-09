@@ -74,12 +74,7 @@ public class ChargeStakePresenter extends BasePresenter<ChargeStakeModel, Charge
                 .subscribe(new BaseNetSubscriber<BaseEntity<List<ChargeStakeEntity>>>(ChargeStakePresenter.this) {
                                @Override
                                public void onNext(BaseEntity<List<ChargeStakeEntity>> s) {
-                                   if (s.getCode() == 0) {
-                                       getView().onLoadStakeStatus(s);
-                                   } else {
-                                       getView().onLoadStakeStatus(null);
-                                   }
-
+                                   getView().onLoadStakeStatus(s);
                                }
 
                                @Override

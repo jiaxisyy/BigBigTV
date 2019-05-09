@@ -187,6 +187,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         localImages.add(R.drawable.banner_bg0);
         localImages.add(R.drawable.banner_bg1);
         localImages.add(R.drawable.banner_bg2);
+        localImages.add(R.drawable.banner_bg3);
         mBanner.setImages(localImages).setImageLoader(new GlideImageLoader()).start();
     }
 
@@ -208,6 +209,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         if (data != null) {
             mUserInfo = data.getData();
         }
+
         getPresenter().getChargeBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
     }
 

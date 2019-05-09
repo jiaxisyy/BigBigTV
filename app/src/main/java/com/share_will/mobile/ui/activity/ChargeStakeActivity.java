@@ -65,6 +65,7 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
     private ChargeStakeOrderInfoEntity mOrderInfoEntity;
 
     private boolean flag = false;
+    private boolean mOrderStatus = false;
 
     @Override
     protected int getLayoutId() {
@@ -95,7 +96,7 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        getPresenter().getChargingInfo(true);
+        getPresenter().getChargingInfo(true, true);
     }
 
     @Override
@@ -127,7 +128,7 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
                 long time = System.currentTimeMillis() - mOrderInfoEntity.getStartTime();
                 mDurationTime.setText("充电时长: " + formatTime(time));
             }
-            mEnergy.setText("已充电量: " + mOrderInfoEntity.getEnergy()/100f+"度");
+            mEnergy.setText("已充电量: " + mOrderInfoEntity.getEnergy() / 100f + "度");
             if (!TextUtils.isEmpty(mOrderInfoEntity.getCabinetAddress())) {
                 mAddress.setText("充电座位置: " + mOrderInfoEntity.getCabinetAddress());
             }
@@ -144,7 +145,7 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
     }
 
     private String changeMoney(float money) {
-        DecimalFormat decimalFormat=new DecimalFormat("0.00");
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
         return decimalFormat.format(money) + "元";
     }
 
@@ -204,9 +205,9 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
             } else if (requestCode == REQUEST_CODE_CHARGECHOOSE) {
                 boolean result = data.getBooleanExtra("key_refresh", false);
                 if (result) {
-                    getPresenter().getChargingInfo(true);
-                    flag = true;
-                    sendEmptyMessageDelayed(MSG_FINISH_CHARGE, 3000);
+                    getPresenter().getChargingInfo(true, true);
+//                    flag = true;
+//                    sendEmptyMessageDelayed(MSG_FINISH_CHARGE, 3000);
                 }
             } else if (requestCode == REQUEST_CODE_PAY_SUCCESS) {
                 finish();
@@ -221,7 +222,9 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
                 chargeScanStart();
                 break;
             case R.id.tv_home_charge_stake_scan_stop:
-                if (mScanStop.getText().toString().equals("立即支付")) {
+                LogUtils.d("mIsFinishing=" + mIsFinishing);
+                LogUtils.d("mOrderStatus=" + mOrderStatus);
+                if (mOrderStatus) {
                     pay();
                 } else {
                     mScanStop.setEnabled(false);
@@ -240,7 +243,6 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
         intent.putExtra("orderType", 0);
         intent.putExtra("price", mOrderInfoEntity.getMoney() + mOrderInfoEntity.getManageMoney());
         intent.putExtra("body", "充电费用");
-
         startActivityForResult(intent, REQUEST_CODE_PAY_SUCCESS);
     }
 
@@ -249,7 +251,7 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
         super.handleMessage(msg);
         switch (msg.what) {
             case MSG_FINISH_CHARGE:
-                getPresenter().getChargingInfo(false);
+                getPresenter().getChargingInfo(false, true);
                 sendEmptyMessageDelayed(MSG_FINISH_CHARGE, 3000);
                 break;
             default:
@@ -268,25 +270,25 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
                     if (flag) {
                         getBaseHandler().removeMessages(MSG_FINISH_CHARGE);
                     }
-                    boolean status = mOrderInfoEntity.isStatus();
-                    if (status) {
+                    mOrderStatus = mOrderInfoEntity.isStatus();
+                    if (mOrderStatus) {
                         //已经结束充电,待支付
                         mScanStop.setText("立即支付");
-                    } else {
-                        mScanStop.setText("结束充电");
                         if (mIsFinishing) {
                             if (mOrderInfoEntity != null) {
                                 mIsFinishing = false;
                                 mScanStop.setEnabled(true);
                                 mFinishCharge.setVisibility(View.GONE);
                                 getBaseHandler().removeMessages(MSG_FINISH_CHARGE);
-                                mScanStop.setText("立即支付");
                                 pay();
                             } else {
                                 return;
                             }
                         }
+                    } else {
+                        mScanStop.setText("结束充电");
                     }
+
                 }
 
             }
@@ -302,6 +304,7 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
             if (data.getCode() == 0) {
                 mIsFinishing = true;
                 mFinishCharge.setVisibility(View.VISIBLE);
+                LogUtils.d("结账成功");
                 sendEmptyMessage(MSG_FINISH_CHARGE);
             } else {
                 ToastExt.showExt(data.getMessage());

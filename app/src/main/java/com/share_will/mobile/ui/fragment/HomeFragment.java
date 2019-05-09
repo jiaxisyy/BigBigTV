@@ -187,6 +187,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         localImages.add(R.drawable.banner_bg0);
         localImages.add(R.drawable.banner_bg1);
         localImages.add(R.drawable.banner_bg2);
+        localImages.add(R.drawable.banner_bg3);
         mBanner.setImages(localImages).setImageLoader(new GlideImageLoader()).start();
     }
 
@@ -208,6 +209,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         if (data != null) {
             mUserInfo = data.getData();
         }
+
         getPresenter().getChargeBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
     }
 
@@ -440,7 +442,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 startActivity(new Intent(getActivity(), ChargeStakeActivity.class));
                 break;
             case R.id.tv_home_top_rent:
-                if (batteryEntity.getSn() != null || chargeBatteryEntity != null) {
+                if (batteryEntity != null || chargeBatteryEntity != null) {
                     ToastExt.showExt("已有电池,无需领取");
                 } else {
                     if (mUserInfo != null && mUserInfo.getDeposit() > 0) {

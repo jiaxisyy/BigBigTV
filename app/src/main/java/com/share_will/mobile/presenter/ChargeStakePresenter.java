@@ -23,7 +23,7 @@ public class ChargeStakePresenter extends BasePresenter<ChargeStakeModel, Charge
     /**
      * 获取用户充电信息
      */
-    public void getChargingInfo(final boolean isFinishing) {
+    public void getChargingInfo(final boolean isFinishing,boolean closeLoading) {
 
         getModel().getChargingInfo()
                 .compose(this.bindToLifecycle(getView()))
@@ -33,6 +33,10 @@ public class ChargeStakePresenter extends BasePresenter<ChargeStakeModel, Charge
                                @Override
                                protected boolean showLoading() {
                                    return isFinishing;
+                               }
+                               @Override
+                               protected boolean closeLoading() {
+                                   return closeLoading;
                                }
 
                                @Override

@@ -127,7 +127,7 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
                 long time = System.currentTimeMillis() - mOrderInfoEntity.getStartTime();
                 mDurationTime.setText("充电时长: " + formatTime(time));
             }
-            mEnergy.setText("已充能量点: " + mOrderInfoEntity.getEnergy());
+            mEnergy.setText("已充电量: " + mOrderInfoEntity.getEnergy()/100f+"度");
             if (!TextUtils.isEmpty(mOrderInfoEntity.getCabinetAddress())) {
                 mAddress.setText("充电座位置: " + mOrderInfoEntity.getCabinetAddress());
             }
@@ -146,7 +146,6 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
     private String changeMoney(float money) {
         DecimalFormat decimalFormat=new DecimalFormat("0.00");
         return decimalFormat.format(money) + "元";
-
     }
 
     private String formatTime(long time) {

@@ -440,7 +440,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 startActivity(new Intent(getActivity(), ChargeStakeActivity.class));
                 break;
             case R.id.tv_home_top_rent:
-                if (batteryEntity.getSn() != null || chargeBatteryEntity != null) {
+                if (batteryEntity != null || chargeBatteryEntity != null) {
                     ToastExt.showExt("已有电池,无需领取");
                 } else {
                     if (mUserInfo != null && mUserInfo.getDeposit() > 0) {

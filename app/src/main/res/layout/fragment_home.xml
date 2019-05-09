@@ -115,6 +115,7 @@
                     android:layout_below="@+id/tv_home_battery_big_title"
                     android:orientation="horizontal"
                     android:paddingLeft="114px"
+                    android:visibility="gone"
                     android:paddingTop="45px"
                     android:paddingBottom="63px">
 

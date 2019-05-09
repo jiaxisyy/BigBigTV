@@ -94,6 +94,7 @@
 -dontnote android.content.**
 -dontnote com.share_will.antenergy.**
 
+-keep class android.support.**{*;}
 -keep class com.zbar.**{*;}
 -keep class com.baidu.**{*;}
 -keep class com.ftdi.**{*;}
@@ -182,6 +183,7 @@
 #-keepclassmembers class com.share_will.slideinstall.** {*;}
 -keepclassmembers class com.ubock.library.base.BaseEntity*{*;}
 -keepclassmembers class com.share_will.mobile.model.entity.** {*;}
+-keepclassmembers class com.ubock.library.widgets.** {*;}
 
 
 # Retain service method parameters when optimizing.

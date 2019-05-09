@@ -53,7 +53,7 @@ public class DialogActivity extends BaseFragmentActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_dialog_update;
+        return R.layout.activity_dialog;
     }
 
     @Override

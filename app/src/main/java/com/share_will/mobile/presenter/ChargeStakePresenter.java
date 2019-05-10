@@ -12,6 +12,7 @@ import com.ubock.library.utils.LogUtils;
 
 import java.util.List;
 
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -23,7 +24,7 @@ public class ChargeStakePresenter extends BasePresenter<ChargeStakeModel, Charge
     /**
      * 获取用户充电信息
      */
-    public void getChargingInfo(final boolean isFinishing,boolean closeLoading) {
+    public void getChargingInfo(final boolean isFinishing, boolean closeLoading) {
 
         getModel().getChargingInfo()
                 .compose(this.bindToLifecycle(getView()))
@@ -34,6 +35,7 @@ public class ChargeStakePresenter extends BasePresenter<ChargeStakeModel, Charge
                                protected boolean showLoading() {
                                    return isFinishing;
                                }
+
                                @Override
                                protected boolean closeLoading() {
                                    return closeLoading;
@@ -106,10 +108,13 @@ public class ChargeStakePresenter extends BasePresenter<ChargeStakeModel, Charge
                                public void onNext(BaseEntity<Object> s) {
                                    if (s.getCode() == 0) {
                                        getView().onChargingResult(s);
+                                   } else if (s.getCode() == 10012) {
+                                       getView().showMessage(s.getMessage());
                                    } else {
                                        getView().onChargingResult(null);
                                    }
                                }
+
 
                                @Override
                                public boolean onErr(Throwable e) {
@@ -119,6 +124,7 @@ public class ChargeStakePresenter extends BasePresenter<ChargeStakeModel, Charge
                                }
                            }
                 );
+
     }
 
 }

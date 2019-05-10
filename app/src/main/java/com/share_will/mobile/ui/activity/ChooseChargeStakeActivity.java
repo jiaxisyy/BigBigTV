@@ -145,7 +145,7 @@ public class ChooseChargeStakeActivity extends BaseFragmentActivity<ChargeStakeP
                 Intent intent = new Intent();
                 intent.putExtra("key_refresh", true);
                 setResult(RESULT_OK, intent);
-                sendEmptyMessageDelayed(MSG_CREATE_OEDER, 3000);
+                sendEmptyMessage(MSG_CREATE_OEDER);
             } else {
                 ToastExt.showExt(data.getMessage());
             }
@@ -156,9 +156,15 @@ public class ChooseChargeStakeActivity extends BaseFragmentActivity<ChargeStakeP
 
     @Override
     public void onLoadChargingInfo(BaseEntity<ChargeStakeOrderInfoEntity> data) {
+        LogUtils.d("加载");
+        if (closeLoading) {
+            getBaseHandler().removeMessages(MSG_CREATE_OEDER);
+            closeLoading = false;
+        }
         NOWSECOND++;
         if (NOWSECOND == MAXSECOND) {
             ToastExt.showExt("请求超时,请更换插座再试");
+            closeLoading = true;
             NOWSECOND = 0;
         }
         if (data != null) {

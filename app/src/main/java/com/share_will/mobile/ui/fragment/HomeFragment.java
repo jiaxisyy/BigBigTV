@@ -106,7 +106,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     private TextView mTvMyBatteryUsed;
     private TextView mTvMyBatteryMileage;
     private TextView mTvMyBatteryRsoc;
-//    private List<String> mRemoteImages = new ArrayList<>();
+    //    private List<String> mRemoteImages = new ArrayList<>();
     private Set<String> mRemoteImagesSet = new HashSet<>();
 
 
@@ -288,6 +288,8 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             showMyBatteryView(false);
             chargeBatteryEntity = data.getData();
             if (chargeBatteryEntity != null) {
+
+
                 mStartTime.setText("开始时间:   " + DateUtils.timeStampToString(chargeBatteryEntity.getStartTime(), DateUtils.YYYYMMDD_HHMMSS));
                 if (chargeBatteryEntity.getFullTime() != 0) {
                     mEnoughTime.setText("充满时间:   " + DateUtils.timeStampToString(chargeBatteryEntity.getFullTime(), DateUtils.YYYYMMDD_HHMMSS));
@@ -464,8 +466,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                         } else {
                             goToShop();
                         }
-                    } else {
-                        goToShop();
                     }
                 }
                 break;

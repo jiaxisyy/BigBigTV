@@ -96,7 +96,7 @@ public class DateUtils {
         } catch (Exception localException) {
             Log.e("localException", localException.getMessage());
         }
-        return null;
+        return "";
     }
 
     public static Date LongStampToDateFormat(Long timeStamp, String format) {

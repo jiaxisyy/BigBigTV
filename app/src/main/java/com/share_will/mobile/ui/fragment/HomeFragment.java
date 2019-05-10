@@ -90,7 +90,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     private TextView mTopRent;
     private TextView mTopStorage;
     private TextView mTopExchange;
-    private TextView mBatteryBigTitle;
     private BatteryEntity batteryEntity;
     private ChargeBatteryEntity chargeBatteryEntity;
     private Banner mBanner;
@@ -150,12 +149,12 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mMoneyAll = view.findViewById(R.id.tv_home_money_all);
         mCardMoney = view.findViewById(R.id.rl_card_money);
         mArrowRight = view.findViewById(R.id.iv_main_arrow_right);
-        mBatteryBigTitle = view.findViewById(R.id.tv_home_battery_big_title);
         mBanner = view.findViewById(R.id.banner_main_top);
         //我的电池信息
         mIvBatteryPic = view.findViewById(R.id.iv_home_my_battery_pic);
         mTvMyBatterySn = view.findViewById(R.id.tv_home_my_battery_sn);
         mTvMyBatteryModel = view.findViewById(R.id.tv_home_my_battery_model);
+
         mTvMyBatteryUsed = view.findViewById(R.id.tv_home_my_battery_used);
         mTvMyBatteryMileage = view.findViewById(R.id.tv_home_my_battery_mileage);
         mTvMyBatteryRsoc = view.findViewById(R.id.tv_home_my_battery_rsoc);
@@ -270,7 +269,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     @Override
     public void onLoadChargeBatteryInfoResult(BaseEntity<ChargeBatteryEntity> data) {
         if (data != null) {
-            mBatteryBigTitle.setText("电池信息");
             mLayoutBottom.setVisibility(View.VISIBLE);
             showMyBatteryView(false);
             chargeBatteryEntity = data.getData();
@@ -329,17 +327,18 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         if (data != null) {
             batteryEntity = data.getData();
             if (batteryEntity != null && !TextUtils.isEmpty(batteryEntity.getSn())) {
-                mBatteryBigTitle.setText("我的电池");
                 showMyBatteryView(true);
                 mArrowRight.setVisibility(View.INVISIBLE);
                 if (!TextUtils.isEmpty(batteryEntity.getSn())) {
                     mTvMyBatterySn.setText("电池SN:   " + batteryEntity.getSn());
                 }
                 if (!TextUtils.isEmpty(batteryEntity.getDischarges())) {
-                    mTvMyBatteryUsed.setText("电池已使用次数:    "+batteryEntity.getDischarges() + "次");
+                    mTvMyBatteryUsed.setText("电池已使用次数:    " + batteryEntity.getDischarges() + "次");
                 }
-                if (!TextUtils.isEmpty(batteryEntity.getRsoc())) {
+
+                if (!TextUtils.isEmpty(batteryEntity.getSop())) {
                     Integer sop = Integer.valueOf(batteryEntity.getSop());
+                    mTvMyBatteryMileage.setText("电池可骑行里程 (预估) :   "+sop / 20f * 5 + "km");
                     mTvMyBatteryRsoc.setText(batteryEntity.getSop() + "%");
                     switch (sop / 20) {
                         case 0:
@@ -407,7 +406,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
      */
     private void showNoBatteryView(boolean show, boolean hasDeposit) {
         if (show) {
-            mBatteryBigTitle.setText("电池信息");
             mNoBatteryCon.setVisibility(View.VISIBLE);
             if (hasDeposit) {
                 mGetBattery.setVisibility(View.VISIBLE);

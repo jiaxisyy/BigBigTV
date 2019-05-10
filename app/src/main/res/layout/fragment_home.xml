@@ -97,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/icon_label_red"
                     android:drawablePadding="21px"
-                    android:text="电池信息"
+                    android:text="我的电池"
                     android:textColor="#FF1200"
                     android:textSize="40px" />
 
@@ -115,9 +115,9 @@
                     android:layout_below="@+id/tv_home_battery_big_title"
                     android:orientation="horizontal"
                     android:paddingLeft="114px"
-                    android:visibility="gone"
                     android:paddingTop="45px"
-                    android:paddingBottom="63px">
+                    android:paddingBottom="63px"
+                    android:visibility="gone">
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
@@ -161,7 +161,8 @@
                             android:layout_height="wrap_content"
                             android:text="电池规格:"
                             android:textColor="#333333"
-                            android:textSize="36px" />
+                            android:textSize="36px"
+                            android:visibility="gone" />
 
                         <TextView
                             android:id="@+id/tv_home_my_battery_used"

@@ -1,6 +1,7 @@
 package com.share_will.mobile.ui.views;
 
 import com.share_will.mobile.model.entity.AlarmEntity;
+import com.share_will.mobile.model.entity.BannerEntity;
 import com.share_will.mobile.model.entity.BatteryEntity;
 import com.share_will.mobile.model.entity.BespeakEntity;
 import com.share_will.mobile.model.entity.ChargeBatteryEntity;
@@ -24,5 +25,7 @@ public interface IHomeFragmentView extends BaseView {
     }
 
     default void onScanCodeGetBatteryResult(BaseEntity<Object> data){}
+
+    default void onGetBannerUrlResult(BaseEntity<List<BannerEntity>> data){}
 
 }

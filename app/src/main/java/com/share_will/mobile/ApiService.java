@@ -1,6 +1,7 @@
 package com.share_will.mobile;
 
 import com.share_will.mobile.model.entity.AlarmEntity;
+import com.share_will.mobile.model.entity.BannerEntity;
 import com.share_will.mobile.model.entity.BatteryEntity;
 import com.share_will.mobile.model.entity.BespeakEntity;
 import com.share_will.mobile.model.entity.CabinetEntity;
@@ -326,6 +327,16 @@ public interface ApiService {
                                                       @Field("money") int money);
 
     /**
+     * 轮播图图片地址
+     *
+     * @param
+     * @param
+     * @return
+     */
+    @POST("getAdvertList")
+    Observable<BaseEntity<List<BannerEntity>>> getBannerUrl();
+
+    /**
      * 检测新版本
      *
      * @param versionName
@@ -597,6 +608,7 @@ public interface ApiService {
 
     /**
      * 获取用户充电信息
+     *
      * @return
      */
     @POST("cabinet/stake/user")
@@ -617,7 +629,7 @@ public interface ApiService {
      *
      * @param cabinetId 机柜SN
      * @param userId    用户手机
-     * @param index    充电桩号
+     * @param index     充电桩号
      * @param status    设置的状态，0关(断电)，1开(通电)
      * @return
      */

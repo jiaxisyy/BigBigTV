@@ -146,6 +146,9 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
                     if (result.contains("sn=") && result.contains("&time")) {
                         String sn = result.substring(result.indexOf("sn=") + 3, result.indexOf("&time"));
                         getPresenter().stopChargeScan(App.getInstance().getUserId(), App.getInstance().getToken(), sn);
+//                        https://www.ep-ai.com/?sn=EYX1805301000001&time=20185235552=============
+//                        cabinetId=EYX1805301000001&appType=1&time=1&type=1&userId=18328317002&token=8c23841dc3830a457bac456171d458e0
+
                     }
                 }
             } else {

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.share_will.mobile.App;
 import com.share_will.mobile.R;
 import com.share_will.mobile.model.entity.AlarmEntity;
+import com.share_will.mobile.model.entity.BannerEntity;
 import com.share_will.mobile.model.entity.BatteryEntity;
 import com.share_will.mobile.model.entity.ChargeBatteryEntity;
 import com.share_will.mobile.model.entity.UserInfo;
@@ -39,7 +40,9 @@ import com.youth.banner.Banner;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements IHomeFragmentView, View.OnClickListener
         , UserCenterView {
@@ -103,6 +106,9 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     private TextView mTvMyBatteryUsed;
     private TextView mTvMyBatteryMileage;
     private TextView mTvMyBatteryRsoc;
+//    private List<String> mRemoteImages = new ArrayList<>();
+    private Set<String> mRemoteImagesSet = new HashSet<>();
+
 
     @Override
     protected int getLayoutId() {
@@ -159,8 +165,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mTvMyBatteryMileage = view.findViewById(R.id.tv_home_my_battery_mileage);
         mTvMyBatteryRsoc = view.findViewById(R.id.tv_home_my_battery_rsoc);
         mMyBatteryView = view.findViewById(R.id.ll_home_my_battery);
-
-        initBanner();
         mTopCharge.setOnClickListener(this);
         mTopChargeStake.setOnClickListener(this);
         mTopRent.setOnClickListener(this);
@@ -171,23 +175,19 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mGetBattery.setOnClickListener(this);
         mBindBattery.setOnClickListener(this);
         mTopExchange.setOnClickListener(this);
+
         initData();
     }
 
+    private void initBanner() {
+        getPresenter().getBannerUrl();
+    }
 
     private void initData() {
+        initBanner();
         mUserCenterPresenter.getBalance(App.getInstance().getUserId(), false);
         getPresenter().getAlarmList(App.getInstance().getUserId(), App.getInstance().getToken());
         getPresenter().getChargeBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
-    }
-
-    private void initBanner() {
-        List<Integer> localImages = new ArrayList<>();
-        localImages.add(R.drawable.banner_bg0);
-        localImages.add(R.drawable.banner_bg1);
-        localImages.add(R.drawable.banner_bg2);
-        localImages.add(R.drawable.banner_bg3);
-        mBanner.setImages(localImages).setImageLoader(new GlideImageLoader()).start();
     }
 
 
@@ -208,7 +208,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         if (data != null) {
             mUserInfo = data.getData();
         }
-
         getPresenter().getChargeBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
     }
 
@@ -217,6 +216,22 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
 //    public void setUserVisibleHint(boolean isVisibleToUser) {
 //        super.setUserVisibleHint(isVisibleToUser);
 //    }
+
+
+    @Override
+    public void onGetBannerUrlResult(BaseEntity<List<BannerEntity>> data) {
+        if (data != null) {
+            List<BannerEntity> beanList = data.getData();
+            for (BannerEntity dataBean : beanList) {
+                if (!TextUtils.isEmpty(dataBean.getAdvert_path())) {
+                    mRemoteImagesSet.add(dataBean.getAdvert_path());
+                }
+            }
+            LogUtils.d("mRemoteImagesSet.size()" + mRemoteImagesSet.size());
+        }
+        List<String> strings = new ArrayList<>(mRemoteImagesSet);
+        mBanner.setImages(strings).setImageLoader(new GlideImageLoader()).start();
+    }
 
     @Override
     public void onLoadAlarmResult(BaseEntity<AlarmEntity> data) {
@@ -338,7 +353,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
 
                 if (!TextUtils.isEmpty(batteryEntity.getSop())) {
                     Integer sop = Integer.valueOf(batteryEntity.getSop());
-                    mTvMyBatteryMileage.setText("电池可骑行里程 (预估) :   "+sop / 20f * 5 + "km");
+                    mTvMyBatteryMileage.setText("电池可骑行里程 (预估) :   " + sop / 20f * 5 + "km");
                     mTvMyBatteryRsoc.setText(batteryEntity.getSop() + "%");
                     switch (sop / 20) {
                         case 0:
@@ -443,8 +458,10 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 if (batteryEntity != null || chargeBatteryEntity != null) {
                     ToastExt.showExt("已有电池,无需领取");
                 } else {
-                    if (mUserInfo != null && mUserInfo.getDeposit() > 0) {
-                        getBattery();
+                    if (mUserInfo != null) {
+                        if (mUserInfo.getDeposit() > 0) {
+                            getBattery();
+                        }
                     } else {
                         goToShop();
                     }
@@ -537,7 +554,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                     startActivity(intent);
                 } else {
                     if (TextUtils.isEmpty(resultData) || resultData.length() != 16) {
-                        ToastExt.showExt("无效二维码/二维码");
+                        ToastExt.showExt("无效二维码/条码");
                     } else {
                         getPresenter().bindBattery(App.getInstance().getUserId(), resultData);
                     }

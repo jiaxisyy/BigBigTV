@@ -47,6 +47,7 @@ public class RechargeActivity extends BaseFragmentActivity<RechargePresenter> im
 
     private EditText mCustomMoney;
     private TextView mAccount;
+    private TextView mGiveAccount;
 
     private PayTypeFragmentDialog mPayTypeFragmentDialog;
 
@@ -105,6 +106,7 @@ public class RechargeActivity extends BaseFragmentActivity<RechargePresenter> im
     protected void initView(Bundle savedInstanceState) {
         setTitle("我的钱包");
         mAccount = findViewById(R.id.tv_account);
+        mGiveAccount = findViewById(R.id.tv_account_give);
         mCustomMoney = findViewById(R.id.edit_payNum);
         mRadioButtons[0] = findViewById(R.id.rb_money_100);
         mRadioButtons[1] = findViewById(R.id.rb_money_200);
@@ -132,6 +134,13 @@ public class RechargeActivity extends BaseFragmentActivity<RechargePresenter> im
         if (data != null && data.getCode() == 0) {
             if (data.getData() != null) {
                 String balance = String.format("￥%s", NumberFormat.getInstance().format(data.getData().getAccount() / 100f));
+                String giveAccount = String.format("%s", NumberFormat.getInstance().format(data.getData().getGiveAccount() / 100f));
+                if (Float.valueOf(giveAccount) == 0) {
+                    mGiveAccount.setVisibility(View.GONE);
+                } else {
+                    mGiveAccount.setVisibility(View.VISIBLE);
+                    mGiveAccount.setText(String.format("赠送(%s)元", giveAccount));
+                }
                 mAccount.setText(balance);
             }
         }

@@ -18,12 +18,23 @@ public class UserInfo implements Serializable, Parcelable {
     private long expirationTime;
     private boolean vip;
     private long account;
+    private long giveAccount;
+
+    public long getGiveAccount() {
+        return giveAccount;
+    }
+
+    public void setGiveAccount(long giveAccount) {
+        this.giveAccount = giveAccount;
+    }
+
     private long beginTime;
     private int deposit;
     private String causeStatus;
     private boolean adminStatus;
     private String headPicPath;
     private String gender;
+
 
 
     public String getHeadPicPath() {
@@ -146,6 +157,7 @@ public class UserInfo implements Serializable, Parcelable {
         dest.writeLong(this.expirationTime);
         dest.writeByte(this.vip ? (byte) 1 : (byte) 0);
         dest.writeLong(this.account);
+        dest.writeLong(this.giveAccount);
         dest.writeLong(this.beginTime);
         dest.writeInt(this.deposit);
         dest.writeString(this.causeStatus);
@@ -162,6 +174,7 @@ public class UserInfo implements Serializable, Parcelable {
         this.expirationTime = in.readLong();
         this.vip = in.readByte() != 0;
         this.account = in.readLong();
+        this.giveAccount = in.readLong();
         this.beginTime = in.readLong();
         this.deposit = in.readInt();
         this.causeStatus = in.readString();

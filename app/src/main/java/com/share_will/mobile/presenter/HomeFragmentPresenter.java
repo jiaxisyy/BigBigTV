@@ -2,6 +2,7 @@ package com.share_will.mobile.presenter;
 
 import com.share_will.mobile.model.HomeFragmentModel;
 import com.share_will.mobile.model.entity.AlarmEntity;
+import com.share_will.mobile.model.entity.BannerEntity;
 import com.share_will.mobile.model.entity.BatteryEntity;
 import com.share_will.mobile.model.entity.ChargeBatteryEntity;
 import com.share_will.mobile.ui.views.IHomeFragmentView;
@@ -168,5 +169,38 @@ public class HomeFragmentPresenter extends BasePresenter<HomeFragmentModel, IHom
                            }
                 );
     }
+
+    /**
+     * 获取轮播图图片地址
+     *
+     * @param
+     * @param
+     * @param
+     */
+    public void getBannerUrl() {
+        getModel().getBannerUrl()
+                .compose(this.bindToLifecycle(getView()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseNetSubscriber<BaseEntity<List<BannerEntity>>>(HomeFragmentPresenter.this) {
+                               @Override
+                               public void onNext(BaseEntity<List<BannerEntity>> s) {
+                                   if (s.getCode() == 0) {
+                                       getView().onGetBannerUrlResult(s);
+                                   } else {
+                                       getView().onGetBannerUrlResult(null);
+                                   }
+                               }
+
+                               @Override
+                               public boolean onErr(Throwable e) {
+                                   getView().onGetBannerUrlResult(null);
+                                   LogUtils.e(e);
+                                   return true;
+                               }
+                           }
+                );
+    }
+
 
 }

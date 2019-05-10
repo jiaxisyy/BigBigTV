@@ -2,6 +2,7 @@ package com.share_will.mobile.model;
 
 import com.share_will.mobile.ApiService;
 import com.share_will.mobile.model.entity.AlarmEntity;
+import com.share_will.mobile.model.entity.BannerEntity;
 import com.share_will.mobile.model.entity.BatteryEntity;
 import com.share_will.mobile.model.entity.ChargeBatteryEntity;
 import com.ubock.library.base.BaseEntity;
@@ -33,6 +34,9 @@ public class HomeFragmentModel extends BaseModel {
 
     public Observable<BaseEntity<Object>> scanCodeGetBattery(String cabinetId, String userId) {
         return ApiClient.getInstance().getApiService(ApiService.class).scanCodeGetBattery(cabinetId, userId);
+    }
+    public Observable<BaseEntity<List<BannerEntity>>> getBannerUrl() {
+        return ApiClient.getInstance().getApiService(ApiService.class).getBannerUrl();
     }
 
 }

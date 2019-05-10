@@ -64,7 +64,7 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
     private TextView mFinishCharge;
     private ChargeStakeOrderInfoEntity mOrderInfoEntity;
 
-    private boolean flag = false;
+
     private boolean mOrderStatus = false;
 
     @Override
@@ -228,7 +228,7 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
                     pay();
                 } else {
                     mScanStop.setEnabled(false);
-                    flag = false;
+
                     chargeScanStop();
                 }
                 break;
@@ -261,15 +261,13 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
 
     @Override
     public void onLoadChargingInfo(BaseEntity<ChargeStakeOrderInfoEntity> data) {
+        LogUtils.d("加载");
         if (data != null) {
             mOrderInfoEntity = data.getData();
             if (mOrderInfoEntity != null) {
                 if (TextUtils.isEmpty(mOrderInfoEntity.getOrderId())) {
                     mOrderInfoEntity = null;
                 } else {
-                    if (flag) {
-                        getBaseHandler().removeMessages(MSG_FINISH_CHARGE);
-                    }
                     mOrderStatus = mOrderInfoEntity.isStatus();
                     if (mOrderStatus) {
                         //已经结束充电,待支付
@@ -304,7 +302,7 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
             if (data.getCode() == 0) {
                 mIsFinishing = true;
                 mFinishCharge.setVisibility(View.VISIBLE);
-                LogUtils.d("结账成功");
+                LogUtils.d("结束充电成功");
                 sendEmptyMessage(MSG_FINISH_CHARGE);
             } else {
                 ToastExt.showExt(data.getMessage());

@@ -461,6 +461,8 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                     if (mUserInfo != null) {
                         if (mUserInfo.getDeposit() > 0) {
                             getBattery();
+                        } else {
+                            goToShop();
                         }
                     } else {
                         goToShop();

@@ -19,7 +19,6 @@
         <EditText android:id="@+id/et_server_addr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="默认：http://www.ep-ai.com/"
             android:textSize="45px"/>
     </LinearLayout>
 

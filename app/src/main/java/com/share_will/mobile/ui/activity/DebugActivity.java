@@ -14,6 +14,7 @@ import com.ubock.library.base.BaseConfig;
 import com.ubock.library.base.BaseFragmentActivity;
 import com.ubock.library.ui.dialog.ToastExt;
 import com.ubock.library.utils.SharedPreferencesUtils;
+import com.umeng.socialize.media.Base;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +34,7 @@ public class DebugActivity extends BaseFragmentActivity implements RadioGroup.On
     protected void initView(Bundle savedInstanceState) {
         mServer = findViewById(R.id.et_server_addr);
         mServer.setText(SharedPreferencesUtils.getStringSF(this, Constant.KEY_SERVER_ADDRESS));
+        mServer.setHint(String.format("默认：%s", BaseConfig.DEFAULT_SERVER_HOST));
         mRadioGroup = findViewById(R.id.rg_debug_level);
         mRadioGroup.setOnCheckedChangeListener(this);
         initLogLevel();

@@ -4,19 +4,30 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.amap.api.maps.AMap;
+import com.amap.api.maps.AMapOptions;
+import com.amap.api.maps.CameraUpdateFactory;
+import com.amap.api.maps.TextureMapView;
+import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.Marker;
+import com.amap.api.maps.model.MarkerOptions;
 import com.share_will.mobile.App;
 import com.share_will.mobile.R;
 import com.share_will.mobile.model.entity.AlarmEntity;
 import com.share_will.mobile.model.entity.BannerEntity;
 import com.share_will.mobile.model.entity.BatteryEntity;
+import com.share_will.mobile.model.entity.CabinetEntity;
 import com.share_will.mobile.model.entity.ChargeBatteryEntity;
 import com.share_will.mobile.model.entity.UserInfo;
 import com.share_will.mobile.presenter.HomeFragmentPresenter;
@@ -75,12 +86,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     private View mLayoutBottom;
     private SwipeRefreshLayout mRefreshLayout;
     private boolean hasChargeBatteryInfo = false;
-    /**
-     * 网络请求
-     */
-    private int flag_http_success = -1;
-
-
     @PresenterInjector
     UserCenterPresenter mUserCenterPresenter;
 
@@ -108,6 +113,9 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     private TextView mTvMyBatteryRsoc;
     //    private List<String> mRemoteImages = new ArrayList<>();
     private Set<String> mRemoteImagesSet = new HashSet<>();
+    private TextureMapView mMapView;
+    private AMap mAMap;
+    private Marker mLocationMarker;
 
 
     @Override
@@ -160,11 +168,14 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mIvBatteryPic = view.findViewById(R.id.iv_home_my_battery_pic);
         mTvMyBatterySn = view.findViewById(R.id.tv_home_my_battery_sn);
         mTvMyBatteryModel = view.findViewById(R.id.tv_home_my_battery_model);
+        mMapView = view.findViewById(R.id.map_home_battery);
+        mMapView.onCreate(savedInstanceState);
 
         mTvMyBatteryUsed = view.findViewById(R.id.tv_home_my_battery_used);
         mTvMyBatteryMileage = view.findViewById(R.id.tv_home_my_battery_mileage);
         mTvMyBatteryRsoc = view.findViewById(R.id.tv_home_my_battery_rsoc);
         mMyBatteryView = view.findViewById(R.id.ll_home_my_battery);
+
         mTopCharge.setOnClickListener(this);
         mTopChargeStake.setOnClickListener(this);
         mTopRent.setOnClickListener(this);
@@ -175,9 +186,10 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mGetBattery.setOnClickListener(this);
         mBindBattery.setOnClickListener(this);
         mTopExchange.setOnClickListener(this);
-
+        initMapView();
         initData();
     }
+
 
     private void initBanner() {
         getPresenter().getBannerUrl();
@@ -190,11 +202,81 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         getPresenter().getChargeBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
     }
 
+    private void initMapView() {
+        //初始化地图控制器对象
+        if (mAMap == null) {
+            mAMap = mMapView.getMap();
+            // 绑定 Marker 被点击事件
+            mAMap.setOnMarkerClickListener(markerClickListener);
+
+            LogUtils.d("mAMap is null");
+            mAMap.getUiSettings().setZoomControlsEnabled(false);
+            mAMap.getUiSettings().setLogoPosition(AMapOptions.LOGO_POSITION_BOTTOM_CENTER);
+            mAMap.moveCamera(CameraUpdateFactory.zoomTo(14));
+        }
+    }
+    // 定义 Marker 点击事件监听
+    AMap.OnMarkerClickListener markerClickListener = new AMap.OnMarkerClickListener() {
+        // marker 对象被点击时回调的接口
+        // 返回 true 则表示接口已响应事件，否则返回false
+        @Override
+        public boolean onMarkerClick(Marker marker) {
+            return true;
+        }
+    };
+
+    /**
+     * 使用标注点
+     */
+    private void useMarker() {
+        if (mAMap != null) {
+            mAMap.clear();
+            LatLng latLng = new LatLng(Double.parseDouble(batteryEntity.getLatitude()), Double.parseDouble(batteryEntity.getLongitude()));
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(latLng);
+            markerOptions.title("");
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_battery_));
+            markerOptions.setFlat(true);//设置marker平贴地图效果
+            mAMap.addMarker(markerOptions);
+            mAMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng));
+        }
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mAMap = null;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mMapView.onSaveInstanceState(outState);
+    }
 
     @Override
     public void onStart() {
         super.onStart();
         mBanner.startAutoPlay();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mMapView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mMapView.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mMapView.onDestroy();
     }
 
     @Override
@@ -208,7 +290,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         if (data != null) {
             mUserInfo = data.getData();
         }
-        getPresenter().getChargeBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
+//        getPresenter().getChargeBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
     }
 
 
@@ -277,7 +359,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             }
 
         }
-        flag_http_success = 0;
+
     }
 
 
@@ -288,9 +370,9 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             showMyBatteryView(false);
             chargeBatteryEntity = data.getData();
             if (chargeBatteryEntity != null) {
-
-
-                mStartTime.setText("开始时间:   " + DateUtils.timeStampToString(chargeBatteryEntity.getStartTime(), DateUtils.YYYYMMDD_HHMMSS));
+                if (chargeBatteryEntity.getStartTime() > 0) {
+                    mStartTime.setText("开始时间:   " + DateUtils.timeStampToString(chargeBatteryEntity.getStartTime(), DateUtils.YYYYMMDD_HHMMSS));
+                }
                 if (chargeBatteryEntity.getFullTime() != 0) {
                     mEnoughTime.setText("充满时间:   " + DateUtils.timeStampToString(chargeBatteryEntity.getFullTime(), DateUtils.YYYYMMDD_HHMMSS));
                     long l = chargeBatteryEntity.getFullTime() - chargeBatteryEntity.getStartTime();
@@ -311,9 +393,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 mMoneManage.setText(intChange(chargeBatteryEntity.getManageMoney() / 100f) + "元");
                 int all = chargeBatteryEntity.getMoney() + chargeBatteryEntity.getManageMoney();
                 mMoneyAll.setText("合计:" + intChange(all / 100f) + "元");
-                if (flag_http_success == 0) {
-                    mRefreshLayout.setRefreshing(false);
-                }
+                mRefreshLayout.setRefreshing(false);
                 mArrowRight.setVisibility(View.VISIBLE);
                 hasChargeBatteryInfo = true;
                 showNoBatteryView(false, mUserInfo != null && mUserInfo.getDeposit() > 0);
@@ -324,13 +404,12 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
 //                mDoor.setVisibility(View.VISIBLE);
 //                mCardMoney.setVisibility(View.VISIBLE);
             }
-
         } else {
             //没有充电电池,展示已有电池信息
             hasChargeBatteryInfo = false;
             getPresenter().getBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
         }
-        flag_http_success = 1;
+
     }
 
     public String intChange(float num) {
@@ -352,7 +431,10 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 if (!TextUtils.isEmpty(batteryEntity.getDischarges())) {
                     mTvMyBatteryUsed.setText("电池已使用次数:    " + batteryEntity.getDischarges() + "次");
                 }
-
+                if (!TextUtils.isEmpty(batteryEntity.getLatitude()) && !TextUtils.isEmpty(batteryEntity.getLongitude())) {
+                    //添加电池标注
+                    useMarker();
+                }
                 if (!TextUtils.isEmpty(batteryEntity.getSop())) {
                     Integer sop = Integer.valueOf(batteryEntity.getSop());
                     mTvMyBatteryMileage.setText("电池可骑行里程 (预估) :   " + sop / 20f * 5 + "km");
@@ -399,9 +481,8 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             showNoBatteryView(true, mUserInfo != null && mUserInfo.getDeposit() > 0);
             mArrowRight.setVisibility(View.INVISIBLE);
         }
-        if (flag_http_success == 1) {
+        if (mRefreshLayout.isRefreshing()) {
             mRefreshLayout.setRefreshing(false);
-            flag_http_success = -1;
         }
     }
 

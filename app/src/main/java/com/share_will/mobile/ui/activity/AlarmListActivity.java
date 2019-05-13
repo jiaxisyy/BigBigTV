@@ -27,6 +27,7 @@ import com.share_will.mobile.ui.widget.RecyclerViewItemDecoration;
 import com.ubock.library.annotation.PresenterInjector;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseFragmentActivity;
+import com.ubock.library.ui.adapter.LoadMoreAdapter;
 import com.ubock.library.ui.dialog.ToastExt;
 import com.ubock.library.utils.LogUtils;
 
@@ -46,6 +47,7 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
     @PresenterInjector
     AlarmFragmentPresenter fragmentPresenter;
     private TextView mTvNoAlarm;
+    private List<AlarmEntity.RfidBean> mRfidBeanList;
 
     @Override
     protected int getLayoutId() {
@@ -69,8 +71,16 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
         LinearLayoutManager managerRfid = new LinearLayoutManager(this);
         mRvRfid.addItemDecoration(new RecyclerViewItemDecoration(20, Color.parseColor("#F5F5F5")));
         mRvRfid.setLayoutManager(managerRfid);
-        mAdapterRfid = new HomeAlarmRfidAdapter(R.layout.item_home_alarm, null);
+        mAdapterRfid = new HomeAlarmRfidAdapter(this, R.layout.item_home_alarm);
         mRvRfid.setAdapter(mAdapterRfid);
+
+        //TODO 分页加载
+//        mAdapterRfid.setOnLoadMoreListener(new LoadMoreAdapter.OnLoadMoreListener() {
+//            @Override
+//            public void onLoadMore(int currentPage) {
+//                mAdapterRfid.addData(mRfidBeanList.subList(6,7));
+//            }
+//        });
         initData();
     }
 
@@ -123,7 +133,11 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
             }
             if (data.getData().getRfid() != null && data.getData().getRfid().size() > 0) {
                 //TODO 可能会改动显示条件,待定
-                mAdapterRfid.setNewData(data.getData().getRfid());
+                if (mRfidBeanList != null) {
+                    mRfidBeanList.clear();
+                }
+                mRfidBeanList = data.getData().getRfid();
+                mAdapterRfid.setLoadMoreData(mRfidBeanList.subList(0, 20));
             }
 
         } else {

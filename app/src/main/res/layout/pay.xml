@@ -129,14 +129,23 @@
                     android:layout_height="wrap_content"
                     android:visibility="invisible" />
 
-                <EditText
-                    android:id="@+id/edit_payNum"
-                    style="@style/style_bg_pay_money"
-                    android:layout_height="147px"
-                    android:hint="自定义金额"
-                    android:inputType="numberDecimal"
-                    android:onClick="onClick"
-                    android:textSize="42px" />
+                <LinearLayout
+                    android:layout_width="0px"
+                    android:layout_height="150px"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_pay_money">
+                    <EditText
+                        android:id="@+id/edit_payNum"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:hint="自定义金额"
+                        android:inputType="numberDecimal"
+                        android:onClick="onClick"
+                        android:textSize="42px" />
+                </LinearLayout>
+
 
             </LinearLayout>
         </RadioGroup>

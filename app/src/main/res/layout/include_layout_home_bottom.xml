@@ -95,48 +95,48 @@
             android:text="你有一块电池,电池状态:" />
 
         <TextView
-            android:text="开始时间:"
-            android:layout_marginTop="15px"
             android:id="@+id/tv_home_charge_start_time"
-            style="@style/style_text_charge" />
+            style="@style/style_text_charge"
+            android:layout_marginTop="15px"
+            android:text="开始时间:" />
 
         <TextView
-            android:text="充满时间:"
-            android:layout_marginTop="15px"
             android:id="@+id/tv_home_charge_enough_time"
-            style="@style/style_text_charge" />
+            style="@style/style_text_charge"
+            android:layout_marginTop="15px"
+            android:text="充满时间:" />
 
         <TextView
-            android:text="充电时长:"
-            android:layout_marginTop="15px"
             android:id="@+id/tv_home_charge_duration_time"
-            style="@style/style_text_charge" />
+            style="@style/style_text_charge"
+            android:layout_marginTop="15px"
+            android:text="充电时长:" />
 
         <TextView
-            android:text="当前电量:"
-            android:layout_marginTop="15px"
             android:id="@+id/tv_home_charge_now_sop"
-            style="@style/style_text_charge" />
+            style="@style/style_text_charge"
+            android:layout_marginTop="15px"
+            android:text="当前电量:" />
 
 
         <TextView
-            android:text="已充能量点:"
-            android:layout_marginTop="15px"
             android:id="@+id/tv_home_charge_energy"
-            style="@style/style_text_charge" />
+            style="@style/style_text_charge"
+            android:layout_marginTop="15px"
+            android:text="已充能量点:" />
 
 
         <TextView
-            android:text="电池位置:"
-            android:layout_marginTop="15px"
             android:id="@+id/tv_home_charge_address"
-            style="@style/style_text_charge" />
+            style="@style/style_text_charge"
+            android:layout_marginTop="15px"
+            android:text="电池位置:" />
 
         <TextView
-            android:text="仓门号:"
-            android:layout_marginTop="15px"
             android:id="@+id/tv_home_charge_door"
-            style="@style/style_text_charge" />
+            style="@style/style_text_charge"
+            android:layout_marginTop="15px"
+            android:text="仓门号:" />
 
     </LinearLayout>
 
@@ -150,8 +150,13 @@
         android:padding="50px">
 
         <TextView
-            style="@style/style_text_charge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#333333"
+            android:textSize="36px"
+            android:layout_marginLeft="33px"
             android:text="充电费用:" />
+
         <TextView
             android:id="@+id/tv_home_money_charge"
             android:layout_width="wrap_content"
@@ -169,18 +174,17 @@
             android:textColor="@color/text_color" />
 
         <TextView
-            android:layout_marginTop="15px"
             style="@style/style_text_charge"
             android:layout_below="@+id/tv_home_money_charge"
             android:text="保管费用:" />
 
         <TextView
-            android:layout_marginTop="15px"
             android:id="@+id/tv_home_money_manage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_home_money_charge"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="15px"
             android:textColor="#333333"
             android:textSize="36px" />
 

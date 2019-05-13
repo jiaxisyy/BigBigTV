@@ -113,73 +113,95 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_home_battery_big_title"
-                    android:orientation="horizontal"
-                    android:paddingLeft="114px"
+                    android:orientation="vertical"
                     android:paddingTop="45px"
-                    android:paddingBottom="63px"
-                    android:visibility="gone">
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:id="@+id/iv_home_my_battery_pic"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/icon_mybattery_05" />
-
-                        <TextView
-                            android:id="@+id/tv_home_my_battery_rsoc"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:text="100%"
-                            android:textColor="#7CAE1C" />
-
-                    </RelativeLayout>
-
+                    android:paddingBottom="45px"
+                    android:visibility="gone"
+                    tools:visibility="visible">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="75px"
-                        android:orientation="vertical">
+                        android:orientation="horizontal"
+                        android:paddingLeft="74px">
 
-                        <TextView
-                            android:id="@+id/tv_home_my_battery_sn"
+                        <RelativeLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="电池SN:"
-                            android:textColor="#333333"
-                            android:textSize="36px" />
+                            android:layout_height="wrap_content">
 
-                        <TextView
-                            android:id="@+id/tv_home_my_battery_model"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="电池规格:"
-                            android:textColor="#333333"
-                            android:textSize="36px"
-                            android:visibility="gone" />
+                            <ImageView
+                                android:id="@+id/iv_home_my_battery_pic"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/icon_mybattery_05" />
 
-                        <TextView
-                            android:id="@+id/tv_home_my_battery_used"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="电池已使用次数:"
-                            android:textColor="#333333"
-                            android:textSize="36px" />
+                            <TextView
+                                android:id="@+id/tv_home_my_battery_rsoc"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:text="100%"
+                                android:textColor="#7CAE1C" />
 
-                        <TextView
-                            android:id="@+id/tv_home_my_battery_mileage"
-                            android:layout_width="wrap_content"
+                        </RelativeLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="电池可骑行里程 (预估) :"
-                            android:textColor="#333333"
-                            android:textSize="36px" />
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="75px"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_home_my_battery_sn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="电池SN:"
+                                android:textColor="#333333"
+                                android:textSize="36px" />
+
+                            <TextView
+                                android:layout_marginTop="15px"
+                                android:id="@+id/tv_home_my_battery_model"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="电池规格:"
+                                android:textColor="#333333"
+                                android:textSize="36px"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:layout_marginTop="15px"
+                                android:id="@+id/tv_home_my_battery_used"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="电池已使用次数:"
+                                android:textColor="#333333"
+                                android:textSize="36px" />
+
+                            <TextView
+                                android:layout_marginTop="15px"
+                                android:id="@+id/tv_home_my_battery_mileage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="电池可骑行里程 (预估) :"
+                                android:textColor="#333333"
+                                android:textSize="36px" />
+                        </LinearLayout>
                     </LinearLayout>
+
+                    <com.share_will.mobile.ui.widget.HomeBatteryMapView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <com.amap.api.maps.TextureMapView
+                            android:id="@+id/map_home_battery"
+                            android:layout_width="match_parent"
+                            android:layout_height="400px"
+                            android:layout_marginTop="45px" />
+
+                    </com.share_will.mobile.ui.widget.HomeBatteryMapView>
 
 
                 </LinearLayout>

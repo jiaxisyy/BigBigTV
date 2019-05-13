@@ -168,7 +168,9 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
             mChargeScan.setText("扫一扫结束充电");
             mLlInCludeHomeBottom.setVisibility(View.VISIBLE);
             mTextServiceCharge.setVisibility(View.INVISIBLE);
-            mStartTime.setText("开始时间:   " + DateUtils.timeStampToString(entity.getStartTime(), DateUtils.YYYYMMDD_HHMMSS));
+            if(entity.getStartTime()>0){
+                mStartTime.setText("开始时间:   " + DateUtils.timeStampToString(entity.getStartTime(), DateUtils.YYYYMMDD_HHMMSS));
+            }
             if (entity.getFullTime() != 0) {
                 mEnoughTime.setText("充满时间:   " + DateUtils.timeStampToString(entity.getFullTime(), DateUtils.YYYYMMDD_HHMMSS));
                 long l = entity.getFullTime() - entity.getStartTime();

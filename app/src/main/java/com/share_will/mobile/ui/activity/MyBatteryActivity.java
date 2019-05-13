@@ -322,7 +322,9 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
         if (data != null) {
             mLayoutBottom.setVisibility(View.VISIBLE);
             ChargeBatteryEntity entity = data.getData();
-            mStartTime.setText("开始时间:   " + DateUtils.timeStampToString(entity.getStartTime(), DateUtils.YYYYMMDD_HHMMSS));
+            if(entity.getStartTime()>0){
+                mStartTime.setText("开始时间:   " + DateUtils.timeStampToString(entity.getStartTime(), DateUtils.YYYYMMDD_HHMMSS));
+            }
             if (entity.getFullTime() != 0) {
                 mEnoughTime.setText("充满时间:   " + DateUtils.timeStampToString(entity.getFullTime(), DateUtils.YYYYMMDD_HHMMSS));
                 long l = entity.getFullTime() - entity.getStartTime();

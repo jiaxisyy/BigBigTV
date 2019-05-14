@@ -26,6 +26,15 @@ public class ChargeStakeOrderInfoEntity {
     private long endTime;
     private int energy;
     private boolean status;
+    private int balanceType;
+
+    public int getBalanceType() {
+        return balanceType;
+    }
+
+    public void setBalanceType(int balanceType) {
+        this.balanceType = balanceType;
+    }
 
     public int getDoor() {
         return door;

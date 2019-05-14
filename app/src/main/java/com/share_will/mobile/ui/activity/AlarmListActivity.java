@@ -48,6 +48,7 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
     AlarmFragmentPresenter fragmentPresenter;
     private TextView mTvNoAlarm;
     private List<AlarmEntity.RfidBean> mRfidBeanList;
+    private int currentCounter;
 
     @Override
     protected int getLayoutId() {
@@ -68,19 +69,32 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
         mAdapter = new HomeAlarmAdapter(R.layout.item_home_alarm, null);
         mRv.setAdapter(mAdapter);
 
+
         LinearLayoutManager managerRfid = new LinearLayoutManager(this);
         mRvRfid.addItemDecoration(new RecyclerViewItemDecoration(20, Color.parseColor("#F5F5F5")));
         mRvRfid.setLayoutManager(managerRfid);
-        mAdapterRfid = new HomeAlarmRfidAdapter(this, R.layout.item_home_alarm);
+        mAdapterRfid = new HomeAlarmRfidAdapter(R.layout.item_home_alarm, null);
         mRvRfid.setAdapter(mAdapterRfid);
-
+      /*  mAdapterRfid.loadMoreEnd(true);
         //TODO 分页加载
-//        mAdapterRfid.setOnLoadMoreListener(new LoadMoreAdapter.OnLoadMoreListener() {
-//            @Override
-//            public void onLoadMore(int currentPage) {
-//                mAdapterRfid.addData(mRfidBeanList.subList(6,7));
-//            }
-//        });
+
+        currentCounter = 0;
+        int TOTAL_COUNTER = 15;
+        mAdapterRfid.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                if (currentCounter > TOTAL_COUNTER) {
+                    mAdapterRfid.loadMoreEnd();
+                    currentCounter=0;
+                } else {
+                    LogUtils.d("加载更多");
+                    mAdapterRfid.addData(mRfidBeanList.get(0));
+                    mAdapterRfid.loadMoreComplete();
+                    currentCounter++;
+                }
+            }
+        }, mRvRfid);*/
+
         initData();
     }
 
@@ -137,7 +151,7 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
                     mRfidBeanList.clear();
                 }
                 mRfidBeanList = data.getData().getRfid();
-                mAdapterRfid.setLoadMoreData(mRfidBeanList.subList(0, 20));
+                mAdapterRfid.setNewData(mRfidBeanList.subList(0, 25));
             }
 
         } else {

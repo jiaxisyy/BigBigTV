@@ -52,6 +52,7 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
     private TextView mEnergy;
     private TextView mAddress;
     private TextView mDoor;
+    private TextView mStopType;
     private TextView mPrice;
     private TextView mManagePrice;
     private TextView mAllPrice;
@@ -81,6 +82,8 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
         mEnergy = findViewById(R.id.tv_home_charge_stake_energy);
         mAddress = findViewById(R.id.tv_home_charge_stake_address);
         mDoor = findViewById(R.id.tv_home_charge_stake_door);
+        mStopType = findViewById(R.id.tv_home_charge_stake_stopType);
+
         mPrice = findViewById(R.id.tv_home_charge_stake_price);
         mManagePrice = findViewById(R.id.tv_home_charge_stake_manage_price);
         mAllPrice = findViewById(R.id.tv_home_charge_stake_all_price);
@@ -132,7 +135,17 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
             if (!TextUtils.isEmpty(mOrderInfoEntity.getCabinetAddress())) {
                 mAddress.setText("充电座位置: " + mOrderInfoEntity.getCabinetAddress());
             }
-            mDoor.setText("插座号: " + (mOrderInfoEntity.getDoor()));
+            mDoor.setText("插座号: " + (mOrderInfoEntity.getDoor())+"号");
+            int balanceType = mOrderInfoEntity.getBalanceType();
+            if (balanceType == 0) {
+                mStopType.setVisibility(View.GONE);
+            } else if (balanceType == 1) {
+                mStopType.setVisibility(View.VISIBLE);
+                mStopType.setText("结束充电方式：插头已脱落或电池已充满");
+            } else if (balanceType == 2) {
+                mStopType.setVisibility(View.VISIBLE);
+                mStopType.setText("结束充电方式：超功率自动结束充电");
+            }
             mPrice.setText("充电费用: " + changeMoney(mOrderInfoEntity.getMoney() / 100f));
             mManagePrice.setText("服务费用: " + changeMoney(mOrderInfoEntity.getManageMoney() / 100f));
             mAllPrice.setText("合计: " + changeMoney((mOrderInfoEntity.getManageMoney() + mOrderInfoEntity.getMoney()) / 100f));

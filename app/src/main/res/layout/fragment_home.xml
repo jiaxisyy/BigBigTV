@@ -88,8 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40px"
                 android:layout_marginTop="45px"
-                android:layout_marginRight="40px"
-                android:layout_marginBottom="40px">
+                android:layout_marginRight="40px">
 
                 <TextView
                     android:id="@+id/tv_home_battery_big_title"
@@ -114,14 +113,13 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_home_battery_big_title"
                     android:orientation="vertical"
-                    android:paddingTop="45px"
-                    android:paddingBottom="45px"
                     android:visibility="gone"
                     tools:visibility="visible">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="45px"
                         android:orientation="horizontal"
                         android:paddingLeft="74px">
 
@@ -162,29 +160,29 @@
                                 android:textSize="36px" />
 
                             <TextView
-                                android:layout_marginTop="15px"
                                 android:id="@+id/tv_home_my_battery_model"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="15px"
                                 android:text="电池规格:"
                                 android:textColor="#333333"
                                 android:textSize="36px"
                                 android:visibility="gone" />
 
                             <TextView
-                                android:layout_marginTop="15px"
                                 android:id="@+id/tv_home_my_battery_used"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="15px"
                                 android:text="电池已使用次数:"
                                 android:textColor="#333333"
                                 android:textSize="36px" />
 
                             <TextView
-                                android:layout_marginTop="15px"
                                 android:id="@+id/tv_home_my_battery_mileage"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="15px"
                                 android:text="电池可骑行里程 (预估) :"
                                 android:textColor="#333333"
                                 android:textSize="36px" />
@@ -193,13 +191,14 @@
 
                     <com.share_will.mobile.ui.widget.HomeBatteryMapView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="45px"
+                        android:layout_marginTop="45px">
 
                         <com.amap.api.maps.TextureMapView
                             android:id="@+id/map_home_battery"
                             android:layout_width="match_parent"
-                            android:layout_height="400px"
-                            android:layout_marginTop="45px" />
+                            android:layout_height="400px" />
 
                     </com.share_will.mobile.ui.widget.HomeBatteryMapView>
 
@@ -215,7 +214,7 @@
                     <include
                         android:id="@+id/include_layout_home_bottom"
                         layout="@layout/include_layout_home_bottom"
-                        android:visibility="invisible" />
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -281,7 +280,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="20px"
-                android:layout_marginTop="20px"
                 android:background="@color/text_color_line" />
 
             <RelativeLayout

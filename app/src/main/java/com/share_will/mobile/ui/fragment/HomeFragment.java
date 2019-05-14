@@ -215,6 +215,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             mAMap.moveCamera(CameraUpdateFactory.zoomTo(14));
         }
     }
+
     // 定义 Marker 点击事件监听
     AMap.OnMarkerClickListener markerClickListener = new AMap.OnMarkerClickListener() {
         // marker 对象被点击时回调的接口
@@ -242,6 +243,57 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         }
     }
 
+    private void showMyBatteryView(boolean show) {
+        if (show) {
+            mMyBatteryView.setVisibility(View.VISIBLE);
+            mLayoutBottom.setVisibility(View.GONE);
+        } else {
+            mMyBatteryView.setVisibility(View.GONE);
+//            mLayoutBottom.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * 显示无电池信息框
+     *
+     * @param show       是否显示
+     * @param hasDeposit 是否有押金
+     */
+    private void showNoBatteryView(boolean show, boolean hasDeposit) {
+        if (show) {
+            mNoBatteryCon.setVisibility(View.VISIBLE);
+            if (hasDeposit) {
+                mGetBattery.setVisibility(View.VISIBLE);
+                mRentalBattery.setVisibility(View.GONE);
+            } else {
+                mGetBattery.setVisibility(View.GONE);
+                mRentalBattery.setVisibility(View.VISIBLE);
+            }
+        } else {
+            mNoBatteryCon.setVisibility(View.GONE);
+        }
+    }
+
+    private void goToShop() {
+        Intent intent = new Intent(this.getContext(), HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("page", HomeActivity.PAGE_SHOP);
+        startActivity(intent);
+    }
+
+    private void getBattery() {
+        Intent inte = new Intent(this.getContext(), CaptureActivity.class);
+        startActivityForResult(inte, REQUEST_CODE_GET_BATTERY);
+    }
+
+    private void goToExchange() {
+        Intent intent = new Intent(this.getContext(), HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("page", HomeActivity.PAGE_EXCHANGE);
+        startActivity(intent);
+    }
 
     @Override
     public void onDestroyView() {
@@ -290,15 +342,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         if (data != null) {
             mUserInfo = data.getData();
         }
-//        getPresenter().getChargeBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
     }
-
-
-//    @Override
-//    public void setUserVisibleHint(boolean isVisibleToUser) {
-//        super.setUserVisibleHint(isVisibleToUser);
-//    }
-
 
     @Override
     public void onGetBannerUrlResult(BaseEntity<List<BannerEntity>> data) {
@@ -309,7 +353,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                     mRemoteImagesSet.add(dataBean.getAdvert_path());
                 }
             }
-            LogUtils.d("mRemoteImagesSet.size()" + mRemoteImagesSet.size());
+            LogUtils.d("mRemoteImagesSet.size()=" + mRemoteImagesSet.size());
         }
         List<String> strings = new ArrayList<>(mRemoteImagesSet);
         mBanner.setImages(strings).setImageLoader(new GlideImageLoader()).start();
@@ -397,12 +441,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 mArrowRight.setVisibility(View.VISIBLE);
                 hasChargeBatteryInfo = true;
                 showNoBatteryView(false, mUserInfo != null && mUserInfo.getDeposit() > 0);
-//                mDurationTime.setVisibility(View.VISIBLE);
-//                mNowSop.setVisibility(View.VISIBLE);
-//                mEnergy.setVisibility(View.VISIBLE);
-//                mAddress.setVisibility(View.VISIBLE);
-//                mDoor.setVisibility(View.VISIBLE);
-//                mCardMoney.setVisibility(View.VISIBLE);
+
             }
         } else {
             //没有充电电池,展示已有电池信息
@@ -422,7 +461,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
 
         if (data != null) {
             batteryEntity = data.getData();
-            if (batteryEntity != null && !TextUtils.isEmpty(batteryEntity.getSn())) {
+            if (batteryEntity != null) {
                 showMyBatteryView(true);
                 mArrowRight.setVisibility(View.INVISIBLE);
                 if (!TextUtils.isEmpty(batteryEntity.getSn())) {
@@ -486,44 +525,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         }
     }
 
-    private void showMyBatteryView(boolean show) {
-        if (show) {
-            mMyBatteryView.setVisibility(View.VISIBLE);
-            mLayoutBottom.setVisibility(View.GONE);
-        } else {
-            mMyBatteryView.setVisibility(View.GONE);
-//            mLayoutBottom.setVisibility(View.VISIBLE);
-        }
-    }
-
-    /**
-     * 显示无电池信息框
-     *
-     * @param show       是否显示
-     * @param hasDeposit 是否有押金
-     */
-    private void showNoBatteryView(boolean show, boolean hasDeposit) {
-        if (show) {
-            mNoBatteryCon.setVisibility(View.VISIBLE);
-            if (hasDeposit) {
-                mGetBattery.setVisibility(View.VISIBLE);
-                mRentalBattery.setVisibility(View.GONE);
-            } else {
-                mGetBattery.setVisibility(View.GONE);
-                mRentalBattery.setVisibility(View.VISIBLE);
-            }
-        } else {
-            mNoBatteryCon.setVisibility(View.GONE);
-        }
-    }
-
-    private void goToShop() {
-        Intent intent = new Intent(this.getContext(), HomeActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("page", HomeActivity.PAGE_SHOP);
-        startActivity(intent);
-    }
 
     @Override
     public void onClick(View view) {
@@ -585,18 +586,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         }
     }
 
-    private void getBattery() {
-        Intent inte = new Intent(this.getContext(), CaptureActivity.class);
-        startActivityForResult(inte, REQUEST_CODE_GET_BATTERY);
-    }
-
-    private void goToExchange() {
-        Intent intent = new Intent(this.getContext(), HomeActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("page", HomeActivity.PAGE_EXCHANGE);
-        startActivity(intent);
-    }
 
     @Override
     public void onScanCodeGetBatteryResult(BaseEntity<Object> data) {

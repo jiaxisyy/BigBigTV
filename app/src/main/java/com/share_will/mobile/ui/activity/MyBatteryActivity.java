@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -54,6 +55,17 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
     private TextView mMoneyCharge;
     private TextView mMoneManage;
     private TextView mMoneyAll;
+
+    /**
+     * 我的电池信息
+     */
+    private View mMyBatteryView;
+    private ImageView mIvBatteryPic;
+    private TextView mTvMyBatterySn;
+    private TextView mTvMyBatteryModel;
+    private TextView mTvMyBatteryUsed;
+    private TextView mTvMyBatteryMileage;
+    private TextView mTvMyBatterySop;
 
     private RelativeLayout mCardMoney;
     private LinearLayout mLlCardBatteryInfo;
@@ -102,12 +114,32 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
         mRentalBattery = findViewById(R.id.rental_battery);
         mGetBattery = findViewById(R.id.get_battery);
         mBindBattery = findViewById(R.id.bind_battery);
+
+        //我的电池
+        mIvBatteryPic = findViewById(R.id.iv_my_battery_pic);
+        mTvMyBatterySn = findViewById(R.id.tv_my_battery_sn);
+        mTvMyBatteryModel = findViewById(R.id.tv_my_battery_model);
+        mTvMyBatteryUsed = findViewById(R.id.tv_my_battery_used);
+        mTvMyBatteryMileage = findViewById(R.id.tv_my_battery_mileage);
+        mTvMyBatterySop = findViewById(R.id.tv_my_battery_sop);
+        mMyBatteryView = findViewById(R.id.ll_my_battery);
+
         mRefreshLayout.setOnRefreshListener(this::initData);
         mBindSubmit.setOnClickListener(this);
         mRentalBattery.setOnClickListener(this);
         mGetBattery.setOnClickListener(this);
         mBindBattery.setOnClickListener(this);
 
+    }
+
+    private void showMyBatteryView(boolean show) {
+        if (show) {
+            mMyBatteryView.setVisibility(View.VISIBLE);
+            mLayoutBottom.setVisibility(View.GONE);
+        } else {
+            mMyBatteryView.setVisibility(View.GONE);
+//            mLayoutBottom.setVisibility(View.VISIBLE);
+        }
     }
 
     private void isShowBindView() {
@@ -132,25 +164,43 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
     @Override
     public void onLoadBatteryInfoResult(BaseEntity<BatteryEntity> data) {
         if (data != null) {
-            BatteryEntity entity = data.getData();
-            if (entity != null && !TextUtils.isEmpty(entity.getSn())) {
-                if (!TextUtils.isEmpty(entity.getSn())) {
-                    mStartTime.setText("电池SN:   " + entity.getSn());
+            BatteryEntity batteryEntity = data.getData();
+            if (batteryEntity != null) {
+                showMyBatteryView(true);
+                if (!TextUtils.isEmpty(batteryEntity.getSn())) {
+                    mTvMyBatterySn.setText("电池SN:   " + batteryEntity.getSn());
                 }
-                if (!TextUtils.isEmpty(entity.getSop())) {
-                    mEnoughTime.setText("当前电量:   " + entity.getSop() + "%");
+                if (!TextUtils.isEmpty(batteryEntity.getDischarges())) {
+                    mTvMyBatteryUsed.setText("电池已使用次数:    " + batteryEntity.getDischarges() + "次");
                 }
-                mDurationTime.setVisibility(View.GONE);
-                mNowSop.setVisibility(View.GONE);
-                mEnergy.setVisibility(View.GONE);
-                mAddress.setVisibility(View.GONE);
-                mDoor.setVisibility(View.GONE);
-                mLlCardBatteryInfo.setVisibility(View.VISIBLE);
-                mCardMoney.setVisibility(View.GONE);
-                mLlCardBatteryBind.setVisibility(View.GONE);
-                mLayoutBottom.setVisibility(View.VISIBLE);
+                if (!TextUtils.isEmpty(batteryEntity.getSop())) {
+                    Integer sop = Integer.valueOf(batteryEntity.getSop());
+                    mTvMyBatteryMileage.setText("电池可骑行里程 (预估) :   " + sop / 20f * 5 + "km");
+                    mTvMyBatterySop.setText(batteryEntity.getSop() + "%");
+                    switch (sop / 20) {
+                        case 0:
+                            mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_00);
+                            break;
+                        case 1:
+                            mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_01);
+                            break;
+                        case 2:
+                            mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_02);
+                            break;
+                        case 3:
+                            mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_03);
+                            break;
+                        case 4:
+                            mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_04);
+                            break;
+                        case 5:
+                            mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_05);
+                            break;
+                    }
+                }
                 showNoBatteryView(false, mUserInfo != null && mUserInfo.getDeposit() > 0);
-            }else {
+            } else {
+                showMyBatteryView(false);
                 showNoBatteryView(true, mUserInfo != null && mUserInfo.getDeposit() > 0);
                 mLlCardBatteryInfo.setVisibility(View.GONE);
                 mCardMoney.setVisibility(View.GONE);
@@ -159,6 +209,7 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
                 mLlCardBatteryBind.setVisibility(View.INVISIBLE);
             }
         } else {
+            showMyBatteryView(false);
             showNoBatteryView(true, mUserInfo != null && mUserInfo.getDeposit() > 0);
             mLlCardBatteryInfo.setVisibility(View.GONE);
             mCardMoney.setVisibility(View.GONE);
@@ -189,6 +240,7 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
             case R.id.bind_battery:
                 Intent intent1 = new Intent(this, CaptureActivity.class);
                 intent1.putExtra(CaptureActivity.KEY_SHOW_MANUAL_INPUT, true);
+                intent1.putExtra(CaptureActivity.KEY_SHOW_LIGHT, true);
                 startActivityForResult(intent1, REQUEST_CODE_BIND_BATTERY);
                 break;
         }
@@ -321,8 +373,9 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
     public void onLoadChargeBatteryInfoResult(BaseEntity<ChargeBatteryEntity> data) {
         if (data != null) {
             mLayoutBottom.setVisibility(View.VISIBLE);
+            showMyBatteryView(false);
             ChargeBatteryEntity entity = data.getData();
-            if(entity.getStartTime()>0){
+            if (entity.getStartTime() > 0) {
                 mStartTime.setText("开始时间:   " + DateUtils.timeStampToString(entity.getStartTime(), DateUtils.YYYYMMDD_HHMMSS));
             }
             if (entity.getFullTime() != 0) {

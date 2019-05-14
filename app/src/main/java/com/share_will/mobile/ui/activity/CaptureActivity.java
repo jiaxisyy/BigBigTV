@@ -57,6 +57,8 @@ public class CaptureActivity extends BaseFragmentActivity implements Callback {
     private boolean isNeedCapture = false;
     private View mManuInput;
     private View mLight;
+    private ImageView mIvLight;
+
     private boolean mShowManuInput = false;
     private boolean mShowLight = false;
 
@@ -138,6 +140,7 @@ public class CaptureActivity extends BaseFragmentActivity implements Callback {
 
         mManuInput = findView(R.id.ll_manual_input);
         mLight = findView(R.id.ll_light);
+        mIvLight = findViewById(R.id.iv_select_light);
 
 
         mShowManuInput = getIntent().getBooleanExtra(KEY_SHOW_MANUAL_INPUT, false);
@@ -159,12 +162,14 @@ public class CaptureActivity extends BaseFragmentActivity implements Callback {
     boolean flag = true;
 
     protected void light() {
-        if (flag == true) {
+        if (flag) {
             flag = false;
             CameraManager.get().openLight();
+            mIvLight.setSelected(true);
         } else {
             flag = true;
             CameraManager.get().offLight();
+            mIvLight.setSelected(false);
         }
 
     }

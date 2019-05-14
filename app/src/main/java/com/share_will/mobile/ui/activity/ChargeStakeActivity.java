@@ -315,7 +315,7 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
             if (data.getCode() == 0) {
                 mIsFinishing = true;
                 mFinishCharge.setVisibility(View.VISIBLE);
-                LogUtils.d("结束充电成功");
+                LogUtils.d("正在等待结束充电");
                 sendEmptyMessage(MSG_FINISH_CHARGE);
             } else {
                 ToastExt.showExt(data.getMessage());

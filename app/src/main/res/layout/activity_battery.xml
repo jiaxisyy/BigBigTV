@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -14,11 +16,11 @@
         android:layout_centerInParent="true"
         android:drawableTop="@drawable/icon_binding_battery"
         android:drawablePadding="116px"
+        android:gravity="center_horizontal"
+        android:text="暂无电池信息"
         android:textColor="#333333"
         android:textSize="38px"
-        android:visibility="invisible"
-        android:gravity="center_horizontal"
-        android:text="暂无电池信息" />
+        android:visibility="invisible" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refresh_my_battery"
@@ -29,6 +31,82 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/ll_my_battery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="45px"
+                android:orientation="horizontal"
+                android:paddingLeft="74px"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iv_my_battery_pic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_mybattery_05" />
+
+                    <TextView
+                        android:id="@+id/tv_my_battery_sop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="100%"
+                        android:textColor="#7CAE1C" />
+
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="75px"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_my_battery_sn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="电池SN:"
+                        android:textColor="#333333"
+                        android:textSize="36px" />
+
+                    <TextView
+                        android:id="@+id/tv_my_battery_model"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15px"
+                        android:text="电池规格:"
+                        android:textColor="#333333"
+                        android:textSize="36px"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv_my_battery_used"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15px"
+                        android:text="电池已使用次数:"
+                        android:textColor="#333333"
+                        android:textSize="36px" />
+
+                    <TextView
+                        android:id="@+id/tv_my_battery_mileage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15px"
+                        android:text="电池可骑行里程 (预估) :"
+                        android:textColor="#333333"
+                        android:textSize="36px" />
+                </LinearLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/include_layout_my_battery_bottom"

@@ -16,11 +16,11 @@ import com.ubock.library.utils.DateUtils;
 
 import java.util.List;
 
-public class HomeAlarmRfidAdapter extends LoadMoreAdapter<AlarmEntity.RfidBean, BaseViewHolder> {
+public class HomeAlarmRfidAdapter extends BaseQuickAdapter<AlarmEntity.RfidBean, BaseViewHolder> {
 
 
-    public HomeAlarmRfidAdapter(Context context, int layoutResId) {
-        super(context, layoutResId);
+    public HomeAlarmRfidAdapter(int layoutResId, @Nullable List<AlarmEntity.RfidBean> data) {
+        super(layoutResId, data);
     }
 
     @Override

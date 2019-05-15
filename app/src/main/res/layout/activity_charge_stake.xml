@@ -52,12 +52,18 @@
             style="@style/style_text_charge"
             android:text="插座:" />
 
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_home_charge_stake_stopType"
+            style="@style/style_text_charge"
+            android:text="结束充电方式:" />
+
         <RelativeLayout
-            android:paddingBottom="30px"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="33px"
-            android:layout_marginTop="30px">
+            android:layout_marginTop="30px"
+            android:paddingBottom="30px">
 
             <TextView
                 android:id="@+id/tv_home_charge_stake_price"

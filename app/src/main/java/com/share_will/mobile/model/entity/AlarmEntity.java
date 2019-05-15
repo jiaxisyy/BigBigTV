@@ -1,11 +1,20 @@
 package com.share_will.mobile.model.entity;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+
 import java.util.List;
 
-public class AlarmEntity {
+public class AlarmEntity  {
 
+    public static final int TYPE_SMOKE = 1;
+    public static final int TYPE_RFID = 2;
     private List<SmokeBean> smoke;
     private List<RfidBean> rfid;
+    private int itemType;
+
+    public void setItemType(int itemType) {
+        this.itemType = itemType;
+    }
 
     public List<SmokeBean> getSmoke() {
         return smoke;
@@ -22,6 +31,8 @@ public class AlarmEntity {
     public void setRfid(List<RfidBean> rfid) {
         this.rfid = rfid;
     }
+
+
 
     public static class SmokeBean {
         /**

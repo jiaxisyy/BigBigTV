@@ -14,10 +14,10 @@
         android:layout_centerInParent="true"
         android:drawableTop="@drawable/icon_home_no_alarm"
         android:drawablePadding="116px"
-        android:textColor="#333333"
-        android:textSize="38px"
         android:gravity="center_horizontal"
-        android:text="暂无告警信息" />
+        android:text="暂无告警信息"
+        android:textColor="#333333"
+        android:textSize="38px" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refresh_alarm_list"
@@ -27,11 +27,11 @@
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <android.support.v7.widget.RecyclerView
@@ -47,10 +47,10 @@
                     android:layout_height="wrap_content">
 
                 </android.support.v7.widget.RecyclerView>
+
             </LinearLayout>
-
-
         </android.support.v4.widget.NestedScrollView>
+
     </android.support.v4.widget.SwipeRefreshLayout>
 
 

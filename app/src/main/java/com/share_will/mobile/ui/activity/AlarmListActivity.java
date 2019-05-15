@@ -10,7 +10,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.share_will.mobile.App;
 import com.share_will.mobile.R;
 import com.share_will.mobile.model.entity.AlarmEntity;
@@ -20,7 +19,6 @@ import com.share_will.mobile.presenter.AlarmFragmentPresenter;
 import com.share_will.mobile.presenter.HomeFragmentPresenter;
 import com.share_will.mobile.ui.adapter.HomeAlarmAdapter;
 import com.share_will.mobile.ui.adapter.HomeAlarmRfidAdapter;
-import com.share_will.mobile.ui.fragment.HomeFragment;
 import com.share_will.mobile.ui.views.IAlarmFragmentView;
 import com.share_will.mobile.ui.views.IHomeFragmentView;
 import com.share_will.mobile.ui.widget.RecyclerViewItemDecoration;
@@ -33,11 +31,15 @@ import com.ubock.library.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.LongFunction;
 
 public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresenter> implements IHomeFragmentView
-        , IAlarmFragmentView {
+        , IAlarmFragmentView, LoadMoreAdapter.OnLoadMoreListener {
 
+
+    /**
+     * 每次加载条目数量
+     */
+    private static final int LOADMOREITEMNUM = 15;
     private RecyclerView mRv;
     private RecyclerView mRvRfid;
     private SwipeRefreshLayout mRefreshLayout;
@@ -48,7 +50,10 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
     AlarmFragmentPresenter fragmentPresenter;
     private TextView mTvNoAlarm;
     private List<AlarmEntity.RfidBean> mRfidBeanList;
-    private int currentCounter;
+
+    private int mCurrentCounter;
+    private int mTotalCounter = 0;
+    private boolean isErr = false;
 
     @Override
     protected int getLayoutId() {
@@ -69,36 +74,22 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
         mAdapter = new HomeAlarmAdapter(R.layout.item_home_alarm, null);
         mRv.setAdapter(mAdapter);
 
-
         LinearLayoutManager managerRfid = new LinearLayoutManager(this);
         mRvRfid.addItemDecoration(new RecyclerViewItemDecoration(20, Color.parseColor("#F5F5F5")));
         mRvRfid.setLayoutManager(managerRfid);
-        mAdapterRfid = new HomeAlarmRfidAdapter(R.layout.item_home_alarm, null);
+        mAdapterRfid = new HomeAlarmRfidAdapter(this,R.layout.item_home_alarm);
         mRvRfid.setAdapter(mAdapterRfid);
-      /*  mAdapterRfid.loadMoreEnd(true);
-        //TODO 分页加载
-
-        currentCounter = 0;
-        int TOTAL_COUNTER = 15;
-        mAdapterRfid.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-            @Override
-            public void onLoadMoreRequested() {
-                if (currentCounter > TOTAL_COUNTER) {
-                    mAdapterRfid.loadMoreEnd();
-                    currentCounter=0;
-                } else {
-                    LogUtils.d("加载更多");
-                    mAdapterRfid.addData(mRfidBeanList.get(0));
-                    mAdapterRfid.loadMoreComplete();
-                    currentCounter++;
-                }
-            }
-        }, mRvRfid);*/
-
+        //TODO 合并两个RecyclerView
+        mRvRfid.setNestedScrollingEnabled(false);
+        mRv.setNestedScrollingEnabled(false);
+        mAdapterRfid.setEnableLoadMore(true);
+        mAdapterRfid.setEmptyView(R.layout.empty_view);
+        mAdapterRfid.setOnLoadMoreListener(this);
         initData();
     }
 
     private void initData() {
+        mAdapterRfid.loadMoreEnd(false);
         getPresenter().getAlarmList(App.getInstance().getUserId(), App.getInstance().getToken());
     }
 
@@ -125,6 +116,7 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
     @Override
     public void onLoadAlarmResult(BaseEntity<AlarmEntity> data) {
         if (data != null) {
+            mAdapterRfid.loadMoreEnd(true);
             int size = data.getData().getSmoke().size();
             if (size > 0 || data.getData().getRfid().size() > 0) {
                 mTvNoAlarm.setVisibility(View.INVISIBLE);
@@ -151,7 +143,15 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
                     mRfidBeanList.clear();
                 }
                 mRfidBeanList = data.getData().getRfid();
-                mAdapterRfid.setNewData(mRfidBeanList.subList(0, 25));
+                mTotalCounter = mRfidBeanList.size();
+                LogUtils.d("RfidBeanList.size=" + mRfidBeanList.size());
+                if (mRfidBeanList.size() > mAdapterRfid.getPageSize()) {
+                    mAdapterRfid.setLoadMoreData(subData(mRfidBeanList, 0, mAdapterRfid.getPageSize()), true);
+                    mCurrentCounter = mAdapterRfid.getPageSize();
+                } else {
+                    mAdapterRfid.setLoadMoreData(mRfidBeanList);
+                }
+                mAdapterRfid.disableLoadMoreIfNotFullPage();
             }
 
         } else {
@@ -180,5 +180,31 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
     @Override
     public void onLoadBatteryInfoResult(BaseEntity<BatteryEntity> data) {
 
+    }
+
+    @Override
+    public void onLoadMore(int currentPage) {
+        LogUtils.d("onLoadMore is executed");
+        mAdapterRfid.loadMoreEnd();
+        if (mCurrentCounter >= mTotalCounter) {
+            //数据全部加载完毕
+            mAdapterRfid.loadMoreEnd();
+        } else {
+            //成功获取更多数据
+            LogUtils.d("mCurrentCounter=" + mCurrentCounter);
+            List<AlarmEntity.RfidBean> rfidBeans = subData(mRfidBeanList, mCurrentCounter, mCurrentCounter + LOADMOREITEMNUM);
+            mAdapterRfid.setLoadMoreData(rfidBeans);
+            mCurrentCounter = mAdapterRfid.getData().size();
+            mAdapterRfid.loadMoreComplete();
+        }
+    }
+
+
+    public List<AlarmEntity.RfidBean> subData(List<AlarmEntity.RfidBean> list, int start, int end) {
+        List<AlarmEntity.RfidBean> dataList = new ArrayList<>();
+        for (int i = start; i < end; i++) {
+            dataList.add(list.get(i));
+        }
+        return dataList;
     }
 }

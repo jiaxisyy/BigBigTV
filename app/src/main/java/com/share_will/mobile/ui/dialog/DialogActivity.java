@@ -1,19 +1,26 @@
 package com.share_will.mobile.ui.dialog;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.share_will.mobile.MessageEvent;
 import com.share_will.mobile.R;
+import com.share_will.mobile.listener.DetachDialogClickListener;
+import com.share_will.mobile.utils.OpenPermissionUtils;
 import com.ubock.library.base.BaseFragmentActivity;
+import com.ubock.library.ui.dialog.ToastExt;
 import com.ubock.library.utils.LogUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -21,10 +28,11 @@ import org.greenrobot.eventbus.EventBus;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.PermissionUtils;
 import permissions.dispatcher.RuntimePermissions;
 
 @RuntimePermissions
-public class DialogActivity extends BaseFragmentActivity {
+public class DialogActivity extends BaseFragmentActivity implements DialogInterface.OnClickListener {
 
     TextView mTitle;
     TextView mMessage;
@@ -41,6 +49,8 @@ public class DialogActivity extends BaseFragmentActivity {
     public final static String PARAM_SHOW_OK = "show_ok";
     private ImageView mIvCancel;
     private ImageView mIvOk;
+    private AlertDialog mAlertDialog;
+    private DetachDialogClickListener mDetachClickListener = DetachDialogClickListener.wrap(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +85,24 @@ public class DialogActivity extends BaseFragmentActivity {
         mOkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mNeedCheckPermission){
+                    if (!PermissionUtils.hasSelfPermissions(DialogActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.REQUEST_INSTALL_PACKAGES})) {
+                        if (mAlertDialog == null){
+                            mAlertDialog = new AlertDialog.Builder(DialogActivity.this)
+                                    .setTitle("申请权限")
+                                    .setIcon(null)
+                                    .setMessage("需要读写存储和安装应用权限,去设置权限吗?")
+                                    .setCancelable(true)
+                                    .setPositiveButton("去设置", mDetachClickListener)
+                                    .setNegativeButton(R.string.alert_no_button, mDetachClickListener).create();
+                            mAlertDialog.setCanceledOnTouchOutside(false);
+                        }
+                        mAlertDialog.show();
+                        return;
+                    }
+                }
                 EventBus.getDefault().post(new MessageEvent.DialogActivityEvent(true));
                 finish();
             }
@@ -119,8 +147,23 @@ public class DialogActivity extends BaseFragmentActivity {
     }
 
     @Override
+    public void onClick(DialogInterface dialog, int which) {
+        if (which == DialogInterface.BUTTON_POSITIVE) {
+            try {
+                new OpenPermissionUtils(this).jumpPermissionPage();
+            } catch (Exception e){
+                LogUtils.e(e);
+                ToastExt.showExt("打开权限设置界面失败,请手动打开");
+            }
+        }
+        mAlertDialog.dismiss();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        mDetachClickListener.release();
+        mDetachClickListener = null;
     }
 
     @Override
@@ -154,5 +197,11 @@ public class DialogActivity extends BaseFragmentActivity {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.REQUEST_INSTALL_PACKAGES})
     void onNeverAskAgain() {
+        LogUtils.d("onNeverAskAgain");
+//        if (!PermissionUtils.hasSelfPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
+//                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                Manifest.permission.REQUEST_INSTALL_PACKAGES})) {
+//            Toast.makeText(this, "权限被拒绝了", Toast.LENGTH_LONG).show();
+//        }
     }
 }

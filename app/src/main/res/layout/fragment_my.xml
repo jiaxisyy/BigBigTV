@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/text_color"
-                android:paddingBottom="63px"
+                android:paddingBottom="43px"
                 android:orientation="vertical">
 
                 <com.share_will.mobile.ui.widget.CircleImageView

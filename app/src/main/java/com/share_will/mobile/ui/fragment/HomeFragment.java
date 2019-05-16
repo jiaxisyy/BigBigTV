@@ -432,7 +432,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 if (!TextUtils.isEmpty(chargeBatteryEntity.getCabinetAddress())) {
                     mAddress.setText("电池位置:   " + chargeBatteryEntity.getCabinetAddress());
                 }
-                mDoor.setText("仓门号:   " + chargeBatteryEntity.getDoor());
+                mDoor.setText("仓门号:   " + chargeBatteryEntity.getDoor()+"号");
                 mMoneyCharge.setText(intChange(chargeBatteryEntity.getMoney() / 100f) + "元");
                 mMoneManage.setText(intChange(chargeBatteryEntity.getManageMoney() / 100f) + "元");
                 int all = chargeBatteryEntity.getMoney() + chargeBatteryEntity.getManageMoney();

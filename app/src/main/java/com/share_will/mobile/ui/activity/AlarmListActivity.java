@@ -10,15 +10,16 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.share_will.mobile.App;
 import com.share_will.mobile.R;
 import com.share_will.mobile.model.entity.AlarmEntity;
+import com.share_will.mobile.model.entity.AlarmMultiEntity;
 import com.share_will.mobile.model.entity.BatteryEntity;
 import com.share_will.mobile.model.entity.ChargeBatteryEntity;
 import com.share_will.mobile.presenter.AlarmFragmentPresenter;
 import com.share_will.mobile.presenter.HomeFragmentPresenter;
-import com.share_will.mobile.ui.adapter.HomeAlarmAdapter;
-import com.share_will.mobile.ui.adapter.HomeAlarmRfidAdapter;
+import com.share_will.mobile.ui.adapter.MultiAdapter;
 import com.share_will.mobile.ui.views.IAlarmFragmentView;
 import com.share_will.mobile.ui.views.IHomeFragmentView;
 import com.share_will.mobile.ui.widget.RecyclerViewItemDecoration;
@@ -33,27 +34,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresenter> implements IHomeFragmentView
-        , IAlarmFragmentView, LoadMoreAdapter.OnLoadMoreListener {
-
-
+        , IAlarmFragmentView, BaseQuickAdapter.RequestLoadMoreListener {
     /**
      * 每次加载条目数量
      */
-    private static final int LOADMOREITEMNUM = 15;
+    private static final int LOADMOREITEMCOUNT = 15;
     private RecyclerView mRv;
-    private RecyclerView mRvRfid;
     private SwipeRefreshLayout mRefreshLayout;
-    private HomeAlarmAdapter mAdapter;
-    private HomeAlarmRfidAdapter mAdapterRfid;
-
     @PresenterInjector
     AlarmFragmentPresenter fragmentPresenter;
     private TextView mTvNoAlarm;
     private List<AlarmEntity.RfidBean> mRfidBeanList;
 
-    private int mCurrentCounter;
+    private int mCurrentCounter = 0;
     private int mTotalCounter = 0;
-    private boolean isErr = false;
+    private List<AlarmEntity.SmokeBean> smokeBeanList;
+    private List<AlarmEntity.SmokeBean> mSmokeAlarms;
+    private MultiAdapter mMultiAdapter;
+
 
     @Override
     protected int getLayoutId() {
@@ -64,32 +62,24 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
     protected void initView(Bundle savedInstanceState) {
         setTitle("告警信息");
         mRv = findViewById(R.id.rv_home_alarm_list);
-        mRvRfid = findViewById(R.id.rv_home_alarm_list_ufid);
         mRefreshLayout = findViewById(R.id.refresh_alarm_list);
         mTvNoAlarm = findViewById(R.id.tv_home_no_alarm);
         mRefreshLayout.setOnRefreshListener(this::initData);
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        mRv.addItemDecoration(new RecyclerViewItemDecoration(20, Color.parseColor("#F5F5F5")));
-        mRv.setLayoutManager(manager);
-        mAdapter = new HomeAlarmAdapter(R.layout.item_home_alarm, null);
-        mRv.setAdapter(mAdapter);
 
         LinearLayoutManager managerRfid = new LinearLayoutManager(this);
-        mRvRfid.addItemDecoration(new RecyclerViewItemDecoration(20, Color.parseColor("#F5F5F5")));
-        mRvRfid.setLayoutManager(managerRfid);
-        mAdapterRfid = new HomeAlarmRfidAdapter(this,R.layout.item_home_alarm);
-        mRvRfid.setAdapter(mAdapterRfid);
-        //TODO 合并两个RecyclerView
-        mRvRfid.setNestedScrollingEnabled(false);
-        mRv.setNestedScrollingEnabled(false);
-        mAdapterRfid.setEnableLoadMore(true);
-        mAdapterRfid.setEmptyView(R.layout.empty_view);
-        mAdapterRfid.setOnLoadMoreListener(this);
+        mRv.addItemDecoration(new RecyclerViewItemDecoration(20, Color.parseColor("#F5F5F5")));
+        mRv.setLayoutManager(managerRfid);
+        mMultiAdapter = new MultiAdapter(null);
+        mRv.setAdapter(mMultiAdapter);
+        mMultiAdapter.setEnableLoadMore(false);
+        mMultiAdapter.bindToRecyclerView(mRv);
+        mMultiAdapter.setEmptyView(R.layout.empty_view);
+        mMultiAdapter.setOnLoadMoreListener(this, mRv);
         initData();
     }
 
+
     private void initData() {
-        mAdapterRfid.loadMoreEnd(false);
         getPresenter().getAlarmList(App.getInstance().getUserId(), App.getInstance().getToken());
     }
 
@@ -116,21 +106,21 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
     @Override
     public void onLoadAlarmResult(BaseEntity<AlarmEntity> data) {
         if (data != null) {
-            mAdapterRfid.loadMoreEnd(true);
+            mMultiAdapter.loadMoreEnd(true);
             int size = data.getData().getSmoke().size();
             if (size > 0 || data.getData().getRfid().size() > 0) {
                 mTvNoAlarm.setVisibility(View.INVISIBLE);
             }
             if (size > 0) {
-                List<AlarmEntity.SmokeBean> smokeAlarms = new ArrayList<>();//烟感告警
+                //烟感告警
+                mSmokeAlarms = new ArrayList<>();
                 List<AlarmEntity.SmokeBean> smokeBeanList = data.getData().getSmoke();//所有设备
                 for (AlarmEntity.SmokeBean smokeBean : smokeBeanList) {
                     if (!TextUtils.isEmpty(smokeBean.getAlarmcode())) {
-                        smokeAlarms.add(smokeBean);
+                        mSmokeAlarms.add(smokeBean);
                     }
                 }
-                mAdapter.setNewData(smokeAlarms);
-                mAdapter.setOnItemChildClickListener((baseQuickAdapter, view, i) -> {
+                mMultiAdapter.setOnItemChildClickListener((baseQuickAdapter, view, i) -> {
                     if (view.getId() == R.id.item_tv_home_alarm_close && data.getData().getSmoke().size() > 0) {
                         closeDialog(data.getData().getSmoke().get(i));
                     }
@@ -145,21 +135,50 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
                 mRfidBeanList = data.getData().getRfid();
                 mTotalCounter = mRfidBeanList.size();
                 LogUtils.d("RfidBeanList.size=" + mRfidBeanList.size());
-                if (mRfidBeanList.size() > mAdapterRfid.getPageSize()) {
-                    mAdapterRfid.setLoadMoreData(subData(mRfidBeanList, 0, mAdapterRfid.getPageSize()), true);
-                    mCurrentCounter = mAdapterRfid.getPageSize();
-                } else {
-                    mAdapterRfid.setLoadMoreData(mRfidBeanList);
-                }
-                mAdapterRfid.disableLoadMoreIfNotFullPage();
+                setData();
             }
 
         } else {
             mTvNoAlarm.setVisibility(View.VISIBLE);
-            mAdapter.setNewData(null);
-            mAdapterRfid.setNewData(null);
+            mMultiAdapter.setNewData(null);
         }
         mRefreshLayout.setRefreshing(false);
+    }
+
+    private void setData() {
+        List<AlarmMultiEntity> list = new ArrayList<>();
+        if (mSmokeAlarms != null) {
+            int smokeSize = mSmokeAlarms.size();
+            if (smokeSize > 0) {
+                for (int i = 0; i < smokeSize; i++) {
+                    AlarmMultiEntity alarmMultiEntity = new AlarmMultiEntity(AlarmMultiEntity.TYPE_SMOKE, mSmokeAlarms.get(i));
+                    list.add(alarmMultiEntity);
+                }
+            }
+
+        }
+        if (mRfidBeanList != null) {
+            int rfidSize = mRfidBeanList.size();
+            if (rfidSize > 0) {
+                if (rfidSize > LOADMOREITEMCOUNT) {
+                    //初始化数据
+                    for (int i = 0; i < LOADMOREITEMCOUNT; i++) {
+                        AlarmMultiEntity alarmMultiEntity = new AlarmMultiEntity(AlarmMultiEntity.TYPE_RFID, mRfidBeanList.get(i));
+                        list.add(alarmMultiEntity);
+                    }
+                    mCurrentCounter = LOADMOREITEMCOUNT;
+                } else {
+                    for (int i = 0; i < rfidSize; i++) {
+                        AlarmMultiEntity alarmMultiEntity = new AlarmMultiEntity(AlarmMultiEntity.TYPE_RFID, mRfidBeanList.get(i));
+                        list.add(alarmMultiEntity);
+                    }
+                    mCurrentCounter = rfidSize;
+                }
+            }
+        }
+
+        mMultiAdapter.setNewData(list);
+
     }
 
     @Override
@@ -182,29 +201,43 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
 
     }
 
-    @Override
-    public void onLoadMore(int currentPage) {
-        LogUtils.d("onLoadMore is executed");
-        mAdapterRfid.loadMoreEnd();
-        if (mCurrentCounter >= mTotalCounter) {
-            //数据全部加载完毕
-            mAdapterRfid.loadMoreEnd();
-        } else {
-            //成功获取更多数据
-            LogUtils.d("mCurrentCounter=" + mCurrentCounter);
-            List<AlarmEntity.RfidBean> rfidBeans = subData(mRfidBeanList, mCurrentCounter, mCurrentCounter + LOADMOREITEMNUM);
-            mAdapterRfid.setLoadMoreData(rfidBeans);
-            mCurrentCounter = mAdapterRfid.getData().size();
-            mAdapterRfid.loadMoreComplete();
+
+    public List<AlarmEntity.RfidBean> subData(List<AlarmEntity.RfidBean> list, int start, int end) {
+        LogUtils.d("start=" + start + "/end=" + end);
+        List<AlarmEntity.RfidBean> dataList = new ArrayList<>();
+        try {
+            for (int i = start; i < end; i++) {
+                dataList.add(list.get(i));
+            }
+            return dataList;
+        } catch (Exception e) {
+            for (int i = start; i < dataList.size(); i++) {
+                dataList.add(list.get(i));
+            }
+            return dataList;
         }
     }
 
-
-    public List<AlarmEntity.RfidBean> subData(List<AlarmEntity.RfidBean> list, int start, int end) {
-        List<AlarmEntity.RfidBean> dataList = new ArrayList<>();
-        for (int i = start; i < end; i++) {
-            dataList.add(list.get(i));
+    @Override
+    public void onLoadMoreRequested() {
+        LogUtils.d("onLoadMore is executed");
+        mMultiAdapter.loadMoreEnd();
+        if (mCurrentCounter >= mTotalCounter) {
+            //数据全部加载完毕
+            mMultiAdapter.loadMoreEnd();
+        } else {
+            //成功获取更多数据
+            LogUtils.d("mCurrentCounter=" + mCurrentCounter);
+            List<AlarmEntity.RfidBean> rfidBeans = subData(mRfidBeanList, mCurrentCounter, mCurrentCounter + LOADMOREITEMCOUNT);
+            List<AlarmMultiEntity> list = new ArrayList<>();
+            for (int i = mCurrentCounter; i < mCurrentCounter + rfidBeans.size(); i++) {
+                AlarmMultiEntity alarmMultiEntity = new AlarmMultiEntity(AlarmMultiEntity.TYPE_RFID, mRfidBeanList.get(i));
+                LogUtils.d("testNum=" + mRfidBeanList.get(i).getTestNum());
+                list.add(alarmMultiEntity);
+            }
+            mMultiAdapter.addData(list);
+            mCurrentCounter = mMultiAdapter.getData().size() - mSmokeAlarms.size();
+            mMultiAdapter.loadMoreComplete();
         }
-        return dataList;
     }
 }

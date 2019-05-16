@@ -58,7 +58,7 @@ public class AlarmFragment extends BaseFragment<AlarmFragmentPresenter> implemen
     private ImageButton btnAlarmRefresh;
     private ImageButton btnAlarmPosition;
     private Button btnAlarmClose;
-    private TextView mAlarmTitle;
+    private AutoFitTextView mAlarmTitle;
     private List<AlarmEntity.SmokeBean> mSmokeList = new ArrayList<>();
     private AlarmEntity.SmokeBean mClickSmoke;
     /**

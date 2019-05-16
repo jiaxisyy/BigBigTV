@@ -36,7 +36,7 @@ public class PackageAdapter extends LoadMoreAdapter<PackageEntity, PackageAdapte
         int price = item.getActivityId() != 0 ? item.getActivityPrice() : item.getPackagePrice();
         helper.setText(R.id.tv_price, String.format("￥%s元", NumberFormat.getInstance().format(price / 100f)));
         helper.setText(R.id.tv_desc, item.getDescription());
-        helper.oldPrice.setText(String.format("￥%s元", NumberFormat.getInstance().format(item.getPackagePrice() / 100)));
+        helper.oldPrice.setText(String.format("￥%s元", NumberFormat.getInstance().format(item.getPackagePrice()/ 100+100)));
     }
 
     static class Holder extends BaseViewHolder {

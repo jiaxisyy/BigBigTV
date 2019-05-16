@@ -5,14 +5,14 @@
     android:paddingLeft="45px">
 
     <TextView
-        android:textStyle="bold"
         android:id="@+id/item_tv_home_alarm_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="45px"
         android:text="标题:"
         android:textColor="@color/text_color"
-        android:textSize="36px" />
+        android:textSize="36px"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/item_tv_home_alarm_positionName"
@@ -89,5 +89,6 @@
         android:layout_marginTop="45px"
         android:layout_marginRight="45px"
         android:src="@drawable/icon_alarm_disposed" />
+
 
 </RelativeLayout>

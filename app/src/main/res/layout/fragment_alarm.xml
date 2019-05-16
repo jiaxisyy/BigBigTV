@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <!-- 标题栏 -->
@@ -16,27 +17,29 @@
 
     <ViewFlipper
         android:id="@+id/vf_map_alarm_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="764px"
+        android:layout_height="63px"
         android:layout_alignTop="@+id/map_alarm"
+        android:layout_marginTop="10px"
         android:autoStart="true"
+        android:background="@drawable/shape_bg_alarm"
         android:inAnimation="@anim/slide_in_bottom"
         android:outAnimation="@anim/slide_out_top"
+        android:paddingTop="10px"
+        android:paddingLeft="30px"
+        android:paddingRight="30px"
+        android:paddingBottom="10px"
         android:visibility="invisible">
 
-        <TextView
+        <com.share_will.mobile.ui.widget.AutoFitTextView
             android:id="@+id/tv_map_alarm_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/shape_bg_alarm"
+            android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
-            android:paddingLeft="30px"
-            android:paddingTop="10px"
-            android:paddingRight="30px"
-            android:paddingBottom="10px"
             android:text="12:00,智慧花园烟感告警,详情点击...... "
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            tools:textColor="#000000" />
     </ViewFlipper>
 
 

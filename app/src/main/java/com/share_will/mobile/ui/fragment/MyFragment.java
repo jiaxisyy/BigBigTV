@@ -76,7 +76,6 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
     private UserInfo mUserInfo;
     private CircleImageView mHeadView;
 
-
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_my;
@@ -87,7 +86,6 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
         setTitle("个人中心");
         showBackMenu(false);
         showTopRightMenu(true);
-
         view.findViewById(R.id.row_exception_get_battery).setOnClickListener(this);
         mRefreshLayout = view.findViewById(R.id.refresh_my_center);
         mRefreshLayout.setOnRefreshListener(() -> update(true));

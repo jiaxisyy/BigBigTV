@@ -29,6 +29,7 @@
                     android:background="#F5F5F5"
                     android:gravity="center_vertical"
                     android:paddingLeft="45px"
+                    android:visibility="gone"
                     android:text="本月" />
 
                 <View

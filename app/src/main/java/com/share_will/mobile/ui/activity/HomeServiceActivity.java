@@ -189,7 +189,7 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
                 mAddress.setText("电池位置:   " + entity.getCabinetAddress());
             }
 
-            mDoor.setText("仓门号:   " + entity.getDoor());
+            mDoor.setText("仓门号:   " + entity.getDoor()+"号");
 
             mMoneyCharge.setText(intChange(entity.getMoney() / 100f) + "元");
             mMoneyManage.setText(intChange(entity.getManageMoney() / 100f) + "元");

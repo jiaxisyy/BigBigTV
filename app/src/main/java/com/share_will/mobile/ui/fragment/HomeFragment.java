@@ -33,6 +33,7 @@ import com.share_will.mobile.model.entity.UserInfo;
 import com.share_will.mobile.presenter.HomeFragmentPresenter;
 import com.share_will.mobile.presenter.UserCenterPresenter;
 import com.share_will.mobile.ui.activity.AlarmListActivity;
+import com.share_will.mobile.ui.activity.BannerDetailActivity;
 import com.share_will.mobile.ui.activity.CaptureActivity;
 import com.share_will.mobile.ui.activity.ChargeStakeActivity;
 import com.share_will.mobile.ui.activity.HomeActivity;
@@ -48,6 +49,7 @@ import com.ubock.library.ui.dialog.ToastExt;
 import com.ubock.library.utils.DateUtils;
 import com.ubock.library.utils.LogUtils;
 import com.youth.banner.Banner;
+import com.youth.banner.listener.OnBannerListener;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -354,9 +356,26 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 }
             }
             LogUtils.d("mRemoteImagesSet.size()=" + mRemoteImagesSet.size());
+            List<String> strings = new ArrayList<>(mRemoteImagesSet);
+            mBanner.setOnBannerListener(new OnBannerListener() {
+                @Override
+                public void OnBannerClick(int position) {
+                    String s = strings.get(position);
+                    LogUtils.d("OnBannerClick->url="+s);
+                    for (BannerEntity bannerEntity : beanList) {
+                        if (!TextUtils.isEmpty(bannerEntity.getAdvert_detail())) {
+                            if (s.equals(bannerEntity.getAdvert_path())) {
+                                Intent intent = new Intent(getActivity(), BannerDetailActivity.class);
+                                intent.putExtra("banner_detail_url", bannerEntity.getAdvert_detail());
+                                LogUtils.d("OnBannerClick->banner_detail_url="+bannerEntity.getAdvert_detail());
+                                startActivity(intent);
+                            }
+                        }
+                    }
+                }
+            });
+            mBanner.setImages(strings).setImageLoader(new GlideImageLoader()).start();
         }
-        List<String> strings = new ArrayList<>(mRemoteImagesSet);
-        mBanner.setImages(strings).setImageLoader(new GlideImageLoader()).start();
     }
 
     @Override
@@ -432,7 +451,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 if (!TextUtils.isEmpty(chargeBatteryEntity.getCabinetAddress())) {
                     mAddress.setText("电池位置:   " + chargeBatteryEntity.getCabinetAddress());
                 }
-                mDoor.setText("仓门号:   " + chargeBatteryEntity.getDoor()+"号");
+                mDoor.setText("仓门号:   " + chargeBatteryEntity.getDoor() + "号");
                 mMoneyCharge.setText(intChange(chargeBatteryEntity.getMoney() / 100f) + "元");
                 mMoneManage.setText(intChange(chargeBatteryEntity.getManageMoney() / 100f) + "元");
                 int all = chargeBatteryEntity.getMoney() + chargeBatteryEntity.getManageMoney();

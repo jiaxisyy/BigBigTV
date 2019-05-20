@@ -12,6 +12,16 @@ public class BannerEntity {
 
     private String advert_path;
     private String advert_name;
+    private String advert_detail;
+
+    public String getAdvert_detail() {
+        return advert_detail;
+    }
+
+    public void setAdvert_detail(String advert_detail) {
+        this.advert_detail = advert_detail;
+    }
+
     private int advert_duration;
 
     public String getAdvert_path() {

@@ -20,6 +20,7 @@
                 layout="@layout/widget_topbar" />
 
             <com.youth.banner.Banner
+                app:image_scale_type="fit_xy"
                 android:id="@+id/banner_main_top"
                 android:layout_width="match_parent"
                 android:layout_height="450px" />

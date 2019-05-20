@@ -97,6 +97,9 @@
         <activity
             android:name=".ui.activity.ConsumeActivity"
             android:screenOrientation="portrait" />
+        <!--<activity-->
+            <!--android:name=".ui.activity.GuideActivity"-->
+            <!--android:screenOrientation="portrait" />-->
         <activity
             android:name=".ui.activity.CaptureActivity"
             android:screenOrientation="portrait" />
@@ -239,6 +242,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".ui.activity.RefundActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.BannerDetailActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".ui.activity.RefundDetailActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.activity.BespeakActivity"
@@ -305,6 +310,7 @@
             android:exported="false"
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" />
+
     </application>
 
 </manifest>

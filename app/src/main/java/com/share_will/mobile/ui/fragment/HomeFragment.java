@@ -49,6 +49,7 @@ import com.ubock.library.ui.dialog.ToastExt;
 import com.ubock.library.utils.DateUtils;
 import com.ubock.library.utils.LogUtils;
 import com.youth.banner.Banner;
+import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
 
 import java.text.DecimalFormat;
@@ -118,6 +119,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     private TextureMapView mMapView;
     private AMap mAMap;
     private Marker mLocationMarker;
+    private List<BannerEntity> mBeanList;
 
 
     @Override
@@ -166,6 +168,9 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mCardMoney = view.findViewById(R.id.rl_card_money);
         mArrowRight = view.findViewById(R.id.iv_main_arrow_right);
         mBanner = view.findViewById(R.id.banner_main_top);
+        //图片切换闪屏处理
+        mBanner.setBannerAnimation(Transformer.Default);
+
         //我的电池信息
         mIvBatteryPic = view.findViewById(R.id.iv_home_my_battery_pic);
         mTvMyBatterySn = view.findViewById(R.id.tv_home_my_battery_sn);
@@ -303,11 +308,11 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mAMap = null;
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        mMapView.onSaveInstanceState(outState);
-    }
+//    @Override
+//    public void onSaveInstanceState(@NonNull Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        mMapView.onSaveInstanceState(outState);
+//    }
 
     @Override
     public void onStart() {
@@ -349,33 +354,34 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     @Override
     public void onGetBannerUrlResult(BaseEntity<List<BannerEntity>> data) {
         if (data != null) {
-            List<BannerEntity> beanList = data.getData();
-            for (BannerEntity dataBean : beanList) {
+            mBeanList = data.getData();
+            for (BannerEntity dataBean : mBeanList) {
                 if (!TextUtils.isEmpty(dataBean.getAdvert_path())) {
                     mRemoteImagesSet.add(dataBean.getAdvert_path());
                 }
             }
             LogUtils.d("mRemoteImagesSet.size()=" + mRemoteImagesSet.size());
-            List<String> strings = new ArrayList<>(mRemoteImagesSet);
-            mBanner.setOnBannerListener(new OnBannerListener() {
-                @Override
-                public void OnBannerClick(int position) {
-                    String s = strings.get(position);
-                    LogUtils.d("OnBannerClick->url="+s);
-                    for (BannerEntity bannerEntity : beanList) {
-                        if (!TextUtils.isEmpty(bannerEntity.getAdvert_detail())) {
-                            if (s.equals(bannerEntity.getAdvert_path())) {
-                                Intent intent = new Intent(getActivity(), BannerDetailActivity.class);
-                                intent.putExtra("banner_detail_url", bannerEntity.getAdvert_detail());
-                                LogUtils.d("OnBannerClick->banner_detail_url="+bannerEntity.getAdvert_detail());
-                                startActivity(intent);
-                            }
+
+        }
+        List<String> strings = new ArrayList<>(mRemoteImagesSet);
+        mBanner.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                String s = strings.get(position);
+                LogUtils.d("OnBannerClick->url="+s);
+                for (BannerEntity bannerEntity : mBeanList) {
+                    if (!TextUtils.isEmpty(bannerEntity.getAdvert_detail())) {
+                        if (s.equals(bannerEntity.getAdvert_path())) {
+                            Intent intent = new Intent(getActivity(), BannerDetailActivity.class);
+                            intent.putExtra("banner_detail_url", bannerEntity.getAdvert_detail());
+                            LogUtils.d("OnBannerClick->banner_detail_url="+bannerEntity.getAdvert_detail());
+                            startActivity(intent);
                         }
                     }
                 }
-            });
-            mBanner.setImages(strings).setImageLoader(new GlideImageLoader()).start();
-        }
+            }
+        });
+        mBanner.setImages(strings).setImageLoader(new GlideImageLoader()).start();
     }
 
     @Override

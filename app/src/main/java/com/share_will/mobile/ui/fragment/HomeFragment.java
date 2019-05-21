@@ -23,6 +23,7 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.share_will.mobile.App;
+import com.share_will.mobile.MessageEvent;
 import com.share_will.mobile.R;
 import com.share_will.mobile.model.entity.AlarmEntity;
 import com.share_will.mobile.model.entity.BannerEntity;
@@ -51,6 +52,10 @@ import com.ubock.library.utils.LogUtils;
 import com.youth.banner.Banner;
 import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -318,6 +323,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     public void onStart() {
         super.onStart();
         mBanner.startAutoPlay();
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -342,6 +348,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     public void onStop() {
         super.onStop();
         mBanner.stopAutoPlay();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -481,6 +488,52 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         return df.format(num);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onMessageEvent(MessageEvent.BatteryInfo info) {
+        Log.d("cgd", "update battery info");
+        if (info.sop > 0) {
+            if (info.online) {
+                mTvMyBatteryRsoc.setText(String.format("%d%%", info.sop));
+                mTvMyBatteryMileage.setText("电池可骑行里程 (预估) :   " + info.sop / 100f * 30 + "km");
+                switch (info.sop / 20) {
+                    case 0:
+                        mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_00);
+                        break;
+                    case 1:
+                        mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_01);
+                        break;
+                    case 2:
+                        mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_02);
+                        break;
+                    case 3:
+                        mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_03);
+                        break;
+                    case 4:
+                        mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_04);
+                        break;
+                    case 5:
+                        mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_05);
+                        break;
+                }
+            } else {
+                long l = info.time;
+                long min = l / (1000 * 60);
+                String oldSop = String.valueOf(info.sop);
+                float minPP = 100 / 120f;//跑1分钟消耗电量百分比
+                float consume = min * minPP;
+                float v = Float.parseFloat(oldSop) - consume;
+                if (v > 0) {
+                    mTvMyBatteryRsoc.setText(String.format("%d%%", v));
+                } else {
+                    mTvMyBatteryRsoc.setText("0%");
+                }
+            }
+        }
+        if (!TextUtils.isEmpty(info.sn)) {
+            mTvMyBatterySn.setText(info.sn);
+        }
+    }
+
     @Override
     public void onLoadBatteryInfoResult(BaseEntity<BatteryEntity> data) {
 
@@ -489,9 +542,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             if (batteryEntity != null) {
                 showMyBatteryView(true);
                 mArrowRight.setVisibility(View.INVISIBLE);
-                if (!TextUtils.isEmpty(batteryEntity.getSn())) {
-                    mTvMyBatterySn.setText("电池SN:   " + batteryEntity.getSn());
-                }
                 if (!TextUtils.isEmpty(batteryEntity.getDischarges())) {
                     mTvMyBatteryUsed.setText("电池已使用次数:    " + batteryEntity.getDischarges() + "次");
                 }
@@ -500,33 +550,9 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                     useMarker();
                 }
                 if (batteryEntity.isOnline()) {
-                    if (!TextUtils.isEmpty(batteryEntity.getSop())) {
-                        Integer sop = Integer.valueOf(batteryEntity.getSop());
-                        mTvMyBatteryMileage.setText("电池可骑行里程 (预估) :   " + sop / 100f * 30 + "km");
-                        mTvMyBatteryRsoc.setText(batteryEntity.getSop() + "%");
-                        switch (sop / 20) {
-                            case 0:
-                                mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_00);
-                                break;
-                            case 1:
-                                mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_01);
-                                break;
-                            case 2:
-                                mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_02);
-                                break;
-                            case 3:
-                                mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_03);
-                                break;
-                            case 4:
-                                mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_04);
-                                break;
-                            case 5:
-                                mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_05);
-                                break;
-                        }
-                    }
+
                 } else {
-                    long l = System.currentTimeMillis() - batteryEntity.getTime();
+                    long l = batteryEntity.getTime();
                     long min = l / (1000 * 60);
                     String oldSop = batteryEntity.getSop();
                     float minPP = 100 / 120f;//跑1分钟消耗电量百分比

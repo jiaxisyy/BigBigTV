@@ -188,7 +188,7 @@ public class App extends BaseApp implements Application.ActivityLifecycleCallbac
         Intent intent = new Intent(AlarmReceiver.ALARM_ACTION_BATTERY);
         PendingIntent pi = PendingIntent.getBroadcast(this, 0, intent, 0);
 
-        long intervalMillis = 3 * 60 * 1000;
+        long intervalMillis = 1 * 60 * 1000;
         mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + intervalMillis, intervalMillis, pi);
     }
 

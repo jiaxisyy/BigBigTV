@@ -227,7 +227,7 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
                         }
                     }
                 } else {
-                    long l = System.currentTimeMillis() - batteryEntity.getTime();
+                    long l = batteryEntity.getTime();
                     long min = l / (1000 * 60);
                     String oldSop = batteryEntity.getSop();
                     float minPP = 100 / 120f;//跑1分钟消耗电量百分比
@@ -447,7 +447,7 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
             if (!TextUtils.isEmpty(entity.getCabinetAddress())) {
                 mAddress.setText("电池位置:   " + entity.getCabinetAddress());
             }
-            mDoor.setText("仓门号:   " + entity.getDoor()+"号");
+            mDoor.setText("仓门号:   " + entity.getDoor() + "号");
             mMoneyCharge.setText(intChange(entity.getMoney() / 100f) + "元");
             mMoneManage.setText(intChange(entity.getManageMoney() / 100f) + "元");
             int all = entity.getMoney() + entity.getManageMoney();

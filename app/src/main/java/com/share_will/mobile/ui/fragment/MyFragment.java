@@ -313,7 +313,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
             if (info.online) {
                 mTvBatteryPP.setText(String.format("%d%%", info.sop));
             } else {
-                long l = System.currentTimeMillis() - info.time;
+                long l =info.time;
                 long min = l / (1000 * 60);
                 String oldSop = String.valueOf(info.sop);
                 float minPP = 100 / 120f;//跑1分钟消耗电量百分比
@@ -325,8 +325,6 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
                     mTvBatteryPP.setText("0%");
                 }
             }
-
-
         }
         if (!TextUtils.isEmpty(info.sn)) {
             mTvBind.setText(info.sn);

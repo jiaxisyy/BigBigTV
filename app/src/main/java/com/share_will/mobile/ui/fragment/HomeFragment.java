@@ -33,6 +33,7 @@ import com.share_will.mobile.model.entity.ChargeBatteryEntity;
 import com.share_will.mobile.model.entity.UserInfo;
 import com.share_will.mobile.presenter.HomeFragmentPresenter;
 import com.share_will.mobile.presenter.UserCenterPresenter;
+import com.share_will.mobile.services.BatteryService;
 import com.share_will.mobile.ui.activity.AlarmListActivity;
 import com.share_will.mobile.ui.activity.BannerDetailActivity;
 import com.share_will.mobile.ui.activity.CaptureActivity;
@@ -116,6 +117,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     private ImageView mIvBatteryPic;
     private TextView mTvMyBatterySn;
     private TextView mTvMyBatteryModel;
+    private TextView mTvMyBatteryOffline;
     private TextView mTvMyBatteryUsed;
     private TextView mTvMyBatteryMileage;
     private TextView mTvMyBatteryRsoc;
@@ -173,13 +175,12 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mCardMoney = view.findViewById(R.id.rl_card_money);
         mArrowRight = view.findViewById(R.id.iv_main_arrow_right);
         mBanner = view.findViewById(R.id.banner_main_top);
-        //图片切换闪屏处理
         mBanner.setBannerAnimation(Transformer.Default);
-
         //我的电池信息
         mIvBatteryPic = view.findViewById(R.id.iv_home_my_battery_pic);
         mTvMyBatterySn = view.findViewById(R.id.tv_home_my_battery_sn);
         mTvMyBatteryModel = view.findViewById(R.id.tv_home_my_battery_model);
+        mTvMyBatteryOffline = view.findViewById(R.id.tv_home_my_battery_offline_duration);
         mMapView = view.findViewById(R.id.map_home_battery);
         mMapView.onCreate(savedInstanceState);
 
@@ -209,6 +210,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
 
     private void initData() {
         initBanner();
+        getActivity().startService(new Intent(getActivity(), BatteryService.class));
         mUserCenterPresenter.getBalance(App.getInstance().getUserId(), false);
         getPresenter().getAlarmList(App.getInstance().getUserId(), App.getInstance().getToken());
         getPresenter().getChargeBatteryInfo(App.getInstance().getUserId(), App.getInstance().getToken());
@@ -311,6 +313,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     public void onDestroyView() {
         super.onDestroyView();
         mAMap = null;
+        mMapView.onDestroy();
     }
 
 //    @Override
@@ -491,48 +494,50 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onMessageEvent(MessageEvent.BatteryInfo info) {
         Log.d("cgd", "update battery info");
-        if (info.sop > 0) {
-            if (info.online) {
+
+        if (info.online) {
+            if (info.sop > 0) {
+                mTvMyBatteryOffline.setVisibility(View.GONE);
                 mTvMyBatteryRsoc.setText(String.format("%d%%", info.sop));
                 mTvMyBatteryMileage.setText("电池可骑行里程 (预估) :   " + info.sop / 100f * 30 + "km");
-                switch (info.sop / 20) {
-                    case 0:
-                        mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_00);
-                        break;
-                    case 1:
-                        mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_01);
-                        break;
-                    case 2:
-                        mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_02);
-                        break;
-                    case 3:
-                        mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_03);
-                        break;
-                    case 4:
-                        mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_04);
-                        break;
-                    case 5:
-                        mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_05);
-                        break;
+                if (info.sop <= 20) {
+                    mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_01);
                 }
+                if (info.sop > 20 && info.sop <= 40) {
+                    mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_02);
+                }
+                if (info.sop > 40 && info.sop <= 60) {
+                    mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_03);
+                }
+                if (info.sop > 60 && info.sop < 100) {
+                    mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_04);
+                }
+                if (info.sop == 100) {
+                    mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_05);
+                }
+            }
+        } else {
+            long l = info.time;
+            long min = l / (1000 * 60);
+            mTvMyBatteryOffline.setVisibility(View.VISIBLE);
+            mTvMyBatteryOffline.setText("离线时长:   " + min + "分钟");
+            String oldSop = String.valueOf(info.sop);
+            float minPP = 100 / 120f;//跑1分钟消耗电量百分比
+            float consume = min * minPP;
+            float v = Float.parseFloat(oldSop) - consume;
+            if (v > 0) {
+                mTvMyBatteryRsoc.setText(String.format("%d%%", v));
             } else {
-                long l = info.time;
-                long min = l / (1000 * 60);
-                String oldSop = String.valueOf(info.sop);
-                float minPP = 100 / 120f;//跑1分钟消耗电量百分比
-                float consume = min * minPP;
-                float v = Float.parseFloat(oldSop) - consume;
-                if (v > 0) {
-                    mTvMyBatteryRsoc.setText(String.format("%d%%", v));
-                } else {
-                    mTvMyBatteryRsoc.setText("0%");
-                }
+                mTvMyBatteryRsoc.setText("0%");
+                mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_00);
+                mTvMyBatteryMileage.setText("电池可骑行里程 (预估) :   0km");
             }
         }
         if (!TextUtils.isEmpty(info.sn)) {
-            mTvMyBatterySn.setText(info.sn);
+            mTvMyBatterySn.setText("电池SN:   " + info.sn);
         }
     }
+
 
     @Override
     public void onLoadBatteryInfoResult(BaseEntity<BatteryEntity> data) {

@@ -38,14 +38,14 @@ public class BatteryService extends BaseService<BatteryServicePresenter> impleme
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d("cgd","Battery Service onCreate");
+        Log.d("cgd", "Battery Service onCreate");
         initSound();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("cgd","Battery Service onDestroy");
+        Log.d("cgd", "Battery Service onDestroy");
     }
 
     @Override
@@ -61,46 +61,55 @@ public class BatteryService extends BaseService<BatteryServicePresenter> impleme
 
     @Override
     public void onLoadBattery(BaseEntity<Map<String, String>> ret) {
-        if (ret != null && ret.getCode() == 0){
+        if (ret != null && ret.getCode() == 0) {
             Map<String, String> data = ret.getData();
-            if (data != null){
+            if (data != null) {
                 int num = 0;
-                if (!TextUtils.isEmpty(data.get("current"))){
+                if (!TextUtils.isEmpty(data.get("current"))) {
                     num = Integer.parseInt(data.get("current"));
                 }
                 int use = 0;
-                if (!TextUtils.isEmpty(data.get("current1"))){
+                if (!TextUtils.isEmpty(data.get("current1"))) {
                     use = Integer.parseInt(data.get("current1"));
                 }
                 int sop = -1;
-                if (!TextUtils.isEmpty(data.get("sop"))){
+                if (!TextUtils.isEmpty(data.get("sop"))) {
                     sop = Integer.parseInt(data.get("sop"));
                 }
-                boolean online=true;
-                if(!TextUtils.isEmpty(data.get("online"))){
-                    online=Boolean.parseBoolean(data.get("online"));
+                boolean online = true;
+                if (!TextUtils.isEmpty(data.get("online"))) {
+                    online = Boolean.parseBoolean(data.get("online"));
                 }
-                long time=0;
-                if(!TextUtils.isEmpty(data.get("time"))){
-                    time=Long.parseLong(data.get("time"));
+                long time = 0;
+                if (!TextUtils.isEmpty(data.get("time"))) {
+                    time = Long.parseLong(data.get("time"));
                 }
-
-                if (sop > 100){
+                if (!online) {
+                    long l = time;
+                    long min = l / (1000 * 60);
+                    String oldSop = String.valueOf(sop);
+                    float minPP = 100 / 120f;//跑1分钟消耗电量百分比
+                    float consume = min * minPP;
+                    float v = Float.parseFloat(oldSop) - consume;
+                    sop = (int) v;
+                }
+                if (sop > 100) {
                     sop = 100;
                 }
-                if (sop > mBatteryLowWarm){
+                if (sop > mBatteryLowWarm) {
                     SharedPreferencesUtils.setIntergerSF(BatteryService.this, "warm_level", mBatteryLowWarm);
                 }
                 int lowWarm = SharedPreferencesUtils.getIntergerSF(BatteryService.this, "warm_level");
 
                 String sn = data.get("sn");
                 Log.d("cgd", String.format("剩余能量:%d, SN:%s", num, sn));
-                EventBus.getDefault().postSticky(new MessageEvent.BatteryInfo(num, sn, use, sop,online,time));
-                if ( sop >= 0){
+                Log.d("cgd", String.format("在线状态:%s",online));
+                EventBus.getDefault().postSticky(new MessageEvent.BatteryInfo(num, sn, use, sop, online, time));
+                if (sop >= 0) {
                     if (sop < lowWarm) {
-                        if (lowWarm <= 5){//<5%报警一次
+                        if (lowWarm <= 5) {//<5%报警一次
                             lowWarm = 0;
-                        } else if (lowWarm <= 10){//<10%报警一次
+                        } else if (lowWarm <= 10) {//<10%报警一次
                             lowWarm = 5;
                         } else {//<20%报警一次
                             lowWarm = 10;
@@ -111,31 +120,31 @@ public class BatteryService extends BaseService<BatteryServicePresenter> impleme
                 }
             } else {
                 Log.d("cgd", "获取电量信息失败！");
-                EventBus.getDefault().postSticky(new MessageEvent.BatteryInfo(0, null, 0, -2,false,0));
+                EventBus.getDefault().postSticky(new MessageEvent.BatteryInfo(0, null, 0, -2, false, 0));
             }
         } else {
             Log.d("cgd", "获取电量信息失败！");
-            EventBus.getDefault().postSticky(new MessageEvent.BatteryInfo(0, null, 0, -2,false,0));
+            EventBus.getDefault().postSticky(new MessageEvent.BatteryInfo(0, null, 0, -2, false, 0));
         }
     }
 
-    private void getBatteryInfo(){
+    private void getBatteryInfo() {
         //未登录
-        if (TextUtils.isEmpty(App.getInstance().getToken())){
+        if (TextUtils.isEmpty(App.getInstance().getToken())) {
             return;
         }
-        Log.d("cgd","getBatteryInfo...");
+        Log.d("cgd", "getBatteryInfo...");
         getPresenter().getBattery(App.getInstance().getUserId());
     }
 
-    private void initSound(){
-        mSoundPool = new SoundPool(1, AudioManager.STREAM_MUSIC,0) ;
+    private void initSound() {
+        mSoundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
         mSoundID = mSoundPool.load(getApplicationContext(), R.raw.bettery_low, 1);
         mSoundPool.setOnLoadCompleteListener(new LoadListener(this));
     }
 
-    private void playSound(){
-        if (mSoundPool == null || mSoundID == 0){
+    private void playSound() {
+        if (mSoundPool == null || mSoundID == 0) {
             initSound();
         }
         mStreamID = mSoundPool.play(mSoundID, 1f, 1f, 10, 1, 1f);
@@ -143,12 +152,14 @@ public class BatteryService extends BaseService<BatteryServicePresenter> impleme
 
     static class LoadListener implements SoundPool.OnLoadCompleteListener {
         BatteryService batteryService;
-        public LoadListener(BatteryService service){
+
+        public LoadListener(BatteryService service) {
             batteryService = service;
         }
+
         @Override
         public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
-            if (status == 0){
+            if (status == 0) {
                 if (batteryService.mStreamID != 0) {
                     batteryService.playSound();
                 }

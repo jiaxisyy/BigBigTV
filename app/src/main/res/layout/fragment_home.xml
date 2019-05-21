@@ -20,10 +20,10 @@
                 layout="@layout/widget_topbar" />
 
             <com.youth.banner.Banner
-                app:image_scale_type="fit_xy"
                 android:id="@+id/banner_main_top"
                 android:layout_width="match_parent"
-                android:layout_height="450px" />
+                android:layout_height="450px"
+                app:image_scale_type="fit_xy" />
 
 
             <TextView
@@ -187,19 +187,29 @@
                                 android:text="电池可骑行里程 (预估) :"
                                 android:textColor="#333333"
                                 android:textSize="36px" />
+
+                            <TextView
+                                android:id="@+id/tv_home_my_battery_offline_duration"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="15px"
+                                android:text="离线时长 :"
+                                android:visibility="gone"
+                                android:textColor="#333333"
+                                android:textSize="36px" />
                         </LinearLayout>
                     </LinearLayout>
 
                     <com.share_will.mobile.ui.widget.HomeBatteryMapView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="45px"
-                        android:layout_marginTop="45px">
+                        android:layout_width="match_parent"
+                        android:layout_height="400px"
+                        android:layout_marginTop="45px"
+                        android:paddingBottom="45px">
 
                         <com.amap.api.maps.TextureMapView
                             android:id="@+id/map_home_battery"
                             android:layout_width="match_parent"
-                            android:layout_height="400px" />
+                            android:layout_height="match_parent" />
 
                     </com.share_will.mobile.ui.widget.HomeBatteryMapView>
 

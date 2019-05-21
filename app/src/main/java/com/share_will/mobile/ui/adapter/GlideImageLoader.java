@@ -19,12 +19,8 @@ public class GlideImageLoader extends ImageLoader {
         RequestOptions options = new RequestOptions()
                 .placeholder(R.drawable.no)
                 .error(R.drawable.no)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .format(DecodeFormat.PREFER_ARGB_8888)
-                .override(1080, 450)
-                .skipMemoryCache(false);
+                .override(1080, 450);
         Glide.with(context).asBitmap().load((String) path).apply(options).into(imageView);
-//        Glide.with(context).load(path).into(imageView);
-//        imageView.setImageURI(Uri.parse((String) path));
     }
 }

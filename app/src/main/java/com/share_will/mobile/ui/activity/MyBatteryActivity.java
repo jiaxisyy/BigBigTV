@@ -63,6 +63,7 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
     private ImageView mIvBatteryPic;
     private TextView mTvMyBatterySn;
     private TextView mTvMyBatteryModel;
+    private TextView mTvMyBatteryOffline;
     private TextView mTvMyBatteryUsed;
     private TextView mTvMyBatteryMileage;
     private TextView mTvMyBatterySop;
@@ -119,6 +120,7 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
         mIvBatteryPic = findViewById(R.id.iv_my_battery_pic);
         mTvMyBatterySn = findViewById(R.id.tv_my_battery_sn);
         mTvMyBatteryModel = findViewById(R.id.tv_my_battery_model);
+        mTvMyBatteryOffline = findViewById(R.id.tv_my_battery_offline);
         mTvMyBatteryUsed = findViewById(R.id.tv_my_battery_used);
         mTvMyBatteryMileage = findViewById(R.id.tv_my_battery_mileage);
         mTvMyBatterySop = findViewById(R.id.tv_my_battery_sop);
@@ -201,6 +203,7 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
                     }
                 }*/
                 if (batteryEntity.isOnline()) {
+                    mTvMyBatteryOffline.setVisibility(View.GONE);
                     if (!TextUtils.isEmpty(batteryEntity.getSop())) {
                         Integer sop = Integer.valueOf(batteryEntity.getSop());
                         mTvMyBatteryMileage.setText("电池可骑行里程 (预估) :   " + sop / 100f * 30 + "km");
@@ -229,6 +232,8 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
                 } else {
                     long l = batteryEntity.getTime();
                     long min = l / (1000 * 60);
+                    mTvMyBatteryOffline.setVisibility(View.VISIBLE);
+                    mTvMyBatteryOffline.setText("离线时长:   " + min + "分钟");
                     String oldSop = batteryEntity.getSop();
                     float minPP = 100 / 120f;//跑1分钟消耗电量百分比
                     float consume = min * minPP;
@@ -248,6 +253,7 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
                             mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_05);
                         }
                     } else {
+
                         mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_00);
                         mTvMyBatteryMileage.setText("电池可骑行里程 (预估) :   0km");
                         mTvMyBatterySop.setText("0%");

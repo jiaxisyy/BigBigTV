@@ -105,6 +105,15 @@
                         android:text="电池可骑行里程 (预估) :"
                         android:textColor="#333333"
                         android:textSize="36px" />
+                    <TextView
+                        android:id="@+id/tv_my_battery_offline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15px"
+                        android:text="离线时长 :"
+                        android:visibility="gone"
+                        android:textColor="#333333"
+                        android:textSize="36px" />
                 </LinearLayout>
             </LinearLayout>
 

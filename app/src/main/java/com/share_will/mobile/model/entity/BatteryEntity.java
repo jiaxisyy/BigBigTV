@@ -21,6 +21,15 @@ public class BatteryEntity {
     private String sn;
     private long time;
     private String longitude;
+    private boolean online;
+
+    public boolean isOnline() {
+        return online;
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
+    }
 
     public String getDischarges() {
         return discharges;

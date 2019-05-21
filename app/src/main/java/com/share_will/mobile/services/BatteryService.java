@@ -76,6 +76,15 @@ public class BatteryService extends BaseService<BatteryServicePresenter> impleme
                 if (!TextUtils.isEmpty(data.get("sop"))){
                     sop = Integer.parseInt(data.get("sop"));
                 }
+                boolean online=true;
+                if(!TextUtils.isEmpty(data.get("online"))){
+                    online=Boolean.parseBoolean(data.get("online"));
+                }
+                long time=0;
+                if(!TextUtils.isEmpty(data.get("time"))){
+                    time=Long.parseLong(data.get("time"));
+                }
+
                 if (sop > 100){
                     sop = 100;
                 }
@@ -86,7 +95,7 @@ public class BatteryService extends BaseService<BatteryServicePresenter> impleme
 
                 String sn = data.get("sn");
                 Log.d("cgd", String.format("剩余能量:%d, SN:%s", num, sn));
-                EventBus.getDefault().postSticky(new MessageEvent.BatteryInfo(num, sn, use, sop));
+                EventBus.getDefault().postSticky(new MessageEvent.BatteryInfo(num, sn, use, sop,online,time));
                 if ( sop >= 0){
                     if (sop < lowWarm) {
                         if (lowWarm <= 5){//<5%报警一次
@@ -102,11 +111,11 @@ public class BatteryService extends BaseService<BatteryServicePresenter> impleme
                 }
             } else {
                 Log.d("cgd", "获取电量信息失败！");
-                EventBus.getDefault().postSticky(new MessageEvent.BatteryInfo(0, null, 0, -2));
+                EventBus.getDefault().postSticky(new MessageEvent.BatteryInfo(0, null, 0, -2,false,0));
             }
         } else {
             Log.d("cgd", "获取电量信息失败！");
-            EventBus.getDefault().postSticky(new MessageEvent.BatteryInfo(0, null, 0, -2));
+            EventBus.getDefault().postSticky(new MessageEvent.BatteryInfo(0, null, 0, -2,false,0));
         }
     }
 

@@ -310,7 +310,23 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
     public void onMessageEvent(MessageEvent.BatteryInfo info) {
         Log.d("cgd", "update battery info");
         if (info.sop > 0) {
-            mTvBatteryPP.setText(String.format("%d%%", info.sop));
+            if (info.online) {
+                mTvBatteryPP.setText(String.format("%d%%", info.sop));
+            } else {
+                long l = System.currentTimeMillis() - info.time;
+                long min = l / (1000 * 60);
+                String oldSop = String.valueOf(info.sop);
+                float minPP = 100 / 120f;//跑1分钟消耗电量百分比
+                float consume = min * minPP;
+                float v = Float.parseFloat(oldSop) - consume;
+                if (v > 0) {
+                    mTvBatteryPP.setText(String.format("%d%%", v));
+                } else {
+                    mTvBatteryPP.setText("0%");
+                }
+            }
+
+
         }
         if (!TextUtils.isEmpty(info.sn)) {
             mTvBind.setText(info.sn);

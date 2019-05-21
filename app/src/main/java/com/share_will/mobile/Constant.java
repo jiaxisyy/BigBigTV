@@ -11,6 +11,10 @@ public class Constant {
     //用户信息
     public final static String USER_INFO = "UserInfo";
 
+    //首次登陆
+    public final static String USER_ISFIRST = "UserIsFirst";
+
+
     //服务器协议
     public final static String KEY_SERVER_PROTOCOL = "server_protocol";
 
@@ -34,6 +38,7 @@ public class Constant {
 
     //微信支付信息
     public static Map<String, String> WEIXIN_APP_INFO = new HashMap<>();
+
     static {
         //蚁电
         //appid
@@ -54,6 +59,7 @@ public class Constant {
 
     //救援审核状态
     public static Map<Integer, String> RescueStatus = new HashMap<>();
+
     static {
         RescueStatus.put(0, "审批中");
         RescueStatus.put(1, "审核通过、待取电");
@@ -66,6 +72,7 @@ public class Constant {
     //押金退款审核状态
     //-1:正常,没有申请退款 0:正在退款中 1:退款成功 2:拒绝退款 3:取消退款
     public static Map<Integer, String> RefundStatus = new HashMap<>();
+
     static {
         RefundStatus.put(-1, "正常");
         RefundStatus.put(0, "正在退款中");

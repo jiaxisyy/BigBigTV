@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.share_will.mobile.App;
+import com.share_will.mobile.Constant;
 import com.share_will.mobile.R;
 import com.share_will.mobile.presenter.LoginPresenter;
 import com.share_will.mobile.services.BatteryService;
@@ -22,6 +23,7 @@ import com.share_will.mobile.utils.PressUtils;
 import com.ubock.library.base.BaseApp;
 import com.ubock.library.base.BaseFragmentActivity;
 import com.ubock.library.ui.dialog.ToastExt;
+import com.ubock.library.utils.SharedPreferencesUtils;
 
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.RuntimePermissions;
@@ -48,6 +50,7 @@ public class LoginActivity extends BaseFragmentActivity<LoginPresenter> implemen
     @Override
     protected void initView(Bundle savedInstanceState) {
         setTitle("登录");
+        openGuide();
         userPhone = findViewById(R.id.et_phone);
         userPwd = findViewById(R.id.edit_pwd);
         Btn_goResign = findViewById(R.id.btn_goResign);
@@ -74,6 +77,17 @@ public class LoginActivity extends BaseFragmentActivity<LoginPresenter> implemen
         );
     }
 
+    /**
+     * 打开引导页
+     */
+    private void openGuide() {
+        boolean isFirst = SharedPreferencesUtils.getBooleanSF(this, Constant.USER_ISFIRST, true);
+        if (isFirst) {
+            Intent intent = new Intent(this, GuideActivity.class);
+            startActivity(intent);
+        }
+    }
+
     @Override
     public void onLogin(boolean success, String message) {
         Btn_login.setEnabled(true);
@@ -97,7 +111,7 @@ public class LoginActivity extends BaseFragmentActivity<LoginPresenter> implemen
      * 是否登录
      */
     private void isLogin() {
-        if (App.getInstance().isLogin()){
+        if (App.getInstance().isLogin()) {
             startActivity(new Intent(this, HomeActivity.class));
             finish();
         }

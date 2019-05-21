@@ -173,9 +173,11 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
                 if (!TextUtils.isEmpty(batteryEntity.getDischarges())) {
                     mTvMyBatteryUsed.setText("电池已使用次数:    " + batteryEntity.getDischarges() + "次");
                 }
-                if (!TextUtils.isEmpty(batteryEntity.getSop())) {
+
+
+               /* if (!TextUtils.isEmpty(batteryEntity.getSop())) {
                     Integer sop = Integer.valueOf(batteryEntity.getSop());
-                    mTvMyBatteryMileage.setText("电池可骑行里程 (预估) :   " + sop / 20f * 5 + "km");
+                    mTvMyBatteryMileage.setText("电池可骑行里程 (预估) :   " + sop / 20f * 6 + "km");
                     mTvMyBatterySop.setText(batteryEntity.getSop() + "%");
                     switch (sop / 20) {
                         case 0:
@@ -196,6 +198,59 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
                         case 5:
                             mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_05);
                             break;
+                    }
+                }*/
+                if (batteryEntity.isOnline()) {
+                    if (!TextUtils.isEmpty(batteryEntity.getSop())) {
+                        Integer sop = Integer.valueOf(batteryEntity.getSop());
+                        mTvMyBatteryMileage.setText("电池可骑行里程 (预估) :   " + sop / 100f * 30 + "km");
+                        mTvMyBatterySop.setText(batteryEntity.getSop() + "%");
+                        switch (sop / 20) {
+                            case 0:
+                                mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_00);
+                                break;
+                            case 1:
+                                mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_01);
+                                break;
+                            case 2:
+                                mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_02);
+                                break;
+                            case 3:
+                                mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_03);
+                                break;
+                            case 4:
+                                mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_04);
+                                break;
+                            case 5:
+                                mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_05);
+                                break;
+                        }
+                    }
+                } else {
+                    long l = System.currentTimeMillis() - batteryEntity.getTime();
+                    long min = l / (1000 * 60);
+                    String oldSop = batteryEntity.getSop();
+                    float minPP = 100 / 120f;//跑1分钟消耗电量百分比
+                    float consume = min * minPP;
+                    float v = Float.parseFloat(oldSop) - consume;
+                    if (v > 0) {
+                        mTvMyBatteryMileage.setText("电池可骑行里程 (预估) :   " + v / 100f * 30 + "km");
+                        mTvMyBatterySop.setText(v + "%");
+                        if (v <= 20) {
+                            mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_01);
+                        } else if (v > 20 && v <= 40) {
+                            mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_02);
+                        } else if (v > 40 && v <= 60) {
+                            mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_03);
+                        } else if (v > 60 && v < 100) {
+                            mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_04);
+                        } else if (v == 100) {
+                            mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_05);
+                        }
+                    } else {
+                        mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_00);
+                        mTvMyBatteryMileage.setText("电池可骑行里程 (预估) :   0km");
+                        mTvMyBatterySop.setText("0%");
                     }
                 }
                 showNoBatteryView(false, mUserInfo != null && mUserInfo.getDeposit() > 0);

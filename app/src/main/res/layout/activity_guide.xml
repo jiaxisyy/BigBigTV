@@ -7,9 +7,9 @@
     <com.youth.banner.Banner
         android:id="@+id/bannerGuide"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"/>
 
-    </com.youth.banner.Banner>
+
 
     <ImageView
         android:id="@+id/iv_guide_start"

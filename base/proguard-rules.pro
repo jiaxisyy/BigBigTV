@@ -20,4 +20,4 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 -ignorewarnings
--keepclassmembers class com.ubock.library.widgets.** {*;}
+-keep class com.ubock.library.widgets.** {*;}

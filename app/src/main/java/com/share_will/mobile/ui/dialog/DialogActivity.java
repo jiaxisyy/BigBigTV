@@ -172,7 +172,8 @@ public class DialogActivity extends BaseFragmentActivity implements DialogInterf
     }
 
     @NeedsPermission({Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE})
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.REQUEST_INSTALL_PACKAGES})
     void onAllowPermission() {
         LogUtils.d("onAllowPermission");
     }
@@ -184,14 +185,16 @@ public class DialogActivity extends BaseFragmentActivity implements DialogInterf
     }
 
     @OnPermissionDenied({Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE})
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.REQUEST_INSTALL_PACKAGES})
     void onPermissionDenied() {
         Toast.makeText(this, "权限被拒绝", Toast.LENGTH_LONG).show();
         finish();
     }
 
     @OnNeverAskAgain({Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE})
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.REQUEST_INSTALL_PACKAGES})
     void onNeverAskAgain() {
         LogUtils.d("onNeverAskAgain");
 //        if (!PermissionUtils.hasSelfPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,

@@ -94,6 +94,7 @@
 -dontnote android.content.**
 -dontnote com.share_will.antenergy.**
 
+-keep class com.ubock.library.widgets.** {*;}
 -keep class android.support.**{*;}
 -keep class com.zbar.**{*;}
 -keep class com.baidu.**{*;}

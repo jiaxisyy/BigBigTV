@@ -40,7 +40,7 @@
                 android:id="@+id/tv_deposit"
                 style="@style/style_text_personal"
                 android:gravity="center_vertical"
-                android:text="押金：未缴" />
+                android:text="履约保证金：未缴" />
 
             <TextView
                 android:id="@+id/tv_package"

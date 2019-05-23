@@ -24,7 +24,7 @@ public class MyDepositActivity extends BaseFragmentActivity implements View.OnCl
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        setTitle("我的押金");
+        setTitle("我的履约保证金");
 
         mBtnRetreat = findViewById(R.id.tv_my_deposit_retreat);
         mTvMoney = findViewById(R.id.tv_my_deposit_money);
@@ -34,10 +34,10 @@ public class MyDepositActivity extends BaseFragmentActivity implements View.OnCl
         mDeposit = getIntent().getIntExtra("deposit", 0);
         int cause_status = getIntent().getIntExtra("cause_status", 0);
         if (mDeposit > 0) {
-            mTvMoney.setText(String.format("您已缴纳押金%s元", NumberFormat.getInstance().format(mDeposit/100f)));
+            mTvMoney.setText(String.format("您已缴纳履约保证金%s元", NumberFormat.getInstance().format(mDeposit/100f)));
         } else {
-            mTvMoney.setText("未缴押金");
-            mBtnRetreat.setText("缴纳押金");
+            mTvMoney.setText("未缴履约保证金");
+            mBtnRetreat.setText("缴纳履约保证金");
         }
     }
 

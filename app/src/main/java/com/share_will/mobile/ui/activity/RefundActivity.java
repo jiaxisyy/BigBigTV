@@ -35,7 +35,7 @@ public class RefundActivity extends BaseFragmentActivity<RefundPresenter> implem
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("申请退押金");
+        setTitle("申请退履约保证金");
     }
 
     @Override

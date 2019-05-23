@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,7 +18,7 @@ import android.widget.TextView;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.AMapOptions;
 import com.amap.api.maps.CameraUpdateFactory;
-import com.amap.api.maps.TextureMapView;
+import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
@@ -28,7 +29,6 @@ import com.share_will.mobile.R;
 import com.share_will.mobile.model.entity.AlarmEntity;
 import com.share_will.mobile.model.entity.BannerEntity;
 import com.share_will.mobile.model.entity.BatteryEntity;
-import com.share_will.mobile.model.entity.CabinetEntity;
 import com.share_will.mobile.model.entity.ChargeBatteryEntity;
 import com.share_will.mobile.model.entity.UserInfo;
 import com.share_will.mobile.presenter.HomeFragmentPresenter;
@@ -123,7 +123,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     private TextView mTvMyBatteryRsoc;
     //    private List<String> mRemoteImages = new ArrayList<>();
     private Set<String> mRemoteImagesSet = new HashSet<>();
-    private TextureMapView mMapView;
+    private MapView mMapView;
     private AMap mAMap;
     private Marker mLocationMarker;
     private List<BannerEntity> mBeanList;
@@ -316,11 +316,11 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mMapView.onDestroy();
     }
 
-//    @Override
-//    public void onSaveInstanceState(@NonNull Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        mMapView.onSaveInstanceState(outState);
-//    }
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mMapView.onSaveInstanceState(outState);
+    }
 
     @Override
     public void onStart() {
@@ -498,7 +498,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         if (info.online) {
             if (info.sop > 0) {
                 mTvMyBatteryOffline.setVisibility(View.GONE);
-                mTvMyBatteryRsoc.setText(String.format("%d%%", info.sop));
+                mTvMyBatteryRsoc.setText(String.format("%s%%", info.sop));
                 mTvMyBatteryMileage.setText("电池可骑行里程 (预估) :   " + info.sop / 100f * 30 + "km");
                 if (info.sop <= 20) {
                     mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_01);
@@ -564,8 +564,8 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                     float consume = min * minPP;
                     float v = Float.parseFloat(oldSop) - consume;
                     if (v > 0) {
-                        mTvMyBatteryMileage.setText("电池可骑行里程 (预估) :   " + v / 100f * 30 + "km");
-                        mTvMyBatteryRsoc.setText(v + "%");
+                        mTvMyBatteryMileage.setText("电池可骑行里程 (预估) :   " + (int) v / 100f * 30 + "km");
+                        mTvMyBatteryRsoc.setText((int) v + "%");
                         if (v <= 20) {
                             mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_01);
                         } else if (v > 20 && v <= 40) {

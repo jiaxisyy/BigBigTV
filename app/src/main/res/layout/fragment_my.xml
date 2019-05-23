@@ -152,7 +152,7 @@
                 android:id="@+id/row_my_deposit"
                 style="@style/user_center_row_style"
                 app:iconDrawable="@drawable/icon_list_deposit"
-                app:text="我的押金" />
+                app:text="我的履约保证金" />
 
             <View
                 android:layout_width="match_parent"

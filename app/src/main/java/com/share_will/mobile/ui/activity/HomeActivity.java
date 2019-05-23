@@ -130,7 +130,7 @@ public class HomeActivity extends BaseTabContainerActivity<HomePresenter> implem
     @Override
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
-        setOffscreenPageLimit(3);
+        setOffscreenPageLimit(4);
     }
 
     /**

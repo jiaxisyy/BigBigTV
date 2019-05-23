@@ -25,7 +25,6 @@
                 android:layout_height="450px"
                 app:image_scale_type="fit_xy" />
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -194,9 +193,9 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="15px"
                                 android:text="离线时长 :"
-                                android:visibility="gone"
                                 android:textColor="#333333"
-                                android:textSize="36px" />
+                                android:textSize="36px"
+                                android:visibility="gone" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -206,7 +205,7 @@
                         android:layout_marginTop="45px"
                         android:paddingBottom="45px">
 
-                        <com.amap.api.maps.TextureMapView
+                        <com.amap.api.maps.MapView
                             android:id="@+id/map_home_battery"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />

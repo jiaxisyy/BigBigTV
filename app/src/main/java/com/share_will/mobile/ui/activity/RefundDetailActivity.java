@@ -39,7 +39,7 @@ public class RefundDetailActivity extends BaseFragmentActivity<RefundPresenter> 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("查看退押金进度");
+        setTitle("查看退履约保证金进度");
     }
 
     @Override

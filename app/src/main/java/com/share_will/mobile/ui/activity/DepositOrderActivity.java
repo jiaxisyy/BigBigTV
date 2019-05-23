@@ -13,7 +13,7 @@ public class DepositOrderActivity extends BaseFragmentActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        setTitle("申请退押金");
+        setTitle("申请退履约保证金");
 
     }
 }

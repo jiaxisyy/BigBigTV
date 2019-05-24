@@ -169,7 +169,7 @@ public class LocationService extends BaseService<LocationServicePresenter> imple
                 List<LocationEntity> list = builder.limit(1).orderDesc(LocationEntityDao.Properties.Id).list();
                 if (list.size() > 0) {
                     LocationEntity e = list.get(0);
-                    if (e.getRange() > 0) {
+                    if (e.getRange() > 0 && getPresenter() != null) {
                         getPresenter().uploadLocation(App.getInstance().getUserId(), e.getLongitude(), e.getLatitude(), e.getRange());
                     }
                 }

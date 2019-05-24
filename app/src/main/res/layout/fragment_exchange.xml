@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.share_will.mobile.ui.activity.MapActivity">
+    tools:context="com.share_will.mobile.ui.activity.HomeActivity">
 
     <RelativeLayout
         android:id="@+id/topbar"

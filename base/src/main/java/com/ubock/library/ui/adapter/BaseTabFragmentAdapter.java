@@ -1,17 +1,17 @@
 package com.ubock.library.ui.adapter;
 
+import android.support.v4.app.FixedFragmentStatePagerAdapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-
-import java.util.List;
 
 import com.ubock.library.base.BaseFragment;
+
+import java.util.List;
 
 /**
  * Created by ChenGD on 2017/4/18.
  */
-public class BaseTabFragmentAdapter extends FragmentStatePagerAdapter {
+public class BaseTabFragmentAdapter extends FixedFragmentStatePagerAdapter {
     private List<BaseFragment> mFragments;
     private List<String> mTitles;
 
@@ -38,8 +38,6 @@ public class BaseTabFragmentAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return mFragments == null ? 0 : mFragments.size();
     }
-
-
 
     @Override
     public CharSequence getPageTitle(int position) {

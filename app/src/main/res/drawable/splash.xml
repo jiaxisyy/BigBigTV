@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--白色矩形 作为背景色-->
+    <item>
+        <bitmap android:src="@drawable/splash_bg" />
+    </item>
+
+    <!--单独的slogan图片 并且设置下间距-->
+    <item android:top="100dp">
+        <!--位置设置成靠下-->
+        <bitmap
+            android:gravity="top"
+            android:src="@drawable/splash_icon" />
+    </item>
+</layer-list>

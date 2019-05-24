@@ -152,7 +152,6 @@ public class HomePresenter extends BasePresenter<HomeModel, HomeView> {
             if (params.length < 2) {
                 return;
             }
-
             String sn = params[0];
             String time = params[1];
             int channel = 0;
@@ -172,7 +171,6 @@ public class HomePresenter extends BasePresenter<HomeModel, HomeView> {
      * 换电
      */
     private void switchBattery(String sn, String time) {
-        LogUtils.d("扫码换电测试3");
         scanCodeLogin(App.getInstance().getUserId(), sn, time);
     }
 
@@ -191,6 +189,11 @@ public class HomePresenter extends BasePresenter<HomeModel, HomeView> {
             Uri uri = Uri.parse(scanResult);
             String sn = uri.getQueryParameter("sn");
             final String time = uri.getQueryParameter("time");
+            long l = System.currentTimeMillis() - Long.parseLong(time);
+            if (l > 1000 * 60 * 10) {
+                ToastExt.showExt("二维码已过时");
+                return;
+            }
             int channel = 0;
             try {
                 channel = Integer.parseInt(uri.getQueryParameter("channel"));
@@ -209,7 +212,7 @@ public class HomePresenter extends BasePresenter<HomeModel, HomeView> {
      * @param channel 充电通道
      */
     private void goToChargingOrSwitch(String sn, String time, int channel) {
-        LogUtils.d("扫码换电测试2");
+
         if (TextUtils.isEmpty(sn) || TextUtils.isEmpty(time)) {
             ToastExt.showExt("无效二维码");
             return;

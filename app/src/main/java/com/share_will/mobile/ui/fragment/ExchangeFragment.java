@@ -522,12 +522,11 @@ public class ExchangeFragment extends BaseFragment<HomePresenter> implements Hom
                 Toast.makeText(this.getContext(), "未打开GPS,无法使用导航功能", Toast.LENGTH_LONG).show();
             }
         } else if (requestCode == REQUEST_CODE_SCAN_CODE) {
-            LogUtils.d("扫码换电测试1");
             //处理扫码换电
             if (resultCode == RESULT_OK) {
+
                 String result = data.getStringExtra("scan_result");
                 getPresenter().handleScanResult(result);
-
             }
         }
     }

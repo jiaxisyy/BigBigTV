@@ -1,6 +1,7 @@
 package com.share_will.mobile.ui.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
@@ -129,30 +130,61 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
             //处理扫码换电
             if (resultCode == RESULT_OK) {
                 String result = data.getStringExtra("scan_result");
-                LogUtils.d(result + "=============");
-                if (!TextUtils.isEmpty(result)) {
-                    if (result.contains("sn=") && result.contains("&time")) {
-                        String sn = result.substring(result.indexOf("sn=") + 3, result.indexOf("&time"));
-                        getPresenter().chargeScan(App.getInstance().getUserId(), App.getInstance().getToken(), sn, "1", 1, 1);
-                    }
+                if (TextUtils.isEmpty(result)) {
+                    ToastExt.showExt("无效二维码");
+                    return;
                 }
+                String sn;
+                String time;
+                try {
+                    Uri uri = Uri.parse(result);
+                    sn = uri.getQueryParameter("sn");
+                    time = uri.getQueryParameter("time");
+                } catch (Exception e) {
+                    LogUtils.e(e);
+                    ToastExt.showExt("无效二维码");
+                    return;
+                }
+                if (TextUtils.isEmpty(sn) || TextUtils.isEmpty(time)) {
+                    ToastExt.showExt("无效二维码");
+                    return;
+                }
+                long l = System.currentTimeMillis() - Long.parseLong(time);
+                if (l > 1000 * 60 * 10) {
+                    ToastExt.showExt("二维码已过时");
+                    return;
+                }
+                getPresenter().chargeScan(App.getInstance().getUserId(), App.getInstance().getToken(), sn, "1", 1, 1);
             }
         } else if (requestCode == REQUEST_CODE_STOP_CHARGESCAN) {
             //处理扫码换电
             if (resultCode == RESULT_OK) {
                 String result = data.getStringExtra("scan_result");
-                LogUtils.d(result + "=============");
-                if (!TextUtils.isEmpty(result)) {
-                    if (result.contains("sn=") && result.contains("&time")) {
-                        String sn = result.substring(result.indexOf("sn=") + 3, result.indexOf("&time"));
-                        getPresenter().stopChargeScan(App.getInstance().getUserId(), App.getInstance().getToken(), sn);
-//                        https://www.ep-ai.com/?sn=EYX1805301000001&time=20185235552=============
-//                        cabinetId=EYX1805301000001&appType=1&time=1&type=1&userId=18328317002&token=8c23841dc3830a457bac456171d458e0
-
-                    }
+                if (TextUtils.isEmpty(result)) {
+                    ToastExt.showExt("无效二维码");
+                    return;
                 }
-            } else {
-                LogUtils.d("=============");
+                String sn;
+                String time;
+                try {
+                    Uri uri = Uri.parse(result);
+                    sn = uri.getQueryParameter("sn");
+                    time = uri.getQueryParameter("time");
+                } catch (Exception e) {
+                    LogUtils.e(e);
+                    ToastExt.showExt("无效二维码");
+                    return;
+                }
+                if (TextUtils.isEmpty(sn) || TextUtils.isEmpty(time)) {
+                    ToastExt.showExt("无效二维码");
+                    return;
+                }
+                long l = System.currentTimeMillis() - Long.parseLong(time);
+                if (l > 1000 * 60 * 10) {
+                    ToastExt.showExt("二维码已过时");
+                    return;
+                }
+                getPresenter().stopChargeScan(App.getInstance().getUserId(), App.getInstance().getToken(), sn);
             }
         } else if (requestCode == REQUEST_CODE_ORDERFORM) {
             finish();
@@ -168,7 +200,7 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
             mChargeScan.setText("扫一扫结束充电");
             mLlInCludeHomeBottom.setVisibility(View.VISIBLE);
             mTextServiceCharge.setVisibility(View.INVISIBLE);
-            if(entity.getStartTime()>0){
+            if (entity.getStartTime() > 0) {
                 mStartTime.setText("开始时间:   " + DateUtils.timeStampToString(entity.getStartTime(), DateUtils.YYYYMMDD_HHMMSS));
             }
             if (entity.getFullTime() != 0) {
@@ -189,7 +221,7 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
                 mAddress.setText("电池位置:   " + entity.getCabinetAddress());
             }
 
-            mDoor.setText("仓门号:   " + entity.getDoor()+"号");
+            mDoor.setText("仓门号:   " + entity.getDoor() + "号");
 
             mMoneyCharge.setText(intChange(entity.getMoney() / 100f) + "元");
             mMoneyManage.setText(intChange(entity.getManageMoney() / 100f) + "元");

@@ -259,6 +259,11 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
                 ToastExt.showExt("无效二维码");
                 return;
             }
+            long l = System.currentTimeMillis() - Long.parseLong(time);
+            if (l > 1000 * 60 * 10) {
+                ToastExt.showExt("二维码已过时");
+                return;
+            }
             if (requestCode == REQUEST_CODE_SCANLOGIN_CODE) {
                 //result  =   http://www.ep-ai.com/4GAgreement/qr/scanQR.html?customerCode=null&sn=E201805301000001&time=1547014958567
                 userCenterPresenter.loginCMS(App.getInstance().getUserId(), sn, 3);

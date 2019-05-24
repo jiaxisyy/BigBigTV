@@ -132,6 +132,7 @@ public class ChooseChargeStakeActivity extends BaseFragmentActivity<ChargeStakeP
                 mChargeStakeAdapter.setNewData(data.getData());
             } else {
                 ToastExt.showExt(data.getMessage());
+                finish();
             }
         } else {
             ToastExt.showExt("获取充电桩信息失败,请重试");

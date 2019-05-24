@@ -14,10 +14,12 @@ import com.share_will.mobile.presenter.BatteryServicePresenter;
 import com.share_will.mobile.ui.views.BatteryServiceView;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseService;
+import com.ubock.library.utils.LogUtils;
 import com.ubock.library.utils.SharedPreferencesUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.Calendar;
 import java.util.Map;
 
 /**
@@ -33,7 +35,7 @@ public class BatteryService extends BaseService<BatteryServicePresenter> impleme
     /**
      * 电池电量不足时提醒值，百分比
      */
-    private final int mBatteryLowWarm = 20;
+    private final int mBatteryLowWarm = 50;
 
     @Override
     public void onCreate() {
@@ -103,19 +105,23 @@ public class BatteryService extends BaseService<BatteryServicePresenter> impleme
 
                 String sn = data.get("sn");
                 Log.d("cgd", String.format("剩余能量:%d, SN:%s", num, sn));
-                Log.d("cgd", String.format("在线状态:%s",online));
+                Log.d("cgd", String.format("在线状态:%s", online));
                 EventBus.getDefault().postSticky(new MessageEvent.BatteryInfo(num, sn, use, sop, online, time));
-                if (sop >= 0) {
-                    if (sop < lowWarm) {
-                        if (lowWarm <= 5) {//<5%报警一次
-                            lowWarm = 0;
-                        } else if (lowWarm <= 10) {//<10%报警一次
-                            lowWarm = 5;
-                        } else {//<20%报警一次
-                            lowWarm = 10;
+                long timesNight = getTimesNight() - 1000 * 60 * 60 * 24;
+                long seven = timesNight + 1000 * 60 * 60 * 7;
+                if (time > seven) {
+                    if (sop >= 0) {
+                        if (sop < lowWarm) {
+                            if (lowWarm <= 15) {//<15%报警一次
+                                lowWarm = 0;
+                            } else if (lowWarm <= 20) {//<20%报警一次
+                                lowWarm = 15;
+                            } else {//<50%报警一次
+                                lowWarm = 20;
+                            }
+                            SharedPreferencesUtils.setIntergerSF(BatteryService.this, "warm_level", lowWarm);
+                            playSound();
                         }
-                        SharedPreferencesUtils.setIntergerSF(BatteryService.this, "warm_level", lowWarm);
-                        playSound();
                     }
                 }
             } else {
@@ -141,6 +147,18 @@ public class BatteryService extends BaseService<BatteryServicePresenter> impleme
         mSoundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
         mSoundID = mSoundPool.load(getApplicationContext(), R.raw.bettery_low, 1);
         mSoundPool.setOnLoadCompleteListener(new LoadListener(this));
+    }
+
+    /**
+     * 获得当天24点时间
+     */
+    public static long getTimesNight() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 24);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTimeInMillis();
     }
 
     private void playSound() {

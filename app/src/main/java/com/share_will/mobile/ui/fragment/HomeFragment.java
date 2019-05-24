@@ -201,6 +201,8 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mTopExchange.setOnClickListener(this);
         initMapView();
         initData();
+
+
     }
 
 
@@ -716,6 +718,11 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                         if (uri != null) {
                             String sn = uri.getQueryParameter("sn");
                             String time = uri.getQueryParameter("time");
+                            long l = System.currentTimeMillis() - Long.parseLong(time);
+                            if (l > 1000 * 60 * 10) {
+                                ToastExt.showExt("二维码已过时");
+                                return;
+                            }
                             if (!TextUtils.isEmpty(sn) && !TextUtils.isEmpty(time)) {
                                 getPresenter().scanCodeGetBattery(sn, App.getInstance().getUserId());
                             } else {

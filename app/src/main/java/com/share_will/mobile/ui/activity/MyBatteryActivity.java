@@ -393,6 +393,11 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
                         if (uri != null) {
                             String sn = uri.getQueryParameter("sn");
                             String time = uri.getQueryParameter("time");
+                            long l = System.currentTimeMillis() - Long.parseLong(time);
+                            if (l > 1000 * 60 * 10) {
+                                ToastExt.showExt("二维码已过时");
+                                return;
+                            }
                             if (!TextUtils.isEmpty(sn) && !TextUtils.isEmpty(time)) {
                                 homeFragmentPresenter.scanCodeGetBattery(sn, App.getInstance().getUserId());
                             } else {

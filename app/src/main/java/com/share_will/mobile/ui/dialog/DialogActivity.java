@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -56,8 +57,17 @@ public class DialogActivity extends BaseFragmentActivity implements DialogInterf
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mNeedCheckPermission = getIntent().getBooleanExtra(PARAM_NEED_PERMISSION, false);
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
         if (mNeedCheckPermission) {
-            DialogActivityPermissionsDispatcher.onAllowPermissionWithPermissionCheck(DialogActivity.this);
+            try {
+                DialogActivityPermissionsDispatcher.onAllowPermissionWithPermissionCheck(DialogActivity.this);
+            }catch (Exception e){
+                LogUtils.e(e);
+            }
         }
     }
 
@@ -172,8 +182,7 @@ public class DialogActivity extends BaseFragmentActivity implements DialogInterf
     }
 
     @NeedsPermission({Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.REQUEST_INSTALL_PACKAGES})
+            Manifest.permission.WRITE_EXTERNAL_STORAGE})
     void onAllowPermission() {
         LogUtils.d("onAllowPermission");
     }
@@ -185,16 +194,14 @@ public class DialogActivity extends BaseFragmentActivity implements DialogInterf
     }
 
     @OnPermissionDenied({Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.REQUEST_INSTALL_PACKAGES})
+            Manifest.permission.WRITE_EXTERNAL_STORAGE})
     void onPermissionDenied() {
         Toast.makeText(this, "权限被拒绝", Toast.LENGTH_LONG).show();
         finish();
     }
 
     @OnNeverAskAgain({Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.REQUEST_INSTALL_PACKAGES})
+            Manifest.permission.WRITE_EXTERNAL_STORAGE})
     void onNeverAskAgain() {
         LogUtils.d("onNeverAskAgain");
 //        if (!PermissionUtils.hasSelfPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,

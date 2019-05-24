@@ -182,6 +182,9 @@ public class UpgradeService extends BaseService<UpgradeServicePresenter> impleme
         }
 
         private void handleDownload() {
+            if (mDownloadManager == null){
+                return;
+            }
             DownloadManager.Query query = new DownloadManager.Query();
             query.setFilterById(mDownloadId);
             Cursor c = mDownloadManager.query(query);
@@ -214,7 +217,7 @@ public class UpgradeService extends BaseService<UpgradeServicePresenter> impleme
 
     private void installAPK(File file) {
         if (!file.exists()) return;
-        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Intent intent = new Intent(Intent.ACTION_INSTALL_PACKAGE);
         Uri uri;
 
         //判断是否是AndroidN以及更高的版本

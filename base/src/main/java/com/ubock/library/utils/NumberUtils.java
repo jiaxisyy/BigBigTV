@@ -45,4 +45,29 @@ public class NumberUtils {
         return bd.setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 
+    /**
+     * 默认保留一位小数
+     *
+     * @param f
+     * @return
+     */
+    public static float formatNum(float f) {
+        return formatNum(f, 1);
+    }
+
+    /**
+     * @param f
+     * @param i 保留几位小数,最多两位
+     * @return
+     */
+    public static float formatNum(float f, int i) {
+
+        if (i == 1) {
+            return (float) (Math.round(f * 10) / 10);
+        } else if (i == 2) {
+            return (float) (Math.round(f * 100) / 100);
+        }
+        return (float) (Math.round(f * 100) / 100);
+    }
+
 }

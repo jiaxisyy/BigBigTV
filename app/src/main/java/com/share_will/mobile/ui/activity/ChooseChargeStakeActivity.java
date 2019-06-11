@@ -178,6 +178,5 @@ public class ChooseChargeStakeActivity extends BaseFragmentActivity<ChargeStakeP
                 }
             }
         }
-
     }
 }

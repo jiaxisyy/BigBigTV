@@ -50,6 +50,7 @@ import com.ubock.library.base.BaseFragment;
 import com.ubock.library.ui.dialog.ToastExt;
 import com.ubock.library.utils.DateUtils;
 import com.ubock.library.utils.LogUtils;
+import com.ubock.library.utils.NumberUtils;
 import com.youth.banner.Banner;
 import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
@@ -501,22 +502,8 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             if (info.sop > 0) {
                 mTvMyBatteryOffline.setVisibility(View.GONE);
                 mTvMyBatteryRsoc.setText(String.format("%s%%", info.sop));
-                mTvMyBatteryMileage.setText("电池可骑行里程 (预估) :   " + info.sop / 100f * 30 + "km");
-                if (info.sop <= 20) {
-                    mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_01);
-                }
-                if (info.sop > 20 && info.sop <= 40) {
-                    mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_02);
-                }
-                if (info.sop > 40 && info.sop <= 60) {
-                    mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_03);
-                }
-                if (info.sop > 60 && info.sop < 100) {
-                    mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_04);
-                }
-                if (info.sop == 100) {
-                    mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_05);
-                }
+                mTvMyBatteryMileage.setText("电池可骑行里程 (预估) :   " + NumberUtils.formatNum(info.sop / 100f * 30) + "km");
+                sop2Pic(info.sop);
             }
         } else {
             long l = info.time;
@@ -528,7 +515,9 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             float consume = min * minPP;
             float v = Float.parseFloat(oldSop) - consume;
             if (v > 0) {
-                mTvMyBatteryRsoc.setText(String.format("%d%%", v));
+                mTvMyBatteryRsoc.setText(String.format("%s%%", NumberUtils.formatNum(v)));
+                mTvMyBatteryMileage.setText("电池可骑行里程 (预估) :   " + NumberUtils.formatNum(v / 100f * 30) + "km");
+                sop2Pic(info.sop);
             } else {
                 mTvMyBatteryRsoc.setText("0%");
                 mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_00);
@@ -537,6 +526,24 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         }
         if (!TextUtils.isEmpty(info.sn)) {
             mTvMyBatterySn.setText("电池SN:   " + info.sn);
+        }
+    }
+
+    private void sop2Pic(int sop) {
+        if (sop <= 20) {
+            mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_01);
+        }
+        if (sop > 20 && sop <= 40) {
+            mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_02);
+        }
+        if (sop > 40 && sop <= 60) {
+            mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_03);
+        }
+        if (sop > 60 && sop < 100) {
+            mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_04);
+        }
+        if (sop == 100) {
+            mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_05);
         }
     }
 
@@ -549,6 +556,9 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             if (batteryEntity != null) {
                 showMyBatteryView(true);
                 mArrowRight.setVisibility(View.INVISIBLE);
+                if (!TextUtils.isEmpty(batteryEntity.getSn())) {
+                    mTvMyBatterySn.setText("电池SN:   " + batteryEntity.getSn());
+                }
                 if (!TextUtils.isEmpty(batteryEntity.getDischarges())) {
                     mTvMyBatteryUsed.setText("电池已使用次数:    " + batteryEntity.getDischarges() + "次");
                 }
@@ -566,19 +576,10 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                     float consume = min * minPP;
                     float v = Float.parseFloat(oldSop) - consume;
                     if (v > 0) {
-                        mTvMyBatteryMileage.setText("电池可骑行里程 (预估) :   " + (int) v / 100f * 30 + "km");
-                        mTvMyBatteryRsoc.setText((int) v + "%");
-                        if (v <= 20) {
-                            mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_01);
-                        } else if (v > 20 && v <= 40) {
-                            mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_02);
-                        } else if (v > 40 && v <= 60) {
-                            mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_03);
-                        } else if (v > 60 && v < 100) {
-                            mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_04);
-                        } else if (v == 100) {
-                            mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_05);
-                        }
+
+                        mTvMyBatteryMileage.setText("电池可骑行里程 (预估) :   " + NumberUtils.formatNum(v / 100f * 30) + "km");
+                        mTvMyBatteryRsoc.setText(NumberUtils.formatNum(v) + "%");
+                        sop2Pic((int) v);
                     } else {
                         mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_00);
                         mTvMyBatteryMileage.setText("电池可骑行里程 (预估) :   0km");
@@ -690,6 +691,8 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             ToastExt.showExt("绑定电池失败");
         }
     }
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

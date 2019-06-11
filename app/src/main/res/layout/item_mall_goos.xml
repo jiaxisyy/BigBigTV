@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_item_mall_goods_pic"
+        android:layout_width="480px"
+        android:layout_height="480px"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/icon_vehicle" />
+
+    <TextView
+        android:id="@+id/tv_item_mall_goods_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_item_mall_goods_pic"
+        android:layout_alignLeft="@+id/iv_item_mall_goods_pic"
+        android:layout_marginLeft="15px"
+        android:layout_marginTop="24px"
+        android:text="商品"
+        android:textColor="#1C1D1C"
+        android:textSize="36px" />
+
+    <TextView
+        android:id="@+id/tv_item_mall_goods_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_item_mall_goods_name"
+        android:layout_alignLeft="@+id/tv_item_mall_goods_name"
+        android:layout_marginTop="28px"
+        android:paddingBottom="158px"
+        android:text="¥0.00"
+        android:textColor="#FF4041"
+        android:textSize="36px" />
+
+
+</RelativeLayout>

@@ -38,6 +38,7 @@ import com.ubock.library.base.BaseFragment;
 import com.ubock.library.ui.dialog.ToastExt;
 import com.ubock.library.utils.DateUtils;
 import com.ubock.library.utils.LogUtils;
+import com.ubock.library.utils.NumberUtils;
 import com.ubock.library.utils.SharedPreferencesUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -318,14 +319,14 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
             if (info.online) {
                 mTvBatteryPP.setText(String.format("%d%%", info.sop));
             } else {
-                long l =info.time;
+                long l = info.time;
                 long min = l / (1000 * 60);
                 String oldSop = String.valueOf(info.sop);
                 float minPP = 100 / 120f;//跑1分钟消耗电量百分比
                 float consume = min * minPP;
                 float v = Float.parseFloat(oldSop) - consume;
                 if (v > 0) {
-                    mTvBatteryPP.setText(String.format("%d%%", v));
+                    mTvBatteryPP.setText(String.format("%s%%", NumberUtils.formatNum(v)));
                 } else {
                     mTvBatteryPP.setText("0%");
                 }

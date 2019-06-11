@@ -12,6 +12,7 @@ import com.share_will.mobile.Constant;
 import com.share_will.mobile.R;
 import com.ubock.library.base.BaseConfig;
 import com.ubock.library.base.BaseFragmentActivity;
+import com.ubock.library.utils.LogUtils;
 import com.ubock.library.utils.SharedPreferencesUtils;
 
 public class ProtocolActivity extends BaseFragmentActivity {
@@ -50,6 +51,7 @@ public class ProtocolActivity extends BaseFragmentActivity {
 //        http://services.smart-moss.com/static/protocol/protocol.html
 //        mWebView.loadUrl(BaseConfig.SERVER_HOST + "protocol/protocol.html?hideAcceptButton=1");
         mWebView.loadUrl(BaseConfig.SERVER_HOST + "static/protocol/protocol.html");
+        LogUtils.d(BaseConfig.SERVER_HOST + "static/protocol/protocol.html");
     }
 
     public void startAnt(View view){

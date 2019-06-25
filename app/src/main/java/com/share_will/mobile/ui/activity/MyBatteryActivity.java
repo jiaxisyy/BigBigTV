@@ -194,12 +194,12 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
                     float minPP = 100 / 120f;//跑1分钟消耗电量百分比
                     float consume = min * minPP;
                     float v = Float.parseFloat(oldSop) - consume;
+
                     if (v > 0) {
                         mTvMyBatteryMileage.setText("电池可骑行里程 (预估) :   " + NumberUtils.formatNum(v / 100f * 30) + "km");
                         mTvMyBatterySop.setText(NumberUtils.formatNum(v) + "%");
                         sop2Pic((int) v);
                     } else {
-
                         mIvBatteryPic.setImageResource(R.drawable.icon_mybattery_00);
                         mTvMyBatteryMileage.setText("电池可骑行里程 (预估) :   0km");
                         mTvMyBatterySop.setText("0%");

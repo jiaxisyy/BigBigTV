@@ -53,10 +53,10 @@ public class LocationService extends BaseService<LocationServicePresenter> imple
         mHandler.sendEmptyMessageDelayed(MSG_UPLOAD_POSITION, 1000);
     }
 
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case MSG_UPLOAD_POSITION:
                     sendEmptyMessageDelayed(MSG_UPLOAD_POSITION, mUploadPositionInterval);
                     uploadPosition();
@@ -105,7 +105,7 @@ public class LocationService extends BaseService<LocationServicePresenter> imple
         mHandler.removeCallbacksAndMessages(null);
     }
 
-    private void initLocation(){
+    private void initLocation() {
 
         mlocationClient = new AMapLocationClient(this);
         //初始化定位参数
@@ -115,7 +115,7 @@ public class LocationService extends BaseService<LocationServicePresenter> imple
         //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
         mLocationOption.setLocationMode(AMapLocationMode.Battery_Saving);
         //设置定位间隔,单位毫秒,默认为2000ms
-        mLocationOption.setInterval(30*60*1000);
+        mLocationOption.setInterval(30 * 60 * 1000);
         //设置定位参数
         mlocationClient.setLocationOption(mLocationOption);
 
@@ -128,7 +128,7 @@ public class LocationService extends BaseService<LocationServicePresenter> imple
             if (amapLocation.getErrorCode() == 0) {
                 amapLocation.getLatitude();//获取纬度
                 amapLocation.getLongitude();//获取经度
-                Log.e("cgd",String.format("location Longitude:%f,Latitude:%f", amapLocation.getLongitude(), amapLocation.getLatitude()));
+                Log.e("cgd", String.format("location Longitude:%f,Latitude:%f", amapLocation.getLongitude(), amapLocation.getLatitude()));
                 EventBus.getDefault().post(new MessageEvent.LocationEvent(amapLocation));
                 long timestamp = System.currentTimeMillis();
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -137,14 +137,14 @@ public class LocationService extends BaseService<LocationServicePresenter> imple
                 save(entity);
             } else {
                 //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
-                Log.e("cgd","location Error, ErrCode:"
+                Log.e("cgd", "location Error, ErrCode:"
                         + amapLocation.getErrorCode() + ", errInfo:"
                         + amapLocation.getErrorInfo());
             }
         }
     }
 
-    private void save(LocationEntity entity){
+    private void save(LocationEntity entity) {
         ThreadPools.execute(new SaveThread(entity));
     }
 
@@ -158,9 +158,9 @@ public class LocationService extends BaseService<LocationServicePresenter> imple
     /**
      * 上传位置和里程数
      */
-    private void uploadPosition(){
-        if (!App.getInstance().isLogin()){
-            Log.d("cgd","unLogin");
+    private void uploadPosition() {
+        if (!App.getInstance().isLogin()) {
+            Log.d("cgd", "unLogin");
             return;
         }
         Thread thread = new Thread() {
@@ -170,7 +170,9 @@ public class LocationService extends BaseService<LocationServicePresenter> imple
                 if (list.size() > 0) {
                     LocationEntity e = list.get(0);
                     if (e.getRange() > 0 && getPresenter() != null) {
-                        getPresenter().uploadLocation(App.getInstance().getUserId(), e.getLongitude(), e.getLatitude(), e.getRange());
+                        if (App.getInstance().getUserId() != null) {
+                            getPresenter().uploadLocation(App.getInstance().getUserId(), e.getLongitude(), e.getLatitude(), e.getRange());
+                        }
                     }
                 }
             }
@@ -180,23 +182,25 @@ public class LocationService extends BaseService<LocationServicePresenter> imple
 
     private static class SaveThread extends Thread {
         private LocationEntity entity;
-        public SaveThread(LocationEntity entity){
+
+        public SaveThread(LocationEntity entity) {
             this.entity = entity;
         }
+
         @Override
         public void run() {
             QueryBuilder<LocationEntity> builder = DBUtils.getDaoSession().getLocationEntityDao().queryBuilder();
             List<LocationEntity> list = builder.limit(1).orderDesc(LocationEntityDao.Properties.Id).list();
-            if (list.size() > 0){
+            if (list.size() > 0) {
                 LocationEntity e = list.get(0);
                 Log.d("saveLocation", String.format("oldLat:%f,oldLog:%f; newLat:%f, newLog:%f", e.getLatitude(), e.getLongitude(), entity.getLatitude(), entity.getLongitude()));
-                if (entity.getLongitude()!= e.getLongitude() ||
+                if (entity.getLongitude() != e.getLongitude() ||
                         entity.getLatitude() != e.getLatitude()) {
                     LatLng start = new LatLng(entity.getLatitude(), entity.getLongitude());
                     LatLng end = new LatLng(e.getLatitude(), e.getLongitude());
                     float distance = AMapUtils.calculateLineDistance(start, end);
-                    Log.d("saveLocation",String.format("distance=%f米", distance));
-                    if (distance > 35){
+                    Log.d("saveLocation", String.format("distance=%f米", distance));
+                    if (distance > 35) {
                         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                         String oldDate = df.format(new Date(e.getTimestamp()));
                         String newDate = df.format(new Date(entity.getTimestamp()));
@@ -206,10 +210,10 @@ public class LocationService extends BaseService<LocationServicePresenter> imple
                             e.setRange(0);
                         }
                     } else {
-                        Log.d("saveLocation","ignore location");
+                        Log.d("saveLocation", "ignore location");
                     }
                 } else {
-                    Log.d("saveLocation","ignore location");
+                    Log.d("saveLocation", "ignore location");
                 }
                 e.setLatitude(entity.getLatitude());
                 e.setLongitude(entity.getLongitude());

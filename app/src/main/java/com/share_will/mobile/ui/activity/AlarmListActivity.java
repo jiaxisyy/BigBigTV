@@ -176,9 +176,7 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
                 }
             }
         }
-
         mMultiAdapter.setNewData(list);
-
     }
 
     @Override

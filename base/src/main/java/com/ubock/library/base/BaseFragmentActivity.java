@@ -56,7 +56,7 @@ public abstract class BaseFragmentActivity<P extends BasePresenter> extends RxAp
 
     private TextView mStatusbarBg;
     private TextView mTitle;
-    private TextView mTopRightMenuText;
+    protected TextView mTopRightMenuText;
     private View mBack;
     protected ImageButton mTopRightMenu;
 

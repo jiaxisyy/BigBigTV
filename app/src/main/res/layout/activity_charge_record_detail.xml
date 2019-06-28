@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/widget_topbar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/tv_charge_info"
+            android:layout_width="860px"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/shape_bg_rect_card"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="33px"
+                android:text="充电状态"
+                android:textColor="#333333"
+                android:textSize="36px" />
+
+            <TextView
+                android:id="@+id/tv_charge_start_time"
+                style="@style/style_text_charge"
+                android:text="开始时间:" />
+
+            <TextView
+                android:id="@+id/tv_charge_duration_time"
+                style="@style/style_text_charge"
+                android:text="充电时长:" />
+
+
+            <TextView
+                android:id="@+id/tv_charge_energy"
+                style="@style/style_text_charge"
+                android:text="已充电量:" />
+
+
+            <TextView
+                android:id="@+id/tv_charge_address"
+                style="@style/style_text_charge"
+                android:text="充电座位置:" />
+
+            <TextView
+                android:id="@+id/tv_charge_door"
+                style="@style/style_text_charge"
+                android:text="插座:" />
+
+            <TextView
+                android:id="@+id/tv_charge_stopType"
+                style="@style/style_text_charge"
+                android:text="结束充电方式:"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/tv_charge_info"
+                android:layout_marginLeft="33px"
+                android:layout_marginTop="30px"
+                android:paddingBottom="30px">
+
+                <TextView
+                    android:id="@+id/tv_charge_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="充电费用:"
+                    android:textColor="@color/text_color"
+                    android:textSize="36px" />
+
+                <TextView
+                    android:id="@+id/tv_charge_manage_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_charge_price"
+                    android:layout_marginTop="15px"
+                    android:text="服务费用:"
+                    android:textColor="@color/text_color"
+                    android:textSize="36px" />
+
+                <TextView
+                    android:id="@+id/tv_charge_all_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="33px"
+                    android:text="合计:"
+                    android:textColor="@color/text_color"
+                    android:textSize="36px" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</LinearLayout>

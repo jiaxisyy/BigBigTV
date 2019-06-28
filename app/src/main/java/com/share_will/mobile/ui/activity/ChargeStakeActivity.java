@@ -76,6 +76,7 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
     @Override
     protected void initView(Bundle savedInstanceState) {
         setTitle("充电桩");
+        setTopText("充电记录");
         mFinishCharge = findViewById(R.id.tv_finish_charge);
         mStartTime = findViewById(R.id.tv_home_charge_stake_start_time);
         mDurationTime = findViewById(R.id.tv_home_charge_stake_duration_time);
@@ -94,6 +95,9 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
         mTvNoInfo = findViewById(R.id.tv_home_charge_stake_no_info);
         mScanStart.setOnClickListener(this);
         mScanStop.setOnClickListener(this);
+        mTopRightMenuText.setOnClickListener(v -> {
+            startActivity(new Intent(this, ChargeRecordActivity.class));
+        });
     }
 
     @Override
@@ -131,11 +135,11 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
                 long time = System.currentTimeMillis() - mOrderInfoEntity.getStartTime();
                 mDurationTime.setText("充电时长: " + formatTime(time));
             }
-            mEnergy.setText("已充电量: " + mOrderInfoEntity.getEnergy() / 100f + "度");
+            mEnergy.setText("已充能量点: " + mOrderInfoEntity.getEnergy());
             if (!TextUtils.isEmpty(mOrderInfoEntity.getCabinetAddress())) {
                 mAddress.setText("充电座位置: " + mOrderInfoEntity.getCabinetAddress());
             }
-            mDoor.setText("插座号: " + (mOrderInfoEntity.getDoor())+"号");
+            mDoor.setText("插座号: " + (mOrderInfoEntity.getDoor()) + "号");
             int balanceType = mOrderInfoEntity.getBalanceType();
             if (balanceType == 0) {
                 mStopType.setVisibility(View.GONE);

@@ -418,7 +418,7 @@ public class MyBatteryActivity extends BaseFragmentActivity implements IHomeFrag
                 mDurationTime.setText("充电时长:   " + DateUtils.unixToUTcTimeDuration(l));
             }
             mNowSop.setText("当前电量:   " + entity.getSop() + "%");
-            mEnergy.setText("已充能量点:   " + entity.getEnergy());
+            mEnergy.setText("已充能量点:   " + entity.getEnergy()/10f+"个");
             if (!TextUtils.isEmpty(entity.getCabinetAddress())) {
                 mAddress.setText("电池位置:   " + entity.getCabinetAddress());
             }

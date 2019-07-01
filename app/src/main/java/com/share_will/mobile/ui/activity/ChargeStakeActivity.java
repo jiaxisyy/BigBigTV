@@ -1,5 +1,6 @@
 package com.share_will.mobile.ui.activity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -135,7 +136,7 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
                 long time = System.currentTimeMillis() - mOrderInfoEntity.getStartTime();
                 mDurationTime.setText("充电时长: " + formatTime(time));
             }
-            mEnergy.setText("已充能量点: " + mOrderInfoEntity.getEnergy());
+            mEnergy.setText("已充能量点: " + mOrderInfoEntity.getEnergy()/10f + "个");
             if (!TextUtils.isEmpty(mOrderInfoEntity.getCabinetAddress())) {
                 mAddress.setText("充电座位置: " + mOrderInfoEntity.getCabinetAddress());
             }
@@ -171,6 +172,21 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
         time = (time % (60 * 60 * 1000));
         int m = (int) (time / (60 * 1000));
         return String.format("%d小时%d分钟", h, m);
+    }
+
+    /**
+     * 提示
+     */
+    private void messageDialog(String title, String message) {
+        new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setIcon(null)
+                .setCancelable(true)
+                .setMessage(message)
+                .setPositiveButton(R.string.alert_yes_button, (dialog, which) -> {
+                    dialog.dismiss();
+                    chargeScanStart();
+                }).setNegativeButton(R.string.alert_no_button, (dialog, which) -> dialog.dismiss()).create().show();
     }
 
     /**
@@ -241,7 +257,9 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_home_charge_stake_scan_start:
-                chargeScanStart();
+
+                messageDialog("温馨提示", "请使用正规的电源，并确保你的电池质量合格，充电过程中由于你的电池或车辆引起的问题，需要你自行承担一切后果");
+
                 break;
             case R.id.tv_home_charge_stake_scan_stop:
                 LogUtils.d("mIsFinishing=" + mIsFinishing);

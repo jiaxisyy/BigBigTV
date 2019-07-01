@@ -465,7 +465,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                     mDurationTime.setText("充电时长:   " + DateUtils.unixToUTcTimeDuration(l));
                 }
                 mNowSop.setText("当前电量:   " + chargeBatteryEntity.getSop() + "%");
-                mEnergy.setText("已充能量点:   " + chargeBatteryEntity.getEnergy());
+                mEnergy.setText("已充能量点:   " + chargeBatteryEntity.getEnergy()/10f+"个");
 
                 if (!TextUtils.isEmpty(chargeBatteryEntity.getCabinetAddress())) {
                     mAddress.setText("电池位置:   " + chargeBatteryEntity.getCabinetAddress());

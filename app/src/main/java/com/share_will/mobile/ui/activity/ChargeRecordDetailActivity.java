@@ -53,7 +53,7 @@ public class ChargeRecordDetailActivity extends BaseFragmentActivity {
             long time = System.currentTimeMillis() - mOrderInfoEntity.getStartTime();
             tvChargeDurationTime.setText("充电时长: " + formatTime(time));
         }
-        tvChargeEnergy.setText("已充能量点: " + mOrderInfoEntity.getEnergyUsed());
+        tvChargeEnergy.setText("已充能量点: " + mOrderInfoEntity.getEnergyUsed()/10f+"个");
         if (!TextUtils.isEmpty(mOrderInfoEntity.getCabinetAddress())) {
             tvChargeAddress.setText("充电座位置: " + mOrderInfoEntity.getCabinetAddress());
         }

@@ -209,7 +209,6 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
                 showError("请输入正确的手机号码");
                 return;
             }
-
             Observable.interval(0, 1, TimeUnit.SECONDS)//设置0延迟，每隔一秒发送一条数据
                     .take(count + 1)
                     .map(new Func1<Long, Long>() {

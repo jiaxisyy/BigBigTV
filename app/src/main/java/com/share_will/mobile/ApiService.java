@@ -7,6 +7,7 @@ import com.share_will.mobile.model.entity.BespeakEntity;
 import com.share_will.mobile.model.entity.CabinetEntity;
 import com.share_will.mobile.model.entity.ChargeBatteryEntity;
 import com.share_will.mobile.model.entity.ChargeOrderEntity;
+import com.share_will.mobile.model.entity.ChargeRecordEntity;
 import com.share_will.mobile.model.entity.ChargeStakeEntity;
 import com.share_will.mobile.model.entity.ChargeStakeOrderInfoEntity;
 import com.share_will.mobile.model.entity.ChargingEntity;
@@ -639,5 +640,18 @@ public interface ApiService {
                                                  @Field("userId") String userId,
                                                  @Field("index") int index,
                                                  @Field("status") int status);
+
+    /**
+     *  充电桩记录
+     * @param userId
+     * @param pn
+     * @param ps
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("cabinet/stake/user/order")
+    Observable<BaseEntity<List<ChargeRecordEntity>>> getChargeRecordList(@Field("userId") String userId,
+                                                                         @Field("pn") int pn,
+                                                                         @Field("ps") int ps);
 
 }

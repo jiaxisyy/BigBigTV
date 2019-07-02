@@ -27,6 +27,5 @@ public class ChargeStakeAdapter extends BaseQuickAdapter<ChargeStakeEntity, Base
             helper.setImageResource(R.id.iv_item_choose_stake_pic, R.drawable.icon_socket_no_normal);
             helper.setVisible(R.id.iv_item_charge_stake_selected, false);
         }
-
     }
 }

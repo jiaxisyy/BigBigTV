@@ -21,9 +21,19 @@ import com.ubock.library.base.BaseFragmentActivity;
 import com.ubock.library.ui.dialog.ToastExt;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import rx.Observable;
+import rx.Observer;
+import rx.Scheduler;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> implements RegisterView, View.OnClickListener {
-
+    /**短信倒计时时间*/
+    private static final int count = 60;
     private Button btnResign;
     private EditText userPhone;
     private EditText userPwd;
@@ -51,6 +61,7 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
     private TextView mTvPersonal;
     private View mIncludeStation;
     private CheckBox mCbAgree;
+    private TextView mVerifyCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +88,8 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
         mTvRider = findViewById(R.id.tv_register_rider);
         mIncludeStation = findViewById(R.id.include_register_station);
         mCbAgree = findViewById(R.id.cb_register_protocol_agree);
+        mVerifyCode = findViewById(R.id.tv_getVerifyCode);
+        mVerifyCode.setOnClickListener(this);
         mIncludeStation.setOnClickListener(this);
         mTvPersonal.setOnClickListener(this);
         mTvRider.setOnClickListener(this);
@@ -187,18 +200,51 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
     /**
      * 获取验证码
      *
-     * @param view
+     * @param
      */
-    public void getVerifyCode(View view) {
+    public void getVerifyCode() {
         final String phone = userPhone.getText().toString().trim();
         if (!TextUtils.isEmpty(phone)) {
             if (phone.length() != 11 || !phone.startsWith("1")) {
                 showError("请输入正确的手机号码");
                 return;
             }
+            Observable.interval(0, 1, TimeUnit.SECONDS)//设置0延迟，每隔一秒发送一条数据
+                    .take(count + 1)
+                    .map(new Func1<Long, Long>() {
+                        @Override
+                        public Long call(Long aLong) {
+                            return count - aLong; //
+                        }
+                    })
+                    .doOnSubscribe(new Action0() {
+                        @Override
+                        public void call() {
+                            mVerifyCode.setEnabled(false);//在发送数据的时候设置为不能点击
+                        }
+                    })
+
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(new Observer<Long>() {
+                        @Override
+                        public void onCompleted() {
+                            mVerifyCode.setText("获取验证码");//数据发送完后设置为原来的文字
+                            mVerifyCode.setEnabled(true);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            e.printStackTrace();
+                        }
+
+                        @Override
+                        public void onNext(Long aLong) { //接受到一条就是会操作一次UI
+                            mVerifyCode.setText( aLong + "s");
+                        }
+                    });
 
             getPresenter().sendVerifyCode(phone);
-
         } else {
             showError("请输入手机号码");
         }
@@ -236,7 +282,11 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
                 intent.putExtra("register_type", REGISTERTYPE);
                 startActivityForResult(intent, REQUEST_CODE_SELECTSTATION);
                 break;
+            case R.id.tv_getVerifyCode:
+                getVerifyCode();
+                break;
         }
+
     }
 
     @Override

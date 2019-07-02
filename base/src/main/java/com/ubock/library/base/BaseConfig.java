@@ -19,7 +19,6 @@ public class BaseConfig {
     public final static String API_VERSION = "v7";
 
     /**
-     *  默认服务器地址
      */
     public static String DEFAULT_SERVER_HOST = "http://api.smart-moss.com/";
 //    public static String DEFAULT_SERVER_HOST = "http://www.ep-ai.com/";

@@ -216,7 +216,7 @@ public class HomeServiceActivity extends BaseFragmentActivity<HomeServicePresent
                 mNowSop.setText("当前电量:   " + entity.getSop() + "%");
             }
 
-            mEnergy.setText("已充能量点:   " + entity.getEnergy());
+            mEnergy.setText("已充能量点:   " + entity.getEnergy()/10f+"个");
             if (!TextUtils.isEmpty(entity.getCabinetAddress())) {
                 mAddress.setText("电池位置:   " + entity.getCabinetAddress());
             }

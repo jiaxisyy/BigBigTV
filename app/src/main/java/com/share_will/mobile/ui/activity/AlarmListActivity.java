@@ -73,7 +73,6 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
         mRv.setAdapter(mMultiAdapter);
         mMultiAdapter.setEnableLoadMore(false);
         mMultiAdapter.bindToRecyclerView(mRv);
-        mMultiAdapter.setEmptyView(R.layout.empty_view);
         mMultiAdapter.setOnLoadMoreListener(this, mRv);
         initData();
     }
@@ -176,9 +175,7 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
                 }
             }
         }
-
         mMultiAdapter.setNewData(list);
-
     }
 
     @Override

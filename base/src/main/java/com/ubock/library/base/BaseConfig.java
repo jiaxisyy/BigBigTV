@@ -19,18 +19,15 @@ public class BaseConfig {
     public final static String API_VERSION = "v7";
 
     /**
-     * 默认服务器地址
      */
     public static String DEFAULT_SERVER_HOST = "http://api.smart-moss.com/";
-    //    public static String DEFAULT_SERVER_HOST = "http://47.112.192.238:8085/";
 //    public static String DEFAULT_SERVER_HOST = "http://www.ep-ai.com/";
-    //    public static String DEFAULT_SERVER_HOST = "http://bigdata.share-will.com/";
+//    public static String DEFAULT_SERVER_HOST = "http://bigdata.share-will.com/";
     public static String SERVER_HOST = DEFAULT_SERVER_HOST;
     /**
      * 项目名称
      */
 //    public static String PROJECT_NAME = "4GAgreement/";
-//    public static String PROJECT_NAME = "ct-moss/";
     public static String PROJECT_NAME = "ct-moss-api/";
 
     /**

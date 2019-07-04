@@ -38,6 +38,7 @@
         android:background="@drawable/btn_my_setting"
         android:onClick="onClickTopRightMenu"
         android:scaleType="centerInside"
+        tools:visibility="visible"
         android:visibility="gone" />
 
     <TextView

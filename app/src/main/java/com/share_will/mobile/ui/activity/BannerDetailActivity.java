@@ -22,7 +22,7 @@ public class BannerDetailActivity extends BaseFragmentActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        setTitle("关闭");
+
         mWebView = findViewById(R.id.webView_banner_detail);
 
         WebSettings webSettings = mWebView.getSettings();

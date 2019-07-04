@@ -239,19 +239,26 @@
             android:name=".ui.activity.ProtocolActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.RescueActivity"
+        <activity
+            android:name=".ui.activity.RescueActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.NewRescueActivity"
+        <activity
+            android:name=".ui.activity.NewRescueActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.RescueDetailActivity"
+        <activity
+            android:name=".ui.activity.RescueDetailActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.RefundActivity"
+        <activity
+            android:name=".ui.activity.RefundActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.BannerDetailActivity"
+        <activity
+            android:name=".ui.activity.BannerDetailActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.RefundDetailActivity"
+        <activity
+            android:name=".ui.activity.RefundDetailActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.BespeakActivity"
+        <activity
+            android:name=".ui.activity.BespeakActivity"
             android:screenOrientation="portrait" />
         <!--友盟分享-->
         <!--新浪分享-->
@@ -315,8 +322,15 @@
             android:exported="false"
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity android:name=".ui.activity.ChargeRecordActivity" />
-        <activity android:name=".ui.activity.ChargeRecordDetailActivity" />
+        <activity
+            android:name=".ui.activity.ChargeRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ChargeRecordDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.FixMapActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 

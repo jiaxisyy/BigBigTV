@@ -2,6 +2,7 @@ package com.share_will.mobile.ui.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -38,6 +39,7 @@ import com.share_will.mobile.ui.activity.AlarmListActivity;
 import com.share_will.mobile.ui.activity.BannerDetailActivity;
 import com.share_will.mobile.ui.activity.CaptureActivity;
 import com.share_will.mobile.ui.activity.ChargeStakeActivity;
+import com.share_will.mobile.ui.activity.FixMapActivity;
 import com.share_will.mobile.ui.activity.HomeActivity;
 import com.share_will.mobile.ui.activity.HomeServiceActivity;
 import com.share_will.mobile.ui.activity.MyBatteryActivity;
@@ -59,6 +61,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -72,8 +76,10 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     private TextView mAlarmRemark;
     private TextView mAlarmTime;
     private TextView mAlarmLevel;
+    private TextView mAlarmRfid;
     private TextView mTopCharge;
     private TextView mTopChargeStake;
+    private TextView tvHomeTopFix;
 
     private RelativeLayout mRlAlarm;
     private RelativeLayout mRlBattery;
@@ -150,11 +156,13 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mAlarmRemark = view.findViewById(R.id.tv_home_alarm_remark);
         mAlarmTime = view.findViewById(R.id.tv_home_alarm_time);
         mAlarmLevel = view.findViewById(R.id.tv_home_alarm_level);
+        mAlarmRfid = view.findViewById(R.id.item_tv_home_alarm_rfid);
         mTopCharge = view.findViewById(R.id.tv_home_top_charge);
         mTopChargeStake = view.findViewById(R.id.tv_home_top_charge_stake);
         mTopRent = view.findViewById(R.id.tv_home_top_rent);
         mTopStorage = view.findViewById(R.id.tv_home_top_storage);
         mTopExchange = view.findViewById(R.id.tv_home_top_exchange);
+        tvHomeTopFix = view.findViewById(R.id.tv_home_top_fix);
         mRlAlarm = view.findViewById(R.id.rl_home_alarmInfo);
         mRlBattery = view.findViewById(R.id.rl_home_batteryInfo);
         mNoAlarm = view.findViewById(R.id.tv_home_no_alarm);
@@ -200,10 +208,9 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mGetBattery.setOnClickListener(this);
         mBindBattery.setOnClickListener(this);
         mTopExchange.setOnClickListener(this);
+        tvHomeTopFix.setOnClickListener(this);
         initMapView();
         initData();
-
-
     }
 
 
@@ -392,6 +399,12 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                         }
                     }
                 }
+                Uri uri = Uri.parse(s);
+                String path = uri.getPath();
+                if (path.contains("shop")) {
+                    //TODO 判断未定
+                    goToShop();
+                }
             }
         });
         mBanner.setImages(strings).setImageLoader(new GlideImageLoader()).start();
@@ -403,6 +416,8 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         if (data != null) {
             List<AlarmEntity.SmokeBean> smokeBeanList = data.getData().getSmoke();
             int size = smokeBeanList.size();
+            List<AlarmEntity.RfidBean> rfidBeans = data.getData().getRfid();
+            int rfidSize = rfidBeans.size();
             if (size > 0) {
                 for (int i = 0; i < size; i++) {
                     if (smokeBeanList.get(i).getConfirmstate() != 1 && !TextUtils.isEmpty(smokeBeanList.get(i).getAlarmcode())) {
@@ -438,6 +453,30 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                     mAlarmTime.setVisibility(View.INVISIBLE);
                     mAlarmLevel.setVisibility(View.INVISIBLE);
                 }
+            } else {
+                if (rfidSize > 0) {
+                    mNoAlarm.setVisibility(View.INVISIBLE);
+                    mAlarmLevel.setVisibility(View.GONE);
+                    mAlarmTime.setVisibility(View.GONE);
+                    mAlarmRemark.setVisibility(View.GONE);
+                    mAlarmTitle.setText("标题: 违规、违禁品告警");
+                    mAlarmTitle.setTextColor(Color.parseColor("#FF6C00"));
+                    if (!TextUtils.isEmpty(rfidBeans.get(0).getCommunityName())) {
+                        mAlarmPositionName.setText(rfidBeans.get(0).getCommunityName());
+                    }
+                    if (!TextUtils.isEmpty(rfidBeans.get(0).getAddress())) {
+                        mAlarmRfid.setText(App.getInstance().getUserId() + ",您于"
+                                + DateUtils.timeStampToString(rfidBeans.get(0).getCollecttime(), DateUtils.YYYYMMDD_HHMMSS) + "在"
+                                + rfidBeans.get(0).getAddress() + "被检测发现违规携带电池进入");
+                    }
+                } else {
+                    mNoAlarm.setVisibility(View.VISIBLE);
+                    mAlarmTitle.setVisibility(View.INVISIBLE);
+                    mAlarmPositionName.setVisibility(View.INVISIBLE);
+                    mAlarmRemark.setVisibility(View.INVISIBLE);
+                    mAlarmTime.setVisibility(View.INVISIBLE);
+                    mAlarmLevel.setVisibility(View.INVISIBLE);
+                }
             }
 
         }
@@ -465,7 +504,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                     mDurationTime.setText("充电时长:   " + DateUtils.unixToUTcTimeDuration(l));
                 }
                 mNowSop.setText("当前电量:   " + chargeBatteryEntity.getSop() + "%");
-                mEnergy.setText("已充能量点:   " + chargeBatteryEntity.getEnergy()/10f+"个");
+                mEnergy.setText("已充能量点:   " + chargeBatteryEntity.getEnergy() + "个");
 
                 if (!TextUtils.isEmpty(chargeBatteryEntity.getCabinetAddress())) {
                     mAddress.setText("电池位置:   " + chargeBatteryEntity.getCabinetAddress());
@@ -659,6 +698,9 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 intent1.putExtra(CaptureActivity.KEY_SHOW_LIGHT, true);
                 startActivityForResult(intent1, REQUEST_CODE_BIND_BATTERY);
                 break;
+            case R.id.tv_home_top_fix:
+                startActivity(new Intent(getActivity(), FixMapActivity.class));
+                break;
             default:
                 break;
 
@@ -691,7 +733,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             ToastExt.showExt("绑定电池失败");
         }
     }
-
 
 
     @Override

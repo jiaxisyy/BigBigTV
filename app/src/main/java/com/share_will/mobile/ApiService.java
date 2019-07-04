@@ -13,6 +13,7 @@ import com.share_will.mobile.model.entity.ChargeStakeOrderInfoEntity;
 import com.share_will.mobile.model.entity.ChargingEntity;
 import com.share_will.mobile.model.entity.CityEntity;
 import com.share_will.mobile.model.entity.DepositRefundEntity;
+import com.share_will.mobile.model.entity.FixStationEnity;
 import com.share_will.mobile.model.entity.NotifyMessageEntity;
 import com.share_will.mobile.model.entity.PackageEntity;
 import com.share_will.mobile.model.entity.PackageOrderEntity;
@@ -21,7 +22,6 @@ import com.share_will.mobile.model.entity.RescueEntity;
 import com.share_will.mobile.model.entity.StationEntity;
 import com.share_will.mobile.model.entity.UserInfo;
 import com.ubock.library.base.BaseEntity;
-import com.ubock.library.base.BaseRecyclerViewAdapter;
 
 import java.util.List;
 import java.util.Map;
@@ -582,6 +582,12 @@ public interface ApiService {
     @POST("user/station/master")
     Observable<BaseEntity<List<StationEntity>>> getStationForPhone(@Field("userId") String phone);
 
+    /**
+     *  车辆维修站点信息
+     * @return
+     */
+    @POST("repair/station/list")
+    Observable<BaseEntity<List<FixStationEnity>>> loadFixStation();
 
     /**
      * 扫码领取电池
@@ -642,7 +648,8 @@ public interface ApiService {
                                                  @Field("status") int status);
 
     /**
-     *  充电桩记录
+     * 充电桩记录
+     *
      * @param userId
      * @param pn
      * @param ps

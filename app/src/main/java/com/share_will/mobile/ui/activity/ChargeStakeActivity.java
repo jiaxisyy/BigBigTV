@@ -257,9 +257,7 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_home_charge_stake_scan_start:
-
-                messageDialog("温馨提示", "请使用正规的电源，并确保你的电池质量合格，充电过程中由于你的电池或车辆引起的问题，需要你自行承担一切后果");
-
+                messageDialog("MOSS温馨提醒", getString(R.string.text_charge_reminder));
                 break;
             case R.id.tv_home_charge_stake_scan_stop:
                 LogUtils.d("mIsFinishing=" + mIsFinishing);

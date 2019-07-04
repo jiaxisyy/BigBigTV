@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_pop_view_station_detail"
+        android:layout_width="match_parent"
+        android:layout_height="360px"
+        android:background="#FFFFFF"
+        android:orientation="horizontal"
+        android:paddingLeft="45px">
+
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingTop="30px"
+            android:paddingBottom="30px">
+
+            <TextView
+                android:id="@+id/tv_pop_map_fix_address"
+                android:layout_width="wrap_content"
+                android:layout_height="0px"
+                android:layout_weight="2"
+                android:drawableLeft="@drawable/icon_map_pop_location"
+                android:gravity="center"
+                android:text="地址:"
+                android:textColor="#333333"
+                android:textSize="36px" />
+
+            <TextView
+                android:id="@+id/tv_pop_map_fix_shopName"
+                android:layout_width="wrap_content"
+                android:layout_height="0px"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="店名:"
+                android:textColor="#333333"
+                android:textSize="36px" />
+
+            <TextView
+                android:id="@+id/tv_pop_map_fix_bossName"
+                android:layout_width="wrap_content"
+                android:layout_height="0px"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="联系人:"
+                android:textColor="#333333"
+                android:textSize="36px" />
+
+            <TextView
+                android:id="@+id/tv_pop_map_fix_business"
+                android:layout_width="wrap_content"
+                android:layout_height="0px"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="营业时间:"
+                android:textColor="#333333"
+                android:textSize="36px" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_pop_map_fix_gps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="45px"
+            android:layout_marginRight="45px"
+            android:src="@drawable/icon_map_fix_gps" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

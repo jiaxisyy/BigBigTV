@@ -28,6 +28,7 @@ public class ConsumeActivity extends BaseFragmentActivity<ConsumePresenter> impl
     private RecyclerView mRecordList;
     private SwipeRefreshLayout mRefreshLayout;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

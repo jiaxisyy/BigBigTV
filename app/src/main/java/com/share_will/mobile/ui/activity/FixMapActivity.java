@@ -11,8 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -129,7 +127,10 @@ public class FixMapActivity extends BaseFragmentActivity<FixMapPresenter> implem
         getPresenter().loadFixStation();
     }
 
-    private void moveToTop() {
+    /**
+     * 移动两个按钮位置
+     */
+    private void buttonMoveToTop() {
         //控件所在布局为相对布局,所以显示样式由relativelayout来决定
         RelativeLayout.LayoutParams paramsRefresh = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -147,21 +148,22 @@ public class FixMapActivity extends BaseFragmentActivity<FixMapPresenter> implem
         paramsPosition.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         btnPosition.setLayoutParams(paramsPosition);
 
+
     }
 
-    private void moveToBottom() {
+    private void buttonMoveToBottom() {
         //控件所在布局为相对布局,所以显示样式由relativelayout来决定
         RelativeLayout.LayoutParams paramsRefresh = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         //locationX,  locationY分别代表控件距离父控件的左边距和上边距
-        paramsRefresh.bottomMargin = MARGIN+30;
+        paramsRefresh.bottomMargin = MARGIN + 30;
         paramsRefresh.leftMargin = MARGIN;
         paramsRefresh.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         btnRefresh.setLayoutParams(paramsRefresh);
 
         RelativeLayout.LayoutParams paramsPosition = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
-        paramsPosition.bottomMargin = MARGIN+30;
+        paramsPosition.bottomMargin = MARGIN + 30;
         paramsPosition.rightMargin = MARGIN;
         paramsPosition.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         paramsPosition.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
@@ -185,7 +187,7 @@ public class FixMapActivity extends BaseFragmentActivity<FixMapPresenter> implem
     public void refresh() {
         getPresenter().loadFixStation();
         stationView.setVisibility(View.GONE);
-        moveToBottom();
+        buttonMoveToBottom();
     }
 
     @Override
@@ -340,7 +342,7 @@ public class FixMapActivity extends BaseFragmentActivity<FixMapPresenter> implem
             //点击的机柜正在显示则隐藏，否则显示
             if (stationView.getVisibility() == View.VISIBLE) {
                 stationView.setVisibility(View.GONE);
-                moveToBottom();
+                buttonMoveToBottom();
             } else {
                 showDetailView();
             }
@@ -364,7 +366,7 @@ public class FixMapActivity extends BaseFragmentActivity<FixMapPresenter> implem
     }
 
     private void showDetailView() {
-        moveToTop();
+        buttonMoveToTop();
         stationView.setVisibility(View.VISIBLE);
     }
 

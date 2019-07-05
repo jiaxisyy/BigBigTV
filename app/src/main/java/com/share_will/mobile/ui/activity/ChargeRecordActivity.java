@@ -76,7 +76,6 @@ public class ChargeRecordActivity extends BaseFragmentActivity<ChargeRecordPrese
 
     @Override
     public void onLoadMore(int currentPage) {
-        currentPage++;
         loadByPage(currentPage);
     }
 }

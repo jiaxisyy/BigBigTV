@@ -36,9 +36,16 @@
                 android:textColor="#65BE02"
                 android:textSize="40px" />
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_home_top"
+                android:layout_width="match_parent"
+                android:layout_height="306px"
+                 />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="306px"
+                android:visibility="gone"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -64,8 +71,8 @@
                     android:id="@+id/tv_home_top_rent"
                     style="@style/style_text_home_top"
                     android:drawableTop="@drawable/icon_bar_battery_rent"
-                    android:visibility="gone"
-                    android:text="电池领取" />
+                    android:text="电池领取"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/tv_home_top_storage"
@@ -73,12 +80,12 @@
                     android:drawableTop="@drawable/icon_bar_battery_storage"
                     android:text="保管服务"
                     android:visibility="gone" />
+
                 <TextView
                     android:id="@+id/tv_home_top_fix"
                     style="@style/style_text_home_top"
                     android:drawableTop="@drawable/icon_bar_battery_fix"
-                    android:text="车辆维修"
-                    />
+                    android:text="车辆维修" />
 
 
             </LinearLayout>
@@ -317,6 +324,7 @@
                     android:gravity="center_horizontal"
                     android:paddingTop="45px"
                     android:text="暂无告警消息" />
+
                 <TextView
                     android:id="@+id/tv_home_alarm_big_title"
                     android:layout_width="wrap_content"

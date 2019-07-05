@@ -6,11 +6,18 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.TextureView;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -24,6 +31,7 @@ import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.share_will.mobile.App;
 import com.share_will.mobile.MessageEvent;
 import com.share_will.mobile.R;
@@ -31,6 +39,7 @@ import com.share_will.mobile.model.entity.AlarmEntity;
 import com.share_will.mobile.model.entity.BannerEntity;
 import com.share_will.mobile.model.entity.BatteryEntity;
 import com.share_will.mobile.model.entity.ChargeBatteryEntity;
+import com.share_will.mobile.model.entity.HomeTopBarEntity;
 import com.share_will.mobile.model.entity.UserInfo;
 import com.share_will.mobile.presenter.HomeFragmentPresenter;
 import com.share_will.mobile.presenter.UserCenterPresenter;
@@ -44,6 +53,7 @@ import com.share_will.mobile.ui.activity.HomeActivity;
 import com.share_will.mobile.ui.activity.HomeServiceActivity;
 import com.share_will.mobile.ui.activity.MyBatteryActivity;
 import com.share_will.mobile.ui.adapter.GlideImageLoader;
+import com.share_will.mobile.ui.adapter.HomeTopBarAdapter;
 import com.share_will.mobile.ui.views.IHomeFragmentView;
 import com.share_will.mobile.ui.views.UserCenterView;
 import com.ubock.library.annotation.PresenterInjector;
@@ -71,6 +81,17 @@ import java.util.Set;
 
 public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements IHomeFragmentView, View.OnClickListener
         , UserCenterView {
+
+    private String[] mTopBarTitles = {"电柜换电",
+            "电柜充电",
+            "充电桩",
+            "车辆维修"};
+    private int[] mTopBarIcons = {R.drawable.icon_bar_battery_scan,
+            R.drawable.icon_bar_battery_charge,
+            R.drawable.icon_bar_battery_charge_stake,
+            R.drawable.icon_bar_battery_fix
+    };
+
     private TextView mAlarmTitle;
     private TextView mAlarmPositionName;
     private TextView mAlarmRemark;
@@ -134,6 +155,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
     private AMap mAMap;
     private Marker mLocationMarker;
     private List<BannerEntity> mBeanList;
+    private RecyclerView mRvTop;
 
 
     @Override
@@ -184,6 +206,8 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         mCardMoney = view.findViewById(R.id.rl_card_money);
         mArrowRight = view.findViewById(R.id.iv_main_arrow_right);
         mBanner = view.findViewById(R.id.banner_main_top);
+        mRvTop = view.findViewById(R.id.rv_home_top);
+        initTopBar();
         mBanner.setBannerAnimation(Transformer.Default);
         //我的电池信息
         mIvBatteryPic = view.findViewById(R.id.iv_home_my_battery_pic);
@@ -213,6 +237,54 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
         initData();
     }
 
+
+    private void initTopBar() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        mRvTop.setLayoutManager(layoutManager);
+        List<HomeTopBarEntity> topBarEntities = new ArrayList<>();
+        for (int i = 0; i < mTopBarIcons.length; i++) {
+            topBarEntities.add(new HomeTopBarEntity(mTopBarIcons[i], mTopBarTitles[i]));
+        }
+        HomeTopBarAdapter topBarAdapter = new HomeTopBarAdapter(R.layout.item_home_top_bar, topBarEntities);
+        mRvTop.setAdapter(topBarAdapter);
+
+        //首页图标均分显示,勿删除
+        mRvTop.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                for (int i = 0; i < mTopBarIcons.length; i++) {
+                    View view = layoutManager.findViewByPosition(i);
+                    if (view != null) {
+                        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+                        layoutParams.width = getView().getWidth() / 4;
+                        mRvTop.requestLayout();
+                    }
+                }
+                mRvTop.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
+        topBarAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (position) {
+                    case 0:
+                        goToExchange();
+                        break;
+                    case 1:
+                        goToCharge();
+                        break;
+                    case 2:
+                        goToChargeStake();
+                        break;
+                    case 3:
+                        goToFix();
+                        break;
+                }
+
+            }
+        });
+
+    }
 
     private void initBanner() {
         getPresenter().getBannerUrl();
@@ -668,10 +740,10 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 goToExchange();
                 break;
             case R.id.tv_home_top_charge:
-                startActivity(new Intent(getActivity(), HomeServiceActivity.class));
+                goToCharge();
                 break;
             case R.id.tv_home_top_charge_stake:
-                startActivity(new Intent(getActivity(), ChargeStakeActivity.class));
+                goToChargeStake();
                 break;
             case R.id.tv_home_top_rent:
                 if (batteryEntity != null || chargeBatteryEntity != null) {
@@ -695,7 +767,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
             case R.id.rl_home_batteryInfo:
                 if (mArrowRight.getVisibility() == View.VISIBLE) {
                     if (hasChargeBatteryInfo) {
-                        startActivity(new Intent(getActivity(), HomeServiceActivity.class));
+                        goToCharge();
                     } else {
                         Intent intent = new Intent(getActivity(), MyBatteryActivity.class);
                         intent.putExtra("isShowBindView", false);
@@ -716,12 +788,24 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 startActivityForResult(intent1, REQUEST_CODE_BIND_BATTERY);
                 break;
             case R.id.tv_home_top_fix:
-                startActivity(new Intent(getActivity(), FixMapActivity.class));
+                goToFix();
                 break;
             default:
                 break;
 
         }
+    }
+
+    private void goToChargeStake() {
+        startActivity(new Intent(getActivity(), ChargeStakeActivity.class));
+    }
+
+    private void goToFix() {
+        startActivity(new Intent(getActivity(), FixMapActivity.class));
+    }
+
+    private void goToCharge() {
+        startActivity(new Intent(getActivity(), HomeServiceActivity.class));
     }
 
 

@@ -233,7 +233,11 @@ public class AlarmListActivity extends BaseFragmentActivity<HomeFragmentPresente
                 list.add(alarmMultiEntity);
             }
             mMultiAdapter.addData(list);
-            mCurrentCounter = mMultiAdapter.getData().size() - mSmokeAlarms.size();
+            if(mSmokeAlarms!=null){
+                mCurrentCounter = mMultiAdapter.getData().size() - mSmokeAlarms.size();
+            }else {
+                mCurrentCounter = mMultiAdapter.getData().size();
+            }
             mMultiAdapter.loadMoreComplete();
         }
     }

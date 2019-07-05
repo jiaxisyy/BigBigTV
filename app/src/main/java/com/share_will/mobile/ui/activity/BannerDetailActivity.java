@@ -22,9 +22,8 @@ public class BannerDetailActivity extends BaseFragmentActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-
+        setTitle("广告详情");
         mWebView = findViewById(R.id.webView_banner_detail);
-
         WebSettings webSettings = mWebView.getSettings();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);

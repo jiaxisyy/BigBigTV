@@ -391,20 +391,28 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                 LogUtils.d("OnBannerClick->url=" + s);
                 for (BannerEntity bannerEntity : mBeanList) {
                     if (!TextUtils.isEmpty(bannerEntity.getAdvert_detail())) {
-                        if (s.equals(bannerEntity.getAdvert_path())) {
-                            Intent intent = new Intent(getActivity(), BannerDetailActivity.class);
-                            intent.putExtra("banner_detail_url", bannerEntity.getAdvert_detail());
-                            LogUtils.d("OnBannerClick->banner_detail_url=" + bannerEntity.getAdvert_detail());
-                            startActivity(intent);
+                        Uri uri = Uri.parse(s);
+                        if (uri.getScheme() != null) {
+                            if (uri.getScheme().equals("http")) {
+                                if (s.equals(bannerEntity.getAdvert_path())) {
+                                    Intent intent = new Intent(getActivity(), BannerDetailActivity.class);
+                                    intent.putExtra("banner_detail_url", bannerEntity.getAdvert_detail());
+                                    LogUtils.d("OnBannerClick->banner_detail_url=" + bannerEntity.getAdvert_detail());
+                                    startActivity(intent);
+                                }
+                            } else {
+                                String path = uri.getPath();
+                                if (path != null && path.contains("shop")) {
+                                    goToShop();
+                                }
+
+                            }
                         }
+
+
                     }
                 }
-                Uri uri = Uri.parse(s);
-                String path = uri.getPath();
-                if (path.contains("shop")) {
-                    //TODO 判断未定
-                    goToShop();
-                }
+
             }
         });
         mBanner.setImages(strings).setImageLoader(new GlideImageLoader()).start();
@@ -446,41 +454,50 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter> implements
                     }
                     mAlarmLevel.setText("告警级别   " + alarmEntity.getAlarmlevel() + "级");
                 } else {
-                    mNoAlarm.setVisibility(View.VISIBLE);
-                    mAlarmTitle.setVisibility(View.INVISIBLE);
-                    mAlarmPositionName.setVisibility(View.INVISIBLE);
-                    mAlarmRemark.setVisibility(View.INVISIBLE);
-                    mAlarmTime.setVisibility(View.INVISIBLE);
-                    mAlarmLevel.setVisibility(View.INVISIBLE);
+
+                    showRfid(rfidBeans, rfidSize);
                 }
             } else {
-                if (rfidSize > 0) {
-                    mNoAlarm.setVisibility(View.INVISIBLE);
-                    mAlarmLevel.setVisibility(View.GONE);
-                    mAlarmTime.setVisibility(View.GONE);
-                    mAlarmRemark.setVisibility(View.GONE);
-                    mAlarmTitle.setText("标题: 违规、违禁品告警");
-                    mAlarmTitle.setTextColor(Color.parseColor("#FF6C00"));
-                    if (!TextUtils.isEmpty(rfidBeans.get(0).getCommunityName())) {
-                        mAlarmPositionName.setText(rfidBeans.get(0).getCommunityName());
-                    }
-                    if (!TextUtils.isEmpty(rfidBeans.get(0).getAddress())) {
-                        mAlarmRfid.setText(App.getInstance().getUserId() + ",您于"
-                                + DateUtils.timeStampToString(rfidBeans.get(0).getCollecttime(), DateUtils.YYYYMMDD_HHMMSS) + "在"
-                                + rfidBeans.get(0).getAddress() + "被检测发现违规携带电池进入");
-                    }
-                } else {
-                    mNoAlarm.setVisibility(View.VISIBLE);
-                    mAlarmTitle.setVisibility(View.INVISIBLE);
-                    mAlarmPositionName.setVisibility(View.INVISIBLE);
-                    mAlarmRemark.setVisibility(View.INVISIBLE);
-                    mAlarmTime.setVisibility(View.INVISIBLE);
-                    mAlarmLevel.setVisibility(View.INVISIBLE);
-                }
+                showRfid(rfidBeans, rfidSize);
             }
 
+        } else {
+            showNoAlarm();
         }
+    }
 
+    private void showRfid(List<AlarmEntity.RfidBean> rfidBeans, int rfidSize) {
+        if (rfidSize > 0) {
+            mNoAlarm.setVisibility(View.INVISIBLE);
+            mAlarmLevel.setVisibility(View.GONE);
+            mAlarmTime.setVisibility(View.GONE);
+            mAlarmRemark.setVisibility(View.GONE);
+            mAlarmTitle.setVisibility(View.VISIBLE);
+            mAlarmPositionName.setVisibility(View.VISIBLE);
+            mAlarmRfid.setVisibility(View.VISIBLE);
+            mAlarmTitle.setText("标题: 违规、违禁品告警");
+            mAlarmTitle.setTextColor(Color.parseColor("#FF6C00"));
+            if (!TextUtils.isEmpty(rfidBeans.get(0).getCommunityName())) {
+                mAlarmPositionName.setText(rfidBeans.get(0).getCommunityName());
+            }
+            if (!TextUtils.isEmpty(rfidBeans.get(0).getAddress())) {
+                mAlarmRfid.setText(App.getInstance().getUserId() + ",您于"
+                        + DateUtils.timeStampToString(rfidBeans.get(0).getCollecttime(), DateUtils.YYYYMMDD_HHMMSS) + "在"
+                        + rfidBeans.get(0).getAddress() + "被检测发现违规携带电池进入");
+            }
+        } else {
+            showNoAlarm();
+        }
+    }
+
+    private void showNoAlarm() {
+        mNoAlarm.setVisibility(View.VISIBLE);
+        mAlarmTitle.setVisibility(View.INVISIBLE);
+        mAlarmPositionName.setVisibility(View.INVISIBLE);
+        mAlarmRemark.setVisibility(View.INVISIBLE);
+        mAlarmTime.setVisibility(View.INVISIBLE);
+        mAlarmLevel.setVisibility(View.INVISIBLE);
+        mAlarmRfid.setVisibility(View.INVISIBLE);
     }
 
 

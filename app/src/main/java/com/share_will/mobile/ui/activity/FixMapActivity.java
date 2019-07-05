@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
@@ -59,11 +58,6 @@ import static com.amap.api.services.route.RouteSearch.RIDING_RECOMMEND;
 import static com.share_will.mobile.ui.fragment.ExchangeFragment.REQUEST_CODE_OPEN_GPS;
 
 public class FixMapActivity extends BaseFragmentActivity<FixMapPresenter> implements View.OnClickListener, IFixMapView, AMap.InfoWindowAdapter {
-    private TextView tvPopMapFixAddress;
-    private TextView tvPopMapFixShopName;
-    private TextView tvPopMapFixName;
-    private TextView tvPopMapFixBusiness;
-    private ImageView ivPopMapFixGps;
     private ImageButton btnRefresh;
     private ImageButton btnPosition;
     private AMap mAMap = null;
@@ -77,16 +71,15 @@ public class FixMapActivity extends BaseFragmentActivity<FixMapPresenter> implem
     private TextView mDuration;
     private RideRouteOverlay rideRouteOverlay;
     private Marker clickMarker;
-    private PopupWindow mPopupWindow;
-    private TextView mTvAddress;
-    private TextView mTvShopName;
-    private TextView mTvBossName;
-    private TextView mTvBusiness;
-    private View mViewPopup;
-    private View view;
     private FixStationEnity mCurrentStation;
     private View stationView;
-    private View stationDetailView;
+    private TextView tvMapFixAddress;
+    private TextView tvMapFixShopName;
+    private TextView tvMapFixBossName;
+    private TextView tvMapFixBusiness;
+    private ImageView ivMapFixGps;
+    private static final int MARGIN = 30;
+
 
     @Override
     protected int getLayoutId() {
@@ -104,25 +97,16 @@ public class FixMapActivity extends BaseFragmentActivity<FixMapPresenter> implem
         btnRefresh.setOnClickListener(this);
         btnPosition.setOnClickListener(this);
 
-        view = findViewById(R.id.ll_view);
-
         //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
         //获取地图控件引用
         mMapView = findViewById(R.id.map);
-
-        mViewPopup = LayoutInflater.from(this).inflate(R.layout.popupwindow_map_fix, null);
-        mPopupWindow = new PopupWindow(mViewPopup, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        mPopupWindow.setFocusable(false);
-        //下面的是设置外部是否可以点击
-        mPopupWindow.setOutsideTouchable(true);
-        mViewPopup.findViewById(R.id.iv_pop_map_fix_gps).setOnClickListener(this);
-        stationDetailView = mViewPopup.findViewById(R.id.ll_pop_view_station_detail);
-        mTvAddress = mViewPopup.findViewById(R.id.tv_pop_map_fix_address);
-        mTvShopName = mViewPopup.findViewById(R.id.tv_pop_map_fix_shopName);
-        mTvBossName = mViewPopup.findViewById(R.id.tv_pop_map_fix_bossName);
-        mTvBusiness = mViewPopup.findViewById(R.id.tv_pop_map_fix_business);
         stationView = findViewById(R.id.ll_view_station_detail);
-
+        tvMapFixAddress = (TextView) findViewById(R.id.tv_map_fix_address);
+        tvMapFixShopName = (TextView) findViewById(R.id.tv_map_fix_shopName);
+        tvMapFixBossName = (TextView) findViewById(R.id.tv_map_fix_bossName);
+        tvMapFixBusiness = (TextView) findViewById(R.id.tv_map_fix_business);
+        ivMapFixGps = (ImageView) findViewById(R.id.iv_map_fix_gps);
+        ivMapFixGps.setOnClickListener(this);
         mMapView.onCreate(savedInstanceState);
         //初始化地图控制器对象
         if (mAMap == null) {
@@ -147,13 +131,42 @@ public class FixMapActivity extends BaseFragmentActivity<FixMapPresenter> implem
 
     private void moveToTop() {
         //控件所在布局为相对布局,所以显示样式由relativelayout来决定
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+        RelativeLayout.LayoutParams paramsRefresh = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         //locationX,  locationY分别代表控件距离父控件的左边距和上边距
-        params.bottomMargin = 30;
-        params.leftMargin = 30;
-        params.addRule(RelativeLayout.ABOVE, stationDetailView.getId());
-        btnRefresh.setLayoutParams(params);
+        paramsRefresh.bottomMargin = MARGIN;
+        paramsRefresh.leftMargin = MARGIN;
+        paramsRefresh.addRule(RelativeLayout.ABOVE, stationView.getId());
+        btnRefresh.setLayoutParams(paramsRefresh);
+
+        RelativeLayout.LayoutParams paramsPosition = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        paramsPosition.bottomMargin = MARGIN;
+        paramsPosition.rightMargin = MARGIN;
+        paramsPosition.addRule(RelativeLayout.ABOVE, stationView.getId());
+        paramsPosition.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        btnPosition.setLayoutParams(paramsPosition);
+
+    }
+
+    private void moveToBottom() {
+        //控件所在布局为相对布局,所以显示样式由relativelayout来决定
+        RelativeLayout.LayoutParams paramsRefresh = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        //locationX,  locationY分别代表控件距离父控件的左边距和上边距
+        paramsRefresh.bottomMargin = MARGIN+30;
+        paramsRefresh.leftMargin = MARGIN;
+        paramsRefresh.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        btnRefresh.setLayoutParams(paramsRefresh);
+
+        RelativeLayout.LayoutParams paramsPosition = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        paramsPosition.bottomMargin = MARGIN+30;
+        paramsPosition.rightMargin = MARGIN;
+        paramsPosition.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        paramsPosition.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        btnPosition.setLayoutParams(paramsPosition);
+
     }
 
     /**
@@ -170,7 +183,9 @@ public class FixMapActivity extends BaseFragmentActivity<FixMapPresenter> implem
     }
 
     public void refresh() {
-
+        getPresenter().loadFixStation();
+        stationView.setVisibility(View.GONE);
+        moveToBottom();
     }
 
     @Override
@@ -185,7 +200,7 @@ public class FixMapActivity extends BaseFragmentActivity<FixMapPresenter> implem
                 //显示前位置
                 getLocation();
                 break;
-            case R.id.iv_pop_map_fix_gps:
+            case R.id.iv_map_fix_gps:
                 //导航到机柜
                 if (Utils.isOPenGPS(this)) {
                     naviTo(mCurrentStation.getLatitude(), mCurrentStation.getLongitude());
@@ -321,36 +336,36 @@ public class FixMapActivity extends BaseFragmentActivity<FixMapPresenter> implem
     private void showFixStationInfo(FixStationEnity enity) {
 
         if (mCurrentStation == enity) {
+
             //点击的机柜正在显示则隐藏，否则显示
-            if (mPopupWindow.isShowing()) {
-                mPopupWindow.dismiss();
+            if (stationView.getVisibility() == View.VISIBLE) {
+                stationView.setVisibility(View.GONE);
+                moveToBottom();
             } else {
-                showPopupWindow();
+                showDetailView();
             }
         } else {
+
             if (!TextUtils.isEmpty(enity.getStationName())) {
-                mTvShopName.setText(String.format("店名:%s", enity.getStationName()));
+                tvMapFixShopName.setText(String.format("店名:%s", enity.getStationName()));
             }
             if (!TextUtils.isEmpty(enity.getStationMaster())) {
-                mTvBossName.setText(String.format("联系人:%s", enity.getStationMaster()));
+                tvMapFixBossName.setText(String.format("联系人:%s", enity.getStationMaster()));
             }
             if (!TextUtils.isEmpty(enity.getStationAddress())) {
-                mTvAddress.setText(String.format("地址:%s", enity.getStationAddress()));
+                tvMapFixAddress.setText(String.format("地址:%s", enity.getStationAddress()));
             }
             if (!TextUtils.isEmpty(enity.getBusinessHours())) {
-                mTvBusiness.setText(String.format("营业时间:%s", enity.getBusinessHours()));
+                tvMapFixBusiness.setText(String.format("营业时间:%s", enity.getBusinessHours()));
             }
-            if (!mPopupWindow.isShowing()) {
-                showPopupWindow();
-            }
+            showDetailView();
             mCurrentStation = enity;
         }
     }
 
-    private void showPopupWindow() {
-//        moveToTop();
-//        stationView.setVisibility(View.VISIBLE);
-        mPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+    private void showDetailView() {
+        moveToTop();
+        stationView.setVisibility(View.VISIBLE);
     }
 
     /**

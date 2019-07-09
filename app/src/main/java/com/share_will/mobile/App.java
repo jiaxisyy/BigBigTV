@@ -157,7 +157,18 @@ public class App extends BaseApp implements Application.ActivityLifecycleCallbac
 
         String server = SharedPreferencesUtils.getStringSF(this, Constant.KEY_SERVER_ADDRESS);
         if (!TextUtils.isEmpty(server)) {
+            if (!server.endsWith("/")){
+                server += "/";
+            }
             BaseConfig.SERVER_HOST = server;
+        }
+
+        String project = SharedPreferencesUtils.getStringSF(this, Constant.KEY_SERVER_PROJECT);
+        if (!TextUtils.isEmpty(project)) {
+            if (!project.endsWith("/")){
+                project += "/";
+            }
+            BaseConfig.PROJECT_NAME = project;
         }
 
         BaseConfig.API_SERVER_URL = String.format("%s%s", BaseConfig.SERVER_HOST, BaseConfig.PROJECT_NAME);

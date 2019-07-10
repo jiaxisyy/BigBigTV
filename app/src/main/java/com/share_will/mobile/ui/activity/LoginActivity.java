@@ -21,9 +21,12 @@ import com.share_will.mobile.services.LocationService;
 import com.share_will.mobile.ui.views.LoginView;
 import com.share_will.mobile.utils.PressUtils;
 import com.ubock.library.base.BaseApp;
+import com.ubock.library.base.BaseConfig;
 import com.ubock.library.base.BaseFragmentActivity;
 import com.ubock.library.ui.dialog.ToastExt;
+import com.ubock.library.utils.LogUtils;
 import com.ubock.library.utils.SharedPreferencesUtils;
+import com.ubock.library.utils.UiUtils;
 
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.RuntimePermissions;
@@ -143,8 +146,31 @@ public class LoginActivity extends BaseFragmentActivity<LoginPresenter> implemen
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        BaseApp.getInstance().exitApp(false);
+        exitApp(false);
+    }
+
+    private long time;
+
+    /**
+     * 退出应用
+     *
+     * @param forceExit 是否立即退出
+     */
+    public boolean exitApp(boolean forceExit) {
+        boolean ret = false;
+        if (forceExit) {
+            ret = moveTaskToBack(true);
+        } else {
+            long secondTime = System.currentTimeMillis();
+            LogUtils.d(String.format("preTime:%d, lastTime:%d, totalTime:%d", time, secondTime, secondTime - time));
+            if (secondTime - time < BaseConfig.exitAppInterval) {
+                ret = moveTaskToBack(true);
+            } else {
+                time = System.currentTimeMillis();
+                ToastExt.showExt(UiUtils.getString(com.ubock.library.R.string.exit_app));
+            }
+        }
+        return ret;
     }
 
     private PressUtils mPressUtils = new PressUtils(this);

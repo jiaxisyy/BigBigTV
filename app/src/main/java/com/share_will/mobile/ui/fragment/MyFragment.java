@@ -3,6 +3,7 @@ package com.share_will.mobile.ui.fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.util.Log;
@@ -310,6 +311,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Us
     private void update(boolean showLoading) {
         getBalance(showLoading);
         getActivity().startService(new Intent(getActivity(), BatteryService.class));
+//        ContextCompat.startForegroundService(getActivity(), new Intent(getActivity(), BatteryService.class));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)

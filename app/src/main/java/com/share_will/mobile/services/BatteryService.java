@@ -1,5 +1,9 @@
 package com.share_will.mobile.services;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -14,7 +18,6 @@ import com.share_will.mobile.presenter.BatteryServicePresenter;
 import com.share_will.mobile.ui.views.BatteryServiceView;
 import com.ubock.library.base.BaseEntity;
 import com.ubock.library.base.BaseService;
-import com.ubock.library.utils.LogUtils;
 import com.ubock.library.utils.SharedPreferencesUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -41,7 +44,21 @@ public class BatteryService extends BaseService<BatteryServicePresenter> impleme
     public void onCreate() {
         super.onCreate();
         Log.d("cgd", "Battery Service onCreate");
+//        androidOAdapter();
         initSound();
+    }
+
+    private void androidOAdapter(){
+        //适配8.0service
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            String channel_id = "battery_service";
+            NotificationManager notificationManager = (NotificationManager) getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationChannel mChannel = new NotificationChannel(channel_id, getString(R.string.app_name),
+                    NotificationManager.IMPORTANCE_LOW);
+            notificationManager.createNotificationChannel(mChannel);
+            Notification notification = new Notification.Builder(getApplicationContext(), channel_id).build();
+            startForeground(1, notification);
+        }
     }
 
     @Override

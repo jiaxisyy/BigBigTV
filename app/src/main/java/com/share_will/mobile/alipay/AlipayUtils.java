@@ -17,9 +17,9 @@ import java.util.Map;
  */
 public class AlipayUtils {
     /**
-     * APPID,后台已经设置，这里不需要传
+     * APPID
      */
-    public static final String APP_ID = null;
+    public static final String APP_ID = "2019042464255593";
     private Activity mActivity;
 
     public AlipayUtils(Activity activity){

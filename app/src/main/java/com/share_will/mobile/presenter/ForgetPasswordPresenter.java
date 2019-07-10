@@ -52,8 +52,8 @@ public class ForgetPasswordPresenter extends BasePresenter<ForgetPasswordModel, 
      * 发送验证码
      * @param userId 手机号
      */
-    public void sendVerifyCode(String userId) {
-        getModel().sendVerifyCode(userId)
+    public void sendVerifyCode(String userId,String customerCode) {
+        getModel().sendVerifyCode(userId,customerCode)
                 .compose(this.bindToLifecycle(getView()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

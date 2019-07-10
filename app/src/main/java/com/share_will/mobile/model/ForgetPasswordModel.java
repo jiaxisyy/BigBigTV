@@ -13,7 +13,7 @@ public class ForgetPasswordModel extends BaseModel {
         return ApiClient.getInstance().getApiService(ApiService.class).updatePassword(userId, password, verCode);
     }
 
-    public Observable<BaseEntity<Object>> sendVerifyCode(String userId){
-        return ApiClient.getInstance().getApiService(ApiService.class).sendVerifyCode(userId);
+    public Observable<BaseEntity<Object>> sendVerifyCode(String userId,String customerCode){
+        return ApiClient.getInstance().getApiService(ApiService.class).sendVerifyCode(userId, customerCode);
     }
 }

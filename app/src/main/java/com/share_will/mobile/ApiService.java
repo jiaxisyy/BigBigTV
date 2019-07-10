@@ -89,7 +89,8 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("user/verCode")
-    Observable<BaseEntity<Object>> sendVerifyCode(@Field("userId") String userId);
+    Observable<BaseEntity<Object>> sendVerifyCode(@Field("userId") String userId,
+                                                  @Field("customerCode") String customerCode);
 
     /**
      * 找回密码
@@ -583,7 +584,8 @@ public interface ApiService {
     Observable<BaseEntity<List<StationEntity>>> getStationForPhone(@Field("userId") String phone);
 
     /**
-     *  车辆维修站点信息
+     * 车辆维修站点信息
+     *
      * @return
      */
     @POST("repair/station/list")

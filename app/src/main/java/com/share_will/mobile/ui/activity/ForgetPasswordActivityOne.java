@@ -144,7 +144,7 @@ public class ForgetPasswordActivityOne extends BaseFragmentActivity<ForgetPasswo
                         }
                     });
 
-            getPresenter().sendVerifyCode(mPhone);
+            getPresenter().sendVerifyCode(mPhone,"c-teng");
 
         } else {
             showError("请输入手机号码");

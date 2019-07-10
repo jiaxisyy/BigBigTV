@@ -19,6 +19,23 @@
         <EditText android:id="@+id/et_server_addr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="默认："
+            android:textSize="45px"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginTop="10px">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="项目名称:"/>
+        <EditText android:id="@+id/et_project_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="默认："
             android:textSize="45px"/>
     </LinearLayout>
 

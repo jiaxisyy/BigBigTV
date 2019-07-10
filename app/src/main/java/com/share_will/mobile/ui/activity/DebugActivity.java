@@ -22,6 +22,7 @@ import java.util.Map;
 public class DebugActivity extends BaseFragmentActivity implements RadioGroup.OnCheckedChangeListener {
 
     private EditText mServer;
+    private EditText mProjectName;
     private RadioGroup mRadioGroup;
     private Map<Integer, RadioButton> mLogLevel = new HashMap<>();
 
@@ -33,8 +34,11 @@ public class DebugActivity extends BaseFragmentActivity implements RadioGroup.On
     @Override
     protected void initView(Bundle savedInstanceState) {
         mServer = findViewById(R.id.et_server_addr);
+        mServer.setHint(String.format("默认:%s", BaseConfig.DEFAULT_SERVER_HOST));
+        mProjectName = findViewById(R.id.et_project_name);
+        mProjectName.setHint(String.format("默认:%s", BaseConfig.PROJECT_NAME));
         mServer.setText(SharedPreferencesUtils.getStringSF(this, Constant.KEY_SERVER_ADDRESS));
-        mServer.setHint(String.format("默认：%s", BaseConfig.DEFAULT_SERVER_HOST));
+        mProjectName.setText(SharedPreferencesUtils.getStringSF(this, Constant.KEY_SERVER_PROJECT));
         mRadioGroup = findViewById(R.id.rg_debug_level);
         mRadioGroup.setOnCheckedChangeListener(this);
         initLogLevel();
@@ -72,16 +76,18 @@ public class DebugActivity extends BaseFragmentActivity implements RadioGroup.On
     protected void onDestroy() {
         super.onDestroy();
         String server = mServer.getText().toString().trim();
-        if (TextUtils.isEmpty(server)){
-            server = BaseConfig.DEFAULT_SERVER_HOST;
-        }
-        if (!server.startsWith("http://") && !server.startsWith("https://")){
-            server = "http://" + server;
-        }
-        if (!server.endsWith("/")){
-            server += "/";
+        if (!TextUtils.isEmpty(server)){
+            if (!server.startsWith("http://") && !server.startsWith("https://")){
+                server = "http://" + server;
+            }
+            if (!server.endsWith("/")){
+                server += "/";
+            }
         }
         SharedPreferencesUtils.setStringSF(this, Constant.KEY_SERVER_ADDRESS, server);
+
+        String project = mProjectName.getText().toString().trim();
+        SharedPreferencesUtils.setStringSF(this, Constant.KEY_SERVER_PROJECT, project);
     }
 
     public void exit(View view){

@@ -189,6 +189,10 @@ public class HomePresenter extends BasePresenter<HomeModel, HomeView> {
             Uri uri = Uri.parse(scanResult);
             String sn = uri.getQueryParameter("sn");
             final String time = uri.getQueryParameter("time");
+            if (TextUtils.isEmpty(sn) || TextUtils.isEmpty(time)) {
+                ToastExt.showExt("无效二维码");
+                return;
+            }
             long l = System.currentTimeMillis() - Long.parseLong(time);
             if (l > 1000 * 60 * 10) {
                 ToastExt.showExt("二维码已过时");

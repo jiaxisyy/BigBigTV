@@ -69,6 +69,8 @@ public class OrderFormActivity extends BaseFragmentActivity<PayPresenter> implem
         mRbBalance = findViewById(R.id.rb_order_type_balance);
         mRbZfb = findViewById(R.id.rb_order_type_zfb);
         mRbWz = findViewById(R.id.rb_order_type_wx);
+        View wxView = findViewById(R.id.tv_form_wx);
+        View zfbView = findViewById(R.id.tv_form_zfb);
         mRgType = findViewById(R.id.rg_order_type);
         mSubmit = findViewById(R.id.tv_order_form_submit);
         mSubmit.setOnClickListener(this);
@@ -78,7 +80,12 @@ public class OrderFormActivity extends BaseFragmentActivity<PayPresenter> implem
         mOrderType = getIntent().getIntExtra("orderType", -1);
         mPrice = getIntent().getIntExtra("price", 0);
         mBody = getIntent().getStringExtra("body");
-
+        if (mPrice <= 0) {
+            mRbZfb.setVisibility(View.GONE);
+            mRbWz.setVisibility(View.GONE);
+            wxView.setVisibility(View.GONE);
+            zfbView.setVisibility(View.GONE);
+        }
         mOrderName.setText(mBody);
         mOrderPrice.setText(String.format("%s元", NumberFormat.getInstance().format(mPrice / 100f)));
 

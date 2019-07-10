@@ -244,7 +244,7 @@ public class RegisterActivity extends BaseFragmentActivity<RegisterPresenter> im
                         }
                     });
 
-            getPresenter().sendVerifyCode(phone);
+            getPresenter().sendVerifyCode(phone,"c-teng");
         } else {
             showError("请输入手机号码");
         }

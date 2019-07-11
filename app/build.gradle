@@ -8,8 +8,8 @@ android {
     defaultConfig {
 //        applicationId "com.share_will.mobile"
         applicationId "com.smartmoss.mobile"
-        versionCode 416
-        versionName "4.1.6"
+        versionCode 420
+        versionName "4.2.0"
         minSdkVersion 19
         targetSdkVersion 28
         multiDexEnabled true

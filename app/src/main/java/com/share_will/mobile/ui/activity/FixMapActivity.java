@@ -351,8 +351,12 @@ public class FixMapActivity extends BaseFragmentActivity<FixMapPresenter> implem
             if (!TextUtils.isEmpty(enity.getStationName())) {
                 tvMapFixShopName.setText(String.format("店名:%s", enity.getStationName()));
             }
-            if (!TextUtils.isEmpty(enity.getStationMaster())) {
+            if (!TextUtils.isEmpty(enity.getStationMaster()) && !TextUtils.isEmpty(enity.getStationMasterPhone())) {
+                tvMapFixBossName.setText(String.format("联系人:%s%s", enity.getStationMaster(), enity.getStationMasterPhone()));
+            } else if (!TextUtils.isEmpty(enity.getStationMaster())) {
                 tvMapFixBossName.setText(String.format("联系人:%s", enity.getStationMaster()));
+            }else if(!TextUtils.isEmpty(enity.getStationMasterPhone())){
+                tvMapFixBossName.setText(String.format("联系人:%s", enity.getStationMasterPhone()));
             }
             if (!TextUtils.isEmpty(enity.getStationAddress())) {
                 tvMapFixAddress.setText(String.format("地址:%s", enity.getStationAddress()));

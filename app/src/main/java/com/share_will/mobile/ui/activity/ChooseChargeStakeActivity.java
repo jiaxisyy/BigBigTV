@@ -85,10 +85,13 @@ public class ChooseChargeStakeActivity extends BaseFragmentActivity<ChargeStakeP
                     mChargeStakeAdapter.setData(position, entity);
                     if (mSelectedIndex >= 0) {
                         ChargeStakeEntity pre = mChargeStakeAdapter.getItem(mSelectedIndex);
-                        pre.setSelected(false);
-                        mChargeStakeAdapter.setData(mSelectedIndex, pre);
+                        if (pre != null) {
+                            pre.setSelected(false);
+                            mChargeStakeAdapter.setData(mSelectedIndex, pre);
+                        }
                         LogUtils.d("mSelectedIndex=" + mSelectedIndex + ",position=" + position);
                     }
+
                     mSelectedIndex = position;
                 }
             }

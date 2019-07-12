@@ -48,6 +48,9 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
     private static final int REQUEST_CODE_PAY_SUCCESS = 10012;
     private boolean mIsFinishing = false;
 
+
+    private int mCurrentCounter = 0;
+    private int TOTALCOUNTER = 10;
     private TextView mStartTime;
     private TextView mDurationTime;
     private TextView mEnergy;
@@ -136,7 +139,7 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
                 long time = System.currentTimeMillis() - mOrderInfoEntity.getStartTime();
                 mDurationTime.setText("充电时长: " + formatTime(time));
             }
-            mEnergy.setText("已充能量点: " + mOrderInfoEntity.getEnergy()/10f + "个");
+            mEnergy.setText("已充能量点: " + mOrderInfoEntity.getEnergy() / 10f + "个");
             if (!TextUtils.isEmpty(mOrderInfoEntity.getCabinetAddress())) {
                 mAddress.setText("充电座位置: " + mOrderInfoEntity.getCabinetAddress());
             }
@@ -300,6 +303,14 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
     @Override
     public void onLoadChargingInfo(BaseEntity<ChargeStakeOrderInfoEntity> data) {
         LogUtils.d("加载");
+        if(mCurrentCounter==TOTALCOUNTER){
+            mIsFinishing = false;
+            mScanStop.setEnabled(true);
+            mFinishCharge.setVisibility(View.GONE);
+            getBaseHandler().removeMessages(MSG_FINISH_CHARGE);
+            ToastExt.showExt("结束充电失败，请稍候再试");
+            mCurrentCounter=0;
+        }
         if (data != null) {
             mOrderInfoEntity = data.getData();
             if (mOrderInfoEntity != null) {
@@ -332,6 +343,9 @@ public class ChargeStakeActivity extends BaseFragmentActivity<ChargeStakePresent
             mOrderInfoEntity = null;
         }
         hasChargeInfoView(mOrderInfoEntity != null);
+        if(mIsFinishing){
+            mCurrentCounter++;
+        }
     }
 
     @Override
